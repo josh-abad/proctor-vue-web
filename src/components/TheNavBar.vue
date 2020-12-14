@@ -1,0 +1,99 @@
+<template>
+  <header
+    class="flex sticky top-0 w-full items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 border-b dark:border-gray-700 dark:text-gray-200 z-20"
+  >
+    <div class="flex items-center">
+      <button
+        class="block focus:outline-none text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:border-transparent focus:ring-transparent"
+        @click="$emit('toggle')"
+      >
+        <svg
+          class="w-6 h-6 fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            v-if="isOpen"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+          <path
+            v-else
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+      <router-link to="/">
+        <img
+          :src="require(`@/assets/${logoFilename}`)"
+          alt="Logo"
+          class="ml-6 h-7"
+          @click="$router.push('/')"
+        />
+      </router-link>
+    </div>
+    <div>
+      <div v-if="isLoggedIn" class="flex items-center">
+        <NavBarUserDropdown :userFirstName="userName" />
+      </div>
+      <div v-else>
+        <BaseButton
+          @click="$router.push('/login')"
+          :filled="false"
+          label="Log In"
+          class="mr-4"
+        />
+        <BaseButton @click="$router.push('/register')" label="Sign Up" />
+      </div>
+    </div>
+  </header>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import BaseButton from './BaseButton.vue'
+import NavBarUserDropdown from './NavBarUserDropdown.vue'
+
+export default defineComponent({
+  components: { BaseButton, NavBarUserDropdown },
+  data () {
+    // FIXME: this is so the logo will change with light/dark mode without page reload but with a delay
+    const darkModeQuery = matchMedia('(prefers-color-scheme: dark)')
+    return {
+      darkModeQuery,
+      darkModeView: darkModeQuery.matches
+    }
+  },
+  props: {
+    isOpen: Boolean
+  },
+  mounted () {
+    this.darkModeQuery.addEventListener('change', () => {
+      this.darkModeView = this.darkModeQuery.matches
+    })
+  },
+  computed: {
+    isLoggedIn (): boolean {
+      return this.$store.getters.isLoggedIn
+    },
+    userName (): string {
+      return this.$store.state.user.name.first
+    },
+    logoFilename (): string {
+      const isDarkMode: boolean = this.darkModeView
+
+      if (isDarkMode) {
+        return 'logo-white.png'
+      }
+      return 'logo.png'
+    }
+  }
+})
+</script>
