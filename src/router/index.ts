@@ -11,7 +11,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'Home',
     meta: {
-      title: createTitle('Proctor Vue')
+      title: createTitle('Proctor Vue'),
+      requiresAuth: true
     },
     component: Home
   },
@@ -19,7 +20,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     meta: {
-      title: createTitle('Log In')
+      title: createTitle('Log In'),
+      requiresAuth: false
     },
     component: () => import('../views/Login.vue')
   },
@@ -27,7 +29,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     name: 'Register',
     meta: {
-      title: createTitle('Sign Up')
+      title: createTitle('Sign Up'),
+      requiresAuth: false
     },
     component: () => import('../views/RegistrationForm.vue')
   },
@@ -35,14 +38,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/courses',
     name: 'Courses',
     meta: {
-      title: createTitle('Courses')
+      title: createTitle('Courses'),
+      requiresAuth: true
     },
     component: () => import('../views/Dashboard.vue')
   },
   {
     path: '/courses/:id',
     meta: {
-      title: createTitle('Course')
+      title: createTitle('Course'),
+      requiresAuth: true
     },
     component: () => import('../views/CoursePage.vue')
   },
@@ -50,7 +55,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/courses/:id/exam',
     name: 'Exam',
     meta: {
-      title: createTitle('Exam')
+      title: createTitle('Exam'),
+      requiresAuth: true
     },
     component: () => import('../views/ExamPage.vue')
   },
@@ -58,7 +64,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     meta: {
-      title: createTitle('Page Not Found')
+      title: createTitle('Page Not Found'),
+      requiresAuth: false
     },
     component: () => import('../views/NotFound.vue')
   }
@@ -72,8 +79,8 @@ const router = createRouter({
 router.beforeEach((to, _from, next) => {
   document.title = to.meta.title
 
-  if (to.name !== 'Login' && !store.state.user) {
-    next({ name: 'Login' })
+  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+    next({ name: 'Login', query: { redirect: to.fullPath } })
   } else {
     next()
   }
