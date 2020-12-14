@@ -17,7 +17,6 @@ const mutations = {
     state.courses = courses
   },
   setExamItems (state: State, examItems: ExamItemContent[]): void {
-    console.log(examItems)
     state.examItems = examItems
   }
 }

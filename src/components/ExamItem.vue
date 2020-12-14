@@ -50,7 +50,6 @@ export default defineComponent({
   name: 'ExamItem',
   data () {
     let answer: string | boolean[]
-    console.log(this.type)
     if (this.type === 'text' || this.type === 'multiple choice') {
       answer = ''
     } else {
