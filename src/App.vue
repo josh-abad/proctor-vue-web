@@ -1,10 +1,20 @@
 <template>
-  <div class="min-h-screen bg-gray-200 dark:bg-gray-900">
-    <div class="flex flex-col antialiased dark:text-white text-gray-900">
-      <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" @logged-out="handleLogOut" :isOpen="isOpen" />
+  <div
+    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white"
+  >
+    <div class="flex flex-col dark:text-white text-gray-900">
+      <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
       <div class="flex justify-center items-start">
         <TheSidebar :isOpen="isOpen" />
-        <router-view class="transform ease-in-out transition-all duration-300" :class="isOpen ? 'opacity-20' : 'opacity-100'" />
+        <div class="flex flex-col items-center">
+          <router-view
+            class="transform ease-in-out transition-all duration-300"
+            :class="isOpen ? 'opacity-20' : 'opacity-100'"
+          />
+          <div class="mt-4">
+            <Snackbar />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -12,9 +22,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Snackbar from './components/Snackbar.vue'
 import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
-import users from './services/users'
+// import usersService from './services/users'
 
 export default defineComponent({
   name: 'App',
@@ -25,15 +36,17 @@ export default defineComponent({
   },
   components: {
     TheNavBar,
-    TheSidebar
+    TheSidebar,
+    Snackbar
   },
   async mounted () {
     const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      if (user) {
-        this.$store.commit('setUser', await users.getUser(user.id))
-      }
+      this.$store.commit('setUser', user)
+      // if (user) {
+      // this.$store.commit('setUser', await usersService.getUser(user.id))
+      // }
     }
     this.$store.dispatch('loadCourses')
     this.$store.dispatch('loadExamItems')
@@ -41,11 +54,6 @@ export default defineComponent({
   methods: {
     handleToggle () {
       this.isOpen = !this.isOpen
-    },
-    handleLogOut () {
-      window.localStorage.clear()
-      this.$store.commit('setUser', null)
-      this.$router.push('/login')
     }
   },
   computed: {

@@ -1,12 +1,14 @@
 import coursesService from '@/services/courses'
 import examItemsService from '@/services/examItems'
+import loginService from '@/services/login'
 import { Course, ExamItemContent, State, User } from '@/types'
 import { createStore } from 'vuex'
 
 const state: State = {
   user: null,
   courses: [],
-  examItems: []
+  examItems: [],
+  message: ''
 }
 
 const mutations = {
@@ -18,6 +20,9 @@ const mutations = {
   },
   setExamItems (state: State, examItems: ExamItemContent[]): void {
     state.examItems = examItems
+  },
+  setMessage (state: State, message: string): void {
+    state.message = message
   }
 }
 
@@ -63,6 +68,21 @@ export default createStore({
       } catch (error) {
         console.error(error)
       }
+    },
+    async logIn ({ commit, dispatch }, { username, password }): Promise<void> {
+      try {
+        const user = await loginService.login({ username, password })
+        window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
+        commit('setUser', user)
+      } catch (error) {
+        dispatch('alert', 'Incorrect username or password')
+      }
+    },
+    async alert ({ commit }, message) {
+      commit('setMessage', message)
+      setTimeout(() => {
+        commit('setMessage', '')
+      }, 5000)
     }
   },
   modules: {

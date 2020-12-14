@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10">
+  <div class="mt-24 flex items-center justify-center">
     <div class="bg-white dark:bg-gray-800 dark:text-gray-200 border dark:border-gray-700 shadow rounded-xl px-10 py-8 flex flex-col">
       <form>
         <h3 class="font-semibold text-lg">Login</h3>
@@ -26,7 +26,6 @@
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import { defineComponent } from 'vue'
-import loginService from '../services/login'
 
 export default defineComponent({
   components: { BaseButton, BaseInput },
@@ -43,23 +42,15 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleLogin (event: Event) {
+    handleLogin (event: Event) {
       event.preventDefault()
-
-      try {
-        const user = await loginService.login({
-          username: this.username, password: this.password
-        })
-
-        window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
-
-        this.$store.commit('setUser', user)
-        this.$router.push('/')
-        this.username = ''
-        this.password = ''
-      } catch (error) {
-        console.error(error)
-      }
+      this.$store.dispatch('logIn', {
+        username: this.username,
+        password: this.password
+      })
+      this.$router.push(this.$route.query.redirect as string || '/')
+      this.username = ''
+      this.password = ''
     }
   }
 })

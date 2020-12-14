@@ -45,4 +45,5 @@ export type State = {
   user: User | null;
   courses: Course[];
   examItems: ExamItemContent[];
+  message: string;
 }
