@@ -102,6 +102,7 @@ export default defineComponent({
       window.localStorage.clear()
       this.$store.commit('setUser', null)
       this.$store.commit('setCourses', [])
+      this.$router.push('/login')
     }
   }
 })

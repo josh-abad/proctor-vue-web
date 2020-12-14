@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-200 dark:bg-gray-900">
     <div class="flex flex-col antialiased dark:text-white text-gray-900">
-      <TheNavBar @toggle="handleToggle" @logged-out="handleLogOut" :isOpen="isOpen" />
+      <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" @logged-out="handleLogOut" :isOpen="isOpen" />
       <div class="flex justify-center items-start">
         <TheSidebar :isOpen="isOpen" />
         <router-view class="transform ease-in-out transition-all duration-300" :class="isOpen ? 'opacity-20' : 'opacity-100'" />
@@ -45,6 +45,12 @@ export default defineComponent({
     handleLogOut () {
       window.localStorage.clear()
       this.$store.commit('setUser', null)
+      this.$router.push('/login')
+    }
+  },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
     }
   }
 })
