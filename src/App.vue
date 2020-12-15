@@ -25,6 +25,7 @@ import { defineComponent } from 'vue'
 import Snackbar from './components/Snackbar.vue'
 import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
+import examResultsService from './services/exam_results'
 // import usersService from './services/users'
 
 export default defineComponent({
@@ -44,6 +45,7 @@ export default defineComponent({
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       this.$store.commit('setUser', user)
+      examResultsService.setToken(user.token)
       // if (user) {
       // this.$store.commit('setUser', await usersService.getUser(user.id))
       // }

@@ -4,8 +4,8 @@
       <h1 class="text-3xl">{{ course.name }}</h1>
       <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
     </div>
-    <div>
-      <router-link :to="`/courses/${$route.params.id}/exam`">Go to exam</router-link>
+    <div v-for="exam in exams" :key="exam.id">
+      <router-link :to="`/exams/${exam.id}`">{{ exam.label }}</router-link>
     </div>
   </div>
   <div v-else class="p-40">
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Course } from '@/types'
+import { Course, Exam } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -26,6 +26,9 @@ export default defineComponent({
     course (): Course {
       const id: string | string[] = this.$route.params.id
       return this.$store.getters.getCourseByID(id)
+    },
+    exams (): Exam[] {
+      return this.$store.getters.getExamsByCourse(this.course.id)
     }
   }
 })

@@ -1,8 +1,8 @@
-import { NewUser } from '@/types'
+import { UserCredentials } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/courses'
 
-const create = async (newCourse: NewUser) => {
+const create = async (newCourse: UserCredentials) => {
   const response = await axios.post(baseUrl, newCourse)
   return response.data
 }

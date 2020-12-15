@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <ExamItem
-      v-for="(item, i) in examItems"
+  <div class="mt-5">
+    <div class="text-xl bg-gray-800 px-3 py-2">
+      {{ exam.label }}
+      {{ exam.course.name }}
+    </div>
+    <BaseExamItem
+      v-for="(item, i) in exam.questions"
       :key="item.id"
-      :choices="item.choices"
-      :questionId="item.id"
-      :question="item.question"
+      :examItem="item"
       :questionNumber="i + 1"
-      :type="item.examType"
       @answer-changed="handleAnswerChange"
     />
     <div class="mt-4 flex justify-end">
@@ -17,14 +18,14 @@
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import ExamItem from '@/components/ExamItem.vue'
 import { defineComponent } from 'vue'
-import examsServices from '@/services/exams'
-import { Answer, ExamItemContent } from '@/types'
+import BaseButton from '@/components/BaseButton.vue'
+import BaseExamItem from '@/components/BaseExamItem.vue'
+import examResultsServices from '@/services/exam_results'
+import { Answer, Exam } from '@/types'
 
 export default defineComponent({
-  components: { ExamItem, BaseButton },
+  components: { BaseExamItem, BaseButton },
   name: 'ExamPage',
   data () {
     const answers: Answer[] = []
@@ -32,9 +33,13 @@ export default defineComponent({
       answers
     }
   },
+  mounted () {
+    document.title = this.exam.label
+  },
   computed: {
-    examItems (): ExamItemContent[] {
-      return this.$store.getters.getExamItemsByCourse(this.$route.params.id)
+    exam (): Exam {
+      const id: string | string[] = this.$route.params.id
+      return this.$store.getters.getExamByID(id)
     }
   },
   methods: {
@@ -47,7 +52,10 @@ export default defineComponent({
       }
     },
     async handleSubmit (): Promise<void> {
-      const results = await examsServices.submit(this.answers)
+      const results = await examResultsServices.submit({
+        answers: this.answers,
+        examId: this.exam.id
+      })
       console.log(results)
     }
   }

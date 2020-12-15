@@ -1,10 +1,20 @@
-import { Answer } from '@/types'
+import { Exam } from '@/types'
 import axios from 'axios'
-const baseUrl = '/api/submit-exam'
+const baseUrl = '/api/exams'
 
-const submit = async (answers: Answer[]) => {
-  const response = await axios.post(baseUrl, answers)
+const create = async (newExam: Omit<Exam, 'id'>) => {
+  const response = await axios.post(baseUrl, newExam)
   return response.data
 }
 
-export default { submit }
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
+  return response.data
+}
+
+const getExam = async (id: string) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+
+export default { create, getAll, getExam }
