@@ -1,12 +1,3 @@
-export interface NewUser {
-  name: {
-    first: string;
-    last: string;
-  };
-  username: string;
-  password: string;
-}
-
 export interface User {
   name: string;
   username: string;
@@ -15,6 +6,10 @@ export interface User {
 }
 
 export interface UserCredentials {
+  name: {
+    first: string;
+    last: string;
+  };
   username: string;
   password: string;
 }
@@ -24,12 +19,28 @@ export interface Course {
   name: string;
 }
 
+export interface Exam {
+  label: string;
+  questions: ExamItem[];
+  random: boolean;
+  length: number;
+  duration: number;
+  course: Course;
+  maxAttempts: number;
+  id: string;
+}
+
 export interface Answer {
   questionId: string;
   answer: string;
 }
 
-export interface ExamItemContent {
+export interface Submission {
+  answers: Answer[];
+  examId: string;
+}
+
+export interface ExamItem {
   id: string;
   question: string;
   examType: 'multiple choice' | 'text' | 'multiple answers';
@@ -44,6 +55,7 @@ export enum QuestionType {
 export type State = {
   user: User | null;
   courses: Course[];
-  examItems: ExamItemContent[];
+  examItems: ExamItem[];
   message: string;
+  exams: Exam[];
 }
