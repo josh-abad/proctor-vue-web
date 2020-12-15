@@ -42,9 +42,9 @@ export default defineComponent({
     }
   },
   methods: {
-    handleLogin (event: Event) {
+    async handleLogin (event: Event) {
       event.preventDefault()
-      this.$store.dispatch('logIn', {
+      await this.$store.dispatch('logIn', {
         username: this.username,
         password: this.password
       })

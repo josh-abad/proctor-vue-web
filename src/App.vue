@@ -50,8 +50,9 @@ export default defineComponent({
       // this.$store.commit('setUser', await usersService.getUser(user.id))
       // }
     }
-    this.$store.dispatch('loadCourses')
-    this.$store.dispatch('loadExamItems')
+    await this.$store.dispatch('loadCourses')
+    await this.$store.dispatch('loadExamItems')
+    await this.$store.dispatch('loadExams')
   },
   methods: {
     handleToggle () {
