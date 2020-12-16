@@ -1,9 +1,10 @@
 import coursesService from '@/services/courses'
 import examItemsService from '@/services/examItems'
 import examsService from '@/services/exams'
-import examResultsServices from '@/services/exam_results'
+import examAttemptsService from '@/services/exam_attempts'
+import examResultsService from '@/services/exam_results'
 import loginService from '@/services/login'
-import { Course, Exam, ExamItem, State, User } from '@/types'
+import { Attempt, Course, Exam, ExamItem, ExamResult, State, User } from '@/types'
 import { createStore } from 'vuex'
 
 const state: State = {
@@ -11,7 +12,10 @@ const state: State = {
   courses: [],
   examItems: [],
   exams: [],
-  message: ''
+  message: '',
+  attempts: [],
+  examResults: [],
+  activeExam: null
 }
 
 const mutations = {
@@ -27,8 +31,20 @@ const mutations = {
   setExams (state: State, exams: Exam[]): void {
     state.exams = exams
   },
+  setAttempts (state: State, attempts: Attempt[]): void {
+    state.attempts = attempts
+  },
+  setExamResults (state: State, examResults: ExamResult[]): void {
+    state.examResults = examResults
+  },
   setMessage (state: State, message: string): void {
     state.message = message
+  },
+  addAttempt (state: State, attempt: Attempt): void {
+    state.attempts = state.attempts.concat(attempt)
+  },
+  setActiveExam (state: State, examId: string): void {
+    state.activeExam = examId
   }
 }
 
@@ -57,6 +73,13 @@ const getters = {
     return (courseId) => {
       return state.examItems.filter(examItem => {
         return examItem.course.id === courseId
+      })
+    }
+  },
+  getAttemptsByExam (state: State): (examId: string) => Attempt[] | undefined {
+    return (examId) => {
+      return state.attempts.filter(attempt => {
+        return attempt.exam === examId
       })
     }
   },
@@ -94,14 +117,33 @@ export default createStore({
         console.error(error)
       }
     },
+    async loadAttempts ({ commit }): Promise<void> {
+      try {
+        commit('setAttempts', await examAttemptsService.getAll())
+      } catch (error) {
+        console.error(error)
+      }
+    },
     async logIn ({ commit, dispatch }, { username, password }): Promise<void> {
       try {
         const user = await loginService.login({ username, password })
         commit('setUser', user)
         window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
-        examResultsServices.setToken(user.token)
+        examAttemptsService.setToken(user.token)
+        commit('setAttempts', await examAttemptsService.getByUser(user.id))
+        commit('setExamResults', await examResultsService.getByUser(user.id))
       } catch (error) {
         dispatch('alert', 'Incorrect username or password')
+      }
+    },
+    async startAttempt ({ commit, dispatch }, examId): Promise<void> {
+      try {
+        const response = await examAttemptsService.start(examId)
+        commit('addAttempt', response.attempt)
+        examResultsService.setToken(response.token)
+        commit('setActiveExam', response.attempt.exam)
+      } catch (error) {
+        dispatch('alert', 'Attempt could not be started')
       }
     },
     async alert ({ commit }, message) {

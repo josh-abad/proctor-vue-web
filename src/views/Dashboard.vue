@@ -3,7 +3,7 @@
     <h1 class="text-lg font-semibold">Course overview</h1>
     <div class="grid grid-cols-3 gap-7 my-8">
       <div :key="course.id" v-for="course in courses">
-        <CourseCard :name="course.name" :courseId="course.id" />
+        <CourseCard :course="course" />
       </div>
     </div>
   </div>

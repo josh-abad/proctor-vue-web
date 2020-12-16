@@ -1,6 +1,5 @@
-import { Submission } from '@/types'
 import axios from 'axios'
-const baseUrl = '/api/exam-results'
+const baseUrl = '/api/exam-attempts'
 
 let token: string | null = null
 
@@ -8,13 +7,18 @@ const setToken = (newToken: string) => {
   token = `bearer ${newToken}`
 }
 
-const hasToken = (): boolean => !!token
-
-const submit = async (submission: Submission) => {
+const start = async (examId: string) => {
   const config = {
     headers: { Authorization: token }
   }
-  const response = await axios.post(baseUrl, submission, config)
+  console.log(token)
+
+  const response = await axios.post(baseUrl, { examId }, config)
+  return response.data
+}
+
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
   return response.data
 }
 
@@ -24,4 +28,4 @@ const getByUser = async (userId: string) => {
   return response.data
 }
 
-export default { submit, setToken, getByUser, hasToken }
+export default { start, setToken, getAll, getByUser }

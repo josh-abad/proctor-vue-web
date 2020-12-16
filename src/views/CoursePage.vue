@@ -5,7 +5,7 @@
       <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
     </div>
     <div v-for="exam in exams" :key="exam.id">
-      <router-link :to="`/exams/${exam.id}`">{{ exam.label }}</router-link>
+      <router-link :to="`/exams/${exam.id}/attempts`">{{ exam.label }}</router-link>
     </div>
   </div>
   <div v-else class="p-40">
@@ -19,9 +19,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  props: {
-    courseName: String
-  },
   computed: {
     course (): Course {
       const id: string | string[] = this.$route.params.id

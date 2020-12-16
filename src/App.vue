@@ -25,7 +25,7 @@ import { defineComponent } from 'vue'
 import Snackbar from './components/Snackbar.vue'
 import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
-import examResultsService from './services/exam_results'
+import examAttemptsService from './services/exam_attempts'
 // import usersService from './services/users'
 
 export default defineComponent({
@@ -45,14 +45,17 @@ export default defineComponent({
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       this.$store.commit('setUser', user)
-      examResultsService.setToken(user.token)
+      examAttemptsService.setToken(user.token)
       // if (user) {
       // this.$store.commit('setUser', await usersService.getUser(user.id))
       // }
     }
-    await this.$store.dispatch('loadCourses')
-    await this.$store.dispatch('loadExamItems')
-    await this.$store.dispatch('loadExams')
+    await Promise.all([
+      this.$store.dispatch('loadCourses'),
+      this.$store.dispatch('loadExamItems'),
+      this.$store.dispatch('loadExams'),
+      this.$store.dispatch('loadAttempts')
+    ])
   },
   methods: {
     handleToggle () {

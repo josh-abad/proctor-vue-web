@@ -52,7 +52,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/CoursePage.vue')
   },
   {
-    path: '/exams/:id',
+    path: '/exams/:id/attempts',
+    meta: {
+      title: createTitle('Attempts'),
+      requiresAuth: true
+    },
+    component: () => import('../views/AttemptsPage.vue')
+  },
+  {
+    path: '/exams/:examId/attempts/:attemptId',
     name: 'Exam',
     meta: {
       title: createTitle('Exam'),

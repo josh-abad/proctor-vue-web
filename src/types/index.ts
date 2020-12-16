@@ -40,6 +40,16 @@ export interface Submission {
   examId: string;
 }
 
+export interface Attempt {
+  id: string;
+  exam: string;
+  user: string;
+  status: string;
+  startDate: Date;
+  endDate: Date;
+  examResult?: string;
+}
+
 export interface ExamItem {
   id: string;
   question: string;
@@ -48,9 +58,12 @@ export interface ExamItem {
   course: Course;
 }
 
-export enum QuestionType {
-  MultipleChoice, Text, MultipleAnswers
- }
+export interface ExamResult {
+  exam: string;
+  user: string;
+  scores: Map<string, number>;
+  attempt: string;
+}
 
 export type State = {
   user: User | null;
@@ -58,4 +71,7 @@ export type State = {
   examItems: ExamItem[];
   message: string;
   exams: Exam[];
+  attempts: Attempt[];
+  examResults: ExamResult[];
+  activeExam: string | null;
 }
