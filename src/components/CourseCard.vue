@@ -19,7 +19,10 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'CourseCard',
   props: {
-    course: Object as () => Course
+    course: {
+      type: Object as () => Course,
+      required: true
+    }
   }
 })
 </script>
