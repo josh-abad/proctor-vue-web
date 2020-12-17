@@ -5,12 +5,9 @@
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
       <div class="flex justify-center items-start">
-        <TheSidebar :isOpen="isOpen" />
+        <TheSidebar :isOpen="isOpen" @nav-click="handleNavClick" />
         <div class="flex flex-col items-center">
-          <router-view
-            class="transform ease-in-out transition-all duration-300"
-            :class="isOpen ? 'opacity-20' : 'opacity-100'"
-          />
+          <router-view />
           <div class="mt-4">
             <Snackbar />
           </div>
@@ -60,6 +57,11 @@ export default defineComponent({
   methods: {
     handleToggle () {
       this.isOpen = !this.isOpen
+    },
+    handleNavClick (e: Event, url: string) {
+      e.preventDefault()
+      this.$router.push(url)
+      this.isOpen = false
     }
   },
   computed: {

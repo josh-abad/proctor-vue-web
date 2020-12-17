@@ -10,6 +10,7 @@
         :key="i"
         v-for="(content, i) in contents"
         :to="content.url"
+        @click="$emit('nav-click', $event, content.url)"
         class="block text-sm hover:bg-opacity-25 dark:text-gray-100 dark:hover:bg-gray-700 px-5 py-4 hover:bg-gray-200 active:bg-blue-400 border-b border-gray-300 dark:border-gray-700"
       >
         {{ content.label }}
@@ -26,6 +27,7 @@ export default defineComponent({
   props: {
     isOpen: Boolean
   },
+  emits: ['nav-click'],
   data () {
     return {
       contents: [
