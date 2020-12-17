@@ -11,7 +11,6 @@ const start = async (examId: string) => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log(token)
 
   const response = await axios.post(baseUrl, { examId }, config)
   return response.data

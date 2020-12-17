@@ -1,18 +1,25 @@
 <template>
-  <div class="flex px-6 py-5">
-    <div class="mr-6 font-semibold dark:text-gray-400">
-      {{ attemptNumber }}
-    </div>
-    <div class="mr-12">
-      <div class="capitalize">
-        {{ attempt.status }}
+  <div class="flex px-6 py-5 justify-between w-full">
+    <div class="flex">
+      <div class="mr-6 font-semibold dark:text-gray-400">
+        {{ attemptNumber }}
       </div>
-      <div class="text-sm dark:text-gray-400">
-        Started {{ formattedDate }}
+      <div class="mr-12">
+        <div class="capitalize">
+          {{ attempt.status }}
+        </div>
+        <div class="text-sm dark:text-gray-400">
+          <div v-if="attempt.status === 'in-progress'">
+            Started {{ formattedDate(attempt.startDate) }}
+          </div>
+          <div v-else>
+            Submitted {{ formattedDate(attempt.submittedDate) }}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="font-semibold text-xl">
-      {{ '0' }}
+    <div class="font-thin text-xl">
+      {{ percentage }}%
     </div>
   </div>
 </template>
@@ -31,7 +38,12 @@ export default defineComponent({
     }
   },
   computed: {
-    formattedDate (): string | undefined {
+    percentage (): number {
+      return Math.floor(this.attempt.score / this.attempt.examTotal * 100)
+    }
+  },
+  methods: {
+    formattedDate (d: string | Date): string | undefined {
       // TODO: use Intl.DateTimeFormat for better performance
 
       const options = {
@@ -45,7 +57,7 @@ export default defineComponent({
       }
 
       // startDate is already a Date object but Vue complains if I do it directly
-      return new Date(this.attempt.startDate).toLocaleString('en-PH', options)
+      return new Date(d).toLocaleString('en-PH', options)
     }
   }
 })

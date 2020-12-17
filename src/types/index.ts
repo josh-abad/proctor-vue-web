@@ -47,7 +47,10 @@ export interface Attempt {
   status: string;
   startDate: Date;
   endDate: Date;
+  submittedDate: Date;
   examResult?: string;
+  score: number;
+  examTotal: number;
 }
 
 export interface ExamItem {
@@ -58,10 +61,16 @@ export interface ExamItem {
   course: Course;
 }
 
+export interface Score {
+  examItem: string;
+  points: number;
+}
+
 export interface ExamResult {
+  id: string;
   exam: string;
   user: string;
-  scores: Map<string, number>;
+  scores: Score[];
   attempt: string;
 }
 

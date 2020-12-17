@@ -18,7 +18,7 @@
     <div class="mt-4 flex justify-end">
       <BaseButton label="Submit" @click="handleSubmit" />
     </div>
-    <Timer />
+    <Timer :end="attempt.endDate" />
   </div>
   <div v-else>
     Sorry, you are not allowed to take this exam
@@ -30,7 +30,7 @@ import { defineComponent } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import examResultsServices from '@/services/exam_results'
-import { Answer, Exam } from '@/types'
+import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 
 /**
@@ -58,8 +58,12 @@ export default defineComponent({
   },
   computed: {
     exam (): Exam {
-      const id: string | string[] = this.$route.params.id
+      const id: string | string[] = this.$route.params.examId
       return this.$store.getters.getExamByID(id)
+    },
+    attempt (): Attempt {
+      const id: string | string[] = this.$route.params.attemptId
+      return this.$store.getters.getAttemptByID(id)
     },
     activeExam (): string | null {
       return this.$store.state.activeExam
@@ -75,11 +79,8 @@ export default defineComponent({
       }
     },
     async handleSubmit (): Promise<void> {
-      const results = await examResultsServices.submit({
-        answers: this.answers,
-        examId: this.exam.id
-      })
-      console.log(results)
+      await this.$store.dispatch('submitExam', { answers: this.answers, examId: this.exam.id })
+      this.$router.push(`/exams/${this.exam.id}/attempts`)
     }
   }
 })

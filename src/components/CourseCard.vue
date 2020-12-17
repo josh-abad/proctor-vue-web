@@ -1,5 +1,5 @@
 <template>
-  <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-xl dark:bg-gray-700 rounded-lg shadow-md truncate w-45 h-25">
+  <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg dark:bg-gray-700 rounded-lg shadow-md truncate w-45 h-25">
     <router-link :to="`/courses/${course.id}`">
       <img src="../assets/course_card_bg.jpg" alt="Course image" class="object-cover" />
     </router-link>

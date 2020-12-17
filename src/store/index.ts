@@ -43,6 +43,12 @@ const mutations = {
   addAttempt (state: State, attempt: Attempt): void {
     state.attempts = state.attempts.concat(attempt)
   },
+  updateAttempt (state: State, newAttempt: Attempt): void {
+    state.attempts = state.attempts.map(attempt => attempt.id === newAttempt.id ? newAttempt : attempt)
+  },
+  addExamResult (state: State, examResult: ExamResult): void {
+    state.examResults = state.examResults.concat(examResult)
+  },
   setActiveExam (state: State, examId: string): void {
     state.activeExam = examId
   }
@@ -60,6 +66,11 @@ const getters = {
   getExamByID (state: State): (id: string) => Exam | undefined {
     return (id) => {
       return state.exams.find(exam => exam.id === id)
+    }
+  },
+  getAttemptByID (state: State): (id: string) => Attempt | undefined {
+    return (id) => {
+      return state.attempts.find(attempt => attempt.id === id)
     }
   },
   getExamsByCourse (state: State): (courseId: string) => Exam[] | undefined {
@@ -117,6 +128,13 @@ export default createStore({
         console.error(error)
       }
     },
+    async loadExamResults ({ commit }): Promise<void> {
+      try {
+        commit('setExamResults', await examResultsService.getAll())
+      } catch (error) {
+        console.error(error)
+      }
+    },
     async loadAttempts ({ commit }): Promise<void> {
       try {
         commit('setAttempts', await examAttemptsService.getAll())
@@ -140,6 +158,7 @@ export default createStore({
       try {
         const response = await examAttemptsService.start(examId)
         commit('addAttempt', response.attempt)
+        window.localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
         commit('setActiveExam', response.attempt.exam)
       } catch (error) {
@@ -151,6 +170,11 @@ export default createStore({
       setTimeout(() => {
         commit('setMessage', '')
       }, 5000)
+    },
+    async submitExam ({ commit }, payload) {
+      const response = await examResultsService.submit(payload)
+      commit('addExamResult', response.examResult)
+      commit('updateAttempt', response.attempt)
     }
   },
   modules: {

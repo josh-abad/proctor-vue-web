@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ displayHours }}:{{ displayMinutes }}:{{ displaySeconds }}
+    {{ displayHours === '00' ? '' : `${displayHours}:` }}{{ displayMinutes }}:{{ displaySeconds }}
   </div>
 </template>
 
@@ -9,6 +9,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Timer',
+  props: {
+    end: {
+      type: [Date, String],
+      required: true
+    }
+  },
   data () {
     return {
       displaySeconds: '0',
@@ -23,9 +29,7 @@ export default defineComponent({
     countdown () {
       const timer = setInterval(() => {
         const now = new Date()
-        const end = new Date()
-        end.setHours(end.getHours() + 2)
-        const distance = end.getTime() - now.getTime()
+        const distance = new Date(this.end).getTime() - now.getTime()
 
         if (distance < 0) {
           clearInterval(timer)

@@ -25,7 +25,7 @@
         <div v-if="attempts.length > 0" class="mt-4">
           <h1 class="text-sm font-semibold uppercase tracking-wide">Previous Attempts</h1>
           <div
-            class="rounded-xl overflow-hidden mt-2 dark:bg-gray-700 border dark:border-gray-700 shadow-lg"
+            class="rounded-xl overflow-hidden mt-2 dark:bg-gray-800 border dark:border-gray-700 shadow-lg"
           >
             <div v-for="(attempt, i) in attempts" :key="attempt.id">
               <AttemptRow :attemptNumber="i + 1" :attempt="attempt" />
@@ -85,6 +85,7 @@ export default defineComponent({
       try {
         const response = await examAttemptsService.start(this.exam.id)
         this.$store.commit('addAttempt', response.attempt)
+        window.localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
         this.$store.commit('setActiveExam', response.attempt.exam)
         this.$router.push(
