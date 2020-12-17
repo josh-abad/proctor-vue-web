@@ -16,7 +16,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { CourseCard },
-  name: 'Dashboard',
+  name: 'CoursesPage',
   computed: {
     courses (): Course[] {
       return this.$store.getters.getUserCourses
