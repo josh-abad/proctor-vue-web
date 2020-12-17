@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Courses'),
       requiresAuth: true
     },
-    component: () => import('../views/Dashboard.vue')
+    component: () => import('../views/CoursesPage.vue')
   },
   {
     path: '/courses/:id',
