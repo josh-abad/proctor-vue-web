@@ -1,20 +1,20 @@
 <template>
   <aside
     class="transform overflow-x-hidden top-0 left-0 w-64 bg-white dark:bg-gray-800 fixed h-full overflow-auto ease-in-out transition-all duration-300 border-r border-gray-200 dark:border-gray-700 z-10"
-    :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
+    :class="isOpen ? 'translate-x-0 shadow-xl' : '-translate-x-full shadow-none'"
   >
-    <div class="h-20"></div>
+    <div class="h-20" />
     <div class="flex flex-col">
       <router-link
         :key="i"
         :to="content.url"
         @click="$emit('nav-click', $event, content.url)"
         v-for="(content, i) in contents"
-        class="flex items-center w-full px-5 py-4 hover:bg-opacity-25 border-b border-gray-300 dark:border-gray-700 dark:hover:bg-gray-700"
+        class="flex items-center w-full px-6 py-5 hover:bg-opacity-25 border-b border-gray-300 dark:border-gray-700 dark:hover:bg-gray-700"
       >
         <div class="fill-current w-4 h-4 dark:text-gray-500" v-html="content.icon" />
         <div
-          class="ml-4 dark:text-gray-100"
+          class="ml-3 dark:text-gray-100"
         >
           {{ content.label }}
         </div>
