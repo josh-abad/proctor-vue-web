@@ -16,6 +16,7 @@
           class="ml-2 w-6 h-6 object-cover rounded-full"
         />
         <svg
+          id="dropdownToggle"
           class="-mr-1 ml-2 h-5 w-5"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -43,6 +44,10 @@
       <div
         v-show="isOpen"
         class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
+        v-click-outside="{
+          handler: handleClose,
+          middleware: clickOutsideMiddleware
+        }"
       >
         <div
           class="py-1"
@@ -103,6 +108,12 @@ export default defineComponent({
       this.$store.commit('setUser', null)
       this.$store.commit('setCourses', [])
       this.$router.push('/login')
+    },
+    handleClose () {
+      this.isOpen = false
+    },
+    clickOutsideMiddleware (e: Event) {
+      return (e.target as Element).id !== 'dropdownToggle'
     }
   }
 })
