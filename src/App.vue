@@ -5,7 +5,14 @@
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
       <div class="flex justify-center items-start">
-        <TheSidebar :isOpen="isOpen" @nav-click="handleNavClick" />
+        <TheSidebar
+          :isOpen="isOpen"
+          @nav-click="handleNavClick"
+          v-click-outside="{
+            handler: handleClose,
+            middleware: clickOutsideMiddleware,
+          }"
+        />
         <div class="flex flex-col items-center">
           <router-view />
           <div class="mt-4">
@@ -58,10 +65,16 @@ export default defineComponent({
     handleToggle () {
       this.isOpen = !this.isOpen
     },
+    handleClose () {
+      this.isOpen = false
+    },
     handleNavClick (e: Event, url: string) {
       e.preventDefault()
       this.$router.push(url)
       this.isOpen = false
+    },
+    clickOutsideMiddleware (e: Event): boolean {
+      return (e.target as Element).id !== 'sidebarToggle'
     }
   },
   computed: {
