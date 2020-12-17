@@ -74,7 +74,10 @@ export default defineComponent({
       this.isOpen = false
     },
     clickOutsideMiddleware (e: Event): boolean {
-      return (e.target as Element).id !== 'sidebarToggle'
+      const id = (e.target as Element).id
+
+      // Checking if target is the svg or one of its child paths
+      return id !== 'sidebarToggle' && id !== 'hamburgerIcon' && id !== 'xIcon'
     }
   },
   computed: {

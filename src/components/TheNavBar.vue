@@ -16,6 +16,7 @@
           stroke="currentColor"
         >
           <path
+            id="hamburgerIcon"
             v-if="isOpen"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -23,6 +24,7 @@
             d="M6 18L18 6M6 6l12 12"
           />
           <path
+            id="xIcon"
             v-else
             stroke-linecap="round"
             stroke-linejoin="round"
