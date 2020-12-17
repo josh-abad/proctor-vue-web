@@ -14,7 +14,10 @@
           }"
         />
         <div class="flex flex-col items-center">
-          <router-view />
+          <router-view
+            :class="isOpen ? 'opacity-20' : 'opacity-100'"
+            class="transform ease-in-out duration-300"
+          />
           <div class="mt-4">
             <Snackbar />
           </div>
