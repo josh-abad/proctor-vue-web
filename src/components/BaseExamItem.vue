@@ -49,6 +49,7 @@ import BaseInput from './BaseInput.vue'
 export default defineComponent({
   components: { BaseInput },
   name: 'ExamItem',
+  emits: ['answer-changed'],
   data () {
     let answer: string | boolean[]
     if (this.examItem.examType === 'text' || this.examItem.examType === 'multiple choice') {

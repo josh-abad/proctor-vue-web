@@ -71,6 +71,7 @@ export default defineComponent({
       darkModeView: darkModeQuery.matches
     }
   },
+  emits: ['toggle'],
   props: {
     isOpen: Boolean
   },
