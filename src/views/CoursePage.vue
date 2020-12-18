@@ -1,6 +1,6 @@
 <template>
   <div v-if="course" class="py-4">
-    <div class="dark:bg-gray-800 py-3 px-4 rounded-xl border dark:border-gray-700">
+    <div class="dark:bg-gray-800 py-3 px-4 rounded-xl">
       <h1 class="text-3xl">{{ course.name }}</h1>
       <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
     </div>

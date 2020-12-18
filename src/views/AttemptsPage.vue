@@ -1,15 +1,15 @@
 <template>
-  <div class="mx-4 my-6">
+  <div>
     <div>
       <div
-        class="dark:bg-gray-800 px-4 py-4 rounded-lg border dark:border-gray-700"
+        class="dark:bg-gray-800 px-4 py-4 rounded-lg"
       >
         <router-link :to="`/courses/${exam.course.id}`" class="text-3xl font-thin">
           {{ exam.course.name }}
         </router-link>
       </div>
       <div
-        class="dark:bg-gray-800 px-4 py-4 mt-4 rounded-lg border dark:border-gray-700"
+        class="dark:bg-gray-800 px-4 py-4 mt-4 rounded-lg"
       >
         <div class="text-xl">
           {{ exam.label }}

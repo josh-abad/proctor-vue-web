@@ -4,19 +4,12 @@
   >
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
-      <div class="flex justify-center items-start">
-        <TheSidebar
-          :isOpen="isOpen"
-          @nav-click="handleNavClick"
-          v-click-outside="{
-            handler: handleClose,
-            middleware: clickOutsideMiddleware,
-          }"
-        />
-        <div class="flex flex-col items-center">
+      <div>
+        <TheSidebar :isOpen="isOpen" />
+        <div>
           <router-view
-            :class="isOpen ? 'opacity-20' : 'opacity-100'"
-            class="transform ease-in-out duration-300"
+            class="transform ease-in-out duration-300 px-6 py-4"
+            :class="isOpen ? 'ml-48' : 'ml-0'"
           />
           <div class="mt-4">
             <Snackbar />
@@ -75,20 +68,6 @@ export default defineComponent({
   methods: {
     handleToggle () {
       this.isOpen = !this.isOpen
-    },
-    handleClose () {
-      this.isOpen = false
-    },
-    handleNavClick (e: Event, url: string) {
-      e.preventDefault()
-      this.$router.push(url)
-      this.isOpen = false
-    },
-    clickOutsideMiddleware (e: Event): boolean {
-      const id = (e.target as Element).id
-
-      // Checking if target is the svg or one of its child paths
-      return id !== 'sidebarToggle' && id !== 'hamburgerIcon' && id !== 'xIcon'
     }
   },
   computed: {

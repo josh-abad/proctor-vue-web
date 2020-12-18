@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex h-20 sticky top-0 w-full items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 border-b dark:border-gray-700 dark:text-gray-200 z-20"
+    class="flex h-16 sticky top-0 w-full items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 border-b dark:border-gray-700 dark:text-gray-200 z-20"
   >
     <div class="flex items-center">
       <button
@@ -8,15 +8,13 @@
         @click="$emit('toggle')"
       >
         <svg
-          id="sidebarToggle"
-          class="w-6 h-6 fill-current"
+          class="w-5 h-5 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
           <path
-            id="hamburgerIcon"
             v-if="isOpen"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -24,7 +22,6 @@
             d="M6 18L18 6M6 6l12 12"
           />
           <path
-            id="xIcon"
             v-else
             stroke-linecap="round"
             stroke-linejoin="round"
