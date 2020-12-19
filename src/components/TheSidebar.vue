@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-48 mt-3 fixed bg-white dark:bg-gray-900 min-h-full ease-in-out transition-all duration-300"
+      class="transform w-48 mt-3 fixed min-h-full ease-in-out transition-all duration-300"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex flex-col">
@@ -71,6 +71,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
   .router-link-active {
-    @apply text-green-500
+    @apply text-green-500 dark:text-green-500
   }
 </style>

@@ -66,6 +66,13 @@ export default defineComponent({
       this.isOpen = JSON.parse(sidebarState)
     }
 
+    const theme = localStorage.getItem('theme')
+    this.$store.commit('setTheme', theme)
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      this.$store.commit('setTheme', e.matches ? 'system-dark' : 'system-light')
+    })
+
     await Promise.all([
       this.$store.dispatch('loadCourses'),
       this.$store.dispatch('loadExamItems'),
@@ -83,6 +90,9 @@ export default defineComponent({
   computed: {
     isLoggedIn () {
       return this.$store.getters.isLoggedIn
+    },
+    isDarkTheme (): boolean {
+      return this.$store.state.isDarkTheme
     }
   }
 })

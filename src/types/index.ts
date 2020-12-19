@@ -81,6 +81,8 @@ export interface DialogContent {
   closed: boolean;
 }
 
+export type Theme = 'dark' | 'light' | null
+
 export type State = {
   user: User | null;
   courses: Course[];
@@ -91,4 +93,5 @@ export type State = {
   examResults: ExamResult[];
   activeExam: string | null;
   dialog: DialogContent;
+  theme: Theme;
 }

@@ -4,7 +4,7 @@ import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam_attempts'
 import examResultsService from '@/services/exam_results'
 import loginService from '@/services/login'
-import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, User } from '@/types'
+import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User } from '@/types'
 import { createStore } from 'vuex'
 
 const state: State = {
@@ -21,7 +21,8 @@ const state: State = {
     message: '',
     actionLabel: '',
     closed: true
-  }
+  },
+  theme: 'dark'
 }
 
 const mutations = {
@@ -69,6 +70,30 @@ const mutations = {
     state.dialog.header = ''
     state.dialog.actionLabel = ''
     state.dialog.message = ''
+  },
+  setTheme (state: State, theme: Theme | 'system-dark' | 'system-light'): void {
+    // This is so the logo in TheNavBar will react to change in system theme
+    if (theme?.includes('system')) {
+      state.theme = theme.split('-')[1] as Theme
+      state.theme = null
+    } else {
+      state.theme = theme as Theme
+    }
+
+    if (state.theme) {
+      localStorage.setItem('theme', state.theme)
+    } else {
+      localStorage.removeItem('theme')
+    }
+
+    const html = document.querySelector('html')
+    if (html) {
+      if (state.theme === 'dark' || (!state.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark')
+      } else {
+        html.classList.remove('dark')
+      }
+    }
   }
 }
 

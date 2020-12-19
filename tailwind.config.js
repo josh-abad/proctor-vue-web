@@ -5,7 +5,7 @@ module.exports = {
     './src/**/*.html',
     './src/**/*.vue'
   ],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     colors: {
       gray: colors.warmGray,

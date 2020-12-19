@@ -57,28 +57,16 @@
 </template>
 
 <script lang="ts">
+import { Theme } from '@/types'
 import { defineComponent } from 'vue'
 import BaseButton from './BaseButton.vue'
 import NavBarUserDropdown from './NavBarUserDropdown.vue'
 
 export default defineComponent({
   components: { BaseButton, NavBarUserDropdown },
-  data () {
-    // FIXME: this is so the logo will change with light/dark mode without page reload but with a delay
-    const darkModeQuery = matchMedia('(prefers-color-scheme: dark)')
-    return {
-      darkModeQuery,
-      darkModeView: darkModeQuery.matches
-    }
-  },
   emits: ['toggle'],
   props: {
     isOpen: Boolean
-  },
-  mounted () {
-    this.darkModeQuery.addEventListener('change', () => {
-      this.darkModeView = this.darkModeQuery.matches
-    })
   },
   computed: {
     isLoggedIn (): boolean {
@@ -88,9 +76,9 @@ export default defineComponent({
       return this.$store.state.user.name.first
     },
     logoFilename (): string {
-      const isDarkMode: boolean = this.darkModeView
+      const theme: Theme = this.$store.state.theme
 
-      if (isDarkMode) {
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         return 'logo-white.png'
       }
       return 'logo.png'
