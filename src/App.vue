@@ -2,6 +2,7 @@
   <div
     class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white"
   >
+    <DialogModal :isOpen="isModalOpen" />
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
       <div>
@@ -22,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import DialogModal from './components/DialogModal.vue'
 import Snackbar from './components/Snackbar.vue'
 import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
@@ -33,13 +35,15 @@ export default defineComponent({
   name: 'App',
   data () {
     return {
-      isOpen: false
+      isOpen: false,
+      isModalOpen: false
     }
   },
   components: {
     TheNavBar,
     TheSidebar,
-    Snackbar
+    Snackbar,
+    DialogModal
   },
   async mounted () {
     const loggedUserJSON = window.localStorage.getItem('loggedAppUser')

@@ -44,7 +44,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/CoursesPage.vue')
   },
   {
-    path: '/courses/:id',
+    path: '/courses/:courseId',
+    props: true,
     meta: {
       title: createTitle('Course'),
       requiresAuth: true
@@ -52,7 +53,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/CoursePage.vue')
   },
   {
-    path: '/exams/:id/attempts',
+    path: '/exams/:examId/attempts',
+    props: true,
     meta: {
       title: createTitle('Attempts'),
       requiresAuth: true
@@ -62,6 +64,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/exams/:examId/attempts/:attemptId',
     name: 'Exam',
+    props: true,
     meta: {
       title: createTitle('Exam'),
       requiresAuth: true

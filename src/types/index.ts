@@ -74,6 +74,13 @@ export interface ExamResult {
   attempt: string;
 }
 
+export interface DialogContent {
+  header: string;
+  message: string;
+  actionLabel: string;
+  closed: boolean;
+}
+
 export type State = {
   user: User | null;
   courses: Course[];
@@ -83,4 +90,5 @@ export type State = {
   attempts: Attempt[];
   examResults: ExamResult[];
   activeExam: string | null;
+  dialog: DialogContent;
 }

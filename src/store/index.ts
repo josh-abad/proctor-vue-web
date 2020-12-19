@@ -4,7 +4,7 @@ import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam_attempts'
 import examResultsService from '@/services/exam_results'
 import loginService from '@/services/login'
-import { Attempt, Course, Exam, ExamItem, ExamResult, State, User } from '@/types'
+import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, User } from '@/types'
 import { createStore } from 'vuex'
 
 const state: State = {
@@ -15,7 +15,13 @@ const state: State = {
   message: '',
   attempts: [],
   examResults: [],
-  activeExam: null
+  activeExam: null,
+  dialog: {
+    header: '',
+    message: '',
+    actionLabel: '',
+    closed: true
+  }
 }
 
 const mutations = {
@@ -51,6 +57,18 @@ const mutations = {
   },
   setActiveExam (state: State, examId: string): void {
     state.activeExam = examId
+  },
+  displayDialog (state: State, dialogContent: Omit<DialogContent, 'closed'>): void {
+    state.dialog.closed = false
+    state.dialog.header = dialogContent.header
+    state.dialog.actionLabel = dialogContent.actionLabel
+    state.dialog.message = dialogContent.message
+  },
+  closeDialog (state: State): void {
+    state.dialog.closed = true
+    state.dialog.header = ''
+    state.dialog.actionLabel = ''
+    state.dialog.message = ''
   }
 }
 

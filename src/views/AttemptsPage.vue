@@ -57,13 +57,18 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   components: { BaseButton, AttemptRow },
   name: 'AttemptsPage',
+  props: {
+    examId: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     exam (): Exam {
-      return this.$store.getters.getExamByID(this.$route.params.id)
+      return this.$store.getters.getExamByID(this.examId)
     },
     attempts (): Attempt[] {
-      const examId = this.$route.params.id
-      return this.$store.getters.getAttemptsByExam(examId)
+      return this.$store.getters.getAttemptsByExam(this.examId)
     },
     attemptsLeft (): number {
       return this.exam.maxAttempts - this.attempts.length
@@ -81,19 +86,31 @@ export default defineComponent({
       const sDisplay = s > 0 ? s + (s === 1 ? ' second' : ' seconds') : ''
       return hDisplay + mDisplay + sDisplay
     },
-    async startAttempt () {
-      try {
-        const response = await examAttemptsService.start(this.exam.id)
-        this.$store.commit('addAttempt', response.attempt)
-        window.localStorage.setItem('activeExam', JSON.stringify(response))
-        examResultsService.setToken(response.token)
-        this.$store.commit('setActiveExam', response.attempt.exam)
-        this.$router.push(
-          `/exams/${this.exam.id}/attempts/${response.attempt.id}`
-        )
-      } catch (error) {
-        this.$store.dispatch('alert', 'Attempt could not be started')
-      }
+    startAttempt () {
+      this.$store.commit('displayDialog', {
+        header: 'Attempt Quiz',
+        actionLabel: 'Start Quiz',
+        message: 'Are you sure you want to start the quiz?'
+      })
+
+      this.$emitter.on('closedDialog', async (confirm: boolean) => {
+        if (confirm) {
+          console.log('AttemptsPage heard confirm')
+          try {
+            const response = await examAttemptsService.start(this.examId)
+            this.$store.commit('addAttempt', response.attempt)
+            window.localStorage.setItem('activeExam', JSON.stringify(response))
+            examResultsService.setToken(response.token)
+            this.$store.commit('setActiveExam', response.attempt.exam)
+            this.$router.push(
+              `/exams/${this.examId}/attempts/${response.attempt.id}`
+            )
+          } catch (error) {
+            this.$store.dispatch('alert', 'Attempt could not be started')
+          }
+        }
+        this.$emitter.all.clear()
+      })
     }
   }
 })

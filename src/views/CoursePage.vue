@@ -19,13 +19,18 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CoursePage',
+  props: {
+    courseId: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     course (): Course {
-      const id: string | string[] = this.$route.params.id
-      return this.$store.getters.getCourseByID(id)
+      return this.$store.getters.getCourseByID(this.courseId)
     },
     exams (): Exam[] {
-      return this.$store.getters.getExamsByCourse(this.course.id)
+      return this.$store.getters.getExamsByCourse(this.courseId)
     }
   }
 })

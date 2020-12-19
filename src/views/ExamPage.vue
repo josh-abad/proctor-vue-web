@@ -52,18 +52,26 @@ export default defineComponent({
       hasToken: false
     }
   },
+  props: {
+    examId: {
+      type: String,
+      required: true
+    },
+    attemptId: {
+      type: String,
+      required: true
+    }
+  },
   mounted () {
     document.title = this.exam.label
     this.hasToken = examResultsServices.hasToken()
   },
   computed: {
     exam (): Exam {
-      const id: string | string[] = this.$route.params.examId
-      return this.$store.getters.getExamByID(id)
+      return this.$store.getters.getExamByID(this.examId)
     },
     attempt (): Attempt {
-      const id: string | string[] = this.$route.params.attemptId
-      return this.$store.getters.getAttemptByID(id)
+      return this.$store.getters.getAttemptByID(this.attemptId)
     },
     activeExam (): string | null {
       return this.$store.state.activeExam
@@ -78,9 +86,21 @@ export default defineComponent({
         this.answers.push({ questionId, answer })
       }
     },
-    async handleSubmit (): Promise<void> {
-      await this.$store.dispatch('submitExam', { answers: this.answers, examId: this.exam.id })
-      this.$router.push(`/exams/${this.exam.id}/attempts`)
+    handleSubmit (): void {
+      this.$store.commit('displayDialog', {
+        header: 'Submit Answers',
+        actionLabel: 'Submit',
+        message: 'Are you sure you want to submit your answers?'
+      })
+
+      this.$emitter.on('closedDialog', async (confirm: boolean) => {
+        if (confirm) {
+          console.log('ExamPage heard confirm')
+          await this.$store.dispatch('submitExam', { answers: this.answers, examId: this.examId })
+          this.$router.push(`/exams/${this.examId}/attempts`)
+        }
+        this.$emitter.all.clear()
+      })
     }
   }
 })
