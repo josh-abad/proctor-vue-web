@@ -11,7 +11,7 @@
           <BaseInput id="password" type="password" placeholder="Password" v-model="password" />
         </div>
         <div class="mt-8">
-          <BaseButton label="Sign In" @click="handleLogin" :disabled="!fieldsFilled" type="submit" />
+          <BaseButton label="Sign In" @click.prevent="handleLogin" :disabled="!fieldsFilled" type="submit" />
         </div>
         <p class="mt-3 text-xs">
           Forgot your <router-link to="#" class="text-green-400">username</router-link> or <router-link to="#" class="text-green-400">password</router-link>?
@@ -42,8 +42,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleLogin (event: Event) {
-      event.preventDefault()
+    async handleLogin () {
       await this.$store.dispatch('logIn', {
         username: this.username,
         password: this.password

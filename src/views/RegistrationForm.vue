@@ -42,7 +42,7 @@
         <div class="mt-8">
           <BaseButton
             label="Sign Up"
-            @click="handleRegister"
+            @click.prevent="handleRegister"
             :disabled="!passwordsEqual"
             type="submit"
           />
@@ -84,9 +84,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleRegister (event: Event) {
-      event.preventDefault()
-
+    async handleRegister () {
       try {
         const newUser = await usersService.create({
           name: {
