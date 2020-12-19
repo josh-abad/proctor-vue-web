@@ -60,6 +60,12 @@ export default defineComponent({
       // this.$store.commit('setUser', await usersService.getUser(user.id))
       // }
     }
+
+    const sidebarState = window.localStorage.getItem('sidebarState')
+    if (sidebarState) {
+      this.isOpen = JSON.parse(sidebarState)
+    }
+
     await Promise.all([
       this.$store.dispatch('loadCourses'),
       this.$store.dispatch('loadExamItems'),
@@ -71,6 +77,7 @@ export default defineComponent({
   methods: {
     handleToggle () {
       this.isOpen = !this.isOpen
+      window.localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
     }
   },
   computed: {
