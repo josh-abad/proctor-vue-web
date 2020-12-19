@@ -2,7 +2,7 @@
   <div
     class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white"
   >
-    <DialogModal :isOpen="isModalOpen" />
+    <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
       <div>
@@ -35,8 +35,7 @@ export default defineComponent({
   name: 'App',
   data () {
     return {
-      isOpen: false,
-      isModalOpen: false
+      isOpen: false
     }
   },
   components: {
