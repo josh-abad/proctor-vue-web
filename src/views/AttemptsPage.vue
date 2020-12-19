@@ -95,7 +95,6 @@ export default defineComponent({
 
       this.$emitter.on('closedDialog', async (confirm: boolean) => {
         if (confirm) {
-          console.log('AttemptsPage heard confirm')
           try {
             const response = await examAttemptsService.start(this.examId)
             this.$store.commit('addAttempt', response.attempt)

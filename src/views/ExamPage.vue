@@ -95,7 +95,6 @@ export default defineComponent({
 
       this.$emitter.on('closedDialog', async (confirm: boolean) => {
         if (confirm) {
-          console.log('ExamPage heard confirm')
           await this.$store.dispatch('submitExam', { answers: this.answers, examId: this.examId })
           this.$router.push(`/exams/${this.examId}/attempts`)
         }
