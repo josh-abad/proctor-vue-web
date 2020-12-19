@@ -1,5 +1,11 @@
 <template>
-  <div class="relative inline-block text-left">
+  <div
+    class="relative inline-block text-left"
+    v-click-outside="{
+      handler: handleClose,
+      middleware: clickOutsideMiddleware
+    }"
+  >
     <div>
       <button
         @click.prevent="toggleDropdown"
@@ -40,14 +46,10 @@
       leave-active-class="transition ease-in duration-75 transform"
       leave-class="opacity-100 scale-100"
       leave-to-class="opacity-0 scale-95"
+      v-show="isOpen"
     >
       <div
-        v-show="isOpen"
         class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
-        v-click-outside="{
-          handler: handleClose,
-          middleware: clickOutsideMiddleware
-        }"
       >
         <div
           class="py-1"
