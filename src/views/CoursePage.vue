@@ -25,6 +25,9 @@ export default defineComponent({
       required: true
     }
   },
+  mounted () {
+    this.$store.commit('addRecentCourse', this.courseId)
+  },
   computed: {
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)

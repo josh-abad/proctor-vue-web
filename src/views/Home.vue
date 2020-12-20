@@ -35,6 +35,7 @@
           :filled="!(theme === null)"
         />
       </div>
+      <RecentCourses />
     </div>
     <div v-else>you are not logged in smh</div>
   </div>
@@ -44,9 +45,10 @@
 import { defineComponent } from 'vue'
 import { Theme, User } from '@/types'
 import BaseButton from '@/components/BaseButton.vue'
+import RecentCourses from '@/components/RecentCourses.vue'
 
 export default defineComponent({
-  components: { BaseButton },
+  components: { BaseButton, RecentCourses },
   name: 'Home',
   methods: {
     handleChangeTheme (theme: Theme) {

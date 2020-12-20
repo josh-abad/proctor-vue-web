@@ -10,6 +10,8 @@ import { createStore } from 'vuex'
 const state: State = {
   user: null,
   courses: [],
+  recentCourses: [],
+  maxRecentCourses: 3,
   examItems: [],
   exams: [],
   message: '',
@@ -31,6 +33,9 @@ const mutations = {
   },
   setCourses (state: State, courses: Course[]): void {
     state.courses = courses
+  },
+  setRecentCourses (state: State, recentCourses: string[]): void {
+    state.recentCourses = recentCourses
   },
   setExamItems (state: State, examItems: ExamItem[]): void {
     state.examItems = examItems
@@ -94,6 +99,17 @@ const mutations = {
         html.classList.remove('dark')
       }
     }
+  },
+  addRecentCourse (state: State, courseId: string): void {
+    if (state.recentCourses.length >= state.maxRecentCourses) {
+      if (state.recentCourses.includes(courseId)) {
+        state.recentCourses = state.recentCourses.filter(id => id !== courseId)
+      } else {
+        state.recentCourses.shift()
+      }
+    }
+    state.recentCourses.push(courseId)
+    localStorage.setItem('recentCourses', JSON.stringify(state.recentCourses))
   }
 }
 
@@ -143,6 +159,15 @@ const getters = {
         return course.id === userCourseId
       })
     })
+  },
+  getRecentCourses (state: State): (Course | undefined)[] {
+    const toCourse = (id: string): Course | undefined => {
+      return state.courses.find(course => course.id === id)
+    }
+    const defined = (course: Course | undefined): boolean => {
+      return course !== undefined
+    }
+    return state.recentCourses.map(toCourse).filter(defined).reverse()
   }
 }
 

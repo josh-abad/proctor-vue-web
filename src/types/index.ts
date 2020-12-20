@@ -86,6 +86,8 @@ export type Theme = 'dark' | 'light' | null
 export type State = {
   user: User | null;
   courses: Course[];
+  recentCourses: string[];
+  maxRecentCourses: number;
   examItems: ExamItem[];
   message: string;
   exams: Exam[];

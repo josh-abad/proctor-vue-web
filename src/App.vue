@@ -80,6 +80,11 @@ export default defineComponent({
       this.$store.dispatch('loadAttempts'),
       this.$store.dispatch('loadExamResults')
     ])
+
+    const recentCourses = localStorage.getItem('recentCourses')
+    if (recentCourses) {
+      this.$store.commit('setRecentCourses', JSON.parse(recentCourses))
+    }
   },
   methods: {
     handleToggle () {
