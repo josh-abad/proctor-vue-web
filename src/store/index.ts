@@ -6,6 +6,8 @@ import examResultsService from '@/services/exam_results'
 import loginService from '@/services/login'
 import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User } from '@/types'
 import { createStore } from 'vuex'
+import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
+import { ADD_ATTEMPT, ADD_EXAM_RESULT, ADD_RECENT_COURSE, CLOSE_DIALOG, DISPLAY_DIALOG, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_COURSES, SET_EXAMS, SET_EXAM_ITEMS, SET_EXAM_RESULTS, SET_MESSAGE, SET_RECENT_COURSES, SET_THEME, SET_USER, UPDATE_ATTEMPT } from './mutation-types'
 
 const state: State = {
   user: null,
@@ -28,55 +30,55 @@ const state: State = {
 }
 
 const mutations = {
-  setUser (state: State, user: User): void {
+  [SET_USER] (state: State, user: User): void {
     state.user = user
   },
-  setCourses (state: State, courses: Course[]): void {
+  [SET_COURSES] (state: State, courses: Course[]): void {
     state.courses = courses
   },
-  setRecentCourses (state: State, recentCourses: string[]): void {
+  [SET_RECENT_COURSES] (state: State, recentCourses: string[]): void {
     state.recentCourses = recentCourses
   },
-  setExamItems (state: State, examItems: ExamItem[]): void {
+  [SET_EXAM_ITEMS] (state: State, examItems: ExamItem[]): void {
     state.examItems = examItems
   },
-  setExams (state: State, exams: Exam[]): void {
+  [SET_EXAMS] (state: State, exams: Exam[]): void {
     state.exams = exams
   },
-  setAttempts (state: State, attempts: Attempt[]): void {
+  [SET_ATTEMPTS] (state: State, attempts: Attempt[]): void {
     state.attempts = attempts
   },
-  setExamResults (state: State, examResults: ExamResult[]): void {
+  [SET_EXAM_RESULTS] (state: State, examResults: ExamResult[]): void {
     state.examResults = examResults
   },
-  setMessage (state: State, message: string): void {
+  [SET_MESSAGE] (state: State, message: string): void {
     state.message = message
   },
-  addAttempt (state: State, attempt: Attempt): void {
+  [ADD_ATTEMPT] (state: State, attempt: Attempt): void {
     state.attempts = state.attempts.concat(attempt)
   },
-  updateAttempt (state: State, newAttempt: Attempt): void {
+  [UPDATE_ATTEMPT] (state: State, newAttempt: Attempt): void {
     state.attempts = state.attempts.map(attempt => attempt.id === newAttempt.id ? newAttempt : attempt)
   },
-  addExamResult (state: State, examResult: ExamResult): void {
+  [ADD_EXAM_RESULT] (state: State, examResult: ExamResult): void {
     state.examResults = state.examResults.concat(examResult)
   },
-  setActiveExam (state: State, examId: string): void {
+  [SET_ACTIVE_EXAM] (state: State, examId: string): void {
     state.activeExam = examId
   },
-  displayDialog (state: State, dialogContent: Omit<DialogContent, 'closed'>): void {
+  [DISPLAY_DIALOG] (state: State, dialogContent: Omit<DialogContent, 'closed'>): void {
     state.dialog.closed = false
     state.dialog.header = dialogContent.header
     state.dialog.actionLabel = dialogContent.actionLabel
     state.dialog.message = dialogContent.message
   },
-  closeDialog (state: State): void {
+  [CLOSE_DIALOG] (state: State): void {
     state.dialog.closed = true
     state.dialog.header = ''
     state.dialog.actionLabel = ''
     state.dialog.message = ''
   },
-  setTheme (state: State, theme: Theme | 'system-dark' | 'system-light'): void {
+  [SET_THEME] (state: State, theme: Theme | 'system-dark' | 'system-light'): void {
     // This is so the logo in TheNavBar will react to change in system theme
     if (theme?.includes('system')) {
       state.theme = theme.split('-')[1] as Theme
@@ -100,7 +102,7 @@ const mutations = {
       }
     }
   },
-  addRecentCourse (state: State, courseId: string): void {
+  [ADD_RECENT_COURSE] (state: State, courseId: string): void {
     if (state.recentCourses.length >= state.maxRecentCourses) {
       if (state.recentCourses.includes(courseId)) {
         state.recentCourses = state.recentCourses.filter(id => id !== courseId)
@@ -175,74 +177,74 @@ export default createStore({
   state,
   mutations,
   actions: {
-    async loadCourses ({ commit }): Promise<void> {
+    async [LOAD_COURSES] ({ commit }): Promise<void> {
       try {
-        commit('setCourses', await coursesService.getAll())
+        commit(SET_COURSES, await coursesService.getAll())
       } catch (error) {
         console.error(error)
       }
     },
-    async loadExamItems ({ commit }): Promise<void> {
+    async [LOAD_EXAM_ITEMS] ({ commit }): Promise<void> {
       try {
-        commit('setExamItems', await examItemsService.getAll())
+        commit(SET_EXAM_ITEMS, await examItemsService.getAll())
       } catch (error) {
         console.error(error)
       }
     },
-    async loadExams ({ commit }): Promise<void> {
+    async [LOAD_EXAMS] ({ commit }): Promise<void> {
       try {
-        commit('setExams', await examsService.getAll())
+        commit(SET_EXAMS, await examsService.getAll())
       } catch (error) {
         console.error(error)
       }
     },
-    async loadExamResults ({ commit }): Promise<void> {
+    async [LOAD_EXAM_RESULTS] ({ commit }): Promise<void> {
       try {
-        commit('setExamResults', await examResultsService.getAll())
+        commit(SET_EXAM_RESULTS, await examResultsService.getAll())
       } catch (error) {
         console.error(error)
       }
     },
-    async loadAttempts ({ commit }): Promise<void> {
+    async [LOAD_ATTEMPTS] ({ commit }): Promise<void> {
       try {
-        commit('setAttempts', await examAttemptsService.getAll())
+        commit(SET_ATTEMPTS, await examAttemptsService.getAll())
       } catch (error) {
         console.error(error)
       }
     },
-    async logIn ({ commit, dispatch }, { username, password }): Promise<void> {
+    async [LOG_IN] ({ commit, dispatch }, { username, password }): Promise<void> {
       try {
         const user = await loginService.login({ username, password })
-        commit('setUser', user)
+        commit(SET_USER, user)
         window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
         examAttemptsService.setToken(user.token)
-        commit('setAttempts', await examAttemptsService.getByUser(user.id))
-        commit('setExamResults', await examResultsService.getByUser(user.id))
+        commit(SET_ATTEMPTS, await examAttemptsService.getByUser(user.id))
+        commit(SET_EXAM_RESULTS, await examResultsService.getByUser(user.id))
       } catch (error) {
-        dispatch('alert', 'Incorrect username or password')
+        dispatch(ALERT, 'Incorrect username or password')
       }
     },
-    async startAttempt ({ commit, dispatch }, examId): Promise<void> {
+    async [START_ATTEMPT] ({ commit, dispatch }, examId): Promise<void> {
       try {
         const response = await examAttemptsService.start(examId)
-        commit('addAttempt', response.attempt)
+        commit(ADD_ATTEMPT, response.attempt)
         window.localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
-        commit('setActiveExam', response.attempt.exam)
+        commit(SET_ACTIVE_EXAM, response.attempt.exam)
       } catch (error) {
-        dispatch('alert', 'Attempt could not be started')
+        dispatch(ALERT, 'Attempt could not be started')
       }
     },
-    async alert ({ commit }, message) {
-      commit('setMessage', message)
+    async [ALERT] ({ commit }, message) {
+      commit(SET_MESSAGE, message)
       setTimeout(() => {
-        commit('setMessage', '')
+        commit(SET_MESSAGE, '')
       }, 5000)
     },
-    async submitExam ({ commit }, payload) {
+    async [SUBMIT_EXAM] ({ commit }, payload) {
       const response = await examResultsService.submit(payload)
-      commit('addExamResult', response.examResult)
-      commit('updateAttempt', response.attempt)
+      commit(ADD_EXAM_RESULT, response.examResult)
+      commit(UPDATE_ATTEMPT, response.attempt)
     }
   },
   modules: {

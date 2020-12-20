@@ -2,20 +2,6 @@
   <div class="home dark:text-gray-200 text-xl">
     <div v-if="user">
       Home page
-      <BaseButton
-        @click="$store.dispatch('alert', 'This is a snackbar')"
-        label="Show snackbar"
-      />
-      <BaseButton
-        @click="
-          $store.commit('displayDialog', {
-            header: 'Test',
-            actionLabel: 'Confirm',
-            message: 'This is a test',
-          })
-        "
-        label="Show dialog"
-      />
       <h1>Appearance</h1>
       <div class="inline-flex flex-col space-y-5">
         <BaseButton
@@ -46,13 +32,14 @@ import { defineComponent } from 'vue'
 import { Theme, User } from '@/types'
 import BaseButton from '@/components/BaseButton.vue'
 import RecentCourses from '@/components/RecentCourses.vue'
+import { SET_THEME } from '@/store/mutation-types'
 
 export default defineComponent({
   components: { BaseButton, RecentCourses },
   name: 'Home',
   methods: {
     handleChangeTheme (theme: Theme) {
-      this.$store.commit('setTheme', theme)
+      this.$store.commit(SET_THEME, theme)
     }
   },
   computed: {

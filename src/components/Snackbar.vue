@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+import { SET_MESSAGE } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -30,7 +31,7 @@ export default defineComponent({
   },
   methods: {
     dismiss () {
-      this.$store.commit('setMessage', '')
+      this.$store.commit(SET_MESSAGE, '')
     }
   }
 })

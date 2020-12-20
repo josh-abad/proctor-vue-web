@@ -29,6 +29,8 @@ import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
 import examAttemptsService from './services/exam_attempts'
 import examResultsService from './services/exam_results'
+import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS } from './store/action-types'
+import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
 // import usersService from './services/users'
 
 export default defineComponent({
@@ -48,16 +50,16 @@ export default defineComponent({
     const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      this.$store.commit('setUser', user)
+      this.$store.commit(SET_USER, user)
       examAttemptsService.setToken(user.token)
       const activeExamJSON = window.localStorage.getItem('activeExam')
       if (activeExamJSON) {
         const activeExam = JSON.parse(activeExamJSON)
         examResultsService.setToken(activeExam.token)
-        this.$store.commit('setActiveExam', activeExam.attempt.exam)
+        this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam)
       }
       // if (user) {
-      // this.$store.commit('setUser', await usersService.getUser(user.id))
+      // this.$store.commit(SET_USER, await usersService.getUser(user.id))
       // }
     }
 
@@ -67,23 +69,23 @@ export default defineComponent({
     }
 
     const theme = localStorage.getItem('theme')
-    this.$store.commit('setTheme', theme)
+    this.$store.commit(SET_THEME, theme)
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      this.$store.commit('setTheme', e.matches ? 'system-dark' : 'system-light')
+      this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
     })
 
     await Promise.all([
-      this.$store.dispatch('loadCourses'),
-      this.$store.dispatch('loadExamItems'),
-      this.$store.dispatch('loadExams'),
-      this.$store.dispatch('loadAttempts'),
-      this.$store.dispatch('loadExamResults')
+      this.$store.dispatch(LOAD_COURSES),
+      this.$store.dispatch(LOAD_EXAM_ITEMS),
+      this.$store.dispatch(LOAD_EXAMS),
+      this.$store.dispatch(LOAD_ATTEMPTS),
+      this.$store.dispatch(LOAD_EXAM_RESULTS)
     ])
 
     const recentCourses = localStorage.getItem('recentCourses')
     if (recentCourses) {
-      this.$store.commit('setRecentCourses', JSON.parse(recentCourses))
+      this.$store.commit(SET_RECENT_COURSES, JSON.parse(recentCourses))
     }
   },
   methods: {

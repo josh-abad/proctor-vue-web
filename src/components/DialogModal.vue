@@ -85,6 +85,7 @@
 </template>
 
 <script lang="ts">
+import { CLOSE_DIALOG } from '@/store/mutation-types'
 import { DialogContent } from '@/types'
 import { defineComponent } from 'vue'
 import BaseButton from './BaseButton.vue'
@@ -99,11 +100,11 @@ export default defineComponent({
   },
   methods: {
     handleConfirm () {
-      this.$store.commit('closeDialog')
+      this.$store.commit(CLOSE_DIALOG)
       this.$emitter.emit('closedDialog', true)
     },
     handleCancel () {
-      this.$store.commit('closeDialog')
+      this.$store.commit(CLOSE_DIALOG)
       this.$emitter.emit('closedDialog', false)
     }
   }

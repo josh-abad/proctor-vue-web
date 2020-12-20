@@ -89,6 +89,7 @@
 </template>
 
 <script lang="ts">
+import { SET_COURSES, SET_USER } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -107,8 +108,8 @@ export default defineComponent({
     },
     handleLogOut () {
       window.localStorage.clear()
-      this.$store.commit('setUser', null)
-      this.$store.commit('setCourses', [])
+      this.$store.commit(SET_USER, null)
+      this.$store.commit(SET_COURSES, [])
       this.$router.push('/login')
     },
     handleClose () {

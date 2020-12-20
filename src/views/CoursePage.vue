@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Exam } from '@/types'
 import { defineComponent } from 'vue'
 
@@ -26,7 +27,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.$store.commit('addRecentCourse', this.courseId)
+    this.$store.commit(ADD_RECENT_COURSE, this.courseId)
   },
   computed: {
     course (): Course {

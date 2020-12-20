@@ -51,6 +51,8 @@ import AttemptRow from '@/components/AttemptRow.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import examAttemptsService from '@/services/exam_attempts'
 import examResultsService from '@/services/exam_results'
+import { ALERT } from '@/store/action-types'
+import { ADD_ATTEMPT, DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Attempt, Exam } from '@/types'
 import { defineComponent } from 'vue'
 
@@ -87,7 +89,7 @@ export default defineComponent({
       return hDisplay + mDisplay + sDisplay
     },
     startAttempt () {
-      this.$store.commit('displayDialog', {
+      this.$store.commit(DISPLAY_DIALOG, {
         header: 'Attempt Quiz',
         actionLabel: 'Start Quiz',
         message: 'Are you sure you want to start the quiz?'
@@ -97,15 +99,15 @@ export default defineComponent({
         if (confirm) {
           try {
             const response = await examAttemptsService.start(this.examId)
-            this.$store.commit('addAttempt', response.attempt)
+            this.$store.commit(ADD_ATTEMPT, response.attempt)
             window.localStorage.setItem('activeExam', JSON.stringify(response))
             examResultsService.setToken(response.token)
-            this.$store.commit('setActiveExam', response.attempt.exam)
+            this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam)
             this.$router.push(
               `/exams/${this.examId}/attempts/${response.attempt.id}`
             )
           } catch (error) {
-            this.$store.dispatch('alert', 'Attempt could not be started')
+            this.$store.dispatch(ALERT, 'Attempt could not be started')
           }
         }
         this.$emitter.all.clear()

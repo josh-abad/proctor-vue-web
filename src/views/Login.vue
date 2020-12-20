@@ -25,6 +25,7 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import { LOG_IN } from '@/store/action-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -43,7 +44,7 @@ export default defineComponent({
   },
   methods: {
     async handleLogin () {
-      await this.$store.dispatch('logIn', {
+      await this.$store.dispatch(LOG_IN, {
         username: this.username,
         password: this.password
       })

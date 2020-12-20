@@ -32,6 +32,8 @@ import BaseExamItem from '@/components/BaseExamItem.vue'
 import examResultsServices from '@/services/exam_results'
 import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
+import { DISPLAY_DIALOG } from '@/store/mutation-types'
+import { SUBMIT_EXAM } from '@/store/action-types'
 
 /**
  * 1. User clicks on exam
@@ -87,7 +89,7 @@ export default defineComponent({
       }
     },
     handleSubmit (): void {
-      this.$store.commit('displayDialog', {
+      this.$store.commit(DISPLAY_DIALOG, {
         header: 'Submit Answers',
         actionLabel: 'Submit',
         message: 'Are you sure you want to submit your answers?'
@@ -95,7 +97,7 @@ export default defineComponent({
 
       this.$emitter.on('closedDialog', async (confirm: boolean) => {
         if (confirm) {
-          await this.$store.dispatch('submitExam', { answers: this.answers, examId: this.examId })
+          await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
           this.$router.push(`/exams/${this.examId}/attempts`)
         }
         this.$emitter.all.clear()

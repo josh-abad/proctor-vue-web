@@ -63,6 +63,7 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import { SET_USER } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
 import usersService from '../services/users'
 
@@ -96,7 +97,7 @@ export default defineComponent({
         })
         window.localStorage.setItem('loggedAppUser', JSON.stringify(newUser))
 
-        this.$store.commit('setUser', newUser)
+        this.$store.commit(SET_USER, newUser)
         this.$router.push('/')
         this.firstName = ''
         this.lastName = ''
