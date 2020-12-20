@@ -49,8 +49,8 @@
 <script lang="ts">
 import AttemptRow from '@/components/AttemptRow.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import examAttemptsService from '@/services/exam_attempts'
-import examResultsService from '@/services/exam_results'
+import examAttemptsService from '@/services/exam-attempts'
+import examResultsService from '@/services/exam-results'
 import { ALERT } from '@/store/action-types'
 import { ADD_ATTEMPT, DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Attempt, Exam } from '@/types'

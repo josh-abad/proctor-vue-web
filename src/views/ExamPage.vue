@@ -29,7 +29,7 @@
 import { defineComponent } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
-import examResultsServices from '@/services/exam_results'
+import examResultsServices from '@/services/exam-results'
 import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { DISPLAY_DIALOG } from '@/store/mutation-types'
