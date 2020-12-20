@@ -103,6 +103,11 @@ const mutations = {
     }
   },
   [ADD_RECENT_COURSE] (state: State, courseId: string): void {
+    // Don't add invalid courses
+    if (!state.courses.some(course => course.id === courseId)) {
+      return
+    }
+
     if (state.recentCourses.length >= state.maxRecentCourses) {
       if (state.recentCourses.includes(courseId)) {
         state.recentCourses = state.recentCourses.filter(id => id !== courseId)
