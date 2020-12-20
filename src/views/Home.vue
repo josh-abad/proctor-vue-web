@@ -16,7 +16,7 @@
           <ToggleButton
             v-model="darkMode"
             label="Dark Mode"
-            v-show="!automatic"
+            :disabled="automatic"
           />
         </div>
       </div>
