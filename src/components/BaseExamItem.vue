@@ -6,7 +6,7 @@
       {{ questionNumber }}
     </div>
     <div
-      class="pl-4 pr-12 py-3 dark:bg-gray-800 w-full rounded-r-md border dark:border-gray-700"
+      class="pl-4 pr-12 py-3 dark:bg-gray-800 w-full rounded-r-md border dark:border-gray-700 select-none"
     >
       {{ examItem.question }}
       <div class="mt-4">
