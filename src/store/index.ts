@@ -6,7 +6,7 @@ import examResultsService from '@/services/exam-results'
 import loginService from '@/services/login'
 import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User } from '@/types'
 import { createStore } from 'vuex'
-import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
+import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, LOG_OUT, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
 import { ADD_ATTEMPT, ADD_EXAM_RESULT, ADD_RECENT_COURSE, CLOSE_DIALOG, DISPLAY_DIALOG, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_COURSES, SET_EXAMS, SET_EXAM_ITEMS, SET_EXAM_RESULTS, SET_MESSAGE, SET_RECENT_COURSES, SET_THEME, SET_USER, UPDATE_ATTEMPT } from './mutation-types'
 
 const state: State = {
@@ -228,6 +228,11 @@ export default createStore({
       } catch (error) {
         dispatch(ALERT, 'Incorrect username or password')
       }
+    },
+    async [LOG_OUT] ({ commit }): Promise<void> {
+      window.localStorage.clear()
+      commit(SET_USER, null)
+      commit(SET_COURSES, [])
     },
     async [START_ATTEMPT] ({ commit, dispatch }, examId): Promise<void> {
       try {

@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import { SET_COURSES, SET_USER } from '@/store/mutation-types'
+import { LOG_OUT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -106,10 +106,8 @@ export default defineComponent({
     toggleDropdown () {
       this.isOpen = !this.isOpen
     },
-    handleLogOut () {
-      window.localStorage.clear()
-      this.$store.commit(SET_USER, null)
-      this.$store.commit(SET_COURSES, [])
+    async handleLogOut () {
+      await this.$store.dispatch(LOG_OUT)
       this.$router.push('/login')
     },
     handleClose () {
