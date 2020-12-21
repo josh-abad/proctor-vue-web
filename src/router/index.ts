@@ -72,6 +72,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/ExamPage.vue')
   },
   {
+    path: '/settings',
+    name: 'Settings',
+    meta: {
+      title: createTitle('Settings'),
+      requiresAuth: true
+    },
+    component: () => import('../views/SettingsPage.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     meta: {

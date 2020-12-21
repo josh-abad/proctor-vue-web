@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex h-16 sticky top-0 w-full items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 border-b dark:border-gray-700 dark:text-gray-200 z-20"
+    class="flex h-20 sticky top-0 w-full items-center justify-between px-6 py-4 shadow bg-white dark:bg-gray-800 border-b dark:border-gray-700 dark:text-gray-200 z-20"
   >
     <div class="flex items-center">
       <button
@@ -40,8 +40,8 @@
       </router-link>
     </div>
     <div>
-      <div v-if="isLoggedIn" class="flex items-center">
-        <NavBarUserDropdown :userFirstName="userName" />
+      <div v-if="isLoggedIn" class="hidden items-center sm:flex md:block">
+        <NavBarUserDropdown />
       </div>
       <div v-else>
         <BaseButton
@@ -71,9 +71,6 @@ export default defineComponent({
   computed: {
     isLoggedIn (): boolean {
       return this.$store.getters.isLoggedIn
-    },
-    userName (): string {
-      return this.$store.state.user.name.first
     },
     logoFilename (): string {
       const theme: Theme = this.$store.state.theme
