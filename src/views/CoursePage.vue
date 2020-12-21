@@ -2,6 +2,7 @@
   <div v-if="course" class="py-4">
     <div class="bg-white dark:bg-gray-800 shadow py-3 px-4 rounded-xl">
       <h1 class="text-3xl">{{ course.name }}</h1>
+      Coordinator {{ coordinatorFullName }}
       <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
     </div>
     <div v-for="exam in exams" :key="exam.id">
@@ -12,7 +13,7 @@
       <div class="mt-4 flex">
         <div>
           <BaseButton @click="editCourse" label="Edit Course" />
-  </div>
+        </div>
         <div class="ml-2">
           <BaseButton @click="deleteCourse" label="Delete Course" />
         </div>
@@ -49,6 +50,10 @@ export default defineComponent({
     },
     exams (): Exam[] {
       return this.$store.getters.getExamsByCourse(this.courseId)
+    },
+    coordinatorFullName (): string {
+      const { first, last } = this.course.coordinator.name
+      return `${first} ${last}`
     },
     userRole (): Role {
       return this.$store.getters.userRole

@@ -18,6 +18,7 @@ export interface UserCredentials extends Omit<User, 'courses' | 'token'> {
 export interface Course {
   id: string;
   name: string;
+  coordinator: Omit<User, 'token'>;
 }
 
 export interface Exam {
