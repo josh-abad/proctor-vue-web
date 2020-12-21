@@ -221,7 +221,7 @@ export default createStore({
       try {
         const user = await loginService.login({ username, password })
         commit(SET_USER, user)
-        window.localStorage.setItem('loggedAppUser', JSON.stringify(user))
+        localStorage.setItem('loggedAppUser', JSON.stringify(user))
         examAttemptsService.setToken(user.token)
         commit(SET_ATTEMPTS, await examAttemptsService.getByUser(user.id))
         commit(SET_EXAM_RESULTS, await examResultsService.getByUser(user.id))
@@ -230,7 +230,7 @@ export default createStore({
       }
     },
     async [LOG_OUT] ({ commit }): Promise<void> {
-      window.localStorage.clear()
+      localStorage.clear()
       commit(SET_USER, null)
       commit(SET_COURSES, [])
     },
@@ -238,7 +238,7 @@ export default createStore({
       try {
         const response = await examAttemptsService.start(examId)
         commit(ADD_ATTEMPT, response.attempt)
-        window.localStorage.setItem('activeExam', JSON.stringify(response))
+        localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
         commit(SET_ACTIVE_EXAM, response.attempt.exam)
       } catch (error) {

@@ -46,12 +46,12 @@ export default defineComponent({
     DialogModal
   },
   async mounted () {
-    const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
+    const loggedUserJSON = localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       this.$store.commit(SET_USER, user)
       examAttemptsService.setToken(user.token)
-      const activeExamJSON = window.localStorage.getItem('activeExam')
+      const activeExamJSON = localStorage.getItem('activeExam')
       if (activeExamJSON) {
         const activeExam = JSON.parse(activeExamJSON)
         examResultsService.setToken(activeExam.token)
@@ -59,7 +59,7 @@ export default defineComponent({
       }
     }
 
-    const sidebarState = window.localStorage.getItem('sidebarState')
+    const sidebarState = localStorage.getItem('sidebarState')
     if (sidebarState) {
       this.isOpen = JSON.parse(sidebarState)
     }
@@ -87,7 +87,7 @@ export default defineComponent({
   methods: {
     handleToggle () {
       this.isOpen = !this.isOpen
-      window.localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
+      localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
     }
   },
   computed: {
