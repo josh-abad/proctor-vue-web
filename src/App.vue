@@ -75,8 +75,8 @@ export default defineComponent({
       this.$store.dispatch(LOAD_COURSES),
       this.$store.dispatch(LOAD_EXAM_ITEMS),
       this.$store.dispatch(LOAD_EXAMS),
-      this.$store.dispatch(LOAD_ATTEMPTS),
-      this.$store.dispatch(LOAD_EXAM_RESULTS)
+      this.$store.dispatch(LOAD_ATTEMPTS, this.$store.state.user.id),
+      this.$store.dispatch(LOAD_EXAM_RESULTS, this.$store.state.user.id)
     ])
 
     const recentCourses = localStorage.getItem('recentCourses')
