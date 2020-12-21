@@ -31,7 +31,6 @@ import examAttemptsService from './services/exam-attempts'
 import examResultsService from './services/exam-results'
 import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS } from './store/action-types'
 import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
-// import usersService from './services/users'
 
 export default defineComponent({
   name: 'App',
@@ -58,9 +57,6 @@ export default defineComponent({
         examResultsService.setToken(activeExam.token)
         this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam)
       }
-      // if (user) {
-      // this.$store.commit(SET_USER, await usersService.getUser(user.id))
-      // }
     }
 
     const sidebarState = window.localStorage.getItem('sidebarState')
