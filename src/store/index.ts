@@ -7,8 +7,8 @@ import examResultsService from '@/services/exam-results'
 import loginService from '@/services/login'
 import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User, UserCredentials } from '@/types'
 import { createStore } from 'vuex'
-import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, LOG_OUT, SIGN_UP, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
-import { ADD_ATTEMPT, ADD_EXAM_RESULT, ADD_RECENT_COURSE, CLOSE_DIALOG, DISPLAY_DIALOG, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_COURSES, SET_EXAMS, SET_EXAM_ITEMS, SET_EXAM_RESULTS, SET_MESSAGE, SET_RECENT_COURSES, SET_THEME, SET_USER, UPDATE_ATTEMPT } from './mutation-types'
+import { ALERT, DELETE_COURSE, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, LOG_OUT, SIGN_UP, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
+import { ADD_ATTEMPT, ADD_EXAM_RESULT, ADD_RECENT_COURSE, CLOSE_DIALOG, DISPLAY_DIALOG, REMOVE_COURSE, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_COURSES, SET_EXAMS, SET_EXAM_ITEMS, SET_EXAM_RESULTS, SET_MESSAGE, SET_RECENT_COURSES, SET_THEME, SET_USER, UPDATE_ATTEMPT } from './mutation-types'
 
 const state: State = {
   user: null,
@@ -36,6 +36,9 @@ const mutations = {
   },
   [SET_COURSES] (state: State, courses: Course[]): void {
     state.courses = courses
+  },
+  [REMOVE_COURSE] (state: State, courseId: string): void {
+    state.courses = state.courses.filter(course => course.id !== courseId)
   },
   [SET_RECENT_COURSES] (state: State, recentCourses: string[]): void {
     state.recentCourses = recentCourses
@@ -125,6 +128,9 @@ const getters = {
   isLoggedIn (state: State): boolean {
     return state.user !== null
   },
+  userRole (state: State): Role | undefined {
+    return state.user?.role
+  },
   getCourseByID (state: State): (id: string) => Course | undefined {
     return (id) => {
       return state.courses.find(course => course.id === id)
@@ -188,6 +194,15 @@ export default createStore({
         commit(SET_COURSES, await coursesService.getAll())
       } catch (error) {
         console.error(error)
+      }
+    },
+    async [DELETE_COURSE] ({ commit, dispatch }, courseId: string): Promise<void> {
+      try {
+        await coursesService.deleteCourse(courseId)
+        commit(REMOVE_COURSE, courseId)
+        dispatch(ALERT, 'Course successfully deleted')
+      } catch (error) {
+        dispatch(ALERT, error)
       }
     },
     async [LOAD_EXAM_ITEMS] ({ commit }): Promise<void> {
