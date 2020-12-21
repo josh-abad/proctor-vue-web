@@ -2,7 +2,7 @@ import { UserCredentials } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/login'
 
-const login = async (credentials: Omit<UserCredentials, 'name'>) => {
+const login = async (credentials: Omit<UserCredentials, 'name' | 'role'>) => {
   const response = await axios.post(baseUrl, credentials)
   return response.data
 }

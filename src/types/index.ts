@@ -1,16 +1,17 @@
-export interface User {
-  name: string;
-  username: string;
-  courses: string[];
-  token: string;
-}
+export type Role = 'student' | 'coordinator' | 'admin'
 
-export interface UserCredentials {
+export interface User {
   name: {
     first: string;
     last: string;
   };
   username: string;
+  courses: string[];
+  token: string;
+  role: Role;
+}
+
+export interface UserCredentials extends Omit<User, 'courses' | 'token'> {
   password: string;
 }
 
