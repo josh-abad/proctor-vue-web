@@ -6,7 +6,7 @@
       <img
         src="../assets/course-card-bg.jpg"
         alt="Course image"
-        class="object-cover"
+        class="w-full h-20 object-cover"
       />
     </router-link>
     <div class="px-4 py-3">
