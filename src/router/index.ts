@@ -41,35 +41,41 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Courses'),
       requiresAuth: true
     },
-    component: () => import('../views/CoursesPage.vue')
-  },
-  {
-    path: '/courses/:courseId',
-    props: true,
-    meta: {
-      title: createTitle('Course'),
-      requiresAuth: true
-    },
-    component: () => import('../views/CoursePage.vue')
-  },
-  {
-    path: '/exams/:examId/attempts',
-    props: true,
-    meta: {
-      title: createTitle('Attempts'),
-      requiresAuth: true
-    },
-    component: () => import('../views/AttemptsPage.vue')
-  },
-  {
-    path: '/exams/:examId/attempts/:attemptId',
-    name: 'Exam',
-    props: true,
-    meta: {
-      title: createTitle('Exam'),
-      requiresAuth: true
-    },
-    component: () => import('../views/ExamPage.vue')
+    children: [
+      {
+        path: '',
+        component: () => import('../views/CoursesPage.vue')
+      },
+      {
+        path: ':courseId',
+        props: true,
+        meta: {
+          title: createTitle('Course'),
+          requiresAuth: true
+        },
+        component: () => import('../views/CoursePage.vue')
+      },
+      {
+        path: ':courseId/exams/:examId',
+        props: true,
+        meta: {
+          title: createTitle('Attempts'),
+          requiresAuth: true
+        },
+        component: () => import('../views/AttemptsPage.vue')
+      },
+      {
+        path: ':courseId/exams/:examId/:attemptId',
+        name: 'Exam',
+        props: true,
+        meta: {
+          title: createTitle('Exam'),
+          requiresAuth: true
+        },
+        component: () => import('../views/ExamPage.vue')
+      }
+    ],
+    component: () => import('../views/courses/Main.vue')
   },
   {
     path: '/settings',

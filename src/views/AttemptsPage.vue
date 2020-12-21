@@ -60,6 +60,10 @@ export default defineComponent({
   components: { BaseButton, AttemptRow },
   name: 'AttemptsPage',
   props: {
+    courseId: {
+      type: String,
+      required: true
+    },
     examId: {
       type: String,
       required: true
@@ -104,7 +108,7 @@ export default defineComponent({
             examResultsService.setToken(response.token)
             this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam)
             this.$router.push(
-              `/exams/${this.examId}/attempts/${response.attempt.id}`
+              `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
             )
           } catch (error) {
             this.$store.dispatch(ALERT, 'Attempt could not be started')

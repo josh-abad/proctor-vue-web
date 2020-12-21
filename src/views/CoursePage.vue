@@ -6,7 +6,7 @@
       <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
     </div>
     <div v-for="exam in exams" :key="exam.id">
-      <router-link :to="`/exams/${exam.id}/attempts`">{{ exam.label }}</router-link>
+      <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
     </div>
     <div class="mt-4" v-show="userRole === 'admin'">
       <div class="uppercase font-semibold tracking-wide text-xs">Admin Options</div>
