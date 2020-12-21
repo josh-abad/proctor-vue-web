@@ -6,7 +6,7 @@
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
       <div>
-        <TheSidebar :isOpen="isOpen" />
+        <TheSidebar :isOpen="isOpen && isLoggedIn" />
         <div>
           <router-view
             class="transform ease-in-out duration-300 px-6 py-4"
