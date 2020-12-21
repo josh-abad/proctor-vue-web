@@ -1,6 +1,6 @@
 <template>
   <div v-if="course" class="py-4">
-    <div class="dark:bg-gray-800 py-3 px-4 rounded-xl">
+    <div class="bg-white dark:bg-gray-800 shadow py-3 px-4 rounded-xl">
       <h1 class="text-3xl">{{ course.name }}</h1>
       <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
     </div>
@@ -8,8 +8,8 @@
       <router-link :to="`/exams/${exam.id}/attempts`">{{ exam.label }}</router-link>
     </div>
   </div>
-  <div v-else class="p-40">
-    <p class="text-2xl font-mono uppercase tracking-wider dark:text-gray-200">Course not found</p>
+  <div v-else class="p-40 inset-0 object-center min-h-screen">
+    <p class="text-2xl font-semibold uppercase tracking-wider dark:text-gray-200">Course not found</p>
   </div>
 </template>
 

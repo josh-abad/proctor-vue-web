@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-48 mt-3 fixed min-h-full ease-in-out transition-all duration-300"
+      class="transform w-52 pt-3 fixed min-h-full ease-in-out transition-all duration-300 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-lg"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex flex-col">
@@ -9,7 +9,7 @@
           :key="i"
           :to="content.url"
           v-for="(content, i) in contents"
-          class="flex items-center w-full px-3 py-2 hover:bg-opacity-25 rounded-lg ml-3 mr-6 my-1 dark:text-gray-400 border-gray-300 dark:border-gray-700 dark:hover:bg-gray-700"
+          class="flex items-center px-3 py-2 rounded-lg ml-3 mr-6 my-1 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-50"
         >
           <div class="fill-current w-5 h-5" v-html="content.icon" />
           <div
@@ -71,6 +71,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
   .router-link-active {
-    @apply text-green-500 dark:text-green-500
+    @apply text-green-500 dark:text-green-500 font-semibold
   }
 </style>

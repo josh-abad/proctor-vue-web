@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-24 flex items-center justify-center">
+  <div class="py-24 flex items-center justify-center">
     <div class="bg-white dark:bg-gray-800 dark:text-gray-200 border dark:border-gray-700 shadow rounded-xl px-10 py-8 flex flex-col">
       <form>
         <h3 class="font-semibold text-lg">Login</h3>

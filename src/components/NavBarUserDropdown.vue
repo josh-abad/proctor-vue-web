@@ -26,7 +26,7 @@
         <img
           src="../assets/default-avatar.png"
           alt="Avatar"
-          class="ml-2 w-6 h-6 object-cover rounded-full"
+          class="ml-2 w-8 h-8 object-cover rounded-full"
         />
         <svg
           id="dropdownToggle"
@@ -64,11 +64,11 @@
           aria-orientation="vertical"
           aria-labelledby="options-menu"
         >
-          <a
-            href="#"
+          <router-link
+            to="/settings"
             class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
             role="menuitem"
-            >Account settings</a
+            >User Settings</router-link
           >
           <a
             href="#"

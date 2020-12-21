@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10">
+  <div class="py-24 flex justify-center items-center">
     <div
       class="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow rounded-xl px-10 py-8 flex flex-col"
     >
@@ -87,11 +87,11 @@ export default defineComponent({
   methods: {
     async handleRegister () {
       const credentials: UserCredentials = {
-          name: {
-            first: this.firstName,
-            last: this.lastName
-          },
-          username: this.username,
+        name: {
+          first: this.firstName,
+          last: this.lastName
+        },
+        username: this.username,
         password: this.password,
         role: 'admin'
       }
