@@ -5,7 +5,7 @@ import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import loginService from '@/services/login'
-import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User, UserCredentials } from '@/types'
+import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, Role, State, Theme, User, UserCredentials } from '@/types'
 import { createStore } from 'vuex'
 import { ALERT, DELETE_COURSE, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, LOG_OUT, SIGN_UP, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
 import { ADD_ATTEMPT, ADD_EXAM_RESULT, ADD_RECENT_COURSE, CLOSE_DIALOG, DISPLAY_DIALOG, REMOVE_COURSE, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_COURSES, SET_EXAMS, SET_EXAM_ITEMS, SET_EXAM_RESULTS, SET_MESSAGE, SET_RECENT_COURSES, SET_THEME, SET_USER, UPDATE_ATTEMPT } from './mutation-types'
@@ -112,13 +112,13 @@ const mutations = {
       return
     }
 
-      if (state.recentCourses.includes(courseId)) {
-        state.recentCourses = state.recentCourses.filter(id => id !== courseId)
+    if (state.recentCourses.includes(courseId)) {
+      state.recentCourses = state.recentCourses.filter(id => id !== courseId)
     }
 
     if (state.recentCourses.length >= state.maxRecentCourses) {
-        state.recentCourses.shift()
-      }
+      state.recentCourses.shift()
+    }
 
     state.recentCourses.push(courseId)
     localStorage.setItem('recentCourses', JSON.stringify(state.recentCourses))
@@ -170,9 +170,7 @@ const getters = {
   },
   getUserCourses (state: State): Course[] {
     return state.courses.filter(course => {
-      return state.user?.courses.some(userCourseId => {
-        return course.id === userCourseId
-      })
+      return state.user?.courses.some(id => course.id === id)
     })
   },
   getRecentCourses (state: State): (Course | undefined)[] {
@@ -258,7 +256,6 @@ export default createStore({
     async [LOG_OUT] ({ commit }): Promise<void> {
       localStorage.clear()
       commit(SET_USER, null)
-      commit(SET_COURSES, [])
     },
     async [START_ATTEMPT] ({ commit, dispatch }, examId): Promise<void> {
       try {
