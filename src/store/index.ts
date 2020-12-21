@@ -1,12 +1,13 @@
+import usersService from '@/services/users'
 import coursesService from '@/services/courses'
 import examItemsService from '@/services/exam-items'
 import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import loginService from '@/services/login'
-import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User } from '@/types'
+import { Attempt, Course, DialogContent, Exam, ExamItem, ExamResult, State, Theme, User, UserCredentials } from '@/types'
 import { createStore } from 'vuex'
-import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, LOG_OUT, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
+import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOG_IN, LOG_OUT, SIGN_UP, START_ATTEMPT, SUBMIT_EXAM } from './action-types'
 import { ADD_ATTEMPT, ADD_EXAM_RESULT, ADD_RECENT_COURSE, CLOSE_DIALOG, DISPLAY_DIALOG, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_COURSES, SET_EXAMS, SET_EXAM_ITEMS, SET_EXAM_RESULTS, SET_MESSAGE, SET_RECENT_COURSES, SET_THEME, SET_USER, UPDATE_ATTEMPT } from './mutation-types'
 
 const state: State = {
@@ -215,6 +216,15 @@ export default createStore({
         commit(SET_ATTEMPTS, await examAttemptsService.getAll())
       } catch (error) {
         console.error(error)
+      }
+    },
+    async [SIGN_UP] ({ commit, dispatch }, credentials: UserCredentials): Promise<void> {
+      try {
+        const newUser = await usersService.create(credentials)
+        localStorage.setItem('loggedAppUser', JSON.stringify(newUser))
+        commit(SET_USER, newUser)
+      } catch (error) {
+        dispatch(ALERT, error)
       }
     },
     async [LOG_IN] ({ commit, dispatch }, { username, password }): Promise<void> {

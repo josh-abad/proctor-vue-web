@@ -63,9 +63,9 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
-import { SET_USER } from '@/store/mutation-types'
+import { SIGN_UP } from '@/store/action-types'
+import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
-import usersService from '../services/users'
 
 export default defineComponent({
   components: { BaseButton, BaseInput },
@@ -86,18 +86,17 @@ export default defineComponent({
   },
   methods: {
     async handleRegister () {
-      try {
-        const newUser = await usersService.create({
+      const credentials: UserCredentials = {
           name: {
             first: this.firstName,
             last: this.lastName
           },
           username: this.username,
-          password: this.password
-        })
-        window.localStorage.setItem('loggedAppUser', JSON.stringify(newUser))
-
-        this.$store.commit(SET_USER, newUser)
+        password: this.password,
+        role: 'admin'
+      }
+      try {
+        await this.$store.dispatch(SIGN_UP, credentials)
         this.$router.push('/')
         this.firstName = ''
         this.lastName = ''
