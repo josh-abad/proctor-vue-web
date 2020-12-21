@@ -112,13 +112,14 @@ const mutations = {
       return
     }
 
-    if (state.recentCourses.length >= state.maxRecentCourses) {
       if (state.recentCourses.includes(courseId)) {
         state.recentCourses = state.recentCourses.filter(id => id !== courseId)
-      } else {
+    }
+
+    if (state.recentCourses.length >= state.maxRecentCourses) {
         state.recentCourses.shift()
       }
-    }
+
     state.recentCourses.push(courseId)
     localStorage.setItem('recentCourses', JSON.stringify(state.recentCourses))
   }
