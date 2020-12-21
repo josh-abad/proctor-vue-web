@@ -4,13 +4,13 @@
   >
     <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
-      <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="isOpen" />
+      <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="sidebarOpen" />
       <div>
-        <TheSidebar :isOpen="isOpen && isLoggedIn" />
+        <TheSidebar :isOpen="sidebarOpen" />
         <div>
           <router-view
             class="transform ease-in-out duration-300 px-6 py-4"
-            :class="isOpen ? 'ml-52' : 'ml-0'"
+            :class="sidebarOpen ? 'ml-52' : 'ml-0'"
           />
           <div class="mt-4">
             <Snackbar />
@@ -91,6 +91,9 @@ export default defineComponent({
     }
   },
   computed: {
+    sidebarOpen (): boolean {
+      return this.isOpen && this.isLoggedIn
+    },
     isLoggedIn () {
       return this.$store.getters.isLoggedIn
     },
