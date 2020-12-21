@@ -3,7 +3,8 @@
     <div class="bg-white dark:bg-gray-800 shadow py-3 px-4 rounded-xl">
       <h1 class="text-3xl">{{ course.name }}</h1>
       Coordinator {{ coordinatorFullName }}
-      <p class="pt-2 dark:text-gray-500">Home > Courses > <span class="dark:text-green-500">Code</span></p>
+      <Breadcrumbs :links="links.concat({ name: course.name, url: `/courses/${courseId}` })" />
+      <!-- <p class="pt-2 dark:text-gray-500">Home / Courses / <span class="dark:text-green-500">Code</span></p> -->
     </div>
     <div v-for="exam in exams" :key="exam.id">
       <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
@@ -27,14 +28,29 @@
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
 import { Course, DialogContent, Exam, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton },
+  components: { BaseButton, Breadcrumbs },
   name: 'CoursePage',
+  data () {
+    return {
+      links: [
+        {
+          name: 'Home',
+          url: '/'
+        },
+        {
+          name: 'Courses',
+          url: '/courses'
+        }
+      ]
+    }
+  },
   props: {
     courseId: {
       type: String,
