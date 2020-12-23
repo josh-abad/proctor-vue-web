@@ -107,3 +107,21 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss">
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-300 dark:bg-gray-900
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-700 rounded-full shadow
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-gray-600
+}
+</style>
