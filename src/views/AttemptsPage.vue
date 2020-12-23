@@ -2,11 +2,12 @@
   <div>
     <div>
       <div
-        class="dark:bg-gray-800 px-4 py-4 rounded-lg"
+        class="bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg"
       >
-        <router-link :to="`/courses/${exam.course.id}`" class="text-3xl font-thin">
+        <router-link :to="`/courses/${courseId}`" class="text-3xl">
           {{ exam.course.name }}
         </router-link>
+        <Breadcrumbs class="mt-2" :links="links" />
       </div>
       <div
         class="dark:bg-gray-800 px-4 py-4 mt-4 rounded-lg"
@@ -49,15 +50,16 @@
 <script lang="ts">
 import AttemptRow from '@/components/AttemptRow.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { ALERT } from '@/store/action-types'
 import { ADD_ATTEMPT, DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
-import { Attempt, Exam } from '@/types'
+import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, AttemptRow },
+  components: { BaseButton, AttemptRow, Breadcrumbs },
   name: 'AttemptsPage',
   props: {
     courseId: {
@@ -70,6 +72,26 @@ export default defineComponent({
     }
   },
   computed: {
+    links (): Link[] {
+      return [
+        {
+          name: 'Home',
+          url: '/'
+        },
+        {
+          name: 'Courses',
+          url: '/courses'
+        },
+        {
+          name: this.exam.course.name,
+          url: `/courses/${this.courseId}`
+        },
+        {
+          name: this.exam.label,
+          url: `/courses/${this.courseId}/exams/${this.examId}`
+        }
+      ]
+    },
     exam (): Exam {
       return this.$store.getters.getExamByID(this.examId)
     },

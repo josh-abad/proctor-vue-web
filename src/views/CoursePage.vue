@@ -1,10 +1,10 @@
 <template>
-  <div v-if="course" class="py-4">
-    <div class="bg-white dark:bg-gray-800 shadow py-3 px-4 rounded-xl">
+    <div class="bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg">
       <h1 class="text-3xl">{{ course.name }}</h1>
+      <!-- <div v-show="course.coordinator">
       Coordinator {{ coordinatorFullName }}
-      <Breadcrumbs :links="links.concat({ name: course.name, url: `/courses/${courseId}` })" />
-      <!-- <p class="pt-2 dark:text-gray-500">Home / Courses / <span class="dark:text-green-500">Code</span></p> -->
+      </div> -->
+      <Breadcrumbs class="mt-2" :links="links" />
     </div>
     <div v-for="exam in exams" :key="exam.id">
       <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
@@ -31,26 +31,12 @@ import BaseButton from '@/components/BaseButton.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
-import { Course, DialogContent, Exam, Role } from '@/types'
+import { Course, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: { BaseButton, Breadcrumbs },
   name: 'CoursePage',
-  data () {
-    return {
-      links: [
-        {
-          name: 'Home',
-          url: '/'
-        },
-        {
-          name: 'Courses',
-          url: '/courses'
-        }
-      ]
-    }
-  },
   props: {
     courseId: {
       type: String,
@@ -61,6 +47,22 @@ export default defineComponent({
     this.$store.commit(ADD_RECENT_COURSE, this.courseId)
   },
   computed: {
+    links (): Link[] {
+      return [
+        {
+          name: 'Home',
+          url: '/'
+        },
+        {
+          name: 'Courses',
+          url: '/courses'
+        },
+        {
+          name: this.course.name,
+          url: `/courses/${this.courseId}`
+        }
+      ]
+  },
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)
     },

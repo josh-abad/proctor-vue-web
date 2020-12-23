@@ -9,7 +9,7 @@
       </svg>
     </li>
     <li>
-      <router-link :to="lastLink.url">
+      <router-link :to="lastLink.url" class="dark:text-gray-200">
         {{ lastLink.name }}
       </router-link>
     </li>
@@ -17,27 +17,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-
-interface Link {
-  name: string;
-  url: string;
-}
+import { Link } from '@/types'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'Breadcrumbs',
   props: {
     links: {
-      type: Array as PropType<Array<Link>>,
+      type: Array,
       required: true
     }
   },
   computed: {
     lastLink (): Link {
-      return this.links[this.links.length - 1]
+      return (this.links as Link[])[this.links.length - 1]
     },
     linksMinusLast (): Link[] {
-      return this.links.slice(0, this.links.length - 1)
+      return (this.links as Link[]).slice(0, this.links.length - 1)
     }
   }
 })
