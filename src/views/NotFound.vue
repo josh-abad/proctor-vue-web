@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div v-once>
     <div class="flex flex-col justify-center items-center py-40">
       <div class="font-thin text-2xl">
         Sorry, that page cannot be found.
