@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-52 pt-3 fixed min-h-full ease-in-out transition-all duration-300 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-lg"
+      class="transform w-52 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition-all duration-300 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-lg"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex flex-col">
@@ -72,5 +72,21 @@ export default defineComponent({
 <style lang="postcss" scoped>
   .router-link-active {
     @apply text-green-500 dark:text-green-500 font-semibold
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400
   }
 </style>
