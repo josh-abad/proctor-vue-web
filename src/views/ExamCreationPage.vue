@@ -1,62 +1,122 @@
 <template>
   <div>
     <div class="bg-gray-100 dark:bg-gray-800 px-4 py-6 rounded-lg shadow">
-      <div>Create New Exam for {{ course.name }}</div>
-      <div>
-        <label>
-          Exam Name
-          <BaseInput v-model="examName" placeholder="Name" />
-        </label>
+      <div class="text-xl">Create New Exam for {{ course.name }}</div>
+      <div class="flex mt-3">
+        <div>
+          <label>
+            <div class="label-line">Name</div>
+            <BaseInput class="mt-2" v-model="examName" placeholder="Name" />
+          </label>
+        </div>
+        <div class="ml-6">
+          <div class="label-line">Duration</div>
+          <label>
+            <input
+              class="dark:bg-gray-800 rounded w-16 mt-2"
+              type="number"
+              name=""
+              id="hours"
+              min="0"
+              max="2"
+              v-model.number="examHours"
+              placeholder="0"
+            />
+            {{ hour }}
+          </label>
+          <label>
+            <input
+              class="dark:bg-gray-800 rounded mt-2 ml-3 w-16"
+              type="number"
+              name=""
+              id="minutes"
+              min="0"
+              max="59"
+              v-model.number="examMinutes"
+              placeholder="0"
+            />
+            min
+          </label>
+        </div>
+        <div class="ml-6">
+          <label>
+            <div class="label-line">Attempts</div>
+            <input
+              class="dark:bg-gray-800 rounded w-16 mt-2"
+              type="number"
+              name=""
+              id="minutes"
+              min="1"
+              max="5"
+              v-model.number="maxAttempts"
+            />
+          </label>
+        </div>
       </div>
-      <div>
-        <label>
-          Exam Duration
-          <BaseInput v-model.number="examDuration" placeholder="Duration" />
-        </label>
-      </div>
-      <div>
-        <label>
-          Maximum Attempts
-          <BaseInput
-            v-model.number="maxAttempts"
-            placeholder="Maximum Attempts"
-          />
-        </label>
-      </div>
-      <div>
-        Exam Items
+      <div class="mt-4">
+        <div class="label">Exam Items</div>
         <div
           v-for="(examItem, i) in examItems"
           :key="i"
-          class="mt-3 bg-white dark:bg-gray-700 px-5 py-8 rounded-lg shadow-md"
+          class="mt-2 flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
         >
-          <div>
+          <div class="dark:bg-gray-900 p-3 dark:bg-opacity-50 dark:text-gray-400 font-thin">
             {{ i + 1 }}
           </div>
-          <div>
-            <label>
-              Question
-              <BaseInput v-model="examItem.question" placeholder="Question" />
-            </label>
-          </div>
-          <div>
-            <label>
-              Answer
+          <div class="p-3 flex-grow">
+            <div>
+              <div class="flex items-center justify-between">
+                <label for="question">
+                  <div class="label">Question</div>
+                </label>
+                <button
+                  class="focus:outline-none text-gray-500 dark:hover:text-white"
+                  @click="removeExamItem(i)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="fill-current w-5 h-5"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
               <BaseInput
-                v-model="examItem.correctAnswer"
-                placeholder="Answer"
+                id="question"
+                class="w-full mt-2"
+                v-model="examItem.question"
+                placeholder="Question"
+              />
+            </div>
+            <div class="mt-4">
+              <label>
+                <div class="label">Answer</div>
+                <BaseInput
+                  class="w-full mt-2"
+                  v-model="examItem.correctAnswer"
+                  placeholder="Answer"
+                />
+              </label>
+            </div>
+          </div>
+          <!-- <div>
+            <label>
+              <div>Question Type</div>
+              <BaseDropdown
+                v-model="examItem.questionType"
+                :options="questionTypes"
               />
             </label>
-          </div>
-          <div>
-            <label>
-              Question Type
-              <BaseDropdown v-model="examItem.questionType" :options="questionTypes" />
-            </label>
-          </div>
-          <div>
-            <BaseButton label="Remove" @click="removeExamItem(i)" />
-          </div>
+          </div> -->
+          <!-- <div class="mt-3" v-show="examItem.questionType !== 'text'">
+            <BaseButton label="Add choice" @click="removeExamItem(i)" />
+          </div> -->
         </div>
         <div class="flex mt-4">
           <div>
@@ -73,7 +133,6 @@
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
-import BaseDropdown from '@/components/BaseDropdown.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import examItemsService from '@/services/exam-items'
 import examsService from '@/services/exams'
@@ -83,17 +142,21 @@ import { Course, ExamItem, NewExam, NewExamItem, Option } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, BaseDropdown },
+  components: { BaseInput, BaseButton },
   name: 'ExamCreationPage',
   data () {
     return {
       examName: '',
-      examDuration: 3600,
+      examHours: 1,
+      examMinutes: 1,
       maxAttempts: 3,
       examItems: [
         {
           question: '',
-          questionType: 'text' as 'text' | 'multiple choice' | 'multiple answers',
+          // questionType: 'text' as
+          //   | 'text'
+          //   | 'multiple choice'
+          //   | 'multiple answers',
           correctAnswer: '',
           choices: []
         }
@@ -102,15 +165,15 @@ export default defineComponent({
         {
           text: 'Text',
           value: 'text'
-        },
-        {
-          text: 'Multiple Choice',
-          value: 'multiple choice'
-        },
-        {
-          text: 'Multiple Answers',
-          value: 'multiple answers'
         }
+        // {
+        // text: 'Multiple Choice',
+        // value: 'multiple choice'
+        // },
+        // {
+        // text: 'Multiple Answers',
+        // value: 'multiple answers'
+        // }
       ] as Option[]
     }
   },
@@ -121,15 +184,21 @@ export default defineComponent({
     }
   },
   computed: {
+    hour (): string {
+      return this.examHours === 1 ? 'hour' : 'hours'
+    },
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)
+    },
+    examDurationInSeconds (): number {
+      return this.examHours * 3600 + this.examMinutes * 60
     }
   },
   methods: {
     addExamItem (): void {
       this.examItems.push({
         question: '',
-        questionType: 'text',
+        // questionType: 'text',
         correctAnswer: '',
         choices: []
       })
@@ -144,7 +213,7 @@ export default defineComponent({
         for (const item of this.examItems) {
           const newExamItem: NewExamItem = {
             question: item.question,
-            examType: item.questionType,
+            examType: 'text',
             choices: item.choices,
             courseId: this.courseId,
             answer: item.correctAnswer
@@ -156,7 +225,7 @@ export default defineComponent({
           label: this.examName,
           random: false,
           length: this.examItems.length,
-          duration: this.examDuration,
+          duration: this.examDurationInSeconds,
           courseId: this.courseId,
           maxAttempts: this.maxAttempts,
           questionIds: examQuestions.map(question => question.id) as string[]
@@ -171,3 +240,14 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.label,
+.label-line {
+  @apply uppercase text-xs dark:text-gray-400 font-semibold tracking-wide;
+}
+
+.label-line {
+  @apply pb-1 border-b dark:border-gray-700;
+}
+</style>
