@@ -9,7 +9,7 @@
           :key="i"
           :to="content.url"
           v-for="(content, i) in contents"
-          class="flex items-center px-3 py-2 rounded-lg ml-3 mr-6 my-1 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-30"
+          class="flex items-center px-3 py-2 rounded-lg mx-3 my-1 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-30 dark:hover:bg-opacity-50"
         >
           <div class="fill-current w-5 h-5" v-html="content.icon" />
           <div
