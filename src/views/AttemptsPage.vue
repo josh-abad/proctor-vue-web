@@ -10,7 +10,7 @@
         <Breadcrumbs class="mt-2" :links="links" />
       </div>
       <div
-        class="dark:bg-gray-800 px-4 py-4 mt-4 rounded-lg"
+        class="bg-white dark:bg-gray-800 px-4 py-4 mt-4 rounded-lg"
       >
         <div class="text-xl">
           {{ exam.label }}
@@ -26,7 +26,7 @@
         <div v-if="attempts.length > 0" class="mt-4">
           <h1 class="text-sm font-semibold uppercase tracking-wide">Previous Attempts</h1>
           <div
-            class="rounded-xl overflow-hidden mt-2 dark:bg-gray-800 border dark:border-gray-700 shadow-lg"
+            class="rounded-xl overflow-hidden mt-2 dark:bg-gray-800 border dark:border-gray-700 shadow-md"
           >
             <div v-for="(attempt, i) in attempts" :key="attempt.id">
               <AttemptRow :attemptNumber="i + 1" :attempt="attempt" />
