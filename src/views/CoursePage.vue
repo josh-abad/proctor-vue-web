@@ -16,16 +16,16 @@
       <div class="uppercase font-semibold tracking-wide text-xs">Admin Options</div>
       <div class="mt-4 flex">
         <div>
-          <BaseButton @click="editCourse" label="Edit Course" />
+          <BaseButton @click="editCourse">Edit Course</BaseButton>
         </div>
         <div class="ml-2">
-          <BaseButton @click="deleteCourse" label="Delete Course" />
+          <BaseButton @click="deleteCourse">Delete Course</BaseButton>
         </div>
       </div>
     </div>
     <div class="mt-4" v-show="userRole === 'coordinator'">
       <div class="ml-2">
-        <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)" label="Create Exam" />
+        <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)">Create Exam</BaseButton>
       </div>
     </div>
   </div>

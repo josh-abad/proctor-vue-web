@@ -9,7 +9,7 @@
     :type="type"
     :disabled="disabled"
   >
-    {{ label }}
+    <slot></slot>
   </button>
 </template>
 
@@ -19,7 +19,6 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'BaseButton',
   props: {
-    label: String,
     filled: {
       type: Boolean,
       required: false,

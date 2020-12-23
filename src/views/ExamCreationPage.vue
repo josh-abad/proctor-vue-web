@@ -115,15 +115,15 @@
             </label>
           </div> -->
           <!-- <div class="mt-3" v-show="examItem.questionType !== 'text'">
-            <BaseButton label="Add choice" @click="removeExamItem(i)" />
+            <BaseButton @click="removeExamItem(i)">Add choice</BaseButton>
           </div> -->
         </div>
         <div class="flex mt-4">
           <div>
-            <BaseButton label="Add Exam Item" @click="addExamItem" />
+            <BaseButton @click="addExamItem">Add Exam Item</BaseButton>
           </div>
           <div class="ml-2">
-            <BaseButton label="Save Exam" @click="saveExam" />
+            <BaseButton @click="saveExam">Save Exam</BaseButton>
           </div>
         </div>
       </div>

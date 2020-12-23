@@ -39,10 +39,11 @@
     <div class="mt-4 flex justify-end">
       <BaseButton
         v-show="attemptsLeft > 0"
-        :label="attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz'"
         :disabled="attempts.length === exam.maxAttempts"
         @click="startAttempt"
-      />
+      >
+        {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
+      </BaseButton>
     </div>
   </div>
 </template>

@@ -47,10 +47,11 @@
         <BaseButton
           @click="$router.push('/login')"
           :filled="false"
-          label="Log In"
           class="mr-4"
-        />
-        <BaseButton @click="$router.push('/register')" label="Sign Up" />
+        >
+          Log In
+        </BaseButton>
+        <BaseButton @click="$router.push('/register')">Sign Up</BaseButton>
       </div>
     </div>
   </header>

@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="mt-4">
-        <BaseButton label="Create" @click="saveCourse" />
+        <BaseButton @click="saveCourse">Create</BaseButton>
       </div>
     </div>
   </div>

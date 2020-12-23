@@ -11,7 +11,7 @@
           <BaseInput class="w-full" id="password" type="password" placeholder="Password" v-model="password" />
         </div>
         <div class="mt-8">
-          <BaseButton label="Sign In" @click.prevent="handleLogin" :disabled="!fieldsFilled" type="submit" />
+          <BaseButton @click.prevent="handleLogin" :disabled="!fieldsFilled" type="submit">Sign In</BaseButton>
         </div>
         <p class="mt-3 text-xs">
           Forgot your <router-link to="#" class="text-green-400">username</router-link> or <router-link to="#" class="text-green-400">password</router-link>?

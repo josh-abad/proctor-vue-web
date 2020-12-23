@@ -43,11 +43,12 @@
         </div>
         <div class="mt-8">
           <BaseButton
-            label="Sign Up"
             @click.prevent="handleRegister"
             :disabled="!passwordsEqual"
             type="submit"
-          />
+          >
+            Sign Up
+          </BaseButton>
         </div>
         <p class="mt-3 text-xs">
           Already have an account?

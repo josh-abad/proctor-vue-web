@@ -9,7 +9,7 @@
       </div>
     </div>
     <div v-show="userRole === 'admin'" class="mt-3">
-      <BaseButton label="Create New Course" @click="$router.push('/courses/new')" />
+      <BaseButton @click="$router.push('/courses/new')">Create New Course</BaseButton>
     </div>
   </div>
 </template>
