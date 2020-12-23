@@ -55,6 +55,10 @@ export default defineComponent({
     }
   },
   props: {
+    courseId: {
+      type: String,
+      required: true
+    },
     examId: {
       type: String,
       required: true
@@ -98,7 +102,7 @@ export default defineComponent({
       this.$emitter.on('closedDialog', async (confirm: boolean) => {
         if (confirm) {
           await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
-          this.$router.push(`/exams/${this.examId}/attempts`)
+          this.$router.push(`/courses/${this.courseId}/exams/${this.examId}`)
         }
         this.$emitter.all.clear()
       })
