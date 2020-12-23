@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'Home',
     meta: {
-      title: createTitle('Proctor Vue'),
+      title: createTitle('Home'),
       requiresAuth: true
     },
     component: Home
@@ -47,20 +47,30 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/CoursesPage.vue')
       },
       {
+        path: 'new',
+        component: () => import('../views/CourseCreationPage.vue')
+      },
+      {
         path: ':courseId',
         props: true,
         meta: {
-          title: createTitle('Course'),
-          requiresAuth: true
+          title: createTitle('Course')
         },
         component: () => import('../views/CoursePage.vue')
+      },
+      {
+        path: ':courseId/exams/new',
+        props: true,
+        meta: {
+          title: createTitle('Create Exam')
+        },
+        component: () => import('../views/ExamCreationPage.vue')
       },
       {
         path: ':courseId/exams/:examId',
         props: true,
         meta: {
-          title: createTitle('Attempts'),
-          requiresAuth: true
+          title: createTitle('Attempts')
         },
         component: () => import('../views/AttemptsPage.vue')
       },
@@ -69,8 +79,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Exam',
         props: true,
         meta: {
-          title: createTitle('Exam'),
-          requiresAuth: true
+          title: createTitle('Exam')
         },
         component: () => import('../views/ExamPage.vue')
       }

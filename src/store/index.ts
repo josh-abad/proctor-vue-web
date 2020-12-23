@@ -12,6 +12,7 @@ import {
   Exam,
   ExamItem,
   ExamResult,
+  NewCourse,
   Role,
   State,
   Theme,
@@ -53,6 +54,9 @@ const mutations = {
   [mutationType.SET_COURSES] (state: State, courses: Course[]): void {
     state.courses = courses
   },
+  [mutationType.ADD_COURSE] (state: State, course: Course): void {
+    state.courses = state.courses.concat(course)
+  },
   [mutationType.REMOVE_COURSE] (state: State, courseId: string): void {
     state.courses = state.courses.filter(course => course.id !== courseId)
   },
@@ -64,6 +68,9 @@ const mutations = {
   },
   [mutationType.SET_EXAMS] (state: State, exams: Exam[]): void {
     state.exams = exams
+  },
+  [mutationType.ADD_EXAM] (state: State, exam: Exam): void {
+    state.exams = state.exams.concat(exam)
   },
   [mutationType.SET_ATTEMPTS] (state: State, attempts: Attempt[]): void {
     state.attempts = attempts
@@ -197,6 +204,9 @@ const getters = {
       return course !== undefined
     }
     return state.recentCourses.map(toCourse).filter(defined).reverse()
+  },
+  coordinators (state: State): Omit<User, 'token'>[] {
+    return state.users.filter(user => user.role === 'coordinator')
   }
 }
 
@@ -218,13 +228,22 @@ export default createStore({
         dispatch(actionType.ALERT, 'Could not load users from server')
       }
     },
+    async [actionType.CREATE_COURSE] ({ commit, dispatch }, newCourse: NewCourse): Promise<void> {
+      try {
+        const createdCourse = await coursesService.create(newCourse)
+        commit(mutationType.ADD_COURSE, createdCourse)
+        dispatch(actionType.ALERT, 'Course successfully created')
+      } catch (error) {
+        dispatch(actionType.ALERT, 'Could not create course')
+      }
+    },
     async [actionType.DELETE_COURSE] ({ commit, dispatch }, courseId: string): Promise<void> {
       try {
         await coursesService.deleteCourse(courseId)
         commit(mutationType.REMOVE_COURSE, courseId)
         dispatch(actionType.ALERT, 'Course successfully deleted')
       } catch (error) {
-        dispatch(actionType.ALERT, error)
+        dispatch(actionType.ALERT, 'Could not delete course')
       }
     },
     async [actionType.LOAD_EXAM_ITEMS] ({ commit }): Promise<void> {

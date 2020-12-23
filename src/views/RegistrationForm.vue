@@ -23,10 +23,11 @@
           </div>
         </div>
         <div class="mt-4">
-          <BaseInput placeholder="Username" v-model="username" />
+          <BaseInput class="w-full" placeholder="Username" v-model="username" />
         </div>
         <div class="mt-4">
           <BaseInput
+            class="w-full"
             placeholder="Password"
             v-model="password"
             type="password"
@@ -34,6 +35,7 @@
         </div>
         <div class="mt-4">
           <BaseInput
+            class="w-full"
             placeholder="Confirm Password"
             v-model="confirmPassword"
             type="password"
@@ -93,7 +95,7 @@ export default defineComponent({
         },
         username: this.username,
         password: this.password,
-        role: 'admin'
+        role: 'student'
       }
       try {
         await this.$store.dispatch(SIGN_UP, credentials)

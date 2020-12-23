@@ -1,6 +1,7 @@
 export type Role = 'student' | 'coordinator' | 'admin'
 
 export interface User {
+  id: string;
   name: {
     first: string;
     last: string;
@@ -11,7 +12,7 @@ export interface User {
   role: Role;
 }
 
-export interface UserCredentials extends Omit<User, 'courses' | 'token'> {
+export interface UserCredentials extends Omit<User, 'courses' | 'token' | 'id'> {
   password: string;
 }
 
@@ -19,6 +20,11 @@ export interface Course {
   id: string;
   name: string;
   coordinator: Omit<User, 'token'>;
+}
+
+export interface NewCourse {
+  name: string;
+  coordinatorId: string;
 }
 
 export interface Exam {
@@ -30,6 +36,11 @@ export interface Exam {
   course: Course;
   maxAttempts: number;
   id: string;
+}
+
+export interface NewExam extends Omit<Exam, 'id' | 'course' | 'questions'> {
+  questionIds: string[];
+  courseId: string;
 }
 
 export interface Answer {
@@ -63,6 +74,11 @@ export interface ExamItem {
   course: Course;
 }
 
+export interface NewExamItem extends Omit<ExamItem, 'id' | 'course'> {
+  courseId: string;
+  answer: string;
+}
+
 export interface Score {
   examItem: string;
   points: number;
@@ -83,10 +99,21 @@ export interface DialogContent {
   closed: boolean;
 }
 
+export interface Link {
+  name: string;
+  url: string;
+}
+
+export interface Option {
+  text: string;
+  value: string;
+}
+
 export type Theme = 'dark' | 'light' | null
 
 export type State = {
   user: User | null;
+  users: Omit<User, 'token'>[];
   courses: Course[];
   recentCourses: string[];
   maxRecentCourses: number;

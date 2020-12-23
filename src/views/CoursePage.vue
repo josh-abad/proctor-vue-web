@@ -1,13 +1,16 @@
 <template>
+  <div v-if="course">
     <div class="bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg">
       <h1 class="text-3xl">{{ course.name }}</h1>
       <!-- <div v-show="course.coordinator">
-      Coordinator {{ coordinatorFullName }}
+        Coordinator {{ coordinatorFullName }}
       </div> -->
       <Breadcrumbs class="mt-2" :links="links" />
     </div>
-    <div v-for="exam in exams" :key="exam.id">
-      <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
+    <div class="mt-4 bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg">
+      <div v-for="exam in exams" :key="exam.id">
+        <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
+      </div>
     </div>
     <div class="mt-4" v-show="userRole === 'admin'">
       <div class="uppercase font-semibold tracking-wide text-xs">Admin Options</div>
@@ -18,6 +21,11 @@
         <div class="ml-2">
           <BaseButton @click="deleteCourse" label="Delete Course" />
         </div>
+      </div>
+    </div>
+    <div class="mt-4" v-show="userRole === 'coordinator'">
+      <div class="ml-2">
+        <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)" label="Create Exam" />
       </div>
     </div>
   </div>
@@ -62,7 +70,7 @@ export default defineComponent({
           url: `/courses/${this.courseId}`
         }
       ]
-  },
+    },
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)
     },
@@ -70,8 +78,11 @@ export default defineComponent({
       return this.$store.getters.getExamsByCourse(this.courseId)
     },
     coordinatorFullName (): string {
-      const { first, last } = this.course.coordinator.name
-      return `${first} ${last}`
+      if (this.course.coordinator) {
+        const { first, last } = this.course.coordinator.name
+        return `${first} ${last}`
+      }
+      return ''
     },
     userRole (): Role {
       return this.$store.getters.userRole

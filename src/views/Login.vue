@@ -5,10 +5,10 @@
         <h3 class="font-semibold text-lg">Login</h3>
         <p class="text-xs dark:text-gray-400">By continuing, you agree to our <router-link to="#" class="text-green-400">User Agreement</router-link> and <router-link to="#" class="text-green-400">Privacy Policy</router-link>.</p>
         <div class="mt-8">
-          <BaseInput id="username" type="text" placeholder="Username" v-model="username" />
+          <BaseInput class="w-full" id="username" type="text" placeholder="Username" v-model="username" />
         </div>
         <div class="mt-4">
-          <BaseInput id="password" type="password" placeholder="Password" v-model="password" />
+          <BaseInput class="w-full" id="password" type="password" placeholder="Password" v-model="password" />
         </div>
         <div class="mt-8">
           <BaseButton label="Sign In" @click.prevent="handleLogin" :disabled="!fieldsFilled" type="submit" />

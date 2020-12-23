@@ -1,7 +1,6 @@
 <template>
-  <div class="home dark:text-gray-200 text-xl">
+  <div class="home">
     <div v-if="user">
-      Home page
       <div class="mt-4">
         <RecentCourses />
       </div>

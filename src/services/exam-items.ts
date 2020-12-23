@@ -1,8 +1,8 @@
-import { ExamItem } from '@/types'
+import { NewExamItem } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/exam-items'
 
-const create = async (newExamItem: ExamItem) => {
+const create = async (newExamItem: NewExamItem) => {
   const response = await axios.post(baseUrl, newExamItem)
   return response.data
 }

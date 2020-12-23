@@ -1,23 +1,27 @@
 <template>
   <div>
-    <div class="bg-white dark:bg-gray-800 shadow rounded-xl px-6 py-6">
-      <h1 class="text-lg font-semibold">{{ header}}</h1>
+    <div class="bg-gray-100 dark:bg-gray-800 shadow rounded-xl px-6 py-6">
+      <div>{{ header }}</div>
       <div class="grid grid-cols-3 gap-6 mt-3 sm:grid-cols-2 md:grid-cols-3">
         <div :key="course.id" v-for="course in courses">
           <CourseCard :course="course" />
         </div>
       </div>
     </div>
+    <div v-show="userRole === 'admin'" class="mt-3">
+      <BaseButton label="Create New Course" @click="$router.push('/courses/new')" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import BaseButton from '@/components/BaseButton.vue'
 import CourseCard from '@/components/CourseCard.vue'
 import { Course, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { CourseCard },
+  components: { CourseCard, BaseButton },
   name: 'CoursesPage',
   computed: {
     courses (): Course[] {
@@ -31,9 +35,12 @@ export default defineComponent({
       if (userRole === 'student') {
         return 'Course overview'
       } else if (userRole === 'coordinator') {
-        return 'Courses you are coordinator of'
+        return 'Manage courses'
       }
-      return 'Martin Coursese'
+      return 'All courses'
+    },
+    userRole (): Role {
+      return this.$store.getters.userRole
     }
   }
 })

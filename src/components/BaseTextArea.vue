@@ -1,22 +1,24 @@
 <template>
-  <input
-    class="shadow focus:outline-none dark:bg-gray-800 appearance-none rounded py-2 px-3 focus:ring-green-500"
-    :type="type"
+  <textarea
+    class="shadow focus:outline-none dark:bg-gray-800 appearance-none rounded py-2 px-3 focus:ring-green-500 resize-none"
+    name=""
+    id=""
+    cols="23"
+    rows="10"
     :placeholder="placeholder"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
-  />
+  ></textarea>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BaseInput',
-  emits: ['update:modelValue'],
+  name: 'BaseTextArea',
   props: {
     modelValue: {
-      type: [String, Number],
+      type: String,
       required: false,
       default: ''
     },
@@ -24,12 +26,8 @@ export default defineComponent({
       type: String,
       required: false,
       default: ''
-    },
-    type: {
-      type: String,
-      required: false,
-      default: 'text'
     }
-  }
+  },
+  emits: ['update:modelValue']
 })
 </script>
