@@ -1,3 +1,5 @@
+export const LOAD_USERS = 'LOAD_USERS'
+
 export const LOAD_COURSES = 'LOAD_COURSES'
 export const DELETE_COURSE = 'DELETE_COURSE'
 

@@ -29,7 +29,7 @@ import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
 import examAttemptsService from './services/exam-attempts'
 import examResultsService from './services/exam-results'
-import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS } from './store/action-types'
+import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOAD_USERS } from './store/action-types'
 import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
 
 export default defineComponent({
@@ -70,6 +70,10 @@ export default defineComponent({
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
       this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
     })
+
+    if (this.$store.getters.userRole === 'admin') {
+      await this.$store.dispatch(LOAD_USERS)
+    }
 
     await Promise.all([
       this.$store.dispatch(LOAD_COURSES),

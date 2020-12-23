@@ -24,6 +24,7 @@ import * as mutationType from './mutation-types'
 
 const state: State = {
   user: null,
+  users: [],
   courses: [],
   recentCourses: [],
   maxRecentCourses: 3,
@@ -45,6 +46,9 @@ const state: State = {
 const mutations = {
   [mutationType.SET_USER] (state: State, user: User): void {
     state.user = user
+  },
+  [mutationType.SET_USERS] (state: State, users: Omit<User, 'token'>[]): void {
+    state.users = users
   },
   [mutationType.SET_COURSES] (state: State, courses: Course[]): void {
     state.courses = courses
@@ -205,6 +209,13 @@ export default createStore({
         commit(mutationType.SET_COURSES, await coursesService.getAll())
       } catch (error) {
         console.error(error)
+      }
+    },
+    async [actionType.LOAD_USERS] ({ commit, dispatch }): Promise<void> {
+      try {
+        commit(mutationType.SET_USERS, await usersService.getAll())
+      } catch (error) {
+        dispatch(actionType.ALERT, 'Could not load users from server')
       }
     },
     async [actionType.DELETE_COURSE] ({ commit, dispatch }, courseId: string): Promise<void> {
