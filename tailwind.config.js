@@ -8,7 +8,7 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     colors: {
-      gray: colors.warmGray,
+      gray: colors.gray,
       green: colors.emerald,
       red: colors.rose,
       white: colors.white
