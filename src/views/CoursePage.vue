@@ -1,13 +1,13 @@
 <template>
   <div v-if="course">
-    <div class="bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg">
+    <div class="panel">
       <h1 class="text-3xl">{{ course.name }}</h1>
       <!-- <div v-show="course.coordinator">
         Coordinator {{ coordinatorFullName }}
       </div> -->
       <Breadcrumbs class="mt-2" :links="links" />
     </div>
-    <div class="mt-4 bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg">
+    <div class="mt-4 panel">
       <div v-for="exam in exams" :key="exam.id">
         <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
       </div>

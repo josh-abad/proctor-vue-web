@@ -1,16 +1,14 @@
 <template>
   <div>
     <div>
-      <div
-        class="bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg"
-      >
+      <div class="panel">
         <router-link :to="`/courses/${courseId}`" class="text-3xl">
           {{ exam.course.name }}
         </router-link>
         <Breadcrumbs class="mt-2" :links="links" />
       </div>
       <div
-        class="bg-white dark:bg-gray-800 px-4 py-4 mt-4 rounded-lg"
+        class="mt-4 panel"
       >
         <div class="text-xl">
           {{ exam.label }}

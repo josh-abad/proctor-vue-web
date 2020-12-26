@@ -124,4 +124,8 @@ export default defineComponent({
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-500 dark:bg-gray-600
   }
+
+  .panel {
+    @apply bg-white dark:bg-gray-800 shadow px-4 py-3 rounded-lg
+  }
 </style>
