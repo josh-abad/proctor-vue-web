@@ -27,6 +27,9 @@
 <script lang="ts">
 import { Attempt } from '@/types'
 import { defineComponent } from 'vue'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptRow',
@@ -44,20 +47,7 @@ export default defineComponent({
   },
   methods: {
     formattedDate (d: string | Date): string | undefined {
-      // TODO: use Intl.DateTimeFormat for better performance
-
-      const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timezone: 'PHT',
-        hour: '2-digit',
-        minute: '2-digit'
-      }
-
-      // startDate is already a Date object but Vue complains if I do it directly
-      return new Date(d).toLocaleString('en-PH', options)
+      return dayjs(d).fromNow()
     }
   }
 })
