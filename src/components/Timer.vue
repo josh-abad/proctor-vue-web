@@ -22,6 +22,7 @@ export default defineComponent({
       displayHours: '0'
     }
   },
+  emits: ['timer-ended'],
   methods: {
     format (n: number): string {
       return n < 10 ? `0${n}` : `${n}`
@@ -32,6 +33,7 @@ export default defineComponent({
         const distance = new Date(this.end).getTime() - now.getTime()
 
         if (distance < 0) {
+          this.$emit('timer-ended')
           clearInterval(timer)
           return
         }

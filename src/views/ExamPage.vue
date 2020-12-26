@@ -18,7 +18,7 @@
     <div class="mt-4 flex justify-end">
       <BaseButton @click="handleSubmit">Submit</BaseButton>
     </div>
-    <Timer :end="attempt.endDate" />
+    <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
   </div>
   <div v-else>
     Sorry, you are not allowed to take this exam
@@ -91,6 +91,11 @@ export default defineComponent({
       } else {
         this.answers.push({ question, answer })
       }
+    },
+    async handleTimeEnd (): Promise<void> {
+      await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
+      this.$store.commit(SET_ACTIVE_EXAM, null)
+      this.$router.push(`/courses/${this.courseId}/exams/${this.examId}`)
     },
     handleSubmit (): void {
       this.$store.commit(DISPLAY_DIALOG, {
