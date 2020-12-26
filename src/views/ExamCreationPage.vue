@@ -6,14 +6,14 @@
         <div>
           <label>
             <BaseLabel line>Name</BaseLabel>
-            <BaseInput class="mt-2" v-model="examName" placeholder="Name" />
+            <BaseInput v-model="examName" placeholder="Name" />
           </label>
         </div>
         <div class="ml-6">
           <BaseLabel line>Duration</BaseLabel>
           <label>
             <input
-              class="dark:bg-gray-800 rounded w-16 mt-2"
+              class="dark:bg-gray-800 rounded w-16"
               type="number"
               name=""
               id="hours"
@@ -26,7 +26,7 @@
           </label>
           <label>
             <input
-              class="dark:bg-gray-800 rounded mt-2 ml-3 w-16"
+              class="dark:bg-gray-800 rounded ml-3 w-16"
               type="number"
               name=""
               id="minutes"
@@ -42,7 +42,7 @@
           <label>
             <BaseLabel line>Attempts</BaseLabel>
             <input
-              class="dark:bg-gray-800 rounded w-16 mt-2"
+              class="dark:bg-gray-800 rounded w-16"
               type="number"
               name=""
               id="minutes"
@@ -58,7 +58,7 @@
         <div
           v-for="(examItem, i) in examItems"
           :key="i"
-          class="mt-2 flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
+          class="flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
         >
           <div class="dark:bg-gray-900 p-3 dark:bg-opacity-50 dark:text-gray-400 font-thin">
             {{ i + 1 }}
@@ -89,7 +89,7 @@
               </div>
               <BaseInput
                 id="question"
-                class="w-full mt-2"
+                class="w-full"
                 v-model="examItem.question"
                 placeholder="Question"
               />
@@ -98,7 +98,7 @@
               <label>
                 <BaseLabel>Answer</BaseLabel>
                 <BaseInput
-                  class="w-full mt-2"
+                  class="w-full"
                   v-model="examItem.answer"
                   placeholder="Answer"
                 />
