@@ -9,12 +9,13 @@
           :key="i"
           :to="content.url"
           v-for="(content, i) in contents"
-          class="flex items-center px-3 py-2 rounded-lg mx-3 my-1 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-30 dark:hover:bg-opacity-50"
+          class="transition duration-300 ease-in-out transform flex items-center px-3 py-2 rounded-lg mx-3 my-1 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-30 dark:hover:bg-opacity-50"
         >
-          <div class="fill-current w-5 h-5" v-html="content.icon" />
           <div
-            class="ml-6"
-          >
+            class="fill-current text-green-500 w-5 h-5"
+            v-html="content.icon"
+          />
+          <div class="ml-6 text-sm">
             {{ content.label }}
           </div>
         </router-link>
@@ -70,23 +71,23 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-  .router-link-active {
-    @apply text-green-500 dark:text-green-500 font-semibold
-  }
+/* .router-link-active { */
+/* @apply text-green-500 dark:text-green-500 font-semibold */
+/* } */
 
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
+::-webkit-scrollbar {
+  width: 5px;
+}
 
-  ::-webkit-scrollbar-track {
-    @apply bg-gray-100
-  }
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300
-  }
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400
-  }
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
 </style>

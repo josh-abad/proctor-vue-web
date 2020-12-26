@@ -1,12 +1,12 @@
 <template>
   <div class="flex mt-3">
     <div
-      class="px-3 py-3 dark:bg-gray-700 rounded-l-md dark:border-gray-700"
+      class="px-3 py-3 dark:bg-gray-700 rounded-l-xl dark:border-gray-700"
     >
       {{ questionNumber }}
     </div>
     <div
-      class="pl-4 pr-12 py-3 dark:bg-gray-800 w-full rounded-r-md border dark:border-gray-700 select-none"
+      class="pl-4 pr-12 py-3 dark:bg-gray-800 w-full rounded-r-xl select-none"
     >
       {{ examItem.question }}
       <div class="mt-4">

@@ -1,13 +1,13 @@
 <template>
-  <div class="mt-5" v-if="hasToken && activeExam === exam.id">
-    <div class="bg-gray-800 px-3 py-2 rounded border dark:border-gray-700">
+  <div v-if="hasToken && activeExam === exam.id">
+    <BasePanel>
       <div class="text-xl">
         {{ exam.label }}
       </div>
-      <div class="uppercase text-sm tracking-wide font-semibold dark:text-gray-500">
+      <BaseLabel>
         {{ exam.course.name }}
-      </div>
-    </div>
+      </BaseLabel>
+    </BasePanel>
     <BaseExamItem
       v-for="(item, i) in exam.examItems"
       :key="i"
@@ -34,6 +34,8 @@ import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
+import BasePanel from '@/components/BasePanel.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
 
 /**
  * 1. User clicks on exam
@@ -45,7 +47,7 @@ import { SUBMIT_EXAM } from '@/store/action-types'
  */
 
 export default defineComponent({
-  components: { BaseExamItem, BaseButton, Timer },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, BaseLabel },
   name: 'ExamPage',
   data () {
     const answers: Answer[] = []

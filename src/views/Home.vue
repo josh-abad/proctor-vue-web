@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-if="user">
-      <div class="mt-4">
+      <div>
         <RecentCourses />
       </div>
     </div>

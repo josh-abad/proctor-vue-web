@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-6 rounded-lg shadow">
+    <BasePanel>
       <div class="text-xl">Create New Exam for {{ course.name }}</div>
       <div class="flex mt-3">
         <div>
           <label>
-            <div class="label-line">Name</div>
+            <BaseLabel line>Name</BaseLabel>
             <BaseInput class="mt-2" v-model="examName" placeholder="Name" />
           </label>
         </div>
         <div class="ml-6">
-          <div class="label-line">Duration</div>
+          <BaseLabel line>Duration</BaseLabel>
           <label>
             <input
               class="dark:bg-gray-800 rounded w-16 mt-2"
@@ -40,7 +40,7 @@
         </div>
         <div class="ml-6">
           <label>
-            <div class="label-line">Attempts</div>
+            <BaseLabel line>Attempts</BaseLabel>
             <input
               class="dark:bg-gray-800 rounded w-16 mt-2"
               type="number"
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="mt-4">
-        <div class="label">Exam Items</div>
+        <BaseLabel>Exam Items</BaseLabel>
         <div
           v-for="(examItem, i) in examItems"
           :key="i"
@@ -67,7 +67,7 @@
             <div>
               <div class="flex items-center justify-between">
                 <label for="question">
-                  <div class="label">Question</div>
+                  <BaseLabel>Question</BaseLabel>
                 </label>
                 <button
                   class="focus:outline-none text-gray-500 dark:hover:text-white"
@@ -96,7 +96,7 @@
             </div>
             <div class="mt-4">
               <label>
-                <div class="label">Answer</div>
+                <BaseLabel>Answer</BaseLabel>
                 <BaseInput
                   class="w-full mt-2"
                   v-model="examItem.answer"
@@ -127,13 +127,15 @@
           </div>
         </div>
       </div>
-    </div>
+    </BasePanel>
   </div>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
@@ -141,7 +143,7 @@ import { Course, NewExam, Option, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton },
+  components: { BaseInput, BaseButton, BasePanel, BaseLabel },
   name: 'ExamCreationPage',
   data () {
     return {
@@ -228,14 +230,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.label,
-.label-line {
-  @apply uppercase text-xs dark:text-gray-400 font-semibold tracking-wide;
-}
-
-.label-line {
-  @apply pb-1 border-b dark:border-gray-700;
-}
-</style>

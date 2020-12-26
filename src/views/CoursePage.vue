@@ -1,6 +1,6 @@
 <template>
   <div v-if="course">
-    <BasePanel class="mt-4">
+    <BasePanel>
       <h1 class="text-3xl">{{ course.name }}</h1>
       <!-- <div v-show="course.coordinator">
         Coordinator {{ coordinatorFullName }}
@@ -24,9 +24,7 @@
       </div>
     </div>
     <div class="mt-4" v-show="userRole === 'coordinator'">
-      <div class="ml-2">
-        <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)">Create Exam</BaseButton>
-      </div>
+      <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)">Create Exam</BaseButton>
     </div>
   </div>
   <div v-else class="p-40 inset-0 object-center min-h-screen">

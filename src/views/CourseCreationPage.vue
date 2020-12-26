@@ -8,25 +8,28 @@
       <div class="flex flex-col items-start">
         <div class="mt-4">
           <label>
-          Course name
-          <BaseInput v-model="courseName" placeholder="Course name" />
+            <div class="label-line">Course name</div>
+            <BaseInput v-model="courseName" placeholder="Course name" />
           </label>
         </div>
         <div class="mt-3">
           <label>
-            Course description
-            <BaseTextArea v-model="courseDescription" placeholder="Course description" />
+            <div class="label-line">Course description</div>
+            <BaseTextArea
+              v-model="courseDescription"
+              placeholder="Course description"
+            />
           </label>
         </div>
         <div class="mt-2">
           <label>
-            Coordinator
+            <div class="label-line">Coordinator</div>
             <BaseDropdown v-model="coordinator" :options="coordinators" />
           </label>
         </div>
       </div>
       <div class="mt-4">
-        <BaseButton @click="saveCourse">Create</BaseButton>
+        <BaseButton @click="saveCourse" prominent>Create</BaseButton>
       </div>
     </div>
   </div>
@@ -73,3 +76,14 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.label,
+.label-line {
+  @apply uppercase text-xs dark:text-gray-400 font-semibold tracking-wide;
+}
+
+.label-line {
+  @apply pb-1 border-b dark:border-gray-700;
+}
+</style>

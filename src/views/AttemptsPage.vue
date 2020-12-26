@@ -15,14 +15,16 @@
           <div>
             You have
             {{ attemptsLeft }}
-            attempts left
+            {{ attemptsLeft === 1 ? "attempt" : "attempts" }} left
           </div>
-          <div v-show="attemptsLeft > 0">Time limit is {{ secondsToHMS(exam.duration) }}</div>
+          <div v-show="attemptsLeft > 0">
+            Time limit is {{ secondsToHMS(exam.duration) }}
+          </div>
         </div>
         <div v-if="attempts.length > 0" class="mt-4">
-          <h1 class="text-sm font-semibold uppercase tracking-wide">Previous Attempts</h1>
+          <BaseLabel>Previous Attempts</BaseLabel>
           <div
-            class="rounded-xl overflow-hidden mt-2 dark:bg-gray-800 border dark:border-gray-700 shadow-md"
+            class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md"
           >
             <div v-for="(attempt, i) in attempts" :key="attempt.id">
               <AttemptRow :attemptNumber="i + 1" :attempt="attempt" />
@@ -30,23 +32,23 @@
           </div>
         </div>
         <div v-else>You have made no attempts so far</div>
-      </BasePanel>
-    </div>
-    <div class="mt-4 flex justify-end">
-      <BaseButton
-        v-show="attemptsLeft > 0"
-        :disabled="attempts.length === exam.maxAttempts"
-        @click="startAttempt"
+        <div class="mt-4 flex flex-row-reverse justify-between">
+          <BaseButton
+            v-show="attemptsLeft > 0"
+            :disabled="attempts.length === exam.maxAttempts"
+            @click="startAttempt"
             prominent
-      >
-        {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
-      </BaseButton>
-      <BaseButton
-        v-show="userRole === 'coordinator' || userRole === 'admin'"
-        @click="deleteExam"
-      >
-        Delete exam
-      </BaseButton>
+          >
+            {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
+          </BaseButton>
+          <BaseButton
+            v-show="userRole === 'coordinator' || userRole === 'admin'"
+            @click="deleteExam"
+          >
+            Delete exam
+          </BaseButton>
+        </div>
+      </BasePanel>
     </div>
   </div>
 </template>
@@ -54,17 +56,22 @@
 <script lang="ts">
 import AttemptRow from '@/components/AttemptRow.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { ALERT, DELETE_EXAM } from '@/store/action-types'
-import { ADD_ATTEMPT, DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
+import {
+  ADD_ATTEMPT,
+  DISPLAY_DIALOG,
+  SET_ACTIVE_EXAM
+} from '@/store/mutation-types'
 import { Attempt, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, AttemptRow, Breadcrumbs, BasePanel },
+  components: { BaseButton, AttemptRow, Breadcrumbs, BasePanel, BaseLabel },
   name: 'AttemptsPage',
   props: {
     courseId: {
