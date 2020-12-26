@@ -46,12 +46,11 @@
       <div v-else>
         <BaseButton
           @click="$router.push('/login')"
-          :filled="false"
           class="mr-4"
         >
           Log In
         </BaseButton>
-        <BaseButton @click="$router.push('/register')">Sign Up</BaseButton>
+        <BaseButton @click="$router.push('/register')" prominent>Sign Up</BaseButton>
       </div>
     </div>
   </header>

@@ -37,6 +37,7 @@
         v-show="attemptsLeft > 0"
         :disabled="attempts.length === exam.maxAttempts"
         @click="startAttempt"
+            prominent
       >
         {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
       </BaseButton>

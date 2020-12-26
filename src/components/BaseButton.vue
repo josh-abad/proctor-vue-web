@@ -1,10 +1,10 @@
 <template>
   <button
-    class="uppercase focus:outline-none text-white text-sm font-semibold tracking-wider py-2 px-4 rounded-full disabled:opacity-50"
+    class="ease-in-out duration-150 capitalize focus:outline-none text-sm font-medium py-2 px-6 rounded-lg disabled:opacity-50 shadow"
     :class="
-      filled
-        ? 'bg-green-500 hover:bg-green-600'
-        : 'bg-transparent text-green-500 dark:text-green-500 border border-green-500 hover:bg-green-500 hover:bg-opacity-10'
+      prominent
+        ? 'text-white bg-gradient-to-t from-green-600 to-green-500 hover:from-green-700 hover:to-green-600'
+        : 'bg-white dark:bg-gray-200 dark:bg-opacity-5 text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:bg-opacity-30 hover:shadow-md'
     "
     :type="type"
     :disabled="disabled"
@@ -19,11 +19,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'BaseButton',
   props: {
-    filled: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
+    prominent: Boolean,
     disabled: {
       type: Boolean,
       required: false,

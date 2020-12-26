@@ -46,6 +46,7 @@
             @click.prevent="handleRegister"
             :disabled="!passwordsEqual"
             type="submit"
+            prominent
           >
             Sign Up
           </BaseButton>

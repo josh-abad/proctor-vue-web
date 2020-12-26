@@ -123,7 +123,7 @@
             <BaseButton @click="addExamItem">Add Exam Item</BaseButton>
           </div>
           <div class="ml-2">
-            <BaseButton @click="saveExam">Save Exam</BaseButton>
+            <BaseButton @click="saveExam" prominent>Save Exam</BaseButton>
           </div>
         </div>
       </div>

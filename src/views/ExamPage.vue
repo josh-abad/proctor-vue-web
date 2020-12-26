@@ -16,7 +16,7 @@
       @answer-changed="handleAnswerChange"
     />
     <div class="mt-4 flex justify-end">
-      <BaseButton @click="handleSubmit">Submit</BaseButton>
+      <BaseButton @click="handleSubmit" prominent>Submit</BaseButton>
     </div>
     <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
   </div>
