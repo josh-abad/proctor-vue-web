@@ -3,7 +3,7 @@
   <div class="flex justify-center items-center">
     <Center />
     <div
-      class="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow rounded-xl px-10 py-8 flex flex-col"
+      class="bg-white dark:bg-gray-800 shadow rounded-xl px-10 py-8 flex flex-col"
     >
       <form>
         <h3 class="font-semibold text-lg">Sign up</h3>
