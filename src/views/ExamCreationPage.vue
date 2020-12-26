@@ -5,12 +5,11 @@
       <div class="flex mt-3">
         <div>
           <label>
-            <BaseLabel line>Name</BaseLabel>
-            <BaseInput v-model="examName" placeholder="Name" />
+            <BaseLabel>Name</BaseLabel>
           </label>
         </div>
         <div class="ml-6">
-          <BaseLabel line>Duration</BaseLabel>
+          <BaseLabel>Duration</BaseLabel>
           <label>
             <input
               class="dark:bg-gray-800 rounded w-16"
@@ -40,7 +39,7 @@
         </div>
         <div class="ml-6">
           <label>
-            <BaseLabel line>Attempts</BaseLabel>
+            <BaseLabel>Attempts</BaseLabel>
             <input
               class="dark:bg-gray-800 rounded w-16"
               type="number"

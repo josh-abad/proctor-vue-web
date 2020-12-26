@@ -1,7 +1,6 @@
 <template>
   <div
-    class="uppercase text-xs text-gray-600 dark:text-gray-400 font-semibold tracking-wide mb-1"
-    :class="line ? 'apply pb-1 border-b dark:border-gray-700' : ''"
+    class="capitalize text-xs text-gray-600 dark:text-gray-400 font-semibold mb-1"
   >
     <slot></slot>
   </div>
@@ -11,9 +10,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BaseLabel',
-  props: {
-    line: Boolean
-  }
+  name: 'BaseLabel'
 })
 </script>
