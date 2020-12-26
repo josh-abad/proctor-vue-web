@@ -11,11 +11,11 @@
       {{ examItem.question }}
       <div class="mt-4">
         <BaseInput
-          v-if="examItem.examType === 'text'"
+          v-if="examItem.questionType === 'text'"
           v-model="answer"
-          @input="$emit('answer-changed', { questionId: examItem.id, answer })"
+          @input="$emit('answer-changed', { question: examItem.question, answer })"
         />
-        <div v-else-if="examItem.examType === 'multiple choice'">
+        <div v-else-if="examItem.questionType === 'multiple choice'">
           <div v-for="(choice, i) in examItem.choices" :key="i">
             <input
               type="radio"
@@ -23,7 +23,7 @@
               :name="`Question ${questionNumber}`"
               :id="choice"
               v-model="answer"
-              @change="$emit('answer-changed', { questionId: examItem.id, answer })"
+              @change="$emit('answer-changed', { question: examItem.question, answer })"
             />
             <label :for="choice" class="ml-2">{{
               `${getNextAlphabetLetter(i)}. ${choice}`
@@ -32,7 +32,7 @@
         </div>
         <div v-else>
           <div v-for="(choice, i) in examItem.choices" :key="i">
-            <input type="checkbox" :name="choice" :id="choice" :value="choice" v-model="answer" @change="$emit('answer-changed', { questionId: examItem.id, answer })" />
+            <input type="checkbox" :name="choice" :id="choice" :value="choice" v-model="answer" @change="$emit('answer-changed', { question: examItem.question, answer })" />
             <label :for="choice" class="ml-2">{{ choice }}</label>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default defineComponent({
   emits: ['answer-changed'],
   data () {
     let answer: string | boolean[]
-    if (this.examItem.examType === 'text' || this.examItem.examType === 'multiple choice') {
+    if (this.examItem.questionType === 'text' || this.examItem.questionType === 'multiple choice') {
       answer = ''
     } else {
       answer = []

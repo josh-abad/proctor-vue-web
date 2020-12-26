@@ -29,7 +29,7 @@ export interface NewCourse {
 
 export interface Exam {
   label: string;
-  questions: ExamItem[];
+  examItems: ExamItem[];
   random: boolean;
   length: number;
   duration: number;
@@ -38,13 +38,12 @@ export interface Exam {
   id: string;
 }
 
-export interface NewExam extends Omit<Exam, 'id' | 'course' | 'questions'> {
-  questionIds: string[];
+export interface NewExam extends Omit<Exam, 'id' | 'course'> {
   courseId: string;
 }
 
 export interface Answer {
-  questionId: string;
+  question: string;
   answer: string;
 }
 
@@ -67,12 +66,13 @@ export interface Attempt {
 }
 
 export interface ExamItem {
-  id: string;
   question: string;
-  examType: 'multiple choice' | 'text' | 'multiple answers';
+  questionType: QuestionType;
+  answer: string;
   choices: string[];
-  course: Course;
 }
+
+export type QuestionType = 'multiple choice' | 'text' | 'multpipl answers'
 
 export interface NewExamItem extends Omit<ExamItem, 'id' | 'course'> {
   courseId: string;
@@ -117,7 +117,6 @@ export type State = {
   courses: Course[];
   recentCourses: string[];
   maxRecentCourses: number;
-  examItems: ExamItem[];
   message: string;
   exams: Exam[];
   attempts: Attempt[];

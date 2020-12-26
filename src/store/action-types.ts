@@ -4,7 +4,6 @@ export const LOAD_COURSES = 'LOAD_COURSES'
 export const CREATE_COURSE = 'CREATE_COURSE'
 export const DELETE_COURSE = 'DELETE_COURSE'
 
-export const LOAD_EXAM_ITEMS = 'LOAD_EXAM_ITEMS'
 export const LOAD_EXAMS = 'LOAD_EXAMS'
 export const LOAD_EXAM_RESULTS = 'LOAD_EXAM_RESULTS'
 

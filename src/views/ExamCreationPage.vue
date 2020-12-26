@@ -99,7 +99,7 @@
                 <div class="label">Answer</div>
                 <BaseInput
                   class="w-full mt-2"
-                  v-model="examItem.correctAnswer"
+                  v-model="examItem.answer"
                   placeholder="Answer"
                 />
               </label>
@@ -134,11 +134,10 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
-import examItemsService from '@/services/exam-items'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
-import { Course, ExamItem, NewExam, NewExamItem, Option } from '@/types'
+import { Course, NewExam, Option, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -153,12 +152,13 @@ export default defineComponent({
       examItems: [
         {
           question: '',
+          questionType: 'text' as QuestionType,
           // questionType: 'text' as
           //   | 'text'
           //   | 'multiple choice'
           //   | 'multiple answers',
-          correctAnswer: '',
-          choices: []
+          answer: '',
+          choices: [] as string[]
         }
       ],
       questionTypes: [
@@ -198,29 +198,16 @@ export default defineComponent({
     addExamItem (): void {
       this.examItems.push({
         question: '',
-        // questionType: 'text',
-        correctAnswer: '',
+        questionType: 'text',
+        answer: '',
         choices: []
       })
     },
     removeExamItem (index: number): void {
       this.examItems = this.examItems.filter((item, i) => i !== index)
     },
-    // This is gonna be a fucking mess
     async saveExam (): Promise<void> {
       try {
-        const examQuestions: ExamItem[] = []
-        for (const item of this.examItems) {
-          const newExamItem: NewExamItem = {
-            question: item.question,
-            examType: 'text',
-            choices: item.choices,
-            courseId: this.courseId,
-            answer: item.correctAnswer
-          }
-          examQuestions.push(await examItemsService.create(newExamItem))
-        }
-
         const newExam: NewExam = {
           label: this.examName,
           random: false,
@@ -228,7 +215,7 @@ export default defineComponent({
           duration: this.examDurationInSeconds,
           courseId: this.courseId,
           maxAttempts: this.maxAttempts,
-          questionIds: examQuestions.map(question => question.id) as string[]
+          examItems: this.examItems
         }
         const createdExam = await examsService.create(newExam)
         this.$store.commit(ADD_EXAM, createdExam)

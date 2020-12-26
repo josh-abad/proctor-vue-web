@@ -1,6 +1,5 @@
 import usersService from '@/services/users'
 import coursesService from '@/services/courses'
-import examItemsService from '@/services/exam-items'
 import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
@@ -10,7 +9,6 @@ import {
   Course,
   DialogContent,
   Exam,
-  ExamItem,
   ExamResult,
   NewCourse,
   Role,
@@ -29,7 +27,6 @@ const state: State = {
   courses: [],
   recentCourses: [],
   maxRecentCourses: 3,
-  examItems: [],
   exams: [],
   message: '',
   attempts: [],
@@ -62,9 +59,6 @@ const mutations = {
   },
   [mutationType.SET_RECENT_COURSES] (state: State, recentCourses: string[]): void {
     state.recentCourses = recentCourses
-  },
-  [mutationType.SET_EXAM_ITEMS] (state: State, examItems: ExamItem[]): void {
-    state.examItems = examItems
   },
   [mutationType.SET_EXAMS] (state: State, exams: Exam[]): void {
     state.exams = exams
@@ -177,13 +171,13 @@ const getters = {
       })
     }
   },
-  getExamItemsByCourse (state: State): (courseId: string) => ExamItem[] | undefined {
-    return (courseId) => {
-      return state.examItems.filter(examItem => {
-        return examItem.course.id === courseId
-      })
-    }
-  },
+  // getExamItemsByCourse (state: State): (courseId: string) => ExamItem[] | undefined {
+  //   return (courseId) => {
+  //     return state.examItems.filter(examItem => {
+  //       return examItem.course.id === courseId
+  //     })
+  //   }
+  // },
   getAttemptsByExam (state: State): (examId: string) => Attempt[] | undefined {
     return (examId) => {
       return state.attempts.filter(attempt => {
@@ -244,13 +238,6 @@ export default createStore({
         dispatch(actionType.ALERT, 'Course successfully deleted')
       } catch (error) {
         dispatch(actionType.ALERT, 'Could not delete course')
-      }
-    },
-    async [actionType.LOAD_EXAM_ITEMS] ({ commit }): Promise<void> {
-      try {
-        commit(mutationType.SET_EXAM_ITEMS, await examItemsService.getAll())
-      } catch (error) {
-        console.error(error)
       }
     },
     async [actionType.LOAD_EXAMS] ({ commit }): Promise<void> {

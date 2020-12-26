@@ -29,7 +29,7 @@ import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
 import examAttemptsService from './services/exam-attempts'
 import examResultsService from './services/exam-results'
-import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_ITEMS, LOAD_EXAM_RESULTS, LOAD_USERS } from './store/action-types'
+import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS } from './store/action-types'
 import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
 
 export default defineComponent({
@@ -77,7 +77,6 @@ export default defineComponent({
 
     await Promise.all([
       this.$store.dispatch(LOAD_COURSES),
-      this.$store.dispatch(LOAD_EXAM_ITEMS),
       this.$store.dispatch(LOAD_EXAMS),
       this.$store.dispatch(LOAD_ATTEMPTS, this.$store.state.user.id),
       this.$store.dispatch(LOAD_EXAM_RESULTS, this.$store.state.user.id)

@@ -6,7 +6,6 @@ export const SET_COURSES = 'SET_COURSES'
 export const ADD_COURSE = 'ADD_COURSE'
 export const REMOVE_COURSE = 'REMOVE_COURSE'
 
-export const SET_EXAM_ITEMS = 'SET_EXAM_ITEMS'
 export const SET_EXAMS = 'SET_EXAMS'
 export const ADD_EXAM = 'ADD_EXAM'
 

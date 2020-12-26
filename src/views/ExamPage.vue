@@ -9,8 +9,8 @@
       </div>
     </div>
     <BaseExamItem
-      v-for="(item, i) in exam.questions"
-      :key="item.id"
+      v-for="(item, i) in exam.examItems"
+      :key="i"
       :examItem="item"
       :questionNumber="i + 1"
       @answer-changed="handleAnswerChange"
@@ -84,12 +84,12 @@ export default defineComponent({
     }
   },
   methods: {
-    handleAnswerChange ({ questionId, answer }: Answer): void {
-      if (this.answers.some((a: Answer) => a.questionId === questionId)) {
-        const index = this.answers.findIndex(a => a.questionId === questionId)
-        this.answers[index] = { questionId, answer }
+    handleAnswerChange ({ question, answer }: Answer): void {
+      if (this.answers.some((a: Answer) => a.question === question)) {
+        const index = this.answers.findIndex(a => a.question === question)
+        this.answers[index] = { question, answer }
       } else {
-        this.answers.push({ questionId, answer })
+        this.answers.push({ question, answer })
       }
     },
     handleSubmit (): void {
