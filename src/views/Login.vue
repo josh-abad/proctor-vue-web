@@ -2,9 +2,7 @@
   <div class="fixed inset-0">
     <div class="flex items-center justify-center">
       <Center />
-      <div
-        class="bg-white dark:bg-gray-800 dark:text-gray-200 shadow rounded-xl px-10 py-8 flex flex-col"
-      >
+      <BasePanel class="px-10 py-8">
         <form>
           <h3 class="font-semibold text-lg">Login</h3>
           <p class="text-xs dark:text-gray-400">
@@ -18,20 +16,24 @@
             >.
           </p>
           <div class="mt-8">
+            <label for="username">
+              <BaseLabel>Username</BaseLabel>
+            </label>
             <BaseInput
               class="w-full"
               id="username"
               type="text"
-              placeholder="Username"
               v-model="username"
             />
           </div>
           <div class="mt-4">
+            <label for="password">
+              <BaseLabel>Password</BaseLabel>
+            </label>
             <BaseInput
               class="w-full"
               id="password"
               type="password"
-              placeholder="Password"
               v-model="password"
             />
           </div>
@@ -58,7 +60,8 @@
             >
           </p>
         </form>
-      </div>
+      </BasePanel>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -66,12 +69,14 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import { LOG_IN } from '@/store/action-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput, Center },
+  components: { BaseButton, BaseInput, Center, BasePanel, BaseLabel },
   name: 'Login',
   data () {
     return {

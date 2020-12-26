@@ -2,9 +2,7 @@
 <div class="fixed inset-0">
   <div class="flex justify-center items-center">
     <Center />
-    <div
-      class="bg-white dark:bg-gray-800 shadow rounded-xl px-10 py-8 flex flex-col"
-    >
+    <BasePanel class="px-10 py-8">
       <form>
         <h3 class="font-semibold text-lg">Sign up</h3>
         <p class="text-xs dark:text-gray-400">
@@ -18,27 +16,42 @@
         </p>
         <div class="flex">
           <div class="mt-8 mr-4">
-            <BaseInput placeholder="First name" v-model="firstName" />
+            <label for="firstName">
+              <BaseLabel>First Name</BaseLabel>
+            </label>
+            <BaseInput id="firstName" v-model="firstName" type="text" />
           </div>
           <div class="mt-8">
-            <BaseInput placeholder="Last name" v-model="lastName" />
+            <label for="lastName">
+              <BaseLabel>Last Name</BaseLabel>
+            </label>
+            <BaseInput id="lastName" v-model="lastName" type="text" />
           </div>
         </div>
         <div class="mt-4">
-          <BaseInput class="w-full" placeholder="Username" v-model="username" />
+          <label for="username">
+            <BaseLabel>Username</BaseLabel>
+          </label>
+          <BaseInput id="username" class="w-full" v-model="username" type="text" />
         </div>
         <div class="mt-4">
+          <label for="password">
+            <BaseLabel>Password</BaseLabel>
+          </label>
           <BaseInput
+            id="password"
             class="w-full"
-            placeholder="Password"
             v-model="password"
             type="password"
           />
         </div>
         <div class="mt-4">
+          <label for="confirmPassword">
+            <BaseLabel>Confirm Password</BaseLabel>
+          </label>
           <BaseInput
+            id="confirmPassword"
             class="w-full"
-            placeholder="Confirm Password"
             v-model="confirmPassword"
             type="password"
           />
@@ -62,7 +75,7 @@
           >
         </p>
       </form>
-    </div>
+    </BasePanel>
   </div>
 </div>
 </template>
@@ -70,13 +83,15 @@
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import { SIGN_UP } from '@/store/action-types'
 import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput, Center },
+  components: { BaseButton, BaseInput, Center, BaseLabel, BasePanel },
   name: 'RegistrationForm',
   data () {
     return {
