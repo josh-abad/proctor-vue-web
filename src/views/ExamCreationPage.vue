@@ -219,9 +219,10 @@ export default defineComponent({
         }
         const createdExam = await examsService.create(newExam)
         this.$store.commit(ADD_EXAM, createdExam)
+        this.$store.dispatch(ALERT, 'Exam successfully created')
+        this.$router.push(`/courses/${this.courseId}`)
       } catch (error) {
-        this.$store.dispatch(ALERT, 'oh no i made a fucky wucky UwU')
-        console.error(error)
+        this.$store.dispatch(ALERT, 'Failed to create exam')
       }
     }
   }
