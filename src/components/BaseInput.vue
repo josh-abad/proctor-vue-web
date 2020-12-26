@@ -1,8 +1,6 @@
 <template>
   <input
-    class="shadow focus:outline-none dark:bg-gray-800 appearance-none rounded py-2 px-3 focus:ring-green-500"
-    :type="type"
-    :placeholder="placeholder"
+    class="shadow focus:outline-none dark:bg-gray-800 appearance-none rounded px-3 py-2 focus:ring-0 focus:border-green-500"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   />
@@ -19,16 +17,6 @@ export default defineComponent({
       type: [String, Number],
       required: false,
       default: ''
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    type: {
-      type: String,
-      required: false,
-      default: 'text'
     }
   }
 })
