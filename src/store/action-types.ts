@@ -5,6 +5,7 @@ export const CREATE_COURSE = 'CREATE_COURSE'
 export const DELETE_COURSE = 'DELETE_COURSE'
 
 export const LOAD_EXAMS = 'LOAD_EXAMS'
+export const DELETE_EXAM = 'DELETE_EXAM'
 export const LOAD_EXAM_RESULTS = 'LOAD_EXAM_RESULTS'
 
 export const LOAD_ATTEMPTS = 'LOAD_ATTEMPTS'

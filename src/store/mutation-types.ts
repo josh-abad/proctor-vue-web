@@ -8,6 +8,7 @@ export const REMOVE_COURSE = 'REMOVE_COURSE'
 
 export const SET_EXAMS = 'SET_EXAMS'
 export const ADD_EXAM = 'ADD_EXAM'
+export const REMOVE_EXAM = 'REMOVE_EXAM'
 
 export const SET_ATTEMPTS = 'SET_ATTEMPTS'
 export const ADD_ATTEMPT = 'ADD_ATTEMPT'

@@ -17,4 +17,9 @@ const getExam = async (id: string) => {
   return response.data
 }
 
-export default { create, getAll, getExam }
+const deleteExam = async (id: string) => {
+  const response = await axios.delete(`${baseUrl}/${id}`)
+  return response.data
+}
+
+export default { create, getAll, getExam, deleteExam }

@@ -42,6 +42,12 @@
       >
         {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
       </BaseButton>
+      <BaseButton
+        v-show="userRole === 'coordinator' || userRole === 'admin'"
+        @click="deleteExam"
+      >
+        Delete exam
+      </BaseButton>
     </div>
   </div>
 </template>
@@ -52,9 +58,9 @@ import BaseButton from '@/components/BaseButton.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
-import { ALERT } from '@/store/action-types'
+import { ALERT, DELETE_EXAM } from '@/store/action-types'
 import { ADD_ATTEMPT, DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
-import { Attempt, Exam, Link } from '@/types'
+import { Attempt, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -99,6 +105,9 @@ export default defineComponent({
     },
     attemptsLeft (): number {
       return this.exam.maxAttempts - this.attempts.length
+    },
+    userRole (): Role {
+      return this.$store.getters.userRole
     }
   },
   methods: {
@@ -134,6 +143,22 @@ export default defineComponent({
           } catch (error) {
             this.$store.dispatch(ALERT, 'Attempt could not be started')
           }
+        }
+        this.$emitter.all.clear()
+      })
+    },
+    async deleteExam (): Promise<void> {
+      const dialogContent: Omit<DialogContent, 'closed'> = {
+        header: 'Delete Exam',
+        message: 'Are you sure you want to delete this exam?',
+        actionLabel: 'Delete'
+      }
+      this.$store.commit(DISPLAY_DIALOG, dialogContent)
+
+      this.$emitter.on('closedDialog', (confirmDelete: boolean) => {
+        if (confirmDelete) {
+          this.$store.dispatch(DELETE_EXAM, this.examId)
+          this.$router.push(`/courses/${this.courseId}`)
         }
         this.$emitter.all.clear()
       })

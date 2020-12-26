@@ -66,6 +66,9 @@ const mutations = {
   [mutationType.ADD_EXAM] (state: State, exam: Exam): void {
     state.exams = state.exams.concat(exam)
   },
+  [mutationType.REMOVE_EXAM] (state: State, examId: string): void {
+    state.exams = state.exams.filter(exam => exam.id !== examId)
+  },
   [mutationType.SET_ATTEMPTS] (state: State, attempts: Attempt[]): void {
     state.attempts = attempts
   },
@@ -245,6 +248,15 @@ export default createStore({
         commit(mutationType.SET_EXAMS, await examsService.getAll())
       } catch (error) {
         console.error(error)
+      }
+    },
+    async [actionType.DELETE_EXAM] ({ commit, dispatch }, examId: string): Promise<void> {
+      try {
+        await examsService.deleteExam(examId)
+        commit(mutationType.REMOVE_EXAM, examId)
+        dispatch(actionType.ALERT, 'Exam successfully deleted')
+      } catch (error) {
+        dispatch(actionType.ALERT, 'Could not delete exam')
       }
     },
     async [actionType.LOAD_EXAM_RESULTS] ({ commit }, userId?: string): Promise<void> {
