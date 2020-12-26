@@ -1,6 +1,10 @@
 <template>
-  <div class="py-24 flex items-center justify-center">
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-200 border dark:border-gray-700 shadow rounded-xl px-10 py-8 flex flex-col">
+  <div class="fixed inset-0">
+    <div class="flex items-center justify-center">
+      <Center />
+      <div
+        class="bg-white dark:bg-gray-800 dark:text-gray-200 shadow rounded-xl px-10 py-8 flex flex-col"
+      >
       <form>
         <h3 class="font-semibold text-lg">Login</h3>
         <p class="text-xs dark:text-gray-400">By continuing, you agree to our <router-link to="#" class="text-green-400">User Agreement</router-link> and <router-link to="#" class="text-green-400">Privacy Policy</router-link>.</p>
@@ -20,16 +24,18 @@
       </form>
     </div>
   </div>
+  </div>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import Center from '@/components/Center.vue'
 import { LOG_IN } from '@/store/action-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput },
+  components: { BaseButton, BaseInput, Center },
   name: 'Login',
   data () {
     return {

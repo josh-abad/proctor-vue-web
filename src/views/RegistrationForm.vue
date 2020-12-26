@@ -1,5 +1,7 @@
 <template>
-  <div class="py-24 flex justify-center items-center">
+<div class="fixed inset-0">
+  <div class="flex justify-center items-center">
+    <Center />
     <div
       class="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow rounded-xl px-10 py-8 flex flex-col"
     >
@@ -62,17 +64,19 @@
       </form>
     </div>
   </div>
+</div>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import Center from '@/components/Center.vue'
 import { SIGN_UP } from '@/store/action-types'
 import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput },
+  components: { BaseButton, BaseInput, Center },
   name: 'RegistrationForm',
   data () {
     return {
