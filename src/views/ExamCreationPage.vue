@@ -6,6 +6,7 @@
         <div>
           <label>
             <BaseLabel>Name</BaseLabel>
+            <BaseInput v-model="examName" type="text" />
           </label>
         </div>
         <div class="ml-6">
@@ -57,7 +58,7 @@
         <div
           v-for="(examItem, i) in examItems"
           :key="i"
-          class="flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
+          class="flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden mb-4"
         >
           <div class="dark:bg-gray-900 p-3 dark:bg-opacity-50 dark:text-gray-400 font-thin">
             {{ i + 1 }}
@@ -69,7 +70,7 @@
                   <BaseLabel>Question</BaseLabel>
                 </label>
                 <button
-                  class="focus:outline-none text-gray-500 dark:hover:text-white"
+                  class="focus:outline-none text-gray-500 dark:hover:text-white mb-1"
                   @click="removeExamItem(i)"
                 >
                   <svg
@@ -90,7 +91,7 @@
                 id="question"
                 class="w-full"
                 v-model="examItem.question"
-                placeholder="Question"
+                type="text"
               />
             </div>
             <div class="mt-4">
@@ -99,7 +100,7 @@
                 <BaseInput
                   class="w-full"
                   v-model="examItem.answer"
-                  placeholder="Answer"
+                  type="text"
                 />
               </label>
             </div>
@@ -117,7 +118,7 @@
             <BaseButton @click="removeExamItem(i)">Add choice</BaseButton>
           </div> -->
         </div>
-        <div class="flex mt-4">
+        <div class="flex justify-between">
           <div>
             <BaseButton @click="addExamItem">Add Exam Item</BaseButton>
           </div>
