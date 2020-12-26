@@ -1,15 +1,13 @@
 <template>
   <div>
     <div>
-      <div class="panel">
+      <BasePanel>
         <router-link :to="`/courses/${courseId}`" class="text-3xl">
           {{ exam.course.name }}
         </router-link>
         <Breadcrumbs class="mt-2" :links="links" />
-      </div>
-      <div
-        class="mt-4 panel"
-      >
+      </BasePanel>
+      <BasePanel class="mt-4">
         <div class="text-xl">
           {{ exam.label }}
         </div>
@@ -32,7 +30,7 @@
           </div>
         </div>
         <div v-else>You have made no attempts so far</div>
-      </div>
+      </BasePanel>
     </div>
     <div class="mt-4 flex justify-end">
       <BaseButton
@@ -55,6 +53,7 @@
 <script lang="ts">
 import AttemptRow from '@/components/AttemptRow.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import BasePanel from '@/components/BasePanel.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
@@ -64,7 +63,7 @@ import { Attempt, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, AttemptRow, Breadcrumbs },
+  components: { BaseButton, AttemptRow, Breadcrumbs, BasePanel },
   name: 'AttemptsPage',
   props: {
     courseId: {

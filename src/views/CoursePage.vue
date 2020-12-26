@@ -1,17 +1,17 @@
 <template>
   <div v-if="course">
-    <div class="panel">
+    <BasePanel class="mt-4">
       <h1 class="text-3xl">{{ course.name }}</h1>
       <!-- <div v-show="course.coordinator">
         Coordinator {{ coordinatorFullName }}
       </div> -->
       <Breadcrumbs class="mt-2" :links="links" />
-    </div>
-    <div class="mt-4 panel">
+    </BasePanel>
+    <BasePanel class="mt-4">
       <div v-for="exam in exams" :key="exam.id">
         <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
       </div>
-    </div>
+    </BasePanel>
     <div class="mt-4" v-show="userRole === 'admin'">
       <div class="uppercase font-semibold tracking-wide text-xs">Admin Options</div>
       <div class="mt-4 flex">
@@ -36,6 +36,7 @@
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
+import BasePanel from '@/components/BasePanel.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
@@ -43,7 +44,7 @@ import { Course, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, Breadcrumbs },
+  components: { BaseButton, Breadcrumbs, BasePanel },
   name: 'CoursePage',
   props: {
     courseId: {
