@@ -1,6 +1,7 @@
 <template>
   <div
-    class="capitalize text-xs text-gray-600 dark:text-gray-400 font-semibold mb-1"
+    class="text-xs text-gray-600 dark:text-gray-400 font-semibold mb-1"
+    :class="emphasis ? 'uppercase' : 'capitalize'"
   >
     <slot></slot>
   </div>
@@ -10,6 +11,12 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BaseLabel'
+  name: 'BaseLabel',
+  props: {
+    emphasis: {
+      type: Boolean,
+      default: false
+    }
+  }
 })
 </script>
