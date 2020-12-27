@@ -2,16 +2,13 @@
   <div>
     <div>
       <BasePanel>
-        <router-link :to="`/courses/${courseId}`" class="text-3xl">
-          {{ exam.course.name }}
-        </router-link>
+        <div class="text-3xl">
+          {{ exam.label }}
+        </div>
         <Breadcrumbs class="mt-2" :links="links" />
       </BasePanel>
       <BasePanel class="mt-4">
-        <div class="text-xl">
-          {{ exam.label }}
-        </div>
-        <div class="mt-2 dark:text-gray-400 text-md">
+        <div class="dark:text-gray-400 text-md">
           <div>
             You have
             {{ attemptsLeft }}
