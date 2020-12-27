@@ -76,7 +76,7 @@ export default defineComponent({
     }
 
     await Promise.all([
-      this.$store.dispatch(LOAD_COURSES),
+      this.$store.dispatch(LOAD_COURSES, this.$store.state.user.role !== 'admin' ? this.$store.state.user.id : null),
       this.$store.dispatch(LOAD_EXAMS),
       this.$store.dispatch(LOAD_ATTEMPTS, this.$store.state.user.id),
       this.$store.dispatch(LOAD_EXAM_RESULTS, this.$store.state.user.id)

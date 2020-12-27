@@ -188,10 +188,16 @@ const getters = {
       })
     }
   },
-  getUserCourses (state: State): Course[] {
-    return state.courses.filter(course => {
-      return state.user?.courses.some(id => course.id === id)
-    })
+  sortedCourses (state: State): Course[] {
+    const alphabetical = (a: Course, b: Course) => {
+      if (a.name < b.name) {
+        return -1
+      } else if (a.name > b.name) {
+        return 1
+      }
+      return 0
+    }
+    return state.courses.sort(alphabetical)
   },
   getRecentCourses (state: State): (Course | undefined)[] {
     const toCourse = (id: string): Course | undefined => {
@@ -211,9 +217,13 @@ export default createStore({
   state,
   mutations,
   actions: {
-    async [actionType.LOAD_COURSES] ({ commit }): Promise<void> {
+    async [actionType.LOAD_COURSES] ({ commit }, userId?: string): Promise<void> {
       try {
-        commit(mutationType.SET_COURSES, await coursesService.getAll())
+        if (userId) {
+          commit(mutationType.SET_COURSES, await coursesService.getByUser(userId))
+        } else {
+          commit(mutationType.SET_COURSES, await coursesService.getAll())
+        }
       } catch (error) {
         console.error(error)
       }

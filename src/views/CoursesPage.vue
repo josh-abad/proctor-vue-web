@@ -27,10 +27,7 @@ export default defineComponent({
   name: 'CoursesPage',
   computed: {
     courses (): Course[] {
-      if (this.$store.getters.userRole === 'admin') {
-        return this.$store.state.courses
-      }
-      return this.$store.getters.getUserCourses
+      return this.$store.getters.sortedCourses
     },
     header (): string {
       const userRole: Role = this.$store.getters.userRole

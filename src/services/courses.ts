@@ -23,9 +23,15 @@ const getCourse = async (id: string) => {
   return response.data
 }
 
+const getByUser = async (userId: string) => {
+  const params = new URLSearchParams({ userId })
+  const response = await axios.get(baseUrl, { params })
+  return response.data
+}
+
 const deleteCourse = async (id: string) => {
   const response = await axios.delete(`${baseUrl}/${id}`)
   return response.data
 }
 
-export default { create, getAll, getCourse, deleteCourse }
+export default { create, getAll, getByUser, getCourse, deleteCourse }
