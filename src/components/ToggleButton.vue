@@ -1,5 +1,11 @@
 <template>
-  <label :for="label" class="mt-3 inline-flex items-center" :class="disabled? 'opacity-50 cursor-default' : 'opacity-100 cursor-pointer'">
+  <label
+    :for="label"
+    class="mt-3 inline-flex items-center"
+    :class="
+      disabled ? 'opacity-50 cursor-default' : 'opacity-100 cursor-pointer'
+    "
+  >
     <span class="relative">
       <span
         class="block w-10 h-6 rounded-full shadow-inner"

@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{ displayHours === '00' ? '' : `${displayHours}:` }}{{ displayMinutes }}:{{ displaySeconds }}
+    {{ displayHours === "00" ? "" : `${displayHours}:` }}{{ displayMinutes }}:{{
+      displaySeconds
+    }}
   </div>
 </template>
 

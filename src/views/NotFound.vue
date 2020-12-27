@@ -3,10 +3,10 @@
     <div class="flex justify-center items-center">
       <Center />
       <div class="flex flex-col items-center">
-        <div class="font-thin text-2xl">
-          Sorry, that page cannot be found.
-        </div>
-        <BaseButton class="mt-3" @click="$router.push('/')" prominent>Go Home</BaseButton>
+        <div class="font-thin text-2xl">Sorry, that page cannot be found.</div>
+        <BaseButton class="mt-3" @click="$router.push('/')" prominent
+          >Go Home</BaseButton
+        >
       </div>
     </div>
   </div>

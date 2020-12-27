@@ -1,8 +1,6 @@
 <template>
   <div class="flex mt-3">
-    <div
-      class="px-3 py-3 dark:bg-gray-700 rounded-l-lg dark:border-gray-700"
-    >
+    <div class="px-3 py-3 dark:bg-gray-700 rounded-l-lg dark:border-gray-700">
       {{ questionNumber }}
     </div>
     <div
@@ -14,7 +12,9 @@
           v-if="examItem.questionType === 'text'"
           v-model="answer"
           type="text"
-          @input="$emit('answer-changed', { question: examItem.question, answer })"
+          @input="
+            $emit('answer-changed', { question: examItem.question, answer })
+          "
         />
         <div v-else-if="examItem.questionType === 'multiple choice'">
           <div v-for="(choice, i) in examItem.choices" :key="i">
@@ -24,7 +24,9 @@
               :name="`Question ${questionNumber}`"
               :id="choice"
               v-model="answer"
-              @change="$emit('answer-changed', { question: examItem.question, answer })"
+              @change="
+                $emit('answer-changed', { question: examItem.question, answer })
+              "
             />
             <label :for="choice" class="ml-2">{{
               `${getNextAlphabetLetter(i)}. ${choice}`
@@ -33,7 +35,16 @@
         </div>
         <div v-else>
           <div v-for="(choice, i) in examItem.choices" :key="i">
-            <input type="checkbox" :name="choice" :id="choice" :value="choice" v-model="answer" @change="$emit('answer-changed', { question: examItem.question, answer })" />
+            <input
+              type="checkbox"
+              :name="choice"
+              :id="choice"
+              :value="choice"
+              v-model="answer"
+              @change="
+                $emit('answer-changed', { question: examItem.question, answer })
+              "
+            />
             <label :for="choice" class="ml-2">{{ choice }}</label>
           </div>
         </div>

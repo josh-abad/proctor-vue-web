@@ -9,11 +9,15 @@
     </BasePanel>
     <BasePanel class="mt-4">
       <div v-for="exam in exams" :key="exam.id">
-        <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{ exam.label }}</router-link>
+        <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{
+          exam.label
+        }}</router-link>
       </div>
     </BasePanel>
     <div class="mt-4" v-show="userRole === 'admin'">
-      <div class="uppercase font-semibold tracking-wide text-xs">Admin Options</div>
+      <div class="uppercase font-semibold tracking-wide text-xs">
+        Admin Options
+      </div>
       <div class="mt-4 flex">
         <div>
           <BaseButton @click="editCourse">Edit Course</BaseButton>
@@ -24,7 +28,9 @@
       </div>
     </div>
     <div class="mt-4" v-show="userRole === 'coordinator'">
-      <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)">Create Exam</BaseButton>
+      <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)"
+        >Create Exam</BaseButton
+      >
     </div>
   </div>
   <div v-else class="fixed inset-0">
@@ -32,7 +38,9 @@
       <Center />
       <div class="flex flex-col items-center">
         <p class="font-thin text-2xl">Sorry, that course cannot be found.</p>
-        <BaseButton class="mt-3" @click="$router.push('/courses')" prominent>Go to courses</BaseButton>
+        <BaseButton class="mt-3" @click="$router.push('/courses')" prominent
+          >Go to courses</BaseButton
+        >
       </div>
     </div>
   </div>

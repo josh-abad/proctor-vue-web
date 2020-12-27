@@ -18,7 +18,8 @@
               >User Agreement</router-link
             >
             and
-            <router-link to="#" class="text-green-500">Privacy Policy</router-link
+            <router-link to="#" class="text-green-500"
+              >Privacy Policy</router-link
             >.
           </p>
           <div class="flex">
@@ -39,7 +40,12 @@
             <label for="username">
               <BaseLabel>Username</BaseLabel>
             </label>
-            <BaseInput id="username" class="w-full" v-model="username" type="text" />
+            <BaseInput
+              id="username"
+              class="w-full"
+              v-model="username"
+              type="text"
+            />
           </div>
           <div class="mt-4">
             <label for="password">

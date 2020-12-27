@@ -9,7 +9,9 @@
       </div>
     </BasePanel>
     <div v-show="userRole === 'admin'" class="mt-3">
-      <BaseButton @click="$router.push('/courses/new')">Create New Course</BaseButton>
+      <BaseButton @click="$router.push('/courses/new')"
+        >Create New Course</BaseButton
+      >
     </div>
   </div>
 </template>
