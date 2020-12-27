@@ -2,8 +2,17 @@ import { NewExam } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/exams'
 
+let token: string | null = null
+
+const setToken = (newToken: string) => {
+  token = `bearer ${newToken}`
+}
+
 const create = async (newExam: NewExam) => {
-  const response = await axios.post(baseUrl, newExam)
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.post(baseUrl, newExam, config)
   return response.data
 }
 
@@ -22,4 +31,4 @@ const deleteExam = async (id: string) => {
   return response.data
 }
 
-export default { create, getAll, getExam, deleteExam }
+export default { setToken, create, getAll, getExam, deleteExam }

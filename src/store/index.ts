@@ -306,6 +306,9 @@ export default createStore({
         commit(mutationType.SET_USER, user)
         localStorage.setItem('loggedAppUser', JSON.stringify(user))
         examAttemptsService.setToken(user.token)
+        if (user.role !== 'student') {
+          examsService.setToken(user.token)
+        }
         commit(mutationType.SET_ATTEMPTS, await examAttemptsService.getByUser(user.id))
         commit(mutationType.SET_EXAM_RESULTS, await examResultsService.getByUser(user.id))
       } catch (error) {

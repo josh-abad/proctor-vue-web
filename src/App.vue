@@ -31,6 +31,7 @@ import DialogModal from './components/DialogModal.vue'
 import Snackbar from './components/Snackbar.vue'
 import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
+import examsService from './services/exams'
 import examAttemptsService from './services/exam-attempts'
 import examResultsService from './services/exam-results'
 import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS } from './store/action-types'
@@ -56,6 +57,9 @@ export default defineComponent({
       this.$store.commit(SET_USER, user)
       examAttemptsService.setToken(user.token)
       const activeExamJSON = localStorage.getItem('activeExam')
+      if (user.role !== 'student') {
+        examsService.setToken(user.token)
+      }
       if (activeExamJSON) {
         const activeExam = JSON.parse(activeExamJSON)
         examResultsService.setToken(activeExam.token)
