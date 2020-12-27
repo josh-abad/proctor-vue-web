@@ -19,7 +19,10 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'BaseButton',
   props: {
-    prominent: Boolean,
+    prominent: {
+      type: Boolean,
+      default: false
+    },
     disabled: {
       type: Boolean,
       required: false,
