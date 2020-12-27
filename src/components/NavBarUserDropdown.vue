@@ -56,7 +56,7 @@
       v-show="isOpen"
     >
       <div
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700 backdrop-blur bg-opacity-50 dark:bg-opacity-50"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
       >
         <div
           class="py-1"
