@@ -24,7 +24,7 @@
         <div v-if="attempts.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
           <div
-            class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md"
+            class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md divide-y divide-gray-200 dark:divide-gray-600"
           >
             <div v-for="(attempt, i) in attempts" :key="attempt.id">
               <AttemptRow :attemptNumber="i + 1" :attempt="attempt" />
@@ -32,6 +32,7 @@
           </div>
         </div>
         <div v-else>You have made no attempts so far</div>
+        <div>Highest grade is {{ highestGrade }}</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
           <BaseButton
             v-show="attemptsLeft > 0"
@@ -115,6 +116,9 @@ export default defineComponent({
     },
     userRole (): Role {
       return this.$store.getters.userRole
+    },
+    highestGrade (): number {
+      return this.attempts.reduce((a, b) => Math.max(a, b.score), 0)
     }
   },
   methods: {

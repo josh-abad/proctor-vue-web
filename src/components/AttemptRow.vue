@@ -12,14 +12,16 @@
           <div v-if="attempt.status === 'in-progress'">
             Started {{ formattedDate(attempt.startDate) }}
           </div>
-          <div v-else>
-            Submitted {{ formattedDate(attempt.submittedDate) }}
-          </div>
+          <div v-else>Submitted {{ formattedDate(attempt.submittedDate) }}</div>
         </div>
       </div>
     </div>
-    <div class="font-thin text-xl">
-      {{ percentage }}%
+    <div
+      @mouseover="hover = true"
+      @mouseleave="hover = false"
+      class="font-thin text-xl"
+    >
+      {{ grade }}
     </div>
   </div>
 </template>
@@ -33,6 +35,11 @@ dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptRow',
+  data () {
+    return {
+      hover: false
+    }
+  },
   props: {
     attemptNumber: Number,
     attempt: {
@@ -43,6 +50,9 @@ export default defineComponent({
   computed: {
     percentage (): number {
       return Math.floor(this.attempt.score / this.attempt.examTotal * 100)
+    },
+    grade (): string {
+      return this.hover ? `${this.attempt.score}/${this.attempt.examTotal}` : `${this.percentage}%`
     }
   },
   methods: {

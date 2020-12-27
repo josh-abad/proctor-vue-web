@@ -9,11 +9,13 @@
         <div class="mt-4">
           <label>
             <BaseLabel emphasis>Course name</BaseLabel>
+            <BaseInput v-model="courseName" type="text" />
           </label>
         </div>
         <div class="mt-3">
           <label>
             <BaseLabel emphasis>Course description</BaseLabel>
+            <BaseTextArea v-model="courseDescription" />
           </label>
         </div>
         <div class="mt-2">
@@ -34,6 +36,7 @@
 import BaseButton from '@/components/BaseButton.vue'
 import BaseDropdown from '@/components/BaseDropdown.vue'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
 import BaseTextArea from '@/components/BaseTextArea.vue'
 import { CREATE_COURSE } from '@/store/action-types'
 import { NewCourse, Option, Role, User } from '@/types'
@@ -41,7 +44,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
-  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown },
+  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel },
   data () {
     return {
       courseName: '',

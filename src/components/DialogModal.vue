@@ -70,13 +70,10 @@
           <div
             class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
           >
-            <BaseButton @click="handleConfirm" prominent>{{ dialog.actionLabel }}</BaseButton>
-            <BaseButton
-              @click="handleCancel"
-              class="mr-3"
-            >
-              Cancel
-            </BaseButton>
+            <BaseButton @click="handleConfirm" prominent>{{
+              dialog.actionLabel
+            }}</BaseButton>
+            <BaseButton @click="handleCancel" class="mr-3"> Cancel </BaseButton>
           </div>
         </div>
       </div>

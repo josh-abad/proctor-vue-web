@@ -10,8 +10,8 @@
           </label>
         </div>
         <div class="ml-6">
-          <BaseLabel>Duration</BaseLabel>
           <label>
+            <BaseLabel>Duration</BaseLabel>
             <input
               class="dark:bg-gray-800 rounded w-16"
               type="number"
@@ -60,7 +60,7 @@
           :key="i"
           class="flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden mb-4"
         >
-          <div class="dark:bg-gray-900 p-3 dark:bg-opacity-50 dark:text-gray-400 font-thin">
+          <div class="bg-gray-300 dark:bg-gray-900 p-3 bg-opacity-50 dark:bg-opacity-50 dark:text-gray-400 font-thin">
             {{ i + 1 }}
           </div>
           <div class="p-3 flex-grow">
@@ -149,7 +149,7 @@ export default defineComponent({
     return {
       examName: '',
       examHours: 1,
-      examMinutes: 1,
+      examMinutes: 0,
       maxAttempts: 3,
       examItems: [
         {

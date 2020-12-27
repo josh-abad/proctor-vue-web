@@ -20,8 +20,21 @@
     </div>
     <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
   </div>
-  <div v-else>
-    Sorry, you are not allowed to take this exam
+  <div v-else class="fixed inset-0">
+    <div class="flex justify-center items-center">
+      <Center />
+      <div class="flex flex-col items-center">
+        <p class="font-thin text-2xl">
+          Sorry, you are not allowed to take this exam.
+        </p>
+        <BaseButton
+          class="mt-3"
+          @click="$router.push(`/courses/${courseId}`)"
+          prominent
+          >Return to course</BaseButton
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,6 +49,7 @@ import { DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
+import Center from '@/components/Center.vue'
 
 /**
  * 1. User clicks on exam
@@ -47,7 +61,7 @@ import BaseLabel from '@/components/BaseLabel.vue'
  */
 
 export default defineComponent({
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, BaseLabel },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, BaseLabel, Center },
   name: 'ExamPage',
   data () {
     const answers: Answer[] = []

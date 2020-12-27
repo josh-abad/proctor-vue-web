@@ -27,8 +27,14 @@
       <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)">Create Exam</BaseButton>
     </div>
   </div>
-  <div v-else class="p-40 inset-0 object-center min-h-screen">
-    <p class="text-2xl font-semibold uppercase tracking-wider dark:text-gray-200">Course not found</p>
+  <div v-else class="fixed inset-0">
+    <div class="flex justify-center items-center">
+      <Center />
+      <div class="flex flex-col items-center">
+        <p class="font-thin text-2xl">Sorry, that course cannot be found.</p>
+        <BaseButton class="mt-3" @click="$router.push('/courses')" prominent>Go to courses</BaseButton>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,13 +42,14 @@
 import BaseButton from '@/components/BaseButton.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import Center from '@/components/Center.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
 import { Course, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, Breadcrumbs, BasePanel },
+  components: { BaseButton, Breadcrumbs, BasePanel, Center },
   name: 'CoursePage',
   props: {
     courseId: {
@@ -51,6 +58,7 @@ export default defineComponent({
     }
   },
   mounted () {
+    document.title = this.course ? `${this.course.name} | Proctor Vue` : 'Course Not Found | Proctor Vue'
     this.$store.commit(ADD_RECENT_COURSE, this.courseId)
   },
   computed: {

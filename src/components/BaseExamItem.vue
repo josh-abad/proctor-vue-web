@@ -1,18 +1,19 @@
 <template>
   <div class="flex mt-3">
     <div
-      class="px-3 py-3 dark:bg-gray-700 rounded-l-xl dark:border-gray-700"
+      class="px-3 py-3 dark:bg-gray-700 rounded-l-lg dark:border-gray-700"
     >
       {{ questionNumber }}
     </div>
     <div
-      class="pl-4 pr-12 py-3 dark:bg-gray-800 w-full rounded-r-xl select-none"
+      class="pl-4 pr-12 py-3 dark:bg-gray-800 w-full rounded-r-lg select-none"
     >
       {{ examItem.question }}
       <div class="mt-4">
         <BaseInput
           v-if="examItem.questionType === 'text'"
           v-model="answer"
+          type="text"
           @input="$emit('answer-changed', { question: examItem.question, answer })"
         />
         <div v-else-if="examItem.questionType === 'multiple choice'">

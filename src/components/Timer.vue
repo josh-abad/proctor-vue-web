@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'Timer',
@@ -25,12 +26,11 @@ export default defineComponent({
   emits: ['timer-ended'],
   methods: {
     format (n: number): string {
-      return n < 10 ? `0${n}` : `${n}`
+      return n.toString().padStart(2, '0')
     },
     countdown () {
       const timer = setInterval(() => {
-        const now = new Date()
-        const distance = new Date(this.end).getTime() - now.getTime()
+        const distance = dayjs(this.end).diff(new Date())
 
         if (distance < 0) {
           this.$emit('timer-ended')
