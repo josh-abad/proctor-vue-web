@@ -30,10 +30,10 @@
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
               <div
-                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-800 sm:mx-0 sm:h-10 sm:w-10"
+                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10"
               >
                 <!-- Heroicon name: exclamation -->
                 <svg
@@ -67,9 +67,7 @@
               </div>
             </div>
           </div>
-          <div
-            class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-          >
+          <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <BaseButton @click="handleConfirm" prominent>{{
               dialog.actionLabel
             }}</BaseButton>
