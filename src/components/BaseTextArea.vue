@@ -5,7 +5,6 @@
     id=""
     cols="23"
     rows="10"
-    :placeholder="placeholder"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   ></textarea>
@@ -18,11 +17,6 @@ export default defineComponent({
   name: 'BaseTextArea',
   props: {
     modelValue: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    placeholder: {
       type: String,
       required: false,
       default: ''
