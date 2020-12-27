@@ -8,22 +8,17 @@
       <div class="flex flex-col items-start">
         <div class="mt-4">
           <label>
-            <div class="label-line">Course name</div>
-            <BaseInput v-model="courseName" placeholder="Course name" />
+            <BaseLabel emphasis>Course name</BaseLabel>
           </label>
         </div>
         <div class="mt-3">
           <label>
-            <div class="label-line">Course description</div>
-            <BaseTextArea
-              v-model="courseDescription"
-              placeholder="Course description"
-            />
+            <BaseLabel emphasis>Course description</BaseLabel>
           </label>
         </div>
         <div class="mt-2">
           <label>
-            <div class="label-line">Coordinator</div>
+            <BaseLabel emphasis>Coordinator</BaseLabel>
             <BaseDropdown v-model="coordinator" :options="coordinators" />
           </label>
         </div>

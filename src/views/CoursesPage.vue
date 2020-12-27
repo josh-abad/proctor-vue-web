@@ -1,7 +1,7 @@
 <template>
   <div>
     <BasePanel>
-      <BaseLabel>{{ header }}</BaseLabel>
+      <BaseLabel emphasis>{{ header }}</BaseLabel>
       <div class="grid grid-cols-3 gap-6 mt-3 sm:grid-cols-2 md:grid-cols-3">
         <div :key="course.id" v-for="course in courses">
           <CourseCard :course="course" />

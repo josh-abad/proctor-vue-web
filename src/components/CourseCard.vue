@@ -10,7 +10,7 @@
       />
     </router-link>
     <div class="px-4 py-3">
-      <BaseLabel>2023 Online Class</BaseLabel>
+      <BaseLabel emphasis>2023 Online Class</BaseLabel>
       <router-link :to="`/courses/${course.id}`">
         <h1 class="text-lg truncate">{{ course.name }}</h1>
       </router-link>

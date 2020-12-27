@@ -22,7 +22,7 @@
           </div>
         </div>
         <div v-if="attempts.length > 0" class="mt-4">
-          <BaseLabel>Previous Attempts</BaseLabel>
+          <BaseLabel emphasis>Previous Attempts</BaseLabel>
           <div
             class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md"
           >

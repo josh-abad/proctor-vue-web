@@ -1,7 +1,7 @@
 <template>
   <div v-show="recentCourses.length > 0">
     <BasePanel>
-      <BaseLabel>Recent Courses</BaseLabel>
+      <BaseLabel emphasis>Recent Courses</BaseLabel>
       <div class="grid grid-cols-3 gap-6 mt-3 sm:grid-cols-2 md:grid-cols-3">
         <div :key="course.id" v-for="course in recentCourses">
           <CourseCard :course="course" />

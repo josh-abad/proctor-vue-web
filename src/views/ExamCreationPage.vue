@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="mt-4">
-        <BaseLabel>Exam Items</BaseLabel>
+        <BaseLabel emphasis>Exam Items</BaseLabel>
         <div
           v-for="(examItem, i) in examItems"
           :key="i"
