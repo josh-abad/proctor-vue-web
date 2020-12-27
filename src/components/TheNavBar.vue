@@ -44,13 +44,12 @@
         <NavBarUserDropdown />
       </div>
       <div v-else>
-        <BaseButton
-          @click="$router.push('/login')"
-          class="mr-4"
-        >
+        <BaseButton @click="$router.push('/login')" class="mr-4">
           Log In
         </BaseButton>
-        <BaseButton @click="$router.push('/register')" prominent>Sign Up</BaseButton>
+        <BaseButton @click="$router.push('/register')" prominent
+          >Sign Up</BaseButton
+        >
       </div>
     </div>
   </header>

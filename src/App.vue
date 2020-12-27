@@ -4,7 +4,11 @@
   >
     <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
-      <TheNavBar v-show="isLoggedIn" @toggle="handleToggle" :isOpen="sidebarOpen" />
+      <TheNavBar
+        v-show="isLoggedIn"
+        @toggle="handleToggle"
+        :isOpen="sidebarOpen"
+      />
       <div>
         <TheSidebar :isOpen="sidebarOpen" />
         <div>
@@ -108,19 +112,19 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-  ::-webkit-scrollbar-track {
-    @apply bg-gray-300 dark:bg-gray-800
-  }
+::-webkit-scrollbar-track {
+  @apply bg-gray-300 dark:bg-gray-800;
+}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 dark:bg-gray-700 rounded-full shadow
-  }
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-700 rounded-full shadow;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-500 dark:bg-gray-600
-  }
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-gray-600;
+}
 </style>
