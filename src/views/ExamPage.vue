@@ -48,15 +48,6 @@ import BasePanel from '@/components/BasePanel.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import Center from '@/components/Center.vue'
 
-/**
- * 1. User clicks on exam
- * 2. Browser sends a POST request to /api/exam-attempts with the user token, exam id, & date the exam finishes
- * 3. Server checks if user has reached max attempts
- *  3-a. User has not, server saves the attempt in DB as in-progress
- *  3-b. User has, user cannot continue. END
- * 4. Browser sends a PUT request to /api/exam-results to update attempt as ended when exam submitted/timer ends
- */
-
 export default defineComponent({
   components: { BaseExamItem, BaseButton, Timer, BasePanel, BaseLabel, Center },
   name: 'ExamPage',
