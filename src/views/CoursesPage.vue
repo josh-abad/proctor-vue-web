@@ -1,14 +1,14 @@
 <template>
   <div>
     <BasePanel>
-      <BaseLabel emphasis>{{ header }}</BaseLabel>
+      <BaseLabel emphasis>Your Courses</BaseLabel>
       <div class="grid grid-cols-3 gap-6 mt-3 sm:grid-cols-2 md:grid-cols-3">
-        <div :key="course.id" v-for="course in courses">
+        <div :key="course.id" v-for="course in alphabeticalCourses">
           <CourseCard :course="course" />
         </div>
       </div>
     </BasePanel>
-    <div v-show="userRole === 'admin'" class="mt-3">
+    <div v-show="$store.getters.permissions('admin')" class="mt-3">
       <BaseButton @click="$router.push('/courses/new')"
         >Create New Course</BaseButton
       >
@@ -21,7 +21,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import CourseCard from '@/components/CourseCard.vue'
-import { Course, Role } from '@/types'
+import { Course } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -29,19 +29,18 @@ export default defineComponent({
   name: 'CoursesPage',
   computed: {
     courses (): Course[] {
-      return this.$store.getters.sortedCourses
+      return this.$store.getters.courses
     },
-    header (): string {
-      const userRole: Role = this.$store.getters.userRole
-      if (userRole === 'student') {
-        return 'Course overview'
-      } else if (userRole === 'coordinator') {
-        return 'Manage courses'
+    alphabeticalCourses (): Course[] {
+      const alphabetical = (a: Course, b: Course) => {
+        if (a.name < b.name) {
+          return -1
+        } else if (a.name > b.name) {
+          return 1
+        }
+        return 0
       }
-      return 'All courses'
-    },
-    userRole (): Role {
-      return this.$store.getters.userRole
+      return [...this.courses].sort(alphabetical)
     }
   }
 })
