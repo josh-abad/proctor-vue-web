@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
+import { Role } from '@/types'
 
 const createTitle = (pageName: string): string => {
   return `${pageName} - Proctor Vue`
@@ -11,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     meta: {
       title: createTitle('Home'),
-      requiresAuth: true
+      authorize: [] as Role[]
     },
     component: () => import('../views/Home.vue')
   },
@@ -19,8 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     meta: {
-      title: createTitle('Log In'),
-      requiresAuth: false
+      title: createTitle('Log In')
     },
     component: () => import('../views/Login.vue')
   },
@@ -28,8 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     name: 'Register',
     meta: {
-      title: createTitle('Sign Up'),
-      requiresAuth: false
+      title: createTitle('Sign Up')
     },
     component: () => import('../views/RegistrationForm.vue')
   },
@@ -38,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Courses',
     meta: {
       title: createTitle('Courses'),
-      requiresAuth: true
+      authorize: [] as Role[]
     },
     children: [
       {
@@ -47,6 +46,9 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'new',
+        meta: {
+          authorize: ['admin'] as Role[]
+        },
         component: () => import('../views/CourseCreationPage.vue')
       },
       {
@@ -61,7 +63,8 @@ const routes: Array<RouteRecordRaw> = [
         path: ':courseId/exams/new',
         props: true,
         meta: {
-          title: createTitle('Create Exam')
+          title: createTitle('Create Exam'),
+          authorize: ['coordinator', 'admin'] as Role[]
         },
         component: () => import('../views/ExamCreationPage.vue')
       },
@@ -91,7 +94,7 @@ const routes: Array<RouteRecordRaw> = [
     props: true,
     meta: {
       title: createTitle('Students'),
-      requiresAuth: true
+      authorize: ['coordinator', 'admin'] as Role[]
     },
     children: [
       {
@@ -110,7 +113,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Settings',
     meta: {
       title: createTitle('Settings'),
-      requiresAuth: true
+      authorize: [] as Role[]
     },
     component: () => import('../views/SettingsPage.vue')
   },
@@ -118,8 +121,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     meta: {
-      title: createTitle('Page Not Found'),
-      requiresAuth: false
+      title: createTitle('Page Not Found')
     },
     component: () => import('../views/NotFound.vue')
   }
@@ -133,11 +135,19 @@ const router = createRouter({
 router.beforeEach((to, _from, next) => {
   document.title = to.meta.title
 
-  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
-    next({ name: 'Login', query: { redirect: to.fullPath } })
-  } else {
-    next()
+  const { authorize } = to.meta
+
+  if (authorize) {
+    if (!store.getters.isLoggedIn) {
+      return next({ name: 'Login', query: { redirect: to.fullPath } })
+    }
+
+    if (authorize.length && !authorize.includes(store.getters.userRole)) {
+      return next({ path: '/' })
+    }
   }
+
+  next()
 })
 
 export default router
