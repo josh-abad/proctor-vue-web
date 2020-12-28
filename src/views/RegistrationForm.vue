@@ -136,8 +136,7 @@ export default defineComponent({
           last: this.lastName
         },
         username: this.username,
-        password: this.password,
-        role: 'student'
+        password: this.password
       }
       try {
         await this.$store.dispatch(SIGN_UP, credentials)
