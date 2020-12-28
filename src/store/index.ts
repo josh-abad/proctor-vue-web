@@ -308,6 +308,13 @@ export default createStore({
         examAttemptsService.setToken(user.token)
         if (user.role !== 'student') {
           examsService.setToken(user.token)
+          await Promise.all([
+            dispatch(actionType.LOAD_USERS),
+            dispatch(actionType.LOAD_COURSES),
+            dispatch(actionType.LOAD_EXAMS),
+            dispatch(actionType.LOAD_ATTEMPTS, user.id),
+            dispatch(actionType.LOAD_EXAM_RESULTS, user.id)
+          ])
         }
         commit(mutationType.SET_ATTEMPTS, await examAttemptsService.getByUser(user.id))
         commit(mutationType.SET_EXAM_RESULTS, await examResultsService.getByUser(user.id))

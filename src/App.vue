@@ -60,6 +60,13 @@ export default defineComponent({
       if (user.role !== 'student') {
         examsService.setToken(user.token)
       }
+      await Promise.all([
+        this.$store.dispatch(LOAD_USERS),
+        this.$store.dispatch(LOAD_COURSES),
+        this.$store.dispatch(LOAD_EXAMS),
+        this.$store.dispatch(LOAD_ATTEMPTS, this.$store.state.user.id),
+        this.$store.dispatch(LOAD_EXAM_RESULTS, this.$store.state.user.id)
+      ])
       if (activeExamJSON) {
         const activeExam = JSON.parse(activeExamJSON)
         examResultsService.setToken(activeExam.token)
@@ -78,17 +85,6 @@ export default defineComponent({
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
       this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
     })
-
-    if (this.$store.getters.userRole === 'admin') {
-      await this.$store.dispatch(LOAD_USERS)
-    }
-
-    await Promise.all([
-      this.$store.dispatch(LOAD_COURSES, this.$store.state.user.role !== 'admin' ? this.$store.state.user.id : null),
-      this.$store.dispatch(LOAD_EXAMS),
-      this.$store.dispatch(LOAD_ATTEMPTS, this.$store.state.user.id),
-      this.$store.dispatch(LOAD_EXAM_RESULTS, this.$store.state.user.id)
-    ])
 
     const recentCourses = localStorage.getItem('recentCourses')
     if (recentCourses) {
