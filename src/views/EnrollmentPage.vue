@@ -3,8 +3,11 @@
     <BasePanel>
       <div class="flex flex-col items-center">
         <div>Enroll {{ student.name.first }} {{ student.name.last }}</div>
-        <BaseDropdown v-model="selectedCourse" :options="availableCourses" />
-        {{ selectedCourse }}
+        <BaseDropdown
+          :options="availableCourses"
+          @selection-change="handleChange"
+          class="w-full"
+        />
         <BaseButton @click="handleEnroll">Enroll</BaseButton>
       </div>
     </BasePanel>
@@ -35,6 +38,9 @@ export default defineComponent({
     }
   },
   methods: {
+    handleChange (value: string): void {
+      this.selectedCourse = value
+    },
     async handleEnroll () {
       try {
         const payload = {
@@ -54,7 +60,11 @@ export default defineComponent({
     },
     availableCourses (): Option[] {
       const courses: Course[] = this.$store.getters.courses
-      const options: Option[] = courses.map(course => {
+      const unenrolledCourses = (course: Course) => {
+        return !course.studentsEnrolled.includes(this.student.id)
+      }
+
+      const options: Option[] = courses.filter(unenrolledCourses).map(course => {
         return {
           text: course.name,
           value: course.id
