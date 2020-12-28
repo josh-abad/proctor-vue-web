@@ -6,6 +6,7 @@ import examResultsService from '@/services/exam-results'
 import loginService from '@/services/login'
 import {
   Attempt,
+  AuthenticatedUser,
   Course,
   DialogContent,
   Exam,
@@ -42,7 +43,7 @@ const state: State = {
 }
 
 const mutations = {
-  [mutationType.SET_USER] (state: State, user: User): void {
+  [mutationType.SET_USER] (state: State, user: AuthenticatedUser): void {
     state.user = user
   },
   [mutationType.SET_USERS] (state: State, users: Omit<User, 'token'>[]): void {

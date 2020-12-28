@@ -8,11 +8,14 @@ export interface User {
   };
   username: string;
   courses: string[];
-  token: string;
   role: Role;
 }
 
-export interface UserCredentials extends Omit<User, 'courses' | 'token' | 'id'> {
+export interface AuthenticatedUser extends User {
+  token: string;
+}
+
+export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role'> {
   password: string;
 }
 
@@ -20,6 +23,7 @@ export interface Course {
   id: string;
   name: string;
   coordinator: Omit<User, 'token'>;
+  studentsEnrolled: string[];
 }
 
 export interface NewCourse {
@@ -112,8 +116,8 @@ export interface Option {
 export type Theme = 'dark' | 'light' | null
 
 export type State = {
-  user: User | null;
-  users: Omit<User, 'token'>[];
+  user: AuthenticatedUser | null;
+  users: User[];
   courses: Course[];
   recentCourses: string[];
   maxRecentCourses: number;

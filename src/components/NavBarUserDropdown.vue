@@ -97,7 +97,7 @@
 
 <script lang="ts">
 import { LOG_OUT } from '@/store/action-types'
-import { User } from '@/types'
+import { AuthenticatedUser } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -108,7 +108,7 @@ export default defineComponent({
     }
   },
   computed: {
-    user (): User {
+    user (): AuthenticatedUser {
       return this.$store.state.user
     }
   },
