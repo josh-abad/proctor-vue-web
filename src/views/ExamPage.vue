@@ -20,9 +20,7 @@
     </div>
     <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
   </div>
-  <div v-else class="fixed inset-0">
-    <div class="flex justify-center items-center">
-      <Center />
+  <Center>
       <div class="flex flex-col items-center">
         <p class="font-thin text-2xl">
           Sorry, you are not allowed to take this exam.
@@ -34,8 +32,7 @@
           >Return to course</BaseButton
         >
       </div>
-    </div>
-  </div>
+  </Center>
 </template>
 
 <script lang="ts">
