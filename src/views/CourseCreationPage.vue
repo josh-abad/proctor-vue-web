@@ -1,40 +1,40 @@
 <template>
-    <div
-      v-show="userRole === 'admin'"
-      class="px-5 py-5 bg-gray-100 dark:bg-gray-800 rounded-lg"
-    >
-      <div>Create New Course</div>
-      <div class="flex flex-col items-start">
-        <div class="mt-4">
-          <label>
-            <BaseLabel emphasis>Course name</BaseLabel>
-            <BaseInput v-model="courseName" type="text" />
-          </label>
-        </div>
-        <div class="mt-3">
-          <label>
-            <BaseLabel emphasis>Course description</BaseLabel>
-            <BaseTextArea v-model="courseDescription" />
-          </label>
-        </div>
-        <div class="mt-2">
-          <label>
-            <BaseLabel emphasis>Coordinator</BaseLabel>
-            <BaseDropdown v-model="coordinator" :options="coordinators" />
-          </label>
-        </div>
-      </div>
+  <div
+    v-if="$store.getters.permissions('admin')"
+    class="px-5 py-5 bg-gray-100 dark:bg-gray-800 rounded-lg"
+  >
+    <div>Create New Course</div>
+    <div class="flex flex-col items-start">
       <div class="mt-4">
-        <BaseButton @click="saveCourse" prominent>Create</BaseButton>
+        <label>
+          <BaseLabel emphasis>Course name</BaseLabel>
+          <BaseInput v-model="courseName" type="text" />
+        </label>
+      </div>
+      <div class="mt-3">
+        <label>
+          <BaseLabel emphasis>Course description</BaseLabel>
+          <BaseTextArea v-model="courseDescription" />
+        </label>
+      </div>
+      <div class="mt-2">
+        <label>
+          <BaseLabel emphasis>Coordinator</BaseLabel>
+          <BaseDropdown v-model="coordinator" :options="coordinators" />
+        </label>
       </div>
     </div>
+    <div class="mt-4">
+      <BaseButton @click="saveCourse" prominent>Create</BaseButton>
+    </div>
+  </div>
   <div v-else class="fixed inset-0">
     <div class="flex justify-center items-center">
       <Center />
       <div class="flex flex-col items-center">
         <div class="font-thin text-2xl">No no you not allowed yes</div>
         <BaseButton class="mt-3">Go back</BaseButton>
-  </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ import BaseLabel from '@/components/BaseLabel.vue'
 import BaseTextArea from '@/components/BaseTextArea.vue'
 import Center from '@/components/Center.vue'
 import { CREATE_COURSE } from '@/store/action-types'
-import { NewCourse, Option, Role, User } from '@/types'
+import { NewCourse, Option, User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -61,11 +61,8 @@ export default defineComponent({
     }
   },
   computed: {
-    userRole (): Role {
-      return this.$store.getters.userRole
-    },
     coordinators (): Option[] {
-      return this.$store.getters.coordinators.map((c: Omit<User, 'token'>) => {
+      return this.$store.getters.coordinators.map((c: User) => {
         return { text: `${c.name.first} ${c.name.last}`, value: c.id }
       })
     }

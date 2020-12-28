@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$store.getters.permissions('coordinator', 'admin')">
     <BasePanel>
       <div class="text-xl">Create New Exam for {{ course.name }}</div>
       <div class="flex mt-3">
@@ -60,7 +60,9 @@
           :key="i"
           class="flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden mb-4"
         >
-          <div class="bg-gray-300 dark:bg-gray-900 p-3 bg-opacity-50 dark:bg-opacity-50 dark:text-gray-400 font-thin">
+          <div
+            class="bg-gray-300 dark:bg-gray-900 p-3 bg-opacity-50 dark:bg-opacity-50 dark:text-gray-400 font-thin"
+          >
             {{ i + 1 }}
           </div>
           <div class="p-3 flex-grow">
@@ -145,6 +147,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import Center from '@/components/Center.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
@@ -152,7 +155,7 @@ import { Course, NewExam, Option, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, BasePanel, BaseLabel },
+  components: { BaseInput, BaseButton, BasePanel, BaseLabel, Center },
   name: 'ExamCreationPage',
   data () {
     return {
@@ -233,7 +236,7 @@ export default defineComponent({
         this.$store.dispatch(ALERT, 'Exam successfully created')
         this.$router.push(`/courses/${this.courseId}`)
       } catch (error) {
-        this.$store.dispatch(ALERT, 'Failed to create exam')
+        this.$store.dispatch(ALERT, error.response.data.error)
       }
     }
   }
