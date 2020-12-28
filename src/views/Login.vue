@@ -1,76 +1,71 @@
 <template>
-  <div class="fixed inset-0">
-    <div class="flex items-center justify-center">
-      <Center />
-      <BasePanel class="px-10 py-8">
-        <div class="flex justify-center">
-          <img
-            :src="require(`@/assets/${logoFilename}`)"
-            alt="Logo"
-            class="h-7"
+  <Center>
+    <BasePanel class="px-10 py-8">
+      <div class="flex justify-center">
+        <img
+          :src="require(`@/assets/${logoFilename}`)"
+          alt="Logo"
+          class="h-7"
+        />
+      </div>
+      <form class="mt-8">
+        <h3 class="font-medium">Login</h3>
+        <p class="text-xs dark:text-gray-400">
+          By continuing, you agree to our
+          <router-link to="#" class="text-green-500"
+            >User Agreement</router-link
+          >
+          and
+          <router-link to="#" class="text-green-500">Privacy Policy</router-link
+          >.
+        </p>
+        <div class="mt-8">
+          <label for="username">
+            <BaseLabel>Username</BaseLabel>
+          </label>
+          <BaseInput
+            class="w-full"
+            id="username"
+            type="text"
+            v-model="username"
           />
         </div>
-        <form class="mt-8">
-          <h3 class="font-medium">Login</h3>
-          <p class="text-xs dark:text-gray-400">
-            By continuing, you agree to our
-            <router-link to="#" class="text-green-500"
-              >User Agreement</router-link
-            >
-            and
-            <router-link to="#" class="text-green-500"
-              >Privacy Policy</router-link
-            >.
-          </p>
-          <div class="mt-8">
-            <label for="username">
-              <BaseLabel>Username</BaseLabel>
-            </label>
-            <BaseInput
-              class="w-full"
-              id="username"
-              type="text"
-              v-model="username"
-            />
-          </div>
-          <div class="mt-4">
-            <label for="password">
-              <BaseLabel>Password</BaseLabel>
-            </label>
-            <BaseInput
-              class="w-full"
-              id="password"
-              type="password"
-              v-model="password"
-            />
-          </div>
-          <div class="mt-8">
-            <BaseButton
-              @click.prevent="handleLogin"
-              :disabled="!fieldsFilled"
-              type="submit"
-              prominent
-              >Sign In</BaseButton
-            >
-          </div>
-          <p class="mt-3 text-xs">
-            Forgot your
-            <router-link to="#" class="text-green-500">username</router-link> or
-            <router-link to="#" class="text-green-500">password</router-link>?
-          </p>
-          <p class="mt-3 text-xs">
-            New to Proctor Vue?
-            <router-link
-              to="/register"
-              class="uppercase font-semibold tracking-wide text-green-500"
-              >Sign Up</router-link
-            >
-          </p>
-        </form>
-      </BasePanel>
-      <!-- </div> -->
-    </div>
-  </div>
+        <div class="mt-4">
+          <label for="password">
+            <BaseLabel>Password</BaseLabel>
+          </label>
+          <BaseInput
+            class="w-full"
+            id="password"
+            type="password"
+            v-model="password"
+          />
+        </div>
+        <div class="mt-8">
+          <BaseButton
+            @click.prevent="handleLogin"
+            :disabled="!fieldsFilled"
+            type="submit"
+            prominent
+            >Sign In</BaseButton
+          >
+        </div>
+        <p class="mt-3 text-xs">
+          Forgot your
+          <router-link to="#" class="text-green-500">username</router-link> or
+          <router-link to="#" class="text-green-500">password</router-link>?
+        </p>
+        <p class="mt-3 text-xs">
+          New to Proctor Vue?
+          <router-link
+            to="/register"
+            class="uppercase font-semibold tracking-wide text-green-500"
+            >Sign Up</router-link
+          >
+        </p>
+      </form>
+    </BasePanel>
+  </Center>
 </template>
 
 <script lang="ts">

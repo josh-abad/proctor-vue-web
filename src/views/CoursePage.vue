@@ -33,17 +33,14 @@
       >
     </div>
   </div>
-  <div v-else class="fixed inset-0">
-    <div class="flex justify-center items-center">
-      <Center />
-      <div class="flex flex-col items-center">
-        <p class="font-thin text-2xl">Sorry, that course cannot be found.</p>
-        <BaseButton class="mt-3" @click="$router.push('/courses')" prominent
-          >Go to courses</BaseButton
-        >
-      </div>
+  <Center v-else>
+    <div class="flex flex-col items-center">
+      <p class="font-thin text-2xl">Sorry, that course cannot be found.</p>
+      <BaseButton class="mt-3" @click="$router.push('/courses')" prominent
+        >Go to courses</BaseButton
+      >
     </div>
-  </div>
+  </Center>
 </template>
 
 <script lang="ts">

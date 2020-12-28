@@ -1,15 +1,12 @@
 <template>
-  <div class="fixed inset-0" v-once>
-    <div class="flex justify-center items-center">
-      <Center />
-      <div class="flex flex-col items-center">
-        <div class="font-thin text-2xl">Sorry, that page cannot be found.</div>
-        <BaseButton class="mt-3" @click="$router.push('/')" prominent
-          >Go Home</BaseButton
-        >
-      </div>
+  <Center v-once>
+    <div class="flex flex-col items-center">
+      <div class="font-thin text-2xl">Sorry, that page cannot be found.</div>
+      <BaseButton class="mt-3" @click="$router.push('/')" prominent
+        >Go Home</BaseButton
+      >
     </div>
-  </div>
+  </Center>
 </template>
 
 <script lang="ts">

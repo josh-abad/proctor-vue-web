@@ -1,17 +1,14 @@
 <template>
-  <div class="fixed inset-0">
-    <div class="flex justify-center items-center">
-      <Center />
-      <BasePanel>
-        <div class="flex flex-col items-center">
-          <div>Enroll {{ student.name.first }} {{ student.name.last }}</div>
-          <BaseDropdown v-model="selectedCourse" :options="availableCourses" />
-          {{ selectedCourse }}
-          <BaseButton @click="handleEnroll">Enroll</BaseButton>
-        </div>
-      </BasePanel>
-    </div>
-  </div>
+  <Center>
+    <BasePanel>
+      <div class="flex flex-col items-center">
+        <div>Enroll {{ student.name.first }} {{ student.name.last }}</div>
+        <BaseDropdown v-model="selectedCourse" :options="availableCourses" />
+        {{ selectedCourse }}
+        <BaseButton @click="handleEnroll">Enroll</BaseButton>
+      </div>
+    </BasePanel>
+  </Center>
 </template>
 
 <script lang="ts">

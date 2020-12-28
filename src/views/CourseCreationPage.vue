@@ -28,15 +28,14 @@
       <BaseButton @click="saveCourse" prominent>Create</BaseButton>
     </div>
   </div>
-  <div v-else class="fixed inset-0">
-    <div class="flex justify-center items-center">
-      <Center />
-      <div class="flex flex-col items-center">
-        <div class="font-thin text-2xl">No no you not allowed yes</div>
-        <BaseButton class="mt-3">Go back</BaseButton>
+  <Center v-else>
+    <div class="flex flex-col items-center">
+      <div class="font-thin text-2xl">
+        Sorry, you are not allowed to create a course.
       </div>
+      <BaseButton class="mt-3">Go back</BaseButton>
     </div>
-  </div>
+  </Center>
 </template>
 
 <script lang="ts">
