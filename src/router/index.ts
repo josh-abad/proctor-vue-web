@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
 import store from '@/store'
 
 const createTitle = (pageName: string): string => {
@@ -14,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Home'),
       requiresAuth: true
     },
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/login',
