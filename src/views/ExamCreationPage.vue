@@ -129,6 +129,15 @@
       </div>
     </BasePanel>
   </div>
+  <div v-else class="fixed inset-0">
+    <div class="flex justify-center items-center">
+      <Center />
+      <div class="flex flex-col items-center">
+        <div class="font-thin text-2xl">No no you not allowed yes</div>
+        <BaseButton class="mt-3">Go back</BaseButton>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

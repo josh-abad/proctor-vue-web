@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div
       v-show="userRole === 'admin'"
       class="px-5 py-5 bg-gray-100 dark:bg-gray-800 rounded-lg"
@@ -29,6 +28,14 @@
         <BaseButton @click="saveCourse" prominent>Create</BaseButton>
       </div>
     </div>
+  <div v-else class="fixed inset-0">
+    <div class="flex justify-center items-center">
+      <Center />
+      <div class="flex flex-col items-center">
+        <div class="font-thin text-2xl">No no you not allowed yes</div>
+        <BaseButton class="mt-3">Go back</BaseButton>
+  </div>
+    </div>
   </div>
 </template>
 
@@ -38,13 +45,14 @@ import BaseDropdown from '@/components/BaseDropdown.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BaseTextArea from '@/components/BaseTextArea.vue'
+import Center from '@/components/Center.vue'
 import { CREATE_COURSE } from '@/store/action-types'
 import { NewCourse, Option, Role, User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
-  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel },
+  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel, Center },
   data () {
     return {
       courseName: '',
