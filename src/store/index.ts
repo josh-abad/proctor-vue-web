@@ -241,9 +241,9 @@ const getters = {
   coordinators (state: State): Omit<User, 'token'>[] {
     return state.users.filter(user => user.role === 'coordinator')
   },
-  permissions (state: State): (...rolesAllowed: Role[]) => boolean {
+  permissions (state: State): (...roles: Role[]) => boolean {
     return (...roles) => {
-      return roles.some(role => role === state.user?.role)
+      return roles.includes((state.user as AuthenticatedUser).role)
     }
   }
 }
