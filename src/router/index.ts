@@ -87,6 +87,26 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/courses/Main.vue')
   },
   {
+    path: '/students',
+    name: 'Students',
+    props: true,
+    meta: {
+      title: createTitle('Students'),
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('../views/StudentsPage.vue')
+      },
+      {
+        path: ':studentId/enroll',
+        component: () => import('../views/EnrollmentPage.vue')
+      }
+    ],
+    component: () => import('../views/students/Main.vue')
+  },
+  {
     path: '/settings',
     name: 'Settings',
     meta: {

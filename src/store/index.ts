@@ -58,6 +58,9 @@ const mutations = {
   [mutationType.REMOVE_COURSE] (state: State, courseId: string): void {
     state.courses = state.courses.filter(course => course.id !== courseId)
   },
+  [mutationType.UPDATE_COURSE] (state: State, newCourse: Course): void {
+    state.courses = state.courses.map(course => course.id === newCourse.id ? newCourse : course)
+  },
   [mutationType.SET_RECENT_COURSES] (state: State, recentCourses: string[]): void {
     state.recentCourses = recentCourses
   },
@@ -182,12 +185,38 @@ const getters = {
   //     })
   //   }
   // },
+  studentByID (state: State): (studentId: string) => Omit<User, 'token'> | undefined {
+    return studentId => {
+      return state.users.filter(user => user.role === 'student').find(student => student.id === studentId)
+    }
+  },
+  students (state: State): Omit<User, 'token'>[] {
+    return state.users.filter(user => user.role === 'student')
+  },
   getAttemptsByExam (state: State): (examId: string) => Attempt[] | undefined {
     return (examId) => {
       return state.attempts.filter(attempt => {
         return attempt.exam === examId
       })
     }
+  },
+  courses (state: State): Course[] {
+    if (!state.user) return []
+
+    const byStudent = (course: Course) => {
+      return course.studentsEnrolled.includes((state.user as Omit<User, 'token'>).id)
+    }
+
+    const byCoordinator = (course: Course) => {
+      return course.coordinator.id === state.user?.id
+    }
+
+    if (state.user.role === 'student') {
+      return state.courses.filter(byStudent)
+    } else if (state.user.role === 'coordinator') {
+      return state.courses.filter(byCoordinator)
+    }
+    return state.courses
   },
   sortedCourses (state: State): Course[] {
     const alphabetical = (a: Course, b: Course) => {
@@ -211,6 +240,11 @@ const getters = {
   },
   coordinators (state: State): Omit<User, 'token'>[] {
     return state.users.filter(user => user.role === 'coordinator')
+  },
+  permissions (state: State): (...rolesAllowed: Role[]) => boolean {
+    return (...roles) => {
+      return roles.some(role => role === state.user?.role)
+    }
   }
 }
 
@@ -234,6 +268,15 @@ export default createStore({
         commit(mutationType.SET_USERS, await usersService.getAll())
       } catch (error) {
         dispatch(actionType.ALERT, 'Could not load users from server')
+      }
+    },
+    async [actionType.ENROLL_STUDENT] ({ commit, dispatch }, { studentId, courseId }): Promise<void> {
+      try {
+        const updatedCourse = await coursesService.enrollUser(studentId, courseId)
+        commit(mutationType.UPDATE_COURSE, updatedCourse)
+        dispatch(actionType.ALERT, 'Student successfully enrolled.')
+      } catch (error) {
+        dispatch(actionType.ALERT, error.response.data.error)
       }
     },
     async [actionType.CREATE_COURSE] ({ commit, dispatch }, newCourse: NewCourse): Promise<void> {

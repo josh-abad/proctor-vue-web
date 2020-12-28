@@ -29,9 +29,14 @@ const getByUser = async (userId: string) => {
   return response.data
 }
 
+const enrollUser = async (userId: string, courseId: string) => {
+  const response = await axios.put(`${baseUrl}/${courseId}`, { userId })
+  return response.data
+}
+
 const deleteCourse = async (id: string) => {
   const response = await axios.delete(`${baseUrl}/${id}`)
   return response.data
 }
 
-export default { create, getAll, getByUser, getCourse, deleteCourse }
+export default { create, getAll, getByUser, getCourse, enrollUser, deleteCourse }
