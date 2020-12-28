@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.getters.permissions('coordinator', 'admin')">
+  <div>
     <BasePanel>
       <div class="text-xl">Create New Exam for {{ course.name }}</div>
       <div class="flex mt-3">
@@ -131,14 +131,6 @@
       </div>
     </BasePanel>
   </div>
-  <Center v-else>
-    <div class="flex flex-col items-center">
-      <div class="font-thin text-2xl">
-        Sorry, you are not allowed to create an exam.
-      </div>
-      <BaseButton class="mt-3">Go back</BaseButton>
-    </div>
-  </Center>
 </template>
 
 <script lang="ts">
@@ -146,7 +138,6 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
-import Center from '@/components/Center.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
@@ -154,7 +145,7 @@ import { Course, NewExam, Option, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, BasePanel, BaseLabel, Center },
+  components: { BaseInput, BaseButton, BasePanel, BaseLabel },
   name: 'ExamCreationPage',
   data () {
     return {

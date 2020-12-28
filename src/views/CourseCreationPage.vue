@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="$store.getters.permissions('admin')"
-    class="px-5 py-5 bg-gray-100 dark:bg-gray-800 rounded-lg"
-  >
+  <div class="px-5 py-5 bg-gray-100 dark:bg-gray-800 rounded-lg">
     <div>Create New Course</div>
     <div class="flex flex-col items-start">
       <div class="mt-4">
@@ -28,14 +25,6 @@
       <BaseButton @click="saveCourse" prominent>Create</BaseButton>
     </div>
   </div>
-  <Center v-else>
-    <div class="flex flex-col items-center">
-      <div class="font-thin text-2xl">
-        Sorry, you are not allowed to create a course.
-      </div>
-      <BaseButton class="mt-3">Go back</BaseButton>
-    </div>
-  </Center>
 </template>
 
 <script lang="ts">
@@ -44,14 +33,13 @@ import BaseDropdown from '@/components/BaseDropdown.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BaseTextArea from '@/components/BaseTextArea.vue'
-import Center from '@/components/Center.vue'
 import { CREATE_COURSE } from '@/store/action-types'
 import { NewCourse, Option, User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
-  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel, Center },
+  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel },
   data () {
     return {
       courseName: '',
