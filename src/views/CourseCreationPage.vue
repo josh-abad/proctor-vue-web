@@ -17,7 +17,10 @@
       <div class="mt-2">
         <label>
           <BaseLabel emphasis>Coordinator</BaseLabel>
-          <BaseDropdown v-model="coordinator" :options="coordinators" />
+          <BaseDropdown
+            :options="coordinators"
+            @selection-change="handleChange"
+          />
         </label>
       </div>
     </div>
@@ -62,6 +65,9 @@ export default defineComponent({
       }
       await this.$store.dispatch(CREATE_COURSE, newCourse)
       this.$router.push('/courses')
+    },
+    handleChange (value: string): void {
+      this.coordinator = value
     }
   }
 })
