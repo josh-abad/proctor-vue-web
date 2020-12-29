@@ -39,17 +39,12 @@
         />
       </router-link>
     </div>
-    <div>
-      <div v-if="isLoggedIn" class="hidden items-center sm:flex md:block">
-        <NavBarUserDropdown />
+    <div class="flex items-center">
+      <div>
+        <SearchBar />
       </div>
-      <div v-else>
-        <BaseButton @click="$router.push('/login')" class="mr-4">
-          Log In
-        </BaseButton>
-        <BaseButton @click="$router.push('/register')" prominent
-          >Sign Up</BaseButton
-        >
+      <div class="hidden items-center sm:flex md:block">
+        <NavBarUserDropdown />
       </div>
     </div>
   </header>
@@ -58,11 +53,11 @@
 <script lang="ts">
 import { Theme } from '@/types'
 import { defineComponent } from 'vue'
-import BaseButton from './BaseButton.vue'
 import NavBarUserDropdown from './NavBarUserDropdown.vue'
+import SearchBar from './SearchBar.vue'
 
 export default defineComponent({
-  components: { BaseButton, NavBarUserDropdown },
+  components: { NavBarUserDropdown, SearchBar },
   emits: ['toggle'],
   props: {
     isOpen: Boolean

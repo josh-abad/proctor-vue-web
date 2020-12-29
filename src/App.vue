@@ -5,7 +5,7 @@
     <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar
-        v-show="isLoggedIn"
+        v-if="isLoggedIn"
         @toggle="handleToggle"
         :isOpen="sidebarOpen"
       />
