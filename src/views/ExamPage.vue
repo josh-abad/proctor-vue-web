@@ -20,7 +20,7 @@
     </div>
     <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
   </div>
-  <Center>
+    <Center v-else>
       <div class="flex flex-col items-center">
         <p class="font-thin text-2xl">
           Sorry, you are not allowed to take this exam.
