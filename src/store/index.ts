@@ -245,6 +245,13 @@ const getters = {
     return (...roles) => {
       return roles.includes((state.user as AuthenticatedUser).role)
     }
+  },
+  examTaken (state: State): (examId: string) => boolean {
+    return examId => {
+      console.log(examId)
+      console.log(state.examResults)
+      return state.examResults.some(result => result.exam === examId)
+    }
   }
 }
 

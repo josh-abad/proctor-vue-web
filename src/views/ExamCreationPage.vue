@@ -52,6 +52,19 @@
             />
           </label>
         </div>
+        <div class="ml-6">
+          <label>
+            <BaseLabel>Week</BaseLabel>
+            <input
+              class="dark:bg-gray-800 rounded w-16"
+              type="number"
+              id="week"
+              min="1"
+              :max="course.weeks"
+              v-model.number="week"
+            />
+          </label>
+        </div>
       </div>
       <div class="mt-4">
         <BaseLabel emphasis>Exam Items</BaseLabel>
@@ -153,6 +166,7 @@ export default defineComponent({
       examHours: 1,
       examMinutes: 0,
       maxAttempts: 3,
+      week: 1,
       examItems: [
         {
           question: '',
@@ -219,7 +233,8 @@ export default defineComponent({
           duration: this.examDurationInSeconds,
           courseId: this.courseId,
           maxAttempts: this.maxAttempts,
-          examItems: this.examItems
+          examItems: this.examItems,
+          week: this.week
         }
         const createdExam = await examsService.create(newExam)
         this.$store.commit(ADD_EXAM, createdExam)

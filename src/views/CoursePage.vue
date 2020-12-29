@@ -2,36 +2,109 @@
   <div v-if="course">
     <BasePanel>
       <h1 class="text-3xl">{{ course.name }}</h1>
-      <!-- <div v-show="course.coordinator">
-        Coordinator {{ coordinatorFullName }}
-      </div> -->
       <Breadcrumbs class="mt-2" :links="links" />
     </BasePanel>
-    <BasePanel class="mt-4">
-      <div v-for="exam in exams" :key="exam.id">
-        <router-link :to="`/courses/${courseId}/exams/${exam.id}`">{{
-          exam.label
-        }}</router-link>
-      </div>
-    </BasePanel>
-    <div class="mt-4" v-show="userRole === 'admin'">
-      <div class="uppercase font-semibold tracking-wide text-xs">
-        Admin Options
-      </div>
-      <div class="mt-4 flex">
-        <div>
-          <BaseButton @click="editCourse">Edit Course</BaseButton>
+    <div class="mt-4 flex">
+      <BasePanel class="mr-4 pt-2 flex-grow">
+        <div
+          v-if="course.weeks"
+          class="flex flex-col space-y-4 divide-y divide-gray-300 dark:divide-gray-700 div"
+        >
+          <div v-for="week in course.weeks" :key="week">
+            <BaseLabel class="mt-4 mb-2" emphasis> Week {{ week }} </BaseLabel>
+            <div
+              class="text-base font-normal flex items-center"
+              v-for="exam in exams.filter((exam) => exam.week === week)"
+              :key="exam.id"
+            >
+              <svg
+                v-if="$store.getters.examTaken(exam.id)"
+                class="stroke-current text-green-500 w-5 h-5"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M0 0h24v24H0z" stroke="none" />
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+              <svg
+                v-else
+                class="stroke-current text-gray-400 dark:text-gray-600 w-5 h-5"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M0 0h24v24H0z" stroke="none" />
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+              </svg>
+              <router-link
+                :to="`/courses/${courseId}/exams/${exam.id}`"
+                class="ml-2"
+                >{{ exam.label }}</router-link
+              >
+            </div>
+          </div>
         </div>
-        <div class="ml-2">
-          <BaseButton @click="deleteCourse">Delete Course</BaseButton>
-        </div>
+      </BasePanel>
+      <div class="w-72">
+        <BasePanel>
+          <BaseLabel emphasis>About course</BaseLabel>
+          <div class="text-sm">
+            {{ course.description }}
+          </div>
+          <div class="mt-4">
+            <div>{{ course.studentsEnrolled.length }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              {{
+                course.studentsEnrolled.length === 1 ? "Student" : "Students"
+              }}
+              Enrolled
+            </div>
+          </div>
+          <BaseLabel class="mt-4" emphasis> Course Coordinator </BaseLabel>
+          <div>
+            {{ course.coordinator.name.first }}
+            {{ course.coordinator.name.last }}
+          </div>
+        </BasePanel>
+        <BasePanel v-if="$store.getters.permissions('admin')" class="mt-4">
+          <BaseLabel emphasis>Admin options</BaseLabel>
+          <div class="mt-2">
+            <div>
+              <BaseButton class="w-full" @click="editCourse"
+                >Edit Course</BaseButton
+              >
+            </div>
+            <div class="mt-2">
+              <BaseButton class="w-full" @click="deleteCourse"
+                >Delete Course</BaseButton
+              >
+            </div>
+          </div>
+        </BasePanel>
+        <BasePanel
+          v-if="$store.getters.permissions('coordinator', 'admin')"
+          class="mt-4"
+        >
+          <BaseLabel emphasis>Coordinator options</BaseLabel>
+          <div class="mt-2">
+            <div>
+              <BaseButton
+                class="w-full"
+                @click="$router.push(`/courses/${courseId}/exams/new`)"
+                >Create Exam</BaseButton
+              >
+            </div>
+          </div>
+        </BasePanel>
       </div>
     </div>
-    <div class="mt-4" v-show="userRole === 'coordinator'">
-      <BaseButton @click="$router.push(`/courses/${courseId}/exams/new`)"
-        >Create Exam</BaseButton
-      >
-    </div>
+    <div class="mt-4" v-show="userRole === 'coordinator'"></div>
   </div>
   <Center v-else>
     <div class="flex flex-col items-center">
@@ -45,6 +118,7 @@
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import Center from '@/components/Center.vue'
@@ -54,7 +128,7 @@ import { Course, DialogContent, Exam, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, Breadcrumbs, BasePanel, Center },
+  components: { BaseButton, Breadcrumbs, BasePanel, Center, BaseLabel },
   name: 'CoursePage',
   props: {
     courseId: {

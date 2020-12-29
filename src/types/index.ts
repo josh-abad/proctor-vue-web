@@ -22,12 +22,13 @@ export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role'> {
 export interface Course {
   id: string;
   name: string;
+  description: string;
   coordinator: Omit<User, 'token'>;
   studentsEnrolled: string[];
+  weeks: number;
 }
 
-export interface NewCourse {
-  name: string;
+export interface NewCourse extends Omit<Course, 'id' | 'coordinator' | 'studentsEnrolled'> {
   coordinatorId: string;
 }
 
@@ -39,6 +40,7 @@ export interface Exam {
   duration: number;
   course: Course;
   maxAttempts: number;
+  week: number;
   id: string;
 }
 
