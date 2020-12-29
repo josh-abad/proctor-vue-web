@@ -10,6 +10,7 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
+        class="w-80"
       />
       <button
         type="submit"
@@ -37,12 +38,12 @@
       </button>
     </div>
     <transition
-      enter-active-class=""
-      enter-from-class=""
-      enter-to-class=""
-      leave-active-class="transition ease-in duration-100"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
+      enter-active-class="transition ease-out duration-100 transform"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75 transform"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
     >
       <div
         class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-800 shadow-lg"
