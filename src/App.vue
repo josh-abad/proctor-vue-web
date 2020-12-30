@@ -50,7 +50,7 @@ export default defineComponent({
     Snackbar,
     DialogModal
   },
-  async mounted () {
+  async created () {
     const loggedUserJSON = localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
