@@ -10,9 +10,7 @@
         @click.prevent="open = !open"
       >
         <span class="flex items-center">
-          <span class="ml-3 block truncate">{{
-            options[selectedIndex].text
-          }}</span>
+          <span class="ml-3 block truncate">{{ selectedText }}</span>
         </span>
         <span
           class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
@@ -82,7 +80,7 @@
                   class="ml-3 block truncate"
                   :class="selectedIndex === i ? 'font-semibold' : 'font-normal'"
                 >
-                  {{ option.text }}
+                  {{ option.text || "" }}
                 </span>
               </div>
 
@@ -142,8 +140,15 @@ export default defineComponent({
   mounted () {
     this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
   },
+  computed: {
+    selectedText (): string {
+      const selected: Option = this.options[this.selectedIndex] as Option
+      return selected ? selected.text : ''
+    }
+  },
   methods: {
     handleChange (i: number): void {
+      console.log(i)
       this.selectedIndex = i
       this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
     }
