@@ -3,7 +3,7 @@
     <li
       :key="i"
       v-for="(link, i) in linksMinusLast"
-      class="mr-1 flex items-center text-gray-500"
+      class="mr-1 flex items-center text-green-200"
     >
       <router-link :to="link.url">
         {{ link.name }}
@@ -23,7 +23,7 @@
       </svg>
     </li>
     <li>
-      <router-link :to="lastLink.url" class="dark:text-gray-200">
+      <router-link :to="lastLink.url" class="text-white">
         {{ lastLink.name }}
       </router-link>
     </li>

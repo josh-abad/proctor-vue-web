@@ -46,7 +46,7 @@
       leave-to-class="opacity-0 scale-95"
     >
       <div
-        class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-800 shadow-lg"
+        class="absolute mt-1 w-full rounded-lg bg-white dark:bg-gray-800 shadow-lg"
         v-show="open && filteredCourses.length"
       >
         <ul
@@ -107,3 +107,21 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-white;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+</style>

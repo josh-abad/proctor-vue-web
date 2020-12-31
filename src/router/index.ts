@@ -57,6 +57,25 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: createTitle('Course')
         },
+        children: [
+          {
+            path: 'students',
+            props: true,
+            meta: {
+              transition: 'slide-left'
+            },
+            component: () => import('../components/CourseStudents.vue')
+          },
+          {
+            path: 'overview',
+            alias: '',
+            props: true,
+            meta: {
+              transition: 'slide-right'
+            },
+            component: () => import('../components/CourseOverview.vue')
+          }
+        ],
         component: () => import('../views/CoursePage.vue')
       },
       {

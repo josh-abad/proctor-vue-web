@@ -161,6 +161,13 @@ const getters = {
       return state.courses.find(course => course.id === id)
     }
   },
+  studentsByCourse (state: State): (courseId: string) => (User | undefined)[] | undefined {
+    return courseId => {
+      return state.courses.find(course => course.id === courseId)?.studentsEnrolled.map(studentId => {
+        return state.users.find(student => student.id === studentId)
+      })
+    }
+  },
   getExamByID (state: State): (id: string) => Exam | undefined {
     return (id) => {
       return state.exams.find(exam => exam.id === id)
@@ -248,8 +255,6 @@ const getters = {
   },
   examTaken (state: State): (examId: string) => boolean {
     return examId => {
-      console.log(examId)
-      console.log(state.examResults)
       return state.examResults.some(result => result.exam === examId)
     }
   }
@@ -292,7 +297,7 @@ export default createStore({
         commit(mutationType.ADD_COURSE, createdCourse)
         dispatch(actionType.ALERT, 'Course successfully created')
       } catch (error) {
-        dispatch(actionType.ALERT, 'Could not create course')
+        dispatch(actionType.ALERT, error.response.data.error)
       }
     },
     async [actionType.DELETE_COURSE] ({ commit, dispatch }, courseId: string): Promise<void> {

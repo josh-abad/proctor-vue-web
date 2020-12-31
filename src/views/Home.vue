@@ -1,29 +1,29 @@
 <template>
-  <div class="home">
-    <div class="text-2xl font-semibold text-green-600 dark:text-white">
-      Home
-    </div>
-    <div class="mt-8">
-      <BaseLabel
-        class="pb-4 border-b border-gray-300 dark:border-gray-700"
-        emphasis
-      >
-        Shortcuts</BaseLabel
-      >
-      <div class="mt-4 flex space-x-4">
-        <NavCard
-          :icon="icon1"
-          url="/students"
-          v-show="$store.getters.permissions('coordinator', 'admin')"
-          >Students</NavCard
+  <div>
+    <BasePanel>
+      <div class="text-2xl font-bold text-green-600 dark:text-white">Home</div>
+      <div class="mt-8">
+        <BaseLabel
+          class="pb-2 border-b border-gray-300 dark:border-gray-700"
+          emphasis
         >
-        <NavCard :icon="icon2" url="/courses">Courses</NavCard>
-        <NavCard :icon="icon3" url="/settings">Settings</NavCard>
+          Shortcuts</BaseLabel
+        >
+        <div class="mt-4 flex space-x-4">
+          <NavCard
+            :icon="icon1"
+            url="/students"
+            v-show="$store.getters.permissions('coordinator', 'admin')"
+            >Students</NavCard
+          >
+          <NavCard :icon="icon2" url="/courses">Courses</NavCard>
+          <NavCard :icon="icon3" url="/settings">Settings</NavCard>
+        </div>
       </div>
-    </div>
-    <div class="mt-8">
-      <RecentCourses />
-    </div>
+      <div class="mt-8">
+        <RecentCourses />
+      </div>
+    </BasePanel>
   </div>
 </template>
 
@@ -32,9 +32,10 @@ import { defineComponent } from 'vue'
 import RecentCourses from '@/components/RecentCourses.vue'
 import NavCard from '@/components/NavCard.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({
-  components: { RecentCourses, NavCard, BaseLabel },
+  components: { RecentCourses, NavCard, BaseLabel, BasePanel },
   name: 'Home',
   data () {
     return {

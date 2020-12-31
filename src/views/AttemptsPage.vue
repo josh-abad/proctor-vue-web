@@ -1,22 +1,18 @@
 <template>
   <div>
     <div>
-      <BasePanel>
-        <div class="text-3xl">
-          {{ exam.label }}
-        </div>
-        <Breadcrumbs class="mt-2" :links="links" />
-      </BasePanel>
+      <ColorHeader :links="links">{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
-        <div class="dark:text-gray-400 text-md">
+        <div class="dark:text-gray-400">
+          <div v-if="highestGrade">
+            Your highest score for this quiz is {{ highestGrade }}/{{
+              attempt.examTotal
+            }}.
+          </div>
           <div>
-            You have
-            {{ attemptsLeft }}
-            {{ attemptsLeft === 1 ? "attempt" : "attempts" }} left
+            {{ displayAttemptsLeft }}
           </div>
-          <div v-show="attemptsLeft > 0">
-            Time limit is {{ secondsToHMS(exam.duration) }}
-          </div>
+          <div v-show="attemptsLeft > 0">The quiz will end {{ duration }}.</div>
         </div>
         <div v-if="attempts.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
@@ -24,12 +20,17 @@
             class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md divide-y divide-gray-200 dark:divide-gray-600"
           >
             <div v-for="(attempt, i) in attempts" :key="attempt.id">
-              <AttemptRow :attemptNumber="i + 1" :attempt="attempt" />
+              <AttemptRow
+                :attemptNumber="i + 1"
+                :attempt="attempt"
+                @review-clicked="
+                  $router.push(`/courses/${courseId}/exams/${examId}`)
+                "
+              />
             </div>
           </div>
         </div>
-        <div v-else>You have made no attempts so far</div>
-        <div>Highest grade is {{ highestGrade }}</div>
+        <div v-else>You have made no attempts so far.</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
           <BaseButton
             v-show="attemptsLeft > 0"
@@ -40,7 +41,7 @@
             {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </BaseButton>
           <BaseButton
-            v-show="userRole === 'coordinator' || userRole === 'admin'"
+            v-show="$store.getters.permissions('coordinator', 'admin')"
             @click="deleteExam"
           >
             Delete exam
@@ -56,7 +57,7 @@ import AttemptRow from '@/components/AttemptRow.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import ColorHeader from '@/components/ColorHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { ALERT, DELETE_EXAM } from '@/store/action-types'
@@ -65,11 +66,14 @@ import {
   DISPLAY_DIALOG,
   SET_ACTIVE_EXAM
 } from '@/store/mutation-types'
-import { Attempt, DialogContent, Exam, Link, Role } from '@/types'
+import { Attempt, DialogContent, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+dayjs.extend(duration)
 
 export default defineComponent({
-  components: { BaseButton, AttemptRow, Breadcrumbs, BasePanel, BaseLabel },
+  components: { BaseButton, AttemptRow, BasePanel, BaseLabel, ColorHeader },
   name: 'AttemptsPage',
   props: {
     courseId: {
@@ -111,25 +115,17 @@ export default defineComponent({
     attemptsLeft (): number {
       return this.exam.maxAttempts - this.attempts.length
     },
-    userRole (): Role {
-      return this.$store.getters.userRole
+    displayAttemptsLeft (): string {
+      return `You have ${this.attemptsLeft} ${this.attemptsLeft === 1 ? 'attempt' : 'attempts'} left.`
     },
     highestGrade (): number {
       return this.attempts.reduce((a, b) => Math.max(a, b.score), 0)
+    },
+    duration (): string {
+      return dayjs.duration({ seconds: this.exam.duration }).humanize(true)
     }
   },
   methods: {
-    secondsToHMS (d: number) {
-      d = Number(d)
-      const h = Math.floor(d / 3600)
-      const m = Math.floor((d % 3600) / 60)
-      const s = Math.floor((d % 3600) % 60)
-
-      const hDisplay = h > 0 ? h + (h === 1 ? ' hour ' : ' hours ') : ''
-      const mDisplay = m > 0 ? m + (m === 1 ? ' minute ' : ' minutes ') : ''
-      const sDisplay = s > 0 ? s + (s === 1 ? ' second' : ' seconds') : ''
-      return hDisplay + mDisplay + sDisplay
-    },
     startAttempt () {
       this.$store.commit(DISPLAY_DIALOG, {
         header: 'Attempt Quiz',

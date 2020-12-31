@@ -16,12 +16,18 @@
         </div>
       </div>
     </div>
-    <div
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-      class="font-thin text-xl"
-    >
-      {{ grade }}
+    <div class="flex items-center">
+      <div class="font-thin text-xl mr-6">{{ percentage }}%</div>
+      <div class="font-thin text-xl mr-6">
+        {{ attempt.score }}/{{ attempt.examTotal }}
+      </div>
+      <button
+        class="focus:outline-none"
+        @click="$emit('review-clicked')"
+        v-show="$store.getters.permissions('coordinator', 'admin')"
+      >
+        Review
+      </button>
     </div>
   </div>
 </template>
@@ -35,11 +41,7 @@ dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptRow',
-  data () {
-    return {
-      hover: false
-    }
-  },
+  emits: ['review-clicked'],
   props: {
     attemptNumber: Number,
     attempt: {
@@ -50,9 +52,6 @@ export default defineComponent({
   computed: {
     percentage (): number {
       return Math.floor(this.attempt.score / this.attempt.examTotal * 100)
-    },
-    grade (): string {
-      return this.hover ? `${this.attempt.score}/${this.attempt.examTotal}` : `${this.percentage}%`
     }
   },
   methods: {

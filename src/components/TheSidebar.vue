@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-52 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition-all duration-300 bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-lg"
+      class="transform w-52 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition-all duration-300 bg-gray-100 dark:bg-gray-800 shadow-lg"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex flex-col">
@@ -9,13 +9,13 @@
           :key="i"
           :to="content.url"
           v-for="(content, i) in contents"
-          class="transition duration-300 ease-in-out transform flex items-center px-3 py-2 rounded-lg mx-3 my-1 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-30 dark:hover:bg-opacity-50"
+          class="transition duration-200 ease-in-out transform flex items-center px-3 py-2 rounded-lg mx-3 my-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover"
         >
           <div
             class="fill-current text-green-500 w-5 h-5"
             v-html="content.icon"
           />
-          <div class="ml-6 text-sm">
+          <div class="ml-6">
             {{ content.label }}
           </div>
         </router-link>
@@ -71,9 +71,9 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-/* .router-link-active { */
-/* @apply text-green-500 dark:text-green-500 font-semibold */
-/* } */
+.router-link-active {
+  @apply bg-gray-300 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-50 text-gray-900 dark:text-white;
+}
 
 ::-webkit-scrollbar {
   width: 5px;

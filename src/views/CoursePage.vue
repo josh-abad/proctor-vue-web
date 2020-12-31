@@ -1,77 +1,40 @@
 <template>
   <div v-if="course">
-    <BasePanel>
-      <h1 class="text-3xl">{{ course.name }}</h1>
-      <Breadcrumbs class="mt-2" :links="links" />
-    </BasePanel>
-    <div class="mt-4 flex">
-      <BasePanel class="mr-4 pt-2 flex-grow">
+    <ColorHeader :links="links">{{ course.name }}</ColorHeader>
+
+    <div class="flex mt-4">
+      <div class="flex-grow mr-4">
         <div
-          v-if="course.weeks"
-          class="flex flex-col space-y-4 divide-y divide-gray-300 dark:divide-gray-700 div"
+          v-if="$store.getters.permissions('coordinator', 'admin')"
+          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-gray-800 rounded-t-lg shadow"
         >
-          <div v-for="week in course.weeks" :key="week">
-            <BaseLabel class="mt-4 mb-2" emphasis> Week {{ week }} </BaseLabel>
-            <div
-              class="text-base font-normal flex items-center"
-              v-for="exam in exams.filter((exam) => exam.week === week)"
-              :key="exam.id"
-            >
-              <svg
-                v-if="$store.getters.examTaken(exam.id)"
-                class="stroke-current text-green-500 w-5 h-5"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <rect x="4" y="4" width="16" height="16" rx="2" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-              <svg
-                v-else
-                class="stroke-current text-gray-400 dark:text-gray-600 w-5 h-5"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <rect x="4" y="4" width="16" height="16" rx="2" />
-              </svg>
-              <router-link
-                :to="`/courses/${courseId}/exams/${exam.id}`"
-                class="ml-2"
-                >{{ exam.label }}</router-link
-              >
-            </div>
-          </div>
+          <router-link
+            :to="`/courses/${courseId}`"
+            class="px-4 py-2 text-center"
+          >
+            Overview
+          </router-link>
+          <router-link
+            :to="`/courses/${courseId}/students`"
+            class="px-4 py-2 text-center"
+          >
+            Students
+          </router-link>
         </div>
-      </BasePanel>
-      <div class="w-72">
-        <BasePanel>
-          <BaseLabel emphasis>About course</BaseLabel>
-          <div class="text-sm">
-            {{ course.description }}
-          </div>
-          <div class="mt-4">
-            <div>{{ course.studentsEnrolled.length }}</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">
-              {{
-                course.studentsEnrolled.length === 1 ? "Student" : "Students"
-              }}
-              Enrolled
-            </div>
-          </div>
-          <BaseLabel class="mt-4" emphasis> Course Coordinator </BaseLabel>
-          <div>
-            {{ course.coordinator.name.first }}
-            {{ course.coordinator.name.last }}
-          </div>
+        <BasePanel class="rounded-t-none pt-2 overflow-hidden">
+          <router-view v-slot="{ Component, route }" class="rounded-t-none">
+            <transition :name="route.meta.transition || 'fade'" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
         </BasePanel>
+      </div>
+      <div class="w-72">
+        <AboutCourse
+          :studentCount="course.studentsEnrolled.length"
+          :description="course.description"
+          :coordinatorName="coordinatorName"
+        />
         <BasePanel v-if="$store.getters.permissions('admin')" class="mt-4">
           <BaseLabel emphasis>Admin options</BaseLabel>
           <div class="mt-2">
@@ -100,6 +63,13 @@
                 >Create Exam</BaseButton
               >
             </div>
+            <div class="mt-2">
+              <BaseButton
+                class="w-full"
+                @click="$router.push(`/courses/${courseId}/students`)"
+                >View Students</BaseButton
+              >
+            </div>
           </div>
         </BasePanel>
       </div>
@@ -117,18 +87,19 @@
 </template>
 
 <script lang="ts">
+import AboutCourse from '@/components/AboutCourse.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import Center from '@/components/Center.vue'
+import ColorHeader from '@/components/ColorHeader.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
-import { Course, DialogContent, Exam, Link, Role } from '@/types'
+import { Course, DialogContent, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, Breadcrumbs, BasePanel, Center, BaseLabel },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse },
   name: 'CoursePage',
   props: {
     courseId: {
@@ -160,10 +131,7 @@ export default defineComponent({
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)
     },
-    exams (): Exam[] {
-      return this.$store.getters.getExamsByCourse(this.courseId)
-    },
-    coordinatorFullName (): string {
+    coordinatorName (): string {
       if (this.course.coordinator) {
         const { first, last } = this.course.coordinator.name
         return `${first} ${last}`
@@ -197,3 +165,36 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.router-link-active {
+  @apply rounded-t-lg font-semibold bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border-b-2 border-green-500;
+}
+
+.slide-left-enter-active,
+.slide-right-enter-active {
+  @apply transition-all duration-300 ease-out;
+}
+
+.slide-left-leave-active,
+.slide-right-leave-active {
+  @apply transition-all duration-300 ease-in;
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+  @apply transform-gpu translate-x-40 opacity-0;
+}
+
+.slide-left-enter-to,
+.slide-right-leave-from,
+.slide-right-enter-to,
+.slide-left-leave-from {
+  @apply transform-gpu translate-x-0 opacity-100;
+}
+
+.slide-right-enter-from,
+.slide-left-leave-to {
+  @apply transform-gpu -translate-x-5 opacity-0;
+}
+</style>

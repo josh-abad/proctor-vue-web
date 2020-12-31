@@ -15,14 +15,6 @@
           stroke="currentColor"
         >
           <path
-            v-if="isOpen"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-          <path
-            v-else
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
@@ -40,7 +32,7 @@
       </router-link>
     </div>
     <div class="flex items-center">
-      <div>
+      <div class="mr-5">
         <SearchBar />
       </div>
       <div class="hidden items-center sm:flex md:block">

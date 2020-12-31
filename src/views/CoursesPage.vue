@@ -1,7 +1,7 @@
 <template>
   <div>
     <BasePanel>
-      <BaseLabel emphasis>Your Courses</BaseLabel>
+      <div class="text-2xl font-bold">Your Courses</div>
       <div class="grid grid-cols-3 gap-6 mt-3 sm:grid-cols-2 md:grid-cols-3">
         <div :key="course.id" v-for="course in alphabeticalCourses">
           <CourseCard :course="course" />
@@ -18,14 +18,13 @@
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import CourseCard from '@/components/CourseCard.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { CourseCard, BaseButton, BasePanel, BaseLabel },
+  components: { CourseCard, BaseButton, BasePanel },
   name: 'CoursesPage',
   computed: {
     courses (): Course[] {

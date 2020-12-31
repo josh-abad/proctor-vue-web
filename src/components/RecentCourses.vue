@@ -1,13 +1,15 @@
 <template>
   <div v-show="recentCourses.length > 0">
-    <BasePanel>
-      <BaseLabel emphasis>Recent Courses</BaseLabel>
-      <div class="grid grid-cols-3 gap-6 mt-3 sm:grid-cols-2 md:grid-cols-3">
-        <div :key="course.id" v-for="course in recentCourses">
-          <CourseCard :course="course" />
-        </div>
+    <BaseLabel
+      class="pb-2 border-b border-gray-300 dark:border-gray-700"
+      emphasis
+      >Recent Courses</BaseLabel
+    >
+    <div class="grid grid-cols-3 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+      <div :key="course.id" v-for="course in recentCourses">
+        <CourseCard :course="course" />
       </div>
-    </BasePanel>
+    </div>
   </div>
 </template>
 
@@ -15,11 +17,10 @@
 import CourseCard from '@/components/CourseCard.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import BasePanel from '@/components/BasePanel.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 
 export default defineComponent({
-  components: { CourseCard, BasePanel, BaseLabel },
+  components: { CourseCard, BaseLabel },
   name: 'RecentCourses',
   computed: {
     recentCourses (): Course[] {

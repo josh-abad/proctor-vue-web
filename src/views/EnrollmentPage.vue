@@ -64,7 +64,17 @@ export default defineComponent({
         return !course.studentsEnrolled.includes(this.student.id)
       }
 
-      const options: Option[] = courses.filter(unenrolledCourses).map(course => {
+      const alphabetical = (a: Course, b: Course) => {
+        const nameA = a.name.toLowerCase()
+        const nameB = b.name.toLowerCase()
+        if (nameA < nameB) {
+          return -1
+        } else if (nameA > nameB) {
+          return 1
+        }
+        return 0
+      }
+      const options: Option[] = courses.filter(unenrolledCourses).sort(alphabetical).map(course => {
         return {
           text: course.name,
           value: course.id

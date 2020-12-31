@@ -1,25 +1,31 @@
 <template>
-  <div v-if="hasToken && activeExam === exam.id">
-    <BasePanel>
-      <div class="text-xl">
-        {{ exam.label }}
+  <div>
+    <div
+      v-if="
+        $store.getters.permissions('coordinator', 'admin') ||
+        (hasToken && activeExam === exam.id)
+      "
+    >
+      <BasePanel>
+        <div class="text-xl">
+          {{ exam.label }}
+        </div>
+        <BaseLabel>
+          {{ exam.course.name }}
+        </BaseLabel>
+      </BasePanel>
+      <BaseExamItem
+        v-for="(item, i) in exam.examItems"
+        :key="i"
+        :examItem="item"
+        :questionNumber="i + 1"
+        @answer-changed="handleAnswerChange"
+      />
+      <div class="mt-4 flex justify-end">
+        <BaseButton @click="handleSubmit" prominent>Submit</BaseButton>
       </div>
-      <BaseLabel>
-        {{ exam.course.name }}
-      </BaseLabel>
-    </BasePanel>
-    <BaseExamItem
-      v-for="(item, i) in exam.examItems"
-      :key="i"
-      :examItem="item"
-      :questionNumber="i + 1"
-      @answer-changed="handleAnswerChange"
-    />
-    <div class="mt-4 flex justify-end">
-      <BaseButton @click="handleSubmit" prominent>Submit</BaseButton>
+      <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
     </div>
-    <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
-  </div>
     <Center v-else>
       <div class="flex flex-col items-center">
         <p class="font-thin text-2xl">
@@ -32,7 +38,8 @@
           >Return to course</BaseButton
         >
       </div>
-  </Center>
+    </Center>
+  </div>
 </template>
 
 <script lang="ts">
