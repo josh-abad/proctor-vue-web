@@ -7,7 +7,7 @@
         <slot></slot>
       </div>
       <svg
-        class="fill-current w-6 h-6 cursor-pointer"
+        class="fill-current text-white w-6 h-6 cursor-pointer"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

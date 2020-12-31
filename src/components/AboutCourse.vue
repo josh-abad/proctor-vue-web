@@ -1,5 +1,5 @@
 <template>
-  <BasePanel>
+  <BasePanel vibrancy>
     <BaseLabel emphasis>About course</BaseLabel>
     <div class="text-sm">
       {{ description }}

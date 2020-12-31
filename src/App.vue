@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white"
+    class="app min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t dark:from-gray-900 dark:to-green-900"
   >
     <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
@@ -126,5 +126,9 @@ export default defineComponent({
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-500 dark:bg-gray-600;
+}
+
+.vibrancy {
+  @apply bg-opacity-50 dark:bg-opacity-70 backdrop-blur;
 }
 </style>

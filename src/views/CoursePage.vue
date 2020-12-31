@@ -1,23 +1,19 @@
 <template>
-  <div v-if="course">
+  <div
+    v-if="course"
+    class="bg-gradient-to-t from-gray-300 to-gray-200 dark:from-gray-900 dark:to-green-900"
+  >
     <ColorHeader :links="links">{{ course.name }}</ColorHeader>
 
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
-          v-if="$store.getters.permissions('coordinator', 'admin')"
-          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-gray-800 rounded-t-lg shadow"
+          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-gray-800 rounded-t-lg shadow border-b border-gray-300 dark:border-gray-700 bg-opacity-50 dark:bg-opacity-75 backdrop-blur"
         >
-          <router-link
-            :to="`/courses/${courseId}`"
-            class="px-4 py-2 text-center"
-          >
+          <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
           </router-link>
-          <router-link
-            :to="`/courses/${courseId}/students`"
-            class="px-4 py-2 text-center"
-          >
+          <router-link :to="`/courses/${courseId}/students`" class="tab">
             Students
           </router-link>
         </div>
@@ -167,8 +163,12 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
+.tab {
+  @apply px-6 py-2 text-center dark:hover:text-white;
+}
+
 .router-link-active {
-  @apply rounded-t-lg font-semibold bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border-b-2 border-green-500;
+  @apply rounded-t-lg font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
 }
 
 .slide-left-enter-active,
