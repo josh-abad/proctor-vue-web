@@ -5,9 +5,7 @@
       <BasePanel class="mt-4">
         <div class="dark:text-gray-400">
           <div v-if="highestGrade">
-            Your highest score for this quiz is {{ highestGrade }}/{{
-              attempt.examTotal
-            }}.
+            Your highest score for this quiz is {{ highestGrade }}.
           </div>
           <div>
             {{ displayAttemptsLeft }}
