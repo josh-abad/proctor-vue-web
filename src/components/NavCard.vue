@@ -10,6 +10,11 @@
     <div class="text-sm mt-2 text-green-100 group-hover:text-white">
       <slot></slot>
     </div>
+    <span
+      v-if="quantity"
+      class="absolute right-0 top-0 -mt-2 -mr-2 rounded-full bg-gradient-to-tr from-red-600 to-red-400 p-1 text-xs w-6 h-6 text-center"
+      >{{ quantity }}</span
+    >
   </BasePanel>
 </template>
 
@@ -27,6 +32,10 @@ export default defineComponent({
     },
     url: {
       type: String,
+      required: false
+    },
+    quantity: {
+      type: Number,
       required: false
     }
   }

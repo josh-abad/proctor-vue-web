@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="course"
-    class="bg-gradient-to-t from-gray-300 to-gray-200 dark:from-gray-900 dark:to-green-900"
-  >
+  <div v-if="course">
     <ColorHeader :links="links">{{ course.name }}</ColorHeader>
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
@@ -17,7 +14,7 @@
           </router-link>
         </div>
         <BasePanel class="rounded-t-none pt-2 overflow-hidden">
-          <router-view v-slot="{ Component, route }" class="rounded-t-none">
+          <router-view v-slot="{ Component, route }">
             <transition :name="route.meta.transition || 'fade'" mode="out-in">
               <component :is="Component" />
             </transition>
@@ -62,13 +59,6 @@
                 class="w-full"
                 @click="$router.push(`/courses/${courseId}/exams/new`)"
                 >Create Exam</BaseButton
-              >
-            </div>
-            <div class="mt-2">
-              <BaseButton
-                class="w-full"
-                @click="$router.push(`/courses/${courseId}/students`)"
-                >View Students</BaseButton
               >
             </div>
           </div>

@@ -1,8 +1,15 @@
 <template>
-  <div>
-    {{ displayHours === "00" ? "" : `${displayHours}:` }}{{ displayMinutes }}:{{
-      displaySeconds
-    }}
+  <div class="flex items-center h-10 rounded overflow-hidden">
+    <div class="w-2 h-full bg-green-500" />
+    <div class="p-3 bg-gray-700 text-lg font-semibold">
+      <span v-if="displayHours !== '00'"
+        >{{ displayHours }}<span class="font-thin">h</span></span
+      >
+      <span v-if="displayMinutes !== '00'"
+        >{{ displayMinutes }}<span class="font-thin">m</span></span
+      >
+      {{ displaySeconds }}<span class="font-thin">s</span>
+    </div>
   </div>
 </template>
 

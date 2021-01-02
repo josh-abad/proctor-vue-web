@@ -14,7 +14,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <h1 class="ml-2 text-lg">Settings</h1>
+        <div class="ml-2 font-bold text-2xl">Settings</div>
       </div>
       <div class="mt-4">
         <h1

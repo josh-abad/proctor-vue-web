@@ -20,7 +20,7 @@
         />
       </svg>
     </div>
-    <Breadcrumbs class="mt-2" :links="links" />
+    <Breadcrumbs class="mt-2" :links="links" v-if="links" />
   </BasePanel>
 </template>
 
@@ -35,7 +35,7 @@ export default defineComponent({
   props: {
     links: {
       type: Array,
-      required: true
+      required: false
     }
   }
 })

@@ -1,11 +1,11 @@
 <template>
   <div class="mt-4">
     <div class="flex justify-between items-start">
-    <BaseInput
-      type="text"
-      v-model="searchFilter"
-      placeholder="Filter students"
-    />
+      <BaseInput
+        type="text"
+        v-model="searchFilter"
+        placeholder="Filter students"
+      />
       <div>
         <button
           @click="addStudentModalOpen = true"
@@ -80,21 +80,10 @@ export default defineComponent({
   },
   computed: {
     students (): User[] {
-      return this.$store.getters.studentsByCourse(this.courseId)
-    },
-    alphabeticalStudents (): User[] {
-      const alphabetical = (a: User, b: User) => {
-        if (a.name.last < b.name.last) {
-          return -1
-        } else if (a.name.last > b.name.last) {
-          return 1
-        }
-        return 0
-      }
-      return [...this.students].sort(alphabetical)
+      return this.$store.getters.studentsByCourse(this.courseId, true)
     },
     filteredStudents (): User[] {
-      return this.alphabeticalStudents.filter(student => {
+      return this.students.filter(student => {
         const { first, last } = student.name
         return `${first} ${last}`.toLowerCase().includes(this.searchFilter.toLowerCase())
       })

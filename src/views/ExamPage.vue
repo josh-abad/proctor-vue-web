@@ -6,25 +6,20 @@
         (hasToken && activeExam === exam.id)
       "
     >
-      <BasePanel>
-        <div class="text-xl">
-          {{ exam.label }}
+      <ColorHeader>{{ exam.label }}</ColorHeader>
+      <BasePanel class="mt-4">
+        <BaseExamItem
+          v-for="(item, i) in exam.examItems"
+          :key="i"
+          :examItem="item"
+          :questionNumber="i + 1"
+          @answer-changed="handleAnswerChange"
+        />
+        <div class="mt-4 flex justify-between items-center">
+          <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
+          <BaseButton @click="handleSubmit" prominent>Submit</BaseButton>
         </div>
-        <BaseLabel>
-          {{ exam.course.name }}
-        </BaseLabel>
       </BasePanel>
-      <BaseExamItem
-        v-for="(item, i) in exam.examItems"
-        :key="i"
-        :examItem="item"
-        :questionNumber="i + 1"
-        @answer-changed="handleAnswerChange"
-      />
-      <div class="mt-4 flex justify-end">
-        <BaseButton @click="handleSubmit" prominent>Submit</BaseButton>
-      </div>
-      <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
     </div>
     <Center v-else>
       <div class="flex flex-col items-center">
@@ -52,11 +47,11 @@ import Timer from '@/components/Timer.vue'
 import { DISPLAY_DIALOG, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
 import Center from '@/components/Center.vue'
+import ColorHeader from '@/components/ColorHeader.vue'
 
 export default defineComponent({
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, BaseLabel, Center },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader },
   name: 'ExamPage',
   data () {
     const answers: Answer[] = []
@@ -80,7 +75,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    document.title = this.exam.label
+    document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
     this.hasToken = examResultsServices.hasToken()
   },
   computed: {

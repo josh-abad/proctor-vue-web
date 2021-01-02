@@ -21,6 +21,7 @@ import {
 import { createStore } from 'vuex'
 import * as actionType from './action-types'
 import * as mutationType from './mutation-types'
+import { alphabeticalUsers } from '@/utils/sort'
 
 const state: State = {
   user: null,
@@ -161,11 +162,16 @@ const getters = {
       return state.courses.find(course => course.id === id)
     }
   },
-  studentsByCourse (state: State): (courseId: string) => (User | undefined)[] | undefined {
-    return courseId => {
-      return state.courses.find(course => course.id === courseId)?.studentsEnrolled.map(studentId => {
+  studentsByCourse (state: State): (courseId: string, sorted?: boolean) => (User | undefined)[] | undefined {
+    return (courseId, sorted = false) => {
+      const course = state.courses.find(course => course.id === courseId)
+      const students = course?.studentsEnrolled.map(studentId => {
         return state.users.find(student => student.id === studentId)
       })
+      if (sorted && students) {
+        students.sort(alphabeticalUsers)
+      }
+      return students
     }
   },
   getExamByID (state: State): (id: string) => Exam | undefined {
@@ -205,8 +211,12 @@ const getters = {
       return state.users.filter(user => user.role === 'student').find(student => student.id === studentId)
     }
   },
+  /**
+   * Returns all users that have a student role alphabetically
+   * @param {State} state the application state
+   */
   students (state: State): Omit<User, 'token'>[] {
-    return state.users.filter(user => user.role === 'student')
+    return [...state.users.filter(user => user.role === 'student')].sort(alphabeticalUsers)
   },
   getAttemptsByExam (state: State): (examId: string) => Attempt[] | undefined {
     return (examId) => {
