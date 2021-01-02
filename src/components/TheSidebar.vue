@@ -9,14 +9,16 @@
           :key="i"
           :to="content.url"
           v-for="(content, i) in contents"
-          class="transition duration-200 ease-in-out transform flex items-center px-3 py-2 rounded-lg mx-3 my-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover"
+          class="ease-in-out duration-300 text-green-200 dark:text-gray-400 hover:text-white dark:hover:text-white"
         >
           <div
-            class="fill-current text-green-500 w-5 h-5"
-            v-html="content.icon"
-          />
+            v-if="content.authorized === undefined || content.authorized"
+            class="flex items-center px-6 py-2 my-1"
+          >
+            <div class="fill-current w-5 h-5" v-html="content.icon" />
           <div class="ml-6">
             {{ content.label }}
+          </div>
           </div>
         </router-link>
       </div>
@@ -51,6 +53,13 @@ export default defineComponent({
           url: '/courses',
           icon:
             '<svg fill="currentColor" viewBox="0 0 20 20"><defs/><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg>'
+        },
+        {
+          label: 'Students',
+          url: '/students',
+          authorized: this.$store.getters.permissions('coordinator', 'admin'),
+          icon:
+            '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>'
         },
         {
           label: 'Calendar',
