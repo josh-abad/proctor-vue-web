@@ -22,7 +22,9 @@
                 :attemptNumber="i + 1"
                 :attempt="attempt"
                 @review-clicked="
-                  $router.push(`/courses/${courseId}/exams/${examId}`)
+                  $router.push(
+                    `/courses/${courseId}/exams/${examId}/${attempt.id}`
+                  )
                 "
               />
             </div>
