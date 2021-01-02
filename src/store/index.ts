@@ -299,6 +299,15 @@ export default createStore({
         dispatch(actionType.ALERT, error.response.data.error)
       }
     },
+    async [actionType.ENROLL_STUDENTS] ({ commit, dispatch }, { userIds, courseId }): Promise<void> {
+      try {
+        const updatedCourse = await coursesService.enrollUsers(userIds, courseId)
+        commit(mutationType.UPDATE_COURSE, updatedCourse)
+        dispatch(actionType.ALERT, 'Students successfully added to course.')
+      } catch (error) {
+        dispatch(actionType.ALERT, error.response.data.error)
+      }
+    },
     async [actionType.CREATE_COURSE] ({ commit, dispatch }, newCourse: NewCourse): Promise<void> {
       try {
         const createdCourse = await coursesService.create(newCourse)

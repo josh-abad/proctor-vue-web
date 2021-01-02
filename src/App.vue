@@ -2,6 +2,7 @@
   <div
     class="app min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t dark:from-gray-900 dark:to-green-900"
   >
+    <div id="modals"></div>
     <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
       <TheNavBar

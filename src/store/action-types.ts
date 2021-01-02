@@ -1,6 +1,7 @@
 export const LOAD_USERS = 'LOAD_USERS'
 
 export const ENROLL_STUDENT = 'ENROLL_STUDENT'
+export const ENROLL_STUDENTS = 'ENROLL_STUDENTS'
 
 export const LOAD_COURSES = 'LOAD_COURSES'
 export const CREATE_COURSE = 'CREATE_COURSE'
