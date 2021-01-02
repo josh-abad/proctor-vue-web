@@ -25,7 +25,8 @@ module.exports = {
       backgroundColor: ['active'],
       backgroundOpacity: ['dark'],
       outline: ['focus'],
-      opacity: ['disabled']
+      opacity: ['disabled'],
+      scale: ['active']
     }
   },
   plugins: [

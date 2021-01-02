@@ -1,6 +1,6 @@
 <template>
   <div
-    class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg overflow-hidden bg-white dark:bg-gray-700 rounded-lg shadow-md w-45 h-25"
+    class="transition duration-500 ease-in-out transform hover:shadow-lg active:scale-95 overflow-hidden bg-white dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg shadow-md w-45 h-25"
   >
     <router-link :to="`/courses/${course.id}`">
       <img
