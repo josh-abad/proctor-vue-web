@@ -185,6 +185,14 @@ const getters = {
       })
     }
   },
+  courseCompletedPercentage (state: State): (courseId: string) => number | undefined {
+    return (courseId) => {
+      const exams = state.exams.filter(exam => exam.course.id === courseId)
+      const examsTaken = exams.map(exam => state.examResults.find(result => result.exam === exam.id)).filter(exam => !!exam)
+      const percentage = examsTaken.length / exams.length * 100
+      return examsTaken.length === 0 ? 0 : percentage
+    }
+  },
   // getExamItemsByCourse (state: State): (courseId: string) => ExamItem[] | undefined {
   //   return (courseId) => {
   //     return state.examItems.filter(examItem => {

@@ -4,7 +4,6 @@
     class="bg-gradient-to-t from-gray-300 to-gray-200 dark:from-gray-900 dark:to-green-900"
   >
     <ColorHeader :links="links">{{ course.name }}</ColorHeader>
-
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
@@ -31,6 +30,12 @@
           :description="course.description"
           :coordinatorName="coordinatorName"
         />
+        <BasePanel class="mt-4" vibrancy>
+          <BaseLabel emphasis>Course Progress</BaseLabel>
+          <ProgressBar
+            :percentage="$store.getters.courseCompletedPercentage(courseId)"
+          />
+        </BasePanel>
         <BasePanel v-if="$store.getters.permissions('admin')" class="mt-4">
           <BaseLabel emphasis>Admin options</BaseLabel>
           <div class="mt-2">
@@ -89,13 +94,14 @@ import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
 import { Course, DialogContent, Link, Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar },
   name: 'CoursePage',
   props: {
     courseId: {
