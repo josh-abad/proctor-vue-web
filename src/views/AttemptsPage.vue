@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <ColorHeader :links="links">{{ exam.label }}</ColorHeader>
+      <ColorHeader :links="links" hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
         <div class="dark:text-gray-400">
           <div v-if="highestGrade">

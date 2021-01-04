@@ -6,6 +6,7 @@
         { name: 'Courses', url: '/courses' },
       ]"
       @menu-clicked="isOpen = !isOpen"
+      :hideMenu="!$store.getters.permissions('admin')"
       >Courses</ColorHeader
     >
     <transition

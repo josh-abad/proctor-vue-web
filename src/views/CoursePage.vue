@@ -1,6 +1,51 @@
 <template>
   <div v-if="course">
-    <ColorHeader :links="links">{{ course.name }}</ColorHeader>
+    <ColorHeader
+      :links="links"
+      @menu-clicked="menuOpen = !menuOpen"
+      :hideMenu="!$store.getters.permissions('coordinator', 'admin')"
+      >{{ course.name }}</ColorHeader
+    >
+    <transition
+      enter-active-class="transition ease-out duration-100 transform"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75 transform"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
+      v-show="menuOpen"
+    >
+      <div
+        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
+      >
+        <div
+          class="py-1"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="options-menu"
+        >
+          <router-link
+            :to="`/courses/${courseId}/exams/new`"
+            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            role="menuitem"
+            >Create Exam</router-link
+          >
+          <router-link
+            :to="`/courses/${courseId}/edit`"
+            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            role="menuitem"
+            >Edit Course</router-link
+          >
+          <button
+            @click="deleteCourse"
+            class="block w-full text-left px-4 py-2 text-sm border-t dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+            role="menuitem"
+          >
+            Delete Course
+          </button>
+        </div>
+      </div>
+    </transition>
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
@@ -33,36 +78,6 @@
             :percentage="$store.getters.courseCompletedPercentage(courseId)"
           />
         </BasePanel>
-        <BasePanel v-if="$store.getters.permissions('admin')" class="mt-4">
-          <BaseLabel emphasis>Admin options</BaseLabel>
-          <div class="mt-2">
-            <div>
-              <BaseButton class="w-full" @click="editCourse"
-                >Edit Course</BaseButton
-              >
-            </div>
-            <div class="mt-2">
-              <BaseButton class="w-full" @click="deleteCourse"
-                >Delete Course</BaseButton
-              >
-            </div>
-          </div>
-        </BasePanel>
-        <BasePanel
-          v-if="$store.getters.permissions('coordinator', 'admin')"
-          class="mt-4"
-        >
-          <BaseLabel emphasis>Coordinator options</BaseLabel>
-          <div class="mt-2">
-            <div>
-              <BaseButton
-                class="w-full"
-                @click="$router.push(`/courses/${courseId}/exams/new`)"
-                >Create Exam</BaseButton
-              >
-            </div>
-          </div>
-        </BasePanel>
       </div>
     </div>
     <div class="mt-4" v-show="userRole === 'coordinator'"></div>
@@ -93,6 +108,11 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar },
   name: 'CoursePage',
+  data () {
+    return {
+      menuOpen: false
+    }
+  },
   props: {
     courseId: {
       type: String,

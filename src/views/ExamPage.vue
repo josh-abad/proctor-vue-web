@@ -6,7 +6,7 @@
         (hasToken && activeExam === exam.id)
       "
     >
-      <ColorHeader>{{ exam.label }}</ColorHeader>
+      <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
         <BaseExamItem
           v-for="(item, i) in exam.examItems"

@@ -11,6 +11,7 @@
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
+        v-if="!hideMenu"
         @click="$emit('menu-clicked')"
       >
         <path
@@ -38,6 +39,10 @@ export default defineComponent({
     links: {
       type: Array,
       required: false
+    },
+    hideMenu: {
+      type: Boolean,
+      default: false
     }
   }
 })
