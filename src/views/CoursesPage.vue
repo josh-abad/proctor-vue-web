@@ -97,11 +97,22 @@
               v-for="course in alphabeticalCourses"
               class="flex justify-between items-center py-3"
             >
-              <div>
-                <BaseLabel emphasis>2023T Online Class</BaseLabel>
-                <router-link :to="`/courses/${course.id}`">
-                  {{ course.name }}
-                </router-link>
+              <div class="flex">
+                <div class="rounded overflow-hidden w-40 h-20 shadow">
+                  <router-link :to="`/courses/${course.id}`">
+                    <img
+                      src="../assets/course-card-bg.jpg"
+                      alt="Course image"
+                      class="h-full object-cover"
+                    />
+                  </router-link>
+                </div>
+                <div class="ml-3">
+                  <BaseLabel emphasis>2023T Online Class</BaseLabel>
+                  <router-link :to="`/courses/${course.id}`">
+                    {{ course.name }}
+                  </router-link>
+                </div>
               </div>
               <div class="w-60">
                 <ProgressBar
