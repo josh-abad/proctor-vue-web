@@ -28,7 +28,7 @@ const state: State = {
   users: [],
   courses: [],
   recentCourses: [],
-  maxRecentCourses: 3,
+  maxRecentCourses: 6,
   exams: [],
   message: '',
   attempts: [],
@@ -268,6 +268,9 @@ const getters = {
   },
   permissions (state: State): (...roles: Role[]) => boolean {
     return (...roles) => {
+      if (!state.user) {
+        return false
+      }
       return roles.includes((state.user as AuthenticatedUser).role)
     }
   },
