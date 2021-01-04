@@ -135,7 +135,7 @@ export default defineComponent({
       viewMode: 'list' as 'card' | 'list'
     }
   },
-  mounted () {
+  created () {
     const coursesPageViewState = localStorage.getItem('coursesPageViewState')
     if (coursesPageViewState) {
       this.viewMode = JSON.parse(coursesPageViewState)
