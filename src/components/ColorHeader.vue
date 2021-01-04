@@ -11,6 +11,7 @@
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
+        @click="$emit('menu-clicked')"
       >
         <path
           stroke-linecap="round"
@@ -32,6 +33,7 @@ import Breadcrumbs from '@/components/Breadcrumbs.vue'
 export default defineComponent({
   name: 'ColorHeader',
   components: { BasePanel, Breadcrumbs },
+  emits: ['menu-clicked'],
   props: {
     links: {
       type: Array,

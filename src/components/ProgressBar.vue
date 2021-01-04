@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ percentage }}%
     <div
       class="bg-gray-300 dark:bg-gray-700 w-full h-2 rounded-full overflow-hidden"
     >
@@ -8,6 +7,10 @@
         :style="`width: ${percentage}%`"
         class="bg-gradient-to-r from-green-600 to-green-400 percentage h-full rounded-full"
       />
+    </div>
+    <div class="text-sm">
+      <span class="font-semibold">{{ percentage }}</span
+      >% complete
     </div>
   </div>
 </template>
