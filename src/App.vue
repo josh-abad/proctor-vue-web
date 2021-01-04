@@ -104,9 +104,6 @@ export default defineComponent({
     },
     isLoggedIn () {
       return this.$store.getters.isLoggedIn
-    },
-    isDarkTheme (): boolean {
-      return this.$store.state.isDarkTheme
     }
   }
 })
