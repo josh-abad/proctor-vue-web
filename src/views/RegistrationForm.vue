@@ -106,6 +106,7 @@ export default defineComponent({
     return {
       firstName: '',
       lastName: '',
+      email: '',
       username: '',
       password: '',
       confirmPassword: ''
@@ -131,6 +132,7 @@ export default defineComponent({
           first: this.firstName,
           last: this.lastName
         },
+        email: this.email,
         username: this.username,
         password: this.password
       }

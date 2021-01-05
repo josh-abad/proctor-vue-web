@@ -71,10 +71,12 @@
           :studentCount="course.studentsEnrolled.length"
           :description="course.description"
           :coordinatorName="coordinatorName"
+          :coordinatorAvatarUrl="course.coordinator.avatarUrl"
         />
         <BasePanel class="mt-4">
           <BaseLabel emphasis>Course Progress</BaseLabel>
           <ProgressBar
+            class="mt-2"
             :percentage="$store.getters.courseCompletedPercentage(courseId)"
           />
         </BasePanel>

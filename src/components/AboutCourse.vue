@@ -11,9 +11,20 @@
         Enrolled
       </div>
     </div>
-    <BaseLabel class="mt-4" emphasis> Course Coordinator </BaseLabel>
-    <div>
-      {{ coordinatorName }}
+    <div class="mt-4 flex items-center">
+      <img
+        :src="coordinatorAvatarUrl || 'http://gravatar.com/avatar/default'"
+        alt="Avatar"
+        class="w-10 h-10 object-cover rounded-full"
+      />
+      <div class="ml-2">
+        <div>
+          {{ coordinatorName }}
+        </div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">
+          Course Coordinator
+        </div>
+      </div>
     </div>
   </BasePanel>
 </template>
@@ -36,6 +47,10 @@ export default defineComponent({
       required: true
     },
     coordinatorName: {
+      type: String,
+      required: true
+    },
+    coordinatorAvatarUrl: {
       type: String,
       required: true
     }

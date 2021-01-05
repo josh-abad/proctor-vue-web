@@ -8,6 +8,9 @@ export interface User {
   };
   username: string;
   courses: string[];
+  email: string;
+  verified: boolean;
+  avatarUrl: string;
   role: Role;
 }
 
@@ -15,7 +18,7 @@ export interface AuthenticatedUser extends User {
   token: string;
 }
 
-export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role'> {
+export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role' | 'verified' | 'avatarUrl'> {
   password: string;
 }
 

@@ -45,6 +45,8 @@ const state: State = {
 
 const mutations = {
   [mutationType.SET_USER] (state: State, user: AuthenticatedUser): void {
+    console.log(user)
+
     state.user = user
   },
   [mutationType.SET_USERS] (state: State, users: Omit<User, 'token'>[]): void {

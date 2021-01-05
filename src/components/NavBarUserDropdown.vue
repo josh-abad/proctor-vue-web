@@ -24,7 +24,7 @@
           </div>
         </div>
         <img
-          src="../assets/default-avatar.png"
+          :src="user.avatarUrl || 'http://gravatar.com/avatar/default'"
           alt="Avatar"
           class="ml-2 w-8 h-8 object-cover rounded-full"
         />
