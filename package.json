@@ -15,12 +15,14 @@
     "dayjs": "^1.9.7",
     "face-api.js": "^0.22.2",
     "mitt": "^2.1.0",
+    "nprogress": "^0.2.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@types/compression-webpack-plugin": "^6.0.2",
+    "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
