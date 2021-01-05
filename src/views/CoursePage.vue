@@ -49,7 +49,7 @@
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-gray-800 rounded-t-lg shadow border-b border-gray-300 dark:border-gray-700 bg-opacity-50 dark:bg-opacity-75 backdrop-blur"
+          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-gray-800 rounded-t-lg shadow border-b border-gray-300 dark:border-gray-700"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
@@ -72,7 +72,7 @@
           :description="course.description"
           :coordinatorName="coordinatorName"
         />
-        <BasePanel class="mt-4" vibrancy>
+        <BasePanel class="mt-4">
           <BaseLabel emphasis>Course Progress</BaseLabel>
           <ProgressBar
             :percentage="$store.getters.courseCompletedPercentage(courseId)"

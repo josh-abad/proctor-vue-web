@@ -15,7 +15,6 @@
     "dayjs": "^1.9.7",
     "face-api.js": "^0.22.2",
     "mitt": "^2.1.0",
-    "tailwindcss-filters": "^3.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

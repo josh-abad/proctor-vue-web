@@ -11,12 +11,7 @@ module.exports = {
       gray: colors.gray,
       green: colors.emerald,
       red: colors.rose,
-      white: colors.white,
-      black: colors.black
-    },
-    backdropFilter: {
-      none: 'none',
-      blur: 'blur(20px)'
+      white: colors.white
     },
     extend: {}
   },
@@ -30,7 +25,6 @@ module.exports = {
     }
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    require('tailwindcss-filters')
+    require('@tailwindcss/forms')
   ]
 }

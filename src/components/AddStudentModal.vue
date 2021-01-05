@@ -25,7 +25,7 @@
         <div
           class="inline-block align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         >
-          <BasePanel vibrancy class="border-none">
+          <BasePanel class="border-none">
             <div class="flex justify-between">
               <div class="font-bold text-lg">Choose Students</div>
               <button @click="$emit('close-modal')" class="focus:outline-none">

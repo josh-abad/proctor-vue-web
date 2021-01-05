@@ -1,7 +1,7 @@
 <template>
   <div class="flex mt-3 shadow rounded-lg overflow-hidden">
     <div
-      class="px-3 py-3 bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400 dark:bg-opacity-50 backdrop-blur"
+      class="px-3 py-3 bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
     >
       {{ questionNumber }}
     </div>

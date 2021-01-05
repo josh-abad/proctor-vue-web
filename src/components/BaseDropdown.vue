@@ -59,7 +59,7 @@
             role="listbox"
             aria-labelledby="listbox-label"
             aria-activedescendant="listbox-item-3"
-            class="max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            class="max-h-56 rounded-md py-1 text-base ring-1 ring-gray-900 ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
           >
             <!--
           Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
@@ -148,7 +148,6 @@ export default defineComponent({
   },
   methods: {
     handleChange (i: number): void {
-      console.log(i)
       this.selectedIndex = i
       this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
     }
