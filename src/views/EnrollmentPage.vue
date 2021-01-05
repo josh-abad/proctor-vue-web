@@ -19,7 +19,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseDropdown from '@/components/BaseDropdown.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
-import { ENROLL_STUDENT } from '@/store/action-types'
+import { ALERT, ENROLL_STUDENT } from '@/store/action-types'
 import { Course, Option, User } from '@/types'
 import { defineComponent } from 'vue'
 
@@ -50,7 +50,7 @@ export default defineComponent({
         await this.$store.dispatch(ENROLL_STUDENT, payload)
         this.$router.push('/students')
       } catch (error) {
-        console.log(error.response.data.error)
+        this.$store.dispatch(ALERT, error.response.data.error)
       }
     }
   },

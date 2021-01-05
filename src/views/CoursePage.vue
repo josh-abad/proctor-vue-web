@@ -172,7 +172,7 @@ export default defineComponent({
       })
     },
     editCourse (): void {
-      console.log('edited course')
+      // TODO: implement editing courses
     }
   }
 })
