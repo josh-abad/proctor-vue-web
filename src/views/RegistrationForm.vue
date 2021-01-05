@@ -95,7 +95,7 @@ import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
-import { SIGN_UP } from '@/store/action-types'
+import { ALERT, SIGN_UP } from '@/store/action-types'
 import { Theme, UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
 
@@ -142,7 +142,7 @@ export default defineComponent({
         this.username = ''
         this.password = ''
       } catch (error) {
-        console.error(error)
+        this.$store.dispatch(ALERT, credentials)
       }
     }
   }

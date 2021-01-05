@@ -285,7 +285,7 @@ export default createStore({
   state,
   mutations,
   actions: {
-    async [actionType.LOAD_COURSES] ({ commit }, userId?: string): Promise<void> {
+    async [actionType.LOAD_COURSES] ({ commit, dispatch }, userId?: string): Promise<void> {
       try {
         if (userId) {
           commit(mutationType.SET_COURSES, await coursesService.getByUser(userId))
@@ -293,7 +293,7 @@ export default createStore({
           commit(mutationType.SET_COURSES, await coursesService.getAll())
         }
       } catch (error) {
-        console.error(error)
+        dispatch(actionType.ALERT, error.response.data.error)
       }
     },
     async [actionType.LOAD_USERS] ({ commit, dispatch }): Promise<void> {
@@ -339,11 +339,11 @@ export default createStore({
         dispatch(actionType.ALERT, 'Could not delete course')
       }
     },
-    async [actionType.LOAD_EXAMS] ({ commit }): Promise<void> {
+    async [actionType.LOAD_EXAMS] ({ commit, dispatch }): Promise<void> {
       try {
         commit(mutationType.SET_EXAMS, await examsService.getAll())
       } catch (error) {
-        console.error(error)
+        dispatch(actionType.ALERT, error.response.data.error)
       }
     },
     async [actionType.DELETE_EXAM] ({ commit, dispatch }, examId: string): Promise<void> {
@@ -355,7 +355,7 @@ export default createStore({
         dispatch(actionType.ALERT, 'Could not delete exam')
       }
     },
-    async [actionType.LOAD_EXAM_RESULTS] ({ commit }, userId?: string): Promise<void> {
+    async [actionType.LOAD_EXAM_RESULTS] ({ commit, dispatch }, userId?: string): Promise<void> {
       try {
         if (userId) {
           commit(mutationType.SET_EXAM_RESULTS, await examResultsService.getByUser(userId))
@@ -363,10 +363,10 @@ export default createStore({
           commit(mutationType.SET_EXAM_RESULTS, await examResultsService.getAll())
         }
       } catch (error) {
-        console.error(error)
+        dispatch(actionType.ALERT, error.response.data.error)
       }
     },
-    async [actionType.LOAD_ATTEMPTS] ({ commit }, userId?: string): Promise<void> {
+    async [actionType.LOAD_ATTEMPTS] ({ commit, dispatch }, userId?: string): Promise<void> {
       try {
         if (userId) {
           commit(mutationType.SET_ATTEMPTS, await examAttemptsService.getByUser(userId))
@@ -374,7 +374,7 @@ export default createStore({
           commit(mutationType.SET_ATTEMPTS, await examAttemptsService.getAll())
         }
       } catch (error) {
-        console.error(error)
+        dispatch(actionType.ALERT, error.response.data.error)
       }
     },
     async [actionType.SIGN_UP] ({ commit, dispatch }, credentials: UserCredentials): Promise<void> {

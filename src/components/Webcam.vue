@@ -11,6 +11,7 @@
 import { defineComponent } from 'vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
+import { ALERT } from '@/store/action-types'
 
 export default defineComponent({
   name: 'Webcam',
@@ -26,7 +27,7 @@ export default defineComponent({
     navigator.mediaDevices
       .getUserMedia({ video: {} })
       .then(stream => ((this.$refs.video as HTMLMediaElement).srcObject = stream))
-      .catch(error => console.error(error))
+      .catch(error => this.$store.dispatch(ALERT, error))
 
     const input = this.$refs.video as HTMLMediaElement
     input.addEventListener('play', () => {
