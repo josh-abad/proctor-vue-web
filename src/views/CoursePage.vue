@@ -82,7 +82,6 @@
         </BasePanel>
       </div>
     </div>
-    <div class="mt-4" v-show="userRole === 'coordinator'"></div>
   </div>
   <Center v-else>
     <div class="flex flex-col items-center">
@@ -104,7 +103,7 @@ import ColorHeader from '@/components/ColorHeader.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
-import { Course, DialogContent, Link, Role } from '@/types'
+import { Course, DialogContent, Link } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -151,9 +150,6 @@ export default defineComponent({
         return `${first} ${last}`
       }
       return ''
-    },
-    userRole (): Role {
-      return this.$store.getters.userRole
     }
   },
   methods: {

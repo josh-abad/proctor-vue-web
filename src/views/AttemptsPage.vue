@@ -17,17 +17,17 @@
           <div
             class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md divide-y divide-gray-200 dark:divide-gray-600"
           >
-            <div v-for="(attempt, i) in attempts" :key="attempt.id">
-              <AttemptRow
-                :attemptNumber="i + 1"
-                :attempt="attempt"
-                @review-clicked="
-                  $router.push(
-                    `/courses/${courseId}/exams/${examId}/${attempt.id}`
-                  )
-                "
-              />
-            </div>
+            <AttemptRow
+              v-for="(attempt, i) in attempts"
+              :key="attempt.id"
+              :attemptNumber="i + 1"
+              :attempt="attempt"
+              @review-clicked="
+                $router.push(
+                  `/courses/${courseId}/exams/${examId}/${attempt.id}`
+                )
+              "
+            />
           </div>
         </div>
         <div v-else>You have made no attempts so far.</div>

@@ -19,12 +19,13 @@
           <div class="text-sm">{{ user.name.first }} {{ user.name.last }}</div>
           <div
             class="uppercase font-bold tracking-wide text-xs rounded-full text-green-500"
+            v-if="user.role !== 'student'"
           >
             {{ user.role }}
           </div>
         </div>
         <img
-          :src="user.avatarUrl || 'http://gravatar.com/avatar/default'"
+          :src="user.avatarUrl"
           alt="Avatar"
           class="ml-2 w-8 h-8 object-cover rounded-full"
         />

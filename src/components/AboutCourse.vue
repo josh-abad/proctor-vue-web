@@ -13,7 +13,7 @@
     </div>
     <div class="mt-4 flex items-center">
       <img
-        :src="coordinatorAvatarUrl || 'http://gravatar.com/avatar/default'"
+        :src="coordinatorAvatarUrl"
         alt="Avatar"
         class="w-10 h-10 object-cover rounded-full"
       />

@@ -4,7 +4,7 @@ const baseUrl = '/api/exam-results'
 
 let token: string | null = null
 
-const setToken = (newToken: string) => {
+const setToken = (newToken: string): void => {
   token = `bearer ${newToken}`
 }
 

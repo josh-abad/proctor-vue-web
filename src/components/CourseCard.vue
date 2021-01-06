@@ -4,7 +4,7 @@
   >
     <router-link :to="`/courses/${course.id}`">
       <img
-        src="../assets/course-card-bg.jpg"
+        src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
         alt="Course image"
         class="w-full h-20 object-cover"
       />

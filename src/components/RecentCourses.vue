@@ -1,14 +1,16 @@
 <template>
-  <div v-show="recentCourses.length > 0">
+  <div>
     <BaseLabel
       class="pb-2 border-b border-gray-300 dark:border-gray-700"
       emphasis
       >Recent Courses</BaseLabel
     >
     <div class="grid grid-cols-3 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
-      <div :key="course.id" v-for="course in recentCourses">
-        <CourseCard :course="course" />
-      </div>
+      <CourseCard
+        :course="course"
+        :key="course.id"
+        v-for="course in recentCourses"
+      />
     </div>
   </div>
 </template>

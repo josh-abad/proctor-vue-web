@@ -21,7 +21,8 @@ import {
 import { createStore } from 'vuex'
 import * as actionType from './action-types'
 import * as mutationType from './mutation-types'
-import { alphabeticalUsers } from '@/utils/sort'
+import { alphabeticalCourses, alphabeticalUsers } from '@/utils/sort'
+import verifyService from '@/services/verify'
 
 const state: State = {
   user: null,
@@ -45,14 +46,14 @@ const state: State = {
 
 const mutations = {
   [mutationType.SET_USER] (state: State, user: AuthenticatedUser): void {
-    console.log(user)
-
     state.user = user
   },
   [mutationType.SET_USERS] (state: State, users: Omit<User, 'token'>[]): void {
+    users.sort(alphabeticalUsers)
     state.users = users
   },
   [mutationType.SET_COURSES] (state: State, courses: Course[]): void {
+    courses.sort(alphabeticalCourses)
     state.courses = courses
   },
   [mutationType.ADD_COURSE] (state: State, course: Course): void {
@@ -156,21 +157,18 @@ const getters = {
   isLoggedIn (state: State): boolean {
     return state.user !== null
   },
-  userRole (state: State): Role | undefined {
-    return state.user?.role
-  },
   getCourseByID (state: State): (id: string) => Course | undefined {
     return (id) => {
       return state.courses.find(course => course.id === id)
     }
   },
-  studentsByCourse (state: State): (courseId: string, sorted?: boolean) => (User | undefined)[] | undefined {
-    return (courseId, sorted = false) => {
+  studentsByCourse (state: State): (courseId: string) => (User | undefined)[] | undefined {
+    return (courseId) => {
       const course = state.courses.find(course => course.id === courseId)
       const students = course?.studentsEnrolled.map(studentId => {
         return state.users.find(student => student.id === studentId)
       })
-      if (sorted && students) {
+      if (students) {
         students.sort(alphabeticalUsers)
       }
       return students
@@ -244,17 +242,6 @@ const getters = {
       return state.courses.filter(byCoordinator)
     }
     return state.courses
-  },
-  sortedCourses (state: State): Course[] {
-    const alphabetical = (a: Course, b: Course) => {
-      if (a.name < b.name) {
-        return -1
-      } else if (a.name > b.name) {
-        return 1
-      }
-      return 0
-    }
-    return state.courses.sort(alphabetical)
   },
   getRecentCourses (state: State): (Course | undefined)[] {
     const toCourse = (id: string): Course | undefined => {
@@ -413,6 +400,14 @@ export default createStore({
     async [actionType.LOG_OUT] ({ commit }): Promise<void> {
       localStorage.clear()
       commit(mutationType.SET_USER, null)
+      commit(mutationType.SET_RECENT_COURSES, [])
+    },
+    async [actionType.VERIFY] ({ commit, dispatch }, token: string): Promise<void> {
+      try {
+        await verifyService.verify(token)
+      } catch (error) {
+        dispatch(actionType.ALERT, error.response.data.error)
+      }
     },
     async [actionType.START_ATTEMPT] ({ commit, dispatch }, examId): Promise<void> {
       try {

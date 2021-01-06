@@ -1,14 +1,8 @@
 <template>
-  <Center>
-    <BasePanel class="px-10 py-8">
-      <div class="flex justify-center">
-        <img
-          :src="require(`@/assets/${logoFilename}`)"
-          alt="Logo"
-          class="h-7"
-        />
-      </div>
-      <form class="mt-8">
+  <ColorBackgroundCard>
+    <div class="p-4">
+      <img :src="require(`@/assets/${logoFilename}`)" alt="Logo" class="h-7" />
+      <form class="mt-4">
         <h3 class="font-semibold text-lg">Sign up</h3>
         <p class="text-xs dark:text-gray-400">
           By continuing, you agree to our
@@ -20,31 +14,26 @@
           >.
         </p>
         <div class="flex">
-          <div class="mt-8 mr-4">
+          <div class="mt-4 mr-4">
             <label for="firstName">
               <BaseLabel>First Name</BaseLabel>
             </label>
             <BaseInput id="firstName" v-model="firstName" type="text" />
           </div>
-          <div class="mt-8">
+          <div class="mt-4">
             <label for="lastName">
               <BaseLabel>Last Name</BaseLabel>
             </label>
             <BaseInput id="lastName" v-model="lastName" type="text" />
           </div>
         </div>
-        <div class="mt-4">
-          <label for="username">
-            <BaseLabel>Username</BaseLabel>
+        <div class="mt-2">
+          <label for="email">
+            <BaseLabel>Email</BaseLabel>
           </label>
-          <BaseInput
-            id="username"
-            class="w-full"
-            v-model="username"
-            type="text"
-          />
+          <BaseInput id="email" class="w-full" v-model="email" type="text" />
         </div>
-        <div class="mt-4">
+        <div class="mt-2">
           <label for="password">
             <BaseLabel>Password</BaseLabel>
           </label>
@@ -55,7 +44,7 @@
             type="password"
           />
         </div>
-        <div class="mt-4">
+        <div class="mt-2">
           <label for="confirmPassword">
             <BaseLabel>Confirm Password</BaseLabel>
           </label>
@@ -66,7 +55,7 @@
             type="password"
           />
         </div>
-        <div class="mt-8">
+        <div class="mt-4">
           <BaseButton
             @click.prevent="handleRegister"
             :disabled="!passwordsEqual"
@@ -85,29 +74,29 @@
           >
         </p>
       </form>
-    </BasePanel>
-  </Center>
+    </div>
+  </ColorBackgroundCard>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import Center from '@/components/Center.vue'
 import { ALERT, SIGN_UP } from '@/store/action-types'
-import { Theme, UserCredentials } from '@/types'
+import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
+import logoMixin from '@/mixins/logo'
+import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput, Center, BaseLabel, BasePanel },
+  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard },
   name: 'RegistrationForm',
+  mixins: [logoMixin],
   data () {
     return {
       firstName: '',
       lastName: '',
       email: '',
-      username: '',
       password: '',
       confirmPassword: ''
     }
@@ -115,14 +104,6 @@ export default defineComponent({
   computed: {
     passwordsEqual (): boolean {
       return this.password.length > 0 && this.password === this.confirmPassword
-    },
-    logoFilename (): string {
-      const theme: Theme = this.$store.state.theme
-
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        return 'logo-white.png'
-      }
-      return 'logo.png'
     }
   },
   methods: {
@@ -133,7 +114,6 @@ export default defineComponent({
           last: this.lastName
         },
         email: this.email,
-        username: this.username,
         password: this.password
       }
       try {
@@ -141,7 +121,6 @@ export default defineComponent({
         this.$router.push('/')
         this.firstName = ''
         this.lastName = ''
-        this.username = ''
         this.password = ''
       } catch (error) {
         this.$store.dispatch(ALERT, credentials)

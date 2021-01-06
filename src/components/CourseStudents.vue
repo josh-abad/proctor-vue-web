@@ -36,23 +36,11 @@
       <div v-else>Students Enrolled in Course</div>
     </div>
     <div v-if="students" class="divide-y divide-gray-300 dark:divide-gray-700">
-      <div
+      <StudentRow
+        :student="student"
         v-for="student in filteredStudents"
         :key="student.id"
-        class="flex items-center py-4"
-      >
-        <img
-          :src="student.avatarUrl || 'http://gravatar.com/avatar/default'"
-          alt="Avatar"
-          class="ml-2 w-8 h-8 object-cover rounded-full"
-        />
-        <div class="ml-4">
-          <div>{{ student.name.first }} {{ student.name.last }}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">
-            @{{ student.email }}
-          </div>
-        </div>
-      </div>
+      />
     </div>
   </div>
 </template>
@@ -62,9 +50,10 @@ import { defineComponent } from 'vue'
 import { User } from '@/types'
 import BaseInput from './BaseInput.vue'
 import AddStudentModal from './AddStudentModal.vue'
+import StudentRow from './StudentRow.vue'
 
 export default defineComponent({
-  components: { BaseInput, AddStudentModal },
+  components: { BaseInput, AddStudentModal, StudentRow },
   name: 'CourseStudents',
   data () {
     return {
@@ -80,7 +69,7 @@ export default defineComponent({
   },
   computed: {
     students (): User[] {
-      return this.$store.getters.studentsByCourse(this.courseId, true)
+      return this.$store.getters.studentsByCourse(this.courseId)
     },
     filteredStudents (): User[] {
       return this.students.filter(student => {

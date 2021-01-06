@@ -41,7 +41,7 @@
         class="flex justify-between items-center border-b border-gray-300 dark:border-gray-700"
       >
         <div class="text-lg font-bold mb-3">Your Courses</div>
-        <div class="flex items-center">
+        <div class="flex items-center" v-if="courses.length">
           <div class="mr-3">
             <button
               @click="handleViewChange('card')"
@@ -83,45 +83,30 @@
         </div>
       </div>
       <transition name="fade" mode="out-in">
-        <div v-if="viewMode === 'card'" class="mt-3">
+        <div
+          v-if="!courses.length"
+          class="mt-3 flex justify-center items-center h-40"
+        >
+          <div class="font-semibold text-xl text-gray-500">
+            You don't have any courses.
+          </div>
+        </div>
+        <div v-else-if="viewMode === 'card'" class="mt-3">
           <div class="grid grid-cols-3 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            <div :key="course.id" v-for="course in alphabeticalCourses">
-              <CourseCard :course="course" />
-            </div>
+            <CourseCard
+              :course="course"
+              :key="course.id"
+              v-for="course in courses"
+            />
           </div>
         </div>
         <div v-else>
           <div class="divide-y divide-gray-300 dark:divide-gray-700">
-            <div
+            <CourseListItem
+              :course="course"
               :key="course.id"
-              v-for="course in alphabeticalCourses"
-              class="flex justify-between items-center py-3"
-            >
-              <div class="flex">
-                <div class="rounded overflow-hidden w-40 h-20 shadow">
-                  <router-link :to="`/courses/${course.id}`">
-                    <img
-                      src="../assets/course-card-bg.jpg"
-                      alt="Course image"
-                      class="h-full object-cover"
-                    />
-                  </router-link>
-                </div>
-                <div class="ml-3">
-                  <BaseLabel emphasis>2023T Online Class</BaseLabel>
-                  <router-link :to="`/courses/${course.id}`">
-                    {{ course.name }}
-                  </router-link>
-                </div>
-              </div>
-              <div class="w-60">
-                <ProgressBar
-                  :percentage="
-                    $store.getters.courseCompletedPercentage(course.id)
-                  "
-                />
-              </div>
-            </div>
+              v-for="course in courses"
+            />
           </div>
         </div>
       </transition>
@@ -130,16 +115,15 @@
 </template>
 
 <script lang="ts">
-import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
 import CourseCard from '@/components/CourseCard.vue'
-import ProgressBar from '@/components/ProgressBar.vue'
+import CourseListItem from '@/components/CourseListItem.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { CourseCard, BasePanel, BaseLabel, ProgressBar, ColorHeader },
+  components: { CourseCard, BasePanel, ColorHeader, CourseListItem },
   name: 'CoursesPage',
   data () {
     return {
@@ -162,17 +146,6 @@ export default defineComponent({
   computed: {
     courses (): Course[] {
       return this.$store.getters.courses
-    },
-    alphabeticalCourses (): Course[] {
-      const alphabetical = (a: Course, b: Course) => {
-        if (a.name < b.name) {
-          return -1
-        } else if (a.name > b.name) {
-          return 1
-        }
-        return 0
-      }
-      return [...this.courses].sort(alphabetical)
     }
   }
 })

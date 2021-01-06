@@ -65,11 +65,6 @@
                   ><div class="inline-block">
                     {{ userFullName(student) }}
                   </div>
-                  <div
-                    class="ml-2 inline-block text-sm text-gray-400 dark:text-gray-600"
-                  >
-                    @{{ student.email }}
-                  </div>
                 </label>
               </div>
             </div>

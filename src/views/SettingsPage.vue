@@ -3,7 +3,7 @@
     <BasePanel>
       <div class="flex items-center">
         <svg
-          class="fill-current w-5 h-5"
+          class="fill-current w-8 h-8"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -14,9 +14,9 @@
             clip-rule="evenodd"
           />
         </svg>
-        <div class="ml-2 font-bold text-2xl">Settings</div>
+        <div class="ml-2 font-bold text-3xl">Settings</div>
       </div>
-      <div class="mt-4">
+      <div class="mt-8">
         <h1
           class="uppercase font-semibold tracking-wide text-xs dark:text-gray-400"
         >

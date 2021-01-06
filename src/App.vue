@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t dark:from-gray-900 dark:to-green-900"
+    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t from-gray-400 to-gray-300 dark:from-gray-900 dark:to-green-900"
   >
     <div id="modals"></div>
     <DialogModal />

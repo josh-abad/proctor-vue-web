@@ -1,4 +1,4 @@
-import { NewCourse } from '@/types'
+import { Course, NewCourse } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/courses'
 
@@ -7,7 +7,10 @@ const create = async (newCourse: NewCourse) => {
   return response.data
 }
 
-const getAll = async () => {
+/**
+ * Get all courses from the server
+ */
+const getAll = async (): Promise<Course[]> => {
   const response = await axios.get(baseUrl)
   return response.data
 }
@@ -18,12 +21,20 @@ const getAll = async () => {
 //   return response.data
 // }
 
-const getCourse = async (id: string) => {
+/**
+ * Get a course from the server by its ID
+ * @param id the id of the course
+ */
+const getCourse = async (id: string): Promise<Course> => {
   const response = await axios.get(`${baseUrl}/${id}`)
   return response.data
 }
 
-const getByUser = async (userId: string) => {
+/**
+ * Get all courses a specified user is enrolled in
+ * @param userId the id of the user
+ */
+const getByUser = async (userId: string): Promise<Course[]> => {
   const params = new URLSearchParams({ userId })
   const response = await axios.get(baseUrl, { params })
   return response.data

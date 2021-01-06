@@ -2,14 +2,14 @@
   <div>
     <BasePanel>
       <div class="text-xl">Create New Exam for {{ course.name }}</div>
-      <div class="flex mt-3">
+      <div class="flex mt-3 divide-x divide-gray-300 dark:divide-gray-700">
         <div>
           <label>
             <BaseLabel>Name</BaseLabel>
             <BaseInput v-model="examName" type="text" />
           </label>
         </div>
-        <div class="ml-6">
+        <div class="ml-6 pl-6">
           <label>
             <BaseLabel>Duration</BaseLabel>
             <input
@@ -67,60 +67,57 @@
         </div>
       </div>
       <div class="mt-4">
-        <BaseLabel emphasis>Exam Items</BaseLabel>
-        <div
-          v-for="(examItem, i) in examItems"
-          :key="i"
-          class="flex bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden mb-4"
-        >
-          <div
-            class="bg-gray-300 dark:bg-gray-900 p-3 bg-opacity-50 dark:bg-opacity-50 dark:text-gray-400 font-thin"
-          >
-            {{ i + 1 }}
-          </div>
-          <div class="p-3 flex-grow">
-            <div>
-              <div class="flex items-center justify-between">
-                <label for="question">
-                  <BaseLabel>Question</BaseLabel>
-                </label>
-                <button
-                  class="focus:outline-none text-gray-500 dark:hover:text-white mb-1"
-                  @click="removeExamItem(i)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    class="fill-current w-5 h-5"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <BaseInput
-                id="question"
-                class="w-full"
-                v-model="examItem.question"
-                type="text"
-              />
+        <div class="border-b border-gray-300 dark:border-gray-700">
+          <BaseLabel emphasis>Exam Items</BaseLabel>
+        </div>
+        <div class="divide-y divide-gray-300 dark:divide-gray-700">
+          <div v-for="(examItem, i) in examItems" :key="i" class="flex mb-4">
+            <div class="p-3 text-gray-500 font-thin">
+              {{ i + 1 }}
             </div>
-            <div class="mt-4">
-              <label>
-                <BaseLabel>Answer</BaseLabel>
+            <div class="p-3 flex-grow">
+              <div>
+                <div class="flex items-center justify-between">
+                  <label for="question">
+                    <BaseLabel>Question</BaseLabel>
+                  </label>
+                  <button
+                    class="focus:outline-none text-gray-500 dark:hover:text-white mb-1"
+                    @click="removeExamItem(i)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="fill-current w-5 h-5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
                 <BaseInput
+                  id="question"
                   class="w-full"
-                  v-model="examItem.answer"
+                  v-model="examItem.question"
                   type="text"
                 />
-              </label>
+              </div>
+              <div class="mt-4">
+                <label>
+                  <BaseLabel>Answer</BaseLabel>
+                  <BaseInput
+                    class="w-full"
+                    v-model="examItem.answer"
+                    type="text"
+                  />
+                </label>
+              </div>
             </div>
-          </div>
-          <!-- <div>
+            <!-- <div>
             <label>
               <div>Question Type</div>
               <BaseDropdown
@@ -129,9 +126,10 @@
               />
             </label>
           </div> -->
-          <!-- <div class="mt-3" v-show="examItem.questionType !== 'text'">
+            <!-- <div class="mt-3" v-show="examItem.questionType !== 'text'">
             <BaseButton @click="removeExamItem(i)">Add choice</BaseButton>
           </div> -->
+          </div>
         </div>
         <div class="flex justify-between">
           <div>

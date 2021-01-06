@@ -39,19 +39,8 @@ export default defineComponent({
     students (): User[] {
       return this.$store.getters.students
     },
-    alphabeticalStudents (): User[] {
-      const alphabetical = (a: User, b: User) => {
-        if (a.name.last < b.name.last) {
-          return -1
-        } else if (a.name.last > b.name.last) {
-          return 1
-        }
-        return 0
-      }
-      return [...this.students].sort(alphabetical)
-    },
     filteredStudents (): User[] {
-      return this.alphabeticalStudents.filter(student => {
+      return this.students.filter(student => {
         const studentFullName = `${student.name.first} ${student.name.last}`
         return studentFullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })

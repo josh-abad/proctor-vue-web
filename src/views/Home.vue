@@ -1,33 +1,29 @@
 <template>
   <div>
-    <div class="text-3xl font-bold text-green-600 dark:text-white">Home</div>
-    <div class="mt-8">
-      <BaseLabel
-        class="pb-2 border-b border-gray-300 dark:border-gray-700"
-        emphasis
-      >
-        Shortcuts</BaseLabel
-      >
-      <div class="mt-4 flex space-x-4">
-        <NavCard
-          :icon="icon1"
-          url="/students"
-          :quantity="$store.getters.students.length"
-          v-show="$store.getters.permissions('coordinator', 'admin')"
-          >Students</NavCard
+    <BasePanel>
+      <div class="text-3xl font-bold text-gray-900 dark:text-white">Home</div>
+      <div class="mt-8">
+        <BaseLabel
+          class="pb-2 border-b border-gray-300 dark:border-gray-700"
+          emphasis
         >
-        <NavCard
-          :icon="icon2"
-          url="/courses"
-          :quantity="$store.getters.courses.length"
-          >Courses</NavCard
+          Shortcuts</BaseLabel
         >
-        <NavCard :icon="icon3" url="/settings">Settings</NavCard>
+        <div class="mt-4 flex space-x-4">
+          <NavCard
+            :icon="icon1"
+            url="/students"
+            v-if="$store.getters.permissions('coordinator', 'admin')"
+            >Students</NavCard
+          >
+          <NavCard :icon="icon2" url="/courses">Courses</NavCard>
+          <NavCard :icon="icon3" url="/settings">Settings</NavCard>
+        </div>
       </div>
-    </div>
-    <div class="mt-8">
-      <RecentCourses />
-    </div>
+      <div class="mt-8" v-if="$store.state.recentCourses.length">
+        <RecentCourses />
+      </div>
+    </BasePanel>
   </div>
 </template>
 
@@ -36,9 +32,10 @@ import { defineComponent } from 'vue'
 import RecentCourses from '@/components/RecentCourses.vue'
 import NavCard from '@/components/NavCard.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({
-  components: { RecentCourses, NavCard, BaseLabel },
+  components: { RecentCourses, NavCard, BaseLabel, BasePanel },
   name: 'Home',
   data () {
     return {

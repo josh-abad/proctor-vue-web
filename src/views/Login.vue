@@ -1,14 +1,8 @@
 <template>
-  <Center>
-    <BasePanel class="px-10 py-8">
-      <div class="flex justify-center">
-        <img
-          :src="require(`@/assets/${logoFilename}`)"
-          alt="Logo"
-          class="h-7"
-        />
-      </div>
-      <form class="mt-8">
+  <ColorBackgroundCard>
+    <div class="p-4">
+      <img :src="require(`@/assets/${logoFilename}`)" alt="Logo" class="h-7" />
+      <form class="mt-4">
         <h3 class="font-medium">Login</h3>
         <p class="text-xs dark:text-gray-400">
           By continuing, you agree to our
@@ -19,18 +13,13 @@
           <router-link to="#" class="text-green-500">Privacy Policy</router-link
           >.
         </p>
-        <div class="mt-8">
-          <label for="username">
-            <BaseLabel>Username</BaseLabel>
-          </label>
-          <BaseInput
-            class="w-full"
-            id="username"
-            type="text"
-            v-model="username"
-          />
-        </div>
         <div class="mt-4">
+          <label for="email">
+            <BaseLabel>Email</BaseLabel>
+          </label>
+          <BaseInput class="w-full" id="email" type="text" v-model="email" />
+        </div>
+        <div class="mt-2">
           <label for="password">
             <BaseLabel>Password</BaseLabel>
           </label>
@@ -41,7 +30,7 @@
             v-model="password"
           />
         </div>
-        <div class="mt-8">
+        <div class="mt-4">
           <BaseButton
             @click.prevent="handleLogin"
             :disabled="!fieldsFilled"
@@ -52,7 +41,6 @@
         </div>
         <p class="mt-3 text-xs">
           Forgot your
-          <router-link to="#" class="text-green-500">username</router-link> or
           <router-link to="#" class="text-green-500">password</router-link>?
         </p>
         <p class="mt-3 text-xs">
@@ -64,50 +52,42 @@
           >
         </p>
       </form>
-    </BasePanel>
-  </Center>
+    </div>
+  </ColorBackgroundCard>
 </template>
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import Center from '@/components/Center.vue'
 import { LOG_IN } from '@/store/action-types'
-import { Theme } from '@/types'
 import { defineComponent } from 'vue'
+import logoMixin from '@/mixins/logo'
+import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput, Center, BasePanel, BaseLabel },
+  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard },
   name: 'Login',
+  mixins: [logoMixin],
   data () {
     return {
-      username: '',
+      email: '',
       password: ''
     }
   },
   computed: {
     fieldsFilled (): boolean {
-      return this.username.length > 0 && this.password.length > 0
-    },
-    logoFilename (): string {
-      const theme: Theme = this.$store.state.theme
-
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        return 'logo-white.png'
-      }
-      return 'logo.png'
+      return this.email.length > 0 && this.password.length > 0
     }
   },
   methods: {
     async handleLogin () {
       await this.$store.dispatch(LOG_IN, {
-        username: this.username,
+        email: this.email,
         password: this.password
       })
       this.$router.push((this.$route.query.redirect as string) || '/')
-      this.username = ''
+      this.email = ''
       this.password = ''
     }
   }

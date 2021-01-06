@@ -147,6 +147,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/SettingsPage.vue')
   },
   {
+    path: '/verify/:token',
+    name: 'Verify',
+    meta: {
+      title: createTitle('Verify')
+    },
+    component: () => import('../views/Verify.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     meta: {
@@ -189,7 +197,7 @@ router.beforeEach((to, _from, next) => {
       return next({ name: 'Login', query: { redirect: to.fullPath } })
     }
 
-    if (authorize.length && !authorize.includes(store.getters.userRole)) {
+    if (authorize.length && !authorize.includes(store.state.user?.role)) {
       return next({ path: '/' })
     }
   }

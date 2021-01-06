@@ -1,10 +1,10 @@
-import { NewExam } from '@/types'
+import { Exam, NewExam } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/exams'
 
 let token: string | null = null
 
-const setToken = (newToken: string) => {
+const setToken = (newToken: string): void => {
   token = `bearer ${newToken}`
 }
 
@@ -16,12 +16,12 @@ const create = async (newExam: NewExam) => {
   return response.data
 }
 
-const getAll = async () => {
+const getAll = async (): Promise<Exam[]> => {
   const response = await axios.get(baseUrl)
   return response.data
 }
 
-const getExam = async (id: string) => {
+const getExam = async (id: string): Promise<Exam> => {
   const response = await axios.get(`${baseUrl}/${id}`)
   return response.data
 }

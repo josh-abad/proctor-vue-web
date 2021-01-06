@@ -43,28 +43,21 @@
 </template>
 
 <script lang="ts">
-import { Theme } from '@/types'
 import { defineComponent } from 'vue'
 import NavBarUserDropdown from './NavBarUserDropdown.vue'
 import SearchBar from './SearchBar.vue'
+import logoMixin from '@/mixins/logo'
 
 export default defineComponent({
   components: { NavBarUserDropdown, SearchBar },
   emits: ['toggle'],
+  mixins: [logoMixin],
   props: {
     isOpen: Boolean
   },
   computed: {
     isLoggedIn (): boolean {
       return this.$store.getters.isLoggedIn
-    },
-    logoFilename (): string {
-      const theme: Theme = this.$store.state.theme
-
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        return 'logo-white.png'
-      }
-      return 'logo.png'
     }
   }
 })
