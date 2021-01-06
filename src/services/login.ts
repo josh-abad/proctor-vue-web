@@ -1,8 +1,8 @@
-import { UserCredentials } from '@/types'
+import { AuthenticatedUser, UserCredentials } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/login'
 
-const login = async (credentials: Omit<UserCredentials, 'name' | 'email'>) => {
+const login = async (credentials: Omit<UserCredentials, 'name'>): Promise<AuthenticatedUser> => {
   const response = await axios.post(baseUrl, credentials)
   return response.data
 }

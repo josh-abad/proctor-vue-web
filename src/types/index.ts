@@ -6,7 +6,6 @@ export interface User {
     first: string;
     last: string;
   };
-  username: string;
   courses: string[];
   email: string;
   verified: boolean;

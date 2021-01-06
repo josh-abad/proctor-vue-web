@@ -68,7 +68,7 @@
                   <div
                     class="ml-2 inline-block text-sm text-gray-400 dark:text-gray-600"
                   >
-                    @{{ student.username }}
+                    @{{ student.email }}
                   </div>
                 </label>
               </div>

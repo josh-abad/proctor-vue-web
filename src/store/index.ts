@@ -388,9 +388,9 @@ export default createStore({
         dispatch(actionType.ALERT, error)
       }
     },
-    async [actionType.LOG_IN] ({ commit, dispatch }, { username, password }): Promise<void> {
+    async [actionType.LOG_IN] ({ commit, dispatch }, { email, password }): Promise<void> {
       try {
-        const user = await loginService.login({ username, password })
+        const user = await loginService.login({ email, password })
         commit(mutationType.SET_USER, user)
         localStorage.setItem('loggedAppUser', JSON.stringify(user))
         examAttemptsService.setToken(user.token)
@@ -407,7 +407,7 @@ export default createStore({
         commit(mutationType.SET_ATTEMPTS, await examAttemptsService.getByUser(user.id))
         commit(mutationType.SET_EXAM_RESULTS, await examResultsService.getByUser(user.id))
       } catch (error) {
-        dispatch(actionType.ALERT, 'Incorrect username or password')
+        dispatch(actionType.ALERT, 'Incorrect email or password')
       }
     },
     async [actionType.LOG_OUT] ({ commit }): Promise<void> {

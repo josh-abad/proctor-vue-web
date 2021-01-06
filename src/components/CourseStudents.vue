@@ -49,7 +49,7 @@
         <div class="ml-4">
           <div>{{ student.name.first }} {{ student.name.last }}</div>
           <div class="text-sm text-gray-600 dark:text-gray-400">
-            @{{ student.username }}
+            @{{ student.email }}
           </div>
         </div>
       </div>
