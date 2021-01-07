@@ -20,7 +20,7 @@
           <NavCard :icon="icon3" url="/settings">Settings</NavCard>
         </div>
       </div>
-      <div class="mt-8" v-if="!$store.state.user.verified">
+      <div class="mt-8" v-if="$store.state.user && !$store.state.user.verified">
         You are not yet verified
       </div>
       <div class="mt-8" v-if="$store.state.recentCourses.length">
