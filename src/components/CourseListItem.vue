@@ -11,8 +11,11 @@
         </router-link>
       </div>
       <div class="ml-3">
-        <BaseLabel emphasis>2023T Online Class</BaseLabel>
-        <router-link :to="`/courses/${course.id}`">
+        <BaseLabel emphasis>2023 Online Class</BaseLabel>
+        <router-link
+          :to="`/courses/${course.id}`"
+          class="text-lg font-semibold"
+        >
           {{ course.name }}
         </router-link>
       </div>

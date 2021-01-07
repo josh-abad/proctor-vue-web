@@ -6,7 +6,7 @@
         aria-haspopup="listbox"
         aria-expanded="true"
         aria-labelledby="listbox-label"
-        class="relative w-full bg-white border border-gray-300 dark:bg-gray-800 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 sm:text-sm"
+        class="relative w-full appearance-none bg-white border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:ring-green-500 focus:border-green-500 sm:text-sm"
         @click.prevent="open = !open"
       >
         <span class="flex items-center">

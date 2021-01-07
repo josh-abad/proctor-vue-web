@@ -15,7 +15,7 @@
         <div v-if="attempts.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
           <div
-            class="rounded-xl overflow-hidden mt-2 bg-white dark:bg-gray-700 shadow-md divide-y divide-gray-200 dark:divide-gray-600"
+            class="rounded-xl overflow-hidden mt-2 divide-y divide-gray-300 dark:divide-gray-700"
           >
             <AttemptRow
               v-for="(attempt, i) in attempts"

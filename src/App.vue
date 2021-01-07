@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t from-gray-400 to-gray-300 dark:from-gray-900 dark:to-green-900"
+    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t from-green-700 to-teal-900 dark:from-green-700 dark:to-teal-900"
   >
     <div id="modals"></div>
     <DialogModal />
@@ -15,7 +15,7 @@
         <div>
           <router-view
             class="transform ease-in-out duration-300 p-6"
-            :class="sidebarOpen ? 'ml-52' : 'ml-0'"
+            :class="sidebarOpen ? 'ml-56' : 'ml-0'"
           />
           <div class="mt-4">
             <Snackbar />

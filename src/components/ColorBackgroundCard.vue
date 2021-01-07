@@ -1,7 +1,5 @@
 <template>
-  <Center
-    class="bg-gradient-to-t from-green-300 to-green-100 dark:from-green-700 dark:to-green-500"
-  >
+  <Center>
     <BasePanel class="flex overflow-hidden">
       <div class="-mb-12">
         <img

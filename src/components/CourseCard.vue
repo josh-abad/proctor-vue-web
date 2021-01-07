@@ -12,7 +12,7 @@
     <div class="px-4 py-3">
       <BaseLabel emphasis>2023 Online Class</BaseLabel>
       <router-link :to="`/courses/${course.id}`">
-        <h1 class="text-lg truncate">{{ course.name }}</h1>
+        <h1 class="text-lg truncate font-semibold">{{ course.name }}</h1>
       </router-link>
     </div>
   </div>

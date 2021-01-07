@@ -1,43 +1,49 @@
 <template>
-  <div>
-    <BasePanel>
-      <div>Create New Course</div>
+  <ColorBackgroundCard>
+    <div>
+      <div class="font-semibold text-xl">Create New Course</div>
       <div class="flex flex-col items-start">
-        <div class="mt-4">
-          <label>
-            <BaseLabel emphasis>Course name</BaseLabel>
-            <BaseInput v-model="courseName" type="text" />
-          </label>
-          <input
-            class="dark:bg-gray-800 rounded w-16"
-            type="number"
-            id="courseWeeks"
-            min="4"
-            max="10"
-            v-model.number="courseWeeks"
-          />
-        </div>
-        <div class="mt-3">
-          <label>
-            <BaseLabel emphasis>Course description</BaseLabel>
-            <BaseTextArea v-model="courseDescription" />
-          </label>
-        </div>
-        <div class="mt-2">
-          <label>
-            <BaseLabel emphasis>Coordinator</BaseLabel>
+        <div class="mt-4 flex">
+          <div>
+            <label for="courseName">
+              <BaseLabel>Course name</BaseLabel>
+            </label>
+            <BaseInput id="courseName" v-model="courseName" type="text" />
+          </div>
+          <div class="ml-4">
+            <label for="courseWeeks"><BaseLabel>Course Weeks</BaseLabel></label>
+            <input
+              class="shadow focus:outline-none dark:bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500"
+              type="number"
+              id="courseWeeks"
+              min="4"
+              max="10"
+              v-model.number="courseWeeks"
+            />
+          </div>
+          <div class="ml-4">
+            <label for="coordinator">
+              <BaseLabel>Coordinator</BaseLabel>
+            </label>
             <BaseDropdown
+              id="coordinator"
               :options="coordinators"
               @selection-change="handleChange"
             />
+          </div>
+        </div>
+        <div class="mt-3 w-full">
+          <label>
+            <BaseLabel>Course description</BaseLabel>
+            <BaseTextArea v-model="courseDescription" class="w-full h-20" />
           </label>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-4 flex justify-end">
         <BaseButton @click="saveCourse" prominent>Create</BaseButton>
       </div>
-    </BasePanel>
-  </div>
+    </div>
+  </ColorBackgroundCard>
 </template>
 
 <script lang="ts">
@@ -45,15 +51,15 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseDropdown from '@/components/BaseDropdown.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
 import BaseTextArea from '@/components/BaseTextArea.vue'
+import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import { CREATE_COURSE } from '@/store/action-types'
 import { NewCourse, Option, User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
-  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel, BasePanel },
+  components: { BaseInput, BaseButton, BaseTextArea, BaseDropdown, BaseLabel, ColorBackgroundCard },
   data () {
     return {
       courseName: '',
