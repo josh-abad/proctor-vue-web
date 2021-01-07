@@ -8,7 +8,7 @@
         <router-link
           :key="i"
           :to="content.url"
-          v-for="(content, i) in contents"
+          v-for="(content, i) in authorizedLinks"
           class="text-green-200 dark:text-gray-400 hover:text-white dark:hover:text-white"
         >
           <div
@@ -27,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import { Role } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -35,13 +36,8 @@ export default defineComponent({
     isOpen: Boolean
   },
   computed: {
-    isSidebarOpen (): boolean {
-      return this.isOpen
-    }
-  },
-  data () {
-    return {
-      contents: [
+    authorizedLinks (): Array<{ label: string; url: string; icon: string; authorized?: Role[] }> {
+      const links = [
         {
           label: 'Home',
           url: '/',
@@ -57,7 +53,7 @@ export default defineComponent({
         {
           label: 'Students',
           url: '/students',
-          authorized: this.$store.getters.permissions('coordinator', 'admin'),
+          authorized: ['coordinator', 'admin'] as Role[],
           icon:
             '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>'
         },
@@ -74,6 +70,12 @@ export default defineComponent({
             '<svg fill="currentColor" viewBox="0 0 20 20"><defs/><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>'
         }
       ]
+      if (this.$store.getters.permissions('admin')) {
+        return links
+      }
+      return links.filter(link => {
+        return !link.authorized ? true : this.$store.getters.permissions(link.authorized)
+      })
     }
   }
 })
