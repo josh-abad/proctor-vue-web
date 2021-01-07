@@ -147,8 +147,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/SettingsPage.vue')
   },
   {
-    path: '/verify/:token',
+    path: '/verify/:base64Token',
     name: 'Verify',
+    props: true,
     meta: {
       title: createTitle('Verify')
     },

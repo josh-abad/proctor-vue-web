@@ -48,6 +48,11 @@ const mutations = {
   [mutationType.SET_USER] (state: State, user: AuthenticatedUser): void {
     state.user = user
   },
+  [mutationType.SET_VERIFIED] (state: State, userId: string): void {
+    if (state.user && state.user.id === userId) {
+      state.user.verified = true
+    }
+  },
   [mutationType.SET_USERS] (state: State, users: Omit<User, 'token'>[]): void {
     users.sort(alphabeticalUsers)
     state.users = users
@@ -404,7 +409,8 @@ export default createStore({
     },
     async [actionType.VERIFY] ({ commit, dispatch }, token: string): Promise<void> {
       try {
-        await verifyService.verify(token)
+        const verifiedUser = await verifyService.verify(token)
+        commit(mutationType.SET_VERIFIED, verifiedUser.id)
       } catch (error) {
         dispatch(actionType.ALERT, error.response.data.error)
       }
