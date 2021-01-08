@@ -26,7 +26,7 @@ export default defineComponent({
       weekVisibility: [] as boolean[]
     }
   },
-  mounted () {
+  created () {
     for (let i = 0; i < this.course.weeks; i++) {
       this.weekVisibility.push(true)
     }
