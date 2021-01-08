@@ -19,6 +19,7 @@ import theme from './modules/theme'
 import users from './modules/users'
 import { SET_ATTEMPTS, SET_EXAM_RESULTS, SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
 import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VALIDATE_TOKEN, VERIFY } from './action-types'
+import router from '@/router'
 
 const store = createStore({
   state: () => ({
@@ -46,6 +47,7 @@ const store = createStore({
       try {
         const user = await loginService.login({ email, password })
         commit(SET_USER, user)
+        router.push((router.currentRoute.value.query.redirect as string) || '/')
         localStorage.setItem('loggedAppUser', JSON.stringify(user))
         examAttemptsService.setToken(user.token)
         if (user.role !== 'student') {

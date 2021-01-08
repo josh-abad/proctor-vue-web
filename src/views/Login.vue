@@ -97,7 +97,6 @@ export default defineComponent({
         email: this.email,
         password: this.password
       })
-      this.$router.push((this.$route.query.redirect as string) || '/')
       this.email = ''
       this.password = ''
     }
