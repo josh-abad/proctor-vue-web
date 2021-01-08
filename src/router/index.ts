@@ -43,14 +43,16 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        component: () => import('../views/CoursesPage.vue')
+        name: 'Courses Page',
+        component: () => import('../views/courses/CoursesPage.vue')
       },
       {
         path: 'new',
+        name: 'Course Creation Page',
         meta: {
           authorize: ['admin'] as Role[]
         },
-        component: () => import('../views/CourseCreationPage.vue')
+        component: () => import('../views/courses/CourseCreationPage.vue')
       },
       {
         path: ':courseId',
@@ -65,7 +67,7 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               transition: 'slide-left'
             },
-            component: () => import('../components/CourseStudents.vue')
+            component: () => import('../views/courses/course/CourseStudents.vue')
           },
           {
             path: 'overview',
@@ -74,10 +76,10 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               transition: 'slide-right'
             },
-            component: () => import('../components/CourseOverview.vue')
+            component: () => import('../views/courses/course/CourseOverview.vue')
           }
         ],
-        component: () => import('../views/CoursePage.vue')
+        component: () => import('../views/courses/CoursePage.vue')
       },
       {
         path: ':courseId/exams/new',
@@ -86,7 +88,7 @@ const routes: Array<RouteRecordRaw> = [
           title: createTitle('Create Exam'),
           authorize: ['coordinator', 'admin'] as Role[]
         },
-        component: () => import('../views/ExamCreationPage.vue')
+        component: () => import('../views/courses/ExamCreationPage.vue')
       },
       {
         path: ':courseId/exams/:examId',
@@ -94,7 +96,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: createTitle('Attempts')
         },
-        component: () => import('../views/AttemptsPage.vue')
+        component: () => import('../views/courses/AttemptsPage.vue')
       },
       {
         path: ':courseId/exams/:examId/:attemptId',
@@ -103,10 +105,10 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: createTitle('Exam')
         },
-        component: () => import('../views/ExamPage.vue')
+        component: () => import('../views/courses/ExamPage.vue')
       }
     ],
-    component: () => import('../views/courses/Main.vue')
+    component: () => import('../views/Courses.vue')
   },
   {
     path: '/students',
@@ -119,14 +121,15 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        component: () => import('../views/StudentsPage.vue')
+        name: 'Students Page',
+        component: () => import('../views/students/StudentsPage.vue')
       },
       {
         path: ':studentId/enroll',
-        component: () => import('../views/EnrollmentPage.vue')
+        component: () => import('../views/students/EnrollmentPage.vue')
       }
     ],
-    component: () => import('../views/students/Main.vue')
+    component: () => import('../views/Students.vue')
   },
   {
     path: '/webcam',

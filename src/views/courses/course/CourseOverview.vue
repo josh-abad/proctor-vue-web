@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Course, Exam } from '@/types'
 import { defineComponent } from 'vue'
-import Week from './Week.vue'
+import Week from '@/components/Week.vue'
 
 export default defineComponent({
   components: { Week },

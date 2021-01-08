@@ -48,9 +48,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { User } from '@/types'
-import BaseInput from './BaseInput.vue'
-import AddStudentModal from './AddStudentModal.vue'
-import StudentRow from './StudentRow.vue'
+import BaseInput from '@/components/BaseInput.vue'
+import AddStudentModal from '@/components/AddStudentModal.vue'
+import StudentRow from '@/components/StudentRow.vue'
 
 export default defineComponent({
   components: { BaseInput, AddStudentModal, StudentRow },
