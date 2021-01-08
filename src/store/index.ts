@@ -20,7 +20,7 @@ import users from './modules/users'
 import { SET_ATTEMPTS, SET_EXAM_RESULTS, SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
 import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VERIFY } from './action-types'
 
-export default createStore({
+const store = createStore({
   state: () => ({
     user: null
   }),
@@ -99,3 +99,27 @@ export default createStore({
     }
   }
 } as StoreOptions<RootState>)
+
+if (module.hot) {
+  module.hot.accept(['./modules/alert', './modules/courses', './modules/dialog', './modules/exams', './modules/theme', './modules/users'], () => {
+    const newAlert = require('./modules/alert').default
+    const newCourses = require('./modules/courses').default
+    const newDialog = require('./modules/dialog').default
+    const newExams = require('./modules/exams').default
+    const newTheme = require('./modules/theme').default
+    const newUsers = require('./modules/users').default
+
+    store.hotUpdate({
+      modules: {
+        alert: newAlert,
+        courses: newCourses,
+        dialog: newDialog,
+        exams: newExams,
+        theme: newTheme,
+        users: newUsers
+      }
+    })
+  })
+}
+
+export default store
