@@ -90,7 +90,7 @@ export default defineComponent({
   name: 'DialogModal',
   computed: {
     dialog (): DialogContent {
-      return this.$store.state.dialog
+      return this.$store.state.dialog.dialog
     }
   },
   methods: {

@@ -29,7 +29,7 @@ export default defineComponent({
   name: 'Snackbar',
   computed: {
     message (): string {
-      return this.$store.state.message
+      return this.$store.state.alert.message
     }
   },
   methods: {

@@ -86,7 +86,7 @@ export default defineComponent({
       return this.$store.getters.getAttemptByID(this.attemptId)
     },
     activeExam (): string | null {
-      return this.$store.state.activeExam
+      return this.$store.state.exams.activeExam
     }
   },
   methods: {

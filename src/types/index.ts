@@ -119,17 +119,34 @@ export interface Option {
 
 export type Theme = 'dark' | 'light' | null
 
-export type State = {
+export type RootState = {
   user: AuthenticatedUser | null;
+}
+
+export type UsersState = {
   users: User[];
+}
+
+export type CoursesState = {
   courses: Course[];
   recentCourses: string[];
-  maxRecentCourses: number;
-  message: string;
+}
+
+export type ExamsState = {
   exams: Exam[];
   attempts: Attempt[];
   examResults: ExamResult[];
   activeExam: string | null;
-  dialog: DialogContent;
+}
+
+export type ThemeState = {
   theme: Theme;
+}
+
+export type AlertState = {
+  message: string;
+}
+
+export type DialogState = {
+  dialog: DialogContent;
 }

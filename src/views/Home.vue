@@ -23,7 +23,7 @@
       <div class="mt-8" v-if="$store.state.user && !$store.state.user.verified">
         You are not yet verified
       </div>
-      <div class="mt-8" v-if="$store.state.recentCourses.length">
+      <div class="mt-8" v-if="$store.state.courses.recentCourses.length">
         <RecentCourses />
       </div>
     </BasePanel>
