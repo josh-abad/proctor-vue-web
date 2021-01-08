@@ -53,7 +53,6 @@ export default defineComponent({
   },
   async mounted (): Promise<void> {
     const token = Buffer.from(this.base64Token, 'base64').toString('binary')
-    console.log(token)
     try {
       const verifiedUser = await verifyService.verify(token)
       this.$store.commit(SET_VERIFIED, verifiedUser.id)
