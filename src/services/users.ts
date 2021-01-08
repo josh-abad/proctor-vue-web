@@ -6,7 +6,7 @@ const baseUrl = '/api/users'
  * Registers a new user to the server
  * @param newUser the credentials of the new user
  */
-const create = async (newUser: UserCredentials): Promise<AuthenticatedUser> => {
+const create = async (newUser: UserCredentials): Promise<User> => {
   const response = await axios.post(baseUrl, newUser)
   return response.data
 }

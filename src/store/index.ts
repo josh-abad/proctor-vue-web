@@ -35,11 +35,9 @@ const store = createStore({
     }
   },
   actions: {
-    async [SIGN_UP] ({ commit, dispatch }, credentials: UserCredentials): Promise<void> {
+    async [SIGN_UP] ({ dispatch }, credentials: UserCredentials): Promise<void> {
       try {
-        const newUser = await usersService.create(credentials)
-        localStorage.setItem('loggedAppUser', JSON.stringify(newUser))
-        commit(SET_USER, newUser)
+        await usersService.create(credentials)
       } catch (error) {
         dispatch(ALERT, error)
       }
