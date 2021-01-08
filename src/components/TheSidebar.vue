@@ -83,7 +83,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .router-link-active {
-  @apply bg-green-300 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-40 font-semibold text-white dark:text-white border-r-2 border-white dark:border-green-500;
+  @apply bg-green-300 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-40 font-semibold text-white dark:text-white border-l-2 border-white dark:border-green-500;
 }
 
 ::-webkit-scrollbar {
