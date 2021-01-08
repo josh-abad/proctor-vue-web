@@ -98,7 +98,9 @@ const store = createStore({
         commit(SET_ATTEMPTS, await examAttemptsService.getByUser(validatedUser.id))
         commit(SET_EXAM_RESULTS, await examResultsService.getByUser(validatedUser.id))
       } catch (error) {
-        dispatch(ALERT, error.response.data.error)
+        commit(SET_USER, null)
+        localStorage.removeItem('loggedAppUser')
+        router.push('/login')
       }
     }
   },

@@ -34,7 +34,7 @@ import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { VALIDATE_TOKEN } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME } from './store/mutation-types'
+import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
 import { AuthenticatedUser } from './types'
 
 export default defineComponent({
@@ -66,6 +66,7 @@ export default defineComponent({
     const loggedUserJSON = localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
+      this.$store.commit(SET_USER, user)
       await this.$store.dispatch(VALIDATE_TOKEN, { id: user.id, token: user.token })
       const activeExamJSON = localStorage.getItem('activeExam')
 
