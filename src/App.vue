@@ -32,11 +32,10 @@ import DialogModal from './components/DialogModal.vue'
 import Snackbar from './components/Snackbar.vue'
 import TheNavBar from './components/TheNavBar.vue'
 import TheSidebar from './components/TheSidebar.vue'
-import examsService from './services/exams'
-import examAttemptsService from './services/exam-attempts'
 import examResultsService from './services/exam-results'
-import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
+import { VALIDATE_TOKEN } from './store/action-types'
+import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME } from './store/mutation-types'
+import { AuthenticatedUser } from './types'
 
 export default defineComponent({
   name: 'App',
@@ -54,20 +53,10 @@ export default defineComponent({
   async created () {
     const loggedUserJSON = localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      this.$store.commit(SET_USER, user)
-      examAttemptsService.setToken(user.token)
+      const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
+      await this.$store.dispatch(VALIDATE_TOKEN, { id: user.id, token: user.token })
       const activeExamJSON = localStorage.getItem('activeExam')
-      if (user.role !== 'student') {
-        examsService.setToken(user.token)
-      }
-      await Promise.all([
-        this.$store.dispatch(LOAD_USERS),
-        this.$store.dispatch(LOAD_COURSES),
-        this.$store.dispatch(LOAD_EXAMS),
-        this.$store.dispatch(LOAD_ATTEMPTS, this.$store.state.user.id),
-        this.$store.dispatch(LOAD_EXAM_RESULTS, this.$store.state.user.id)
-      ])
+
       if (activeExamJSON) {
         const activeExam = JSON.parse(activeExamJSON)
         examResultsService.setToken(activeExam.token)

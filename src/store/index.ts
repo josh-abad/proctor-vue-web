@@ -18,7 +18,7 @@ import exams from './modules/exams'
 import theme from './modules/theme'
 import users from './modules/users'
 import { SET_ATTEMPTS, SET_EXAM_RESULTS, SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
-import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VERIFY } from './action-types'
+import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VALIDATE_TOKEN, VERIFY } from './action-types'
 
 const store = createStore({
   state: () => ({
@@ -75,6 +75,28 @@ const store = createStore({
       try {
         const verifiedUser = await verifyService.verify(token)
         commit(SET_VERIFIED, verifiedUser.id)
+      } catch (error) {
+        dispatch(ALERT, error.response.data.error)
+      }
+    },
+    async [VALIDATE_TOKEN] ({ commit, dispatch }, { id, token }): Promise<void> {
+      try {
+        const validatedUser = await usersService.validateUserToken(id, token)
+        commit(SET_USER, validatedUser)
+        localStorage.setItem('loggedAppUser', JSON.stringify(validatedUser))
+        examAttemptsService.setToken(validatedUser.token)
+        if (validatedUser.role !== 'student') {
+          examsService.setToken(validatedUser.token)
+          await Promise.all([
+            dispatch(LOAD_USERS),
+            dispatch(LOAD_COURSES),
+            dispatch(LOAD_EXAMS),
+            dispatch(LOAD_ATTEMPTS, validatedUser.id),
+            dispatch(LOAD_EXAM_RESULTS, validatedUser.id)
+          ])
+        }
+        commit(SET_ATTEMPTS, await examAttemptsService.getByUser(validatedUser.id))
+        commit(SET_EXAM_RESULTS, await examResultsService.getByUser(validatedUser.id))
       } catch (error) {
         dispatch(ALERT, error.response.data.error)
       }
