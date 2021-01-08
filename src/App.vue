@@ -51,6 +51,18 @@ export default defineComponent({
     DialogModal
   },
   async created () {
+    const theme = localStorage.getItem('theme')
+    this.$store.commit(SET_THEME, theme)
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
+    })
+
+    const sidebarState = localStorage.getItem('sidebarState')
+    if (sidebarState) {
+      this.isOpen = JSON.parse(sidebarState)
+    }
+
     const loggedUserJSON = localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
@@ -63,18 +75,6 @@ export default defineComponent({
         this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam)
       }
     }
-
-    const sidebarState = localStorage.getItem('sidebarState')
-    if (sidebarState) {
-      this.isOpen = JSON.parse(sidebarState)
-    }
-
-    const theme = localStorage.getItem('theme')
-    this.$store.commit(SET_THEME, theme)
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
-    })
 
     const recentCourses = localStorage.getItem('recentCourses')
     if (recentCourses) {
