@@ -5,6 +5,7 @@ import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_EXAM, SET_ACTIVE_EXAM, S
 import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
+import nProgress from 'nprogress'
 
 export default {
   state: () => ({
@@ -52,10 +53,13 @@ export default {
     },
     async [DELETE_EXAM] ({ commit, dispatch }, examId: string): Promise<void> {
       try {
+        nProgress.start()
         await examsService.deleteExam(examId)
+        nProgress.done()
         commit(REMOVE_EXAM, examId)
         dispatch(ALERT, 'Exam successfully deleted')
       } catch (error) {
+        nProgress.done()
         dispatch(ALERT, 'Could not delete exam')
       }
     },
@@ -83,17 +87,22 @@ export default {
     },
     async [START_ATTEMPT] ({ commit, dispatch }, examId): Promise<void> {
       try {
+        nProgress.start()
         const response = await examAttemptsService.start(examId)
+        nProgress.done()
         commit(ADD_ATTEMPT, response.attempt)
         localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
         commit(SET_ACTIVE_EXAM, response.attempt.exam)
       } catch (error) {
+        nProgress.done()
         dispatch(ALERT, 'Attempt could not be started')
       }
     },
     async [SUBMIT_EXAM] ({ commit }, payload) {
+      nProgress.start()
       const response = await examResultsService.submit(payload)
+      nProgress.done()
       commit(ADD_EXAM_RESULT, response.examResult)
       commit(UPDATE_ATTEMPT, response.attempt)
     }

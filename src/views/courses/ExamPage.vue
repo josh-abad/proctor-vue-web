@@ -49,7 +49,6 @@ import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
-import NProgress from 'nprogress'
 
 export default defineComponent({
   components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader },
@@ -113,7 +112,6 @@ export default defineComponent({
 
       this.$emitter.on('closedDialog', async (confirm: boolean) => {
         if (confirm) {
-          NProgress.start()
           await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
           this.$store.commit(SET_ACTIVE_EXAM, null)
           this.$router.replace(`/courses/${this.courseId}/exams/${this.examId}`)

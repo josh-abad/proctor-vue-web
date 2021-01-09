@@ -73,7 +73,6 @@ import { defineComponent } from 'vue'
 import logoMixin from '@/mixins/logo'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
-import NProgress from 'nprogress'
 
 export default defineComponent({
   components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect },
@@ -92,7 +91,6 @@ export default defineComponent({
   },
   methods: {
     async handleLogin () {
-      NProgress.start()
       await this.$store.dispatch(LOG_IN, {
         email: this.email,
         password: this.password

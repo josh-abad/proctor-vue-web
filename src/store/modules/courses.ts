@@ -4,6 +4,7 @@ import { ALERT, CREATE_COURSE, DELETE_COURSE, ENROLL_STUDENT, ENROLL_STUDENTS, L
 import { ADD_COURSE, ADD_RECENT_COURSE, REMOVE_COURSE, SET_COURSES, SET_RECENT_COURSES, UPDATE_COURSE } from '../mutation-types'
 import coursesService from '@/services/courses'
 import { alphabeticalCourses } from '@/utils/sort'
+import nProgress from 'nprogress'
 
 const MAX_RECENT_COURSES = 3
 
@@ -61,37 +62,49 @@ export default {
     },
     async [ENROLL_STUDENT] ({ commit, dispatch }, { studentId, courseId }): Promise<void> {
       try {
+        nProgress.start()
         const updatedCourse = await coursesService.enrollUser(studentId, courseId)
+        nProgress.done()
         commit(UPDATE_COURSE, updatedCourse)
         dispatch(ALERT, 'Student successfully enrolled.')
       } catch (error) {
+        nProgress.done()
         dispatch(ALERT, error.response.data.error)
       }
     },
     async [ENROLL_STUDENTS] ({ commit, dispatch }, { userIds, courseId }): Promise<void> {
       try {
+        nProgress.start()
         const updatedCourse = await coursesService.enrollUsers(userIds, courseId)
+        nProgress.done()
         commit(UPDATE_COURSE, updatedCourse)
         dispatch(ALERT, 'Students successfully added to course.')
       } catch (error) {
+        nProgress.done()
         dispatch(ALERT, error.response.data.error)
       }
     },
     async [CREATE_COURSE] ({ commit, dispatch }, newCourse: NewCourse): Promise<void> {
       try {
+        nProgress.start()
         const createdCourse = await coursesService.create(newCourse)
+        nProgress.done()
         commit(ADD_COURSE, createdCourse)
         dispatch(ALERT, 'Course successfully created')
       } catch (error) {
+        nProgress.done()
         dispatch(ALERT, error.response.data.error)
       }
     },
     async [DELETE_COURSE] ({ commit, dispatch }, courseId: string): Promise<void> {
       try {
+        nProgress.start()
         await coursesService.deleteCourse(courseId)
+        nProgress.done()
         commit(REMOVE_COURSE, courseId)
         dispatch(ALERT, 'Course successfully deleted')
       } catch (error) {
+        nProgress.done()
         dispatch(ALERT, 'Could not delete course')
       }
     }
