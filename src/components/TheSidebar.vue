@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-56 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition duration-300 bg-green-500 dark:bg-gray-800 shadow-lg"
+      class="transform w-56 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition duration-300 bg-white dark:bg-gray-800 shadow-lg"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex flex-col">
@@ -9,7 +9,7 @@
           :key="i"
           :to="content.url"
           v-for="(content, i) in authorizedLinks"
-          class="text-green-200 dark:text-gray-400 hover:text-white dark:hover:text-white"
+          class="text-gray-500 dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
         >
           <div
             v-if="content.authorized === undefined || content.authorized"
@@ -83,7 +83,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .router-link-active {
-  @apply bg-green-300 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-40 font-semibold text-white dark:text-white border-l-2 border-white dark:border-green-500;
+  @apply bg-gray-300 dark:bg-gray-700 bg-opacity-40 dark:bg-opacity-40 font-semibold text-green-500 dark:text-white border-l-2 border-green-500;
 }
 
 ::-webkit-scrollbar {
