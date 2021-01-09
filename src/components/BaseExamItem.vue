@@ -65,7 +65,7 @@ export default defineComponent({
   name: 'ExamItem',
   emits: ['answer-changed'],
   data () {
-    let answer: string | boolean[]
+    let answer: string | string[]
     if (this.examItem.questionType === 'text' || this.examItem.questionType === 'multiple choice') {
       answer = ''
     } else {

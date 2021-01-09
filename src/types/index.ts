@@ -76,16 +76,11 @@ export interface Attempt {
 export interface ExamItem {
   question: string;
   questionType: QuestionType;
-  answer: string;
+  answer: string[];
   choices: string[];
 }
 
-export type QuestionType = 'multiple choice' | 'text' | 'multpipl answers'
-
-export interface NewExamItem extends Omit<ExamItem, 'id' | 'course'> {
-  courseId: string;
-  answer: string;
-}
+export type QuestionType = 'multiple choice' | 'text' | 'multiple answers'
 
 export interface Score {
   examItem: string;

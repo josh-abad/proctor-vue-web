@@ -152,7 +152,7 @@ import BasePanel from '@/components/BasePanel.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
-import { Course, NewExam, Option, QuestionType } from '@/types'
+import { Course, ExamItem, NewExam } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -168,30 +168,10 @@ export default defineComponent({
       examItems: [
         {
           question: '',
-          questionType: 'text' as QuestionType,
-          // questionType: 'text' as
-          //   | 'text'
-          //   | 'multiple choice'
-          //   | 'multiple answers',
-          answer: '',
-          choices: [] as string[]
+          answer: ''
         }
-      ],
-      questionTypes: [
-        {
-          text: 'Text',
-          value: 'text'
+      ]
         }
-        // {
-        // text: 'Multiple Choice',
-        // value: 'multiple choice'
-        // },
-        // {
-        // text: 'Multiple Answers',
-        // value: 'multiple answers'
-        // }
-      ] as Option[]
-    }
   },
   props: {
     courseId: {
@@ -211,12 +191,41 @@ export default defineComponent({
     }
   },
   methods: {
+    /**
+     * Determines question type based on how answer is formatted.
+     * Multiple choices are delimited by commas and answers are denoted by an asterisk at the beginning.
+     * For example, 'foo' is a text type question since there are no delimiters.
+     * Whereas 'foo,*bar,baz' is a multiple choice, and '*foo,*bar,baz' has multiple answers.
+     * @param answer the answer to parse
+     */
+    parseAnswer (question: string, answerValue: string): ExamItem {
+      const unparsedChoices = answerValue.split(',')
+
+      if (unparsedChoices.length === 1) {
+        return {
+          question,
+          questionType: 'text',
+          answer: unparsedChoices,
+          choices: []
+        }
+      }
+
+      const answer = unparsedChoices.filter(this.correctAnswer).map(choice => choice.substring(1))
+      const choices = unparsedChoices.map(choice => this.correctAnswer(choice) ? choice.substring(1) : choice)
+      return {
+        answer,
+        choices,
+        question,
+        questionType: answer.length === 1 ? 'multiple choice' : 'multiple answers'
+      }
+    },
+    correctAnswer (choice: string): boolean {
+      return choice.charAt(0) === '*'
+    },
     addExamItem (): void {
       this.examItems.push({
         question: '',
-        questionType: 'text',
-        answer: '',
-        choices: []
+        answer: ''
       })
     },
     removeExamItem (index: number): void {
@@ -231,7 +240,7 @@ export default defineComponent({
           duration: this.examDurationInSeconds,
           courseId: this.courseId,
           maxAttempts: this.maxAttempts,
-          examItems: this.examItems,
+          examItems: this.examItems.map(examItem => this.parseAnswer(examItem.question, examItem.answer)),
           week: this.week
         }
         const createdExam = await examsService.create(newExam)
