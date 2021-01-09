@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
 import { Role } from '@/types'
-import NProgress from 'nprogress'
 
 const createTitle = (pageName: string): string => {
   return `${pageName} - Proctor Vue`
@@ -12,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'Home',
     meta: {
-      title: createTitle('Home'),
+      title: 'Proctor Vue',
       authorize: [] as Role[]
     },
     component: () => import('../views/Home.vue')
@@ -50,7 +49,8 @@ const routes: Array<RouteRecordRaw> = [
         path: 'new',
         name: 'Course Creation Page',
         meta: {
-          authorize: ['admin'] as Role[]
+          authorize: ['admin'] as Role[],
+          title: createTitle('New Course')
         },
         component: () => import('../views/courses/CourseCreationPage.vue')
       },
@@ -126,6 +126,9 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: ':studentId/enroll',
+        meta: {
+          title: createTitle('Enroll Student')
+        },
         component: () => import('../views/students/EnrollmentPage.vue')
       }
     ],
@@ -178,17 +181,6 @@ const router = createRouter({
     }
   },
   routes
-})
-
-router.beforeResolve((to, from, next) => {
-  if (to.name) {
-    NProgress.start()
-  }
-  next()
-})
-
-router.afterEach(() => {
-  NProgress.done()
 })
 
 router.beforeEach((to, _from, next) => {
