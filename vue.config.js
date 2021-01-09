@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const CompressionPlugin = require('compression-webpack-plugin')
 const zlib = require('zlib')
 
