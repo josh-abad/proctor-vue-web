@@ -121,7 +121,10 @@ export default defineComponent({
     }
   },
   mounted () {
-    document.title = this.course ? `${this.course.name} | Proctor Vue` : 'Course Not Found | Proctor Vue'
+    if (!this.$store.getters.permissions('admin') && !this.$store.getters.hasCourse(this.courseId)) {
+      this.$router.replace('/')
+    }
+    document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
     this.$store.commit(ADD_RECENT_COURSE, this.courseId)
   },
   computed: {

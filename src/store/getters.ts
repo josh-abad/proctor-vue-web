@@ -9,5 +9,10 @@ export default {
     return (...roles) => {
       return state.user ? roles.includes(state.user?.role) : false
     }
+  },
+  hasCourse (state): (courseId: string) => boolean {
+    return courseId => {
+      return !!state.user && state.user.courses.includes(courseId)
+    }
   }
 } as GetterTree<RootState, RootState>
