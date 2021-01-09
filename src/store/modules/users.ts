@@ -39,7 +39,7 @@ export default {
     studentsByCourse (state): (courseId: string) => (User | undefined)[] | undefined {
       return (courseId) => {
         const students = state.users.filter(student => {
-          return student.courses.includes(courseId)
+          return student.role === 'student' && student.courses.includes(courseId)
         })
         return students
       }
