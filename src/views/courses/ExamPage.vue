@@ -116,7 +116,7 @@ export default defineComponent({
           NProgress.start()
           await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
           this.$store.commit(SET_ACTIVE_EXAM, null)
-          this.$router.push(`/courses/${this.courseId}/exams/${this.examId}`)
+          this.$router.replace(`/courses/${this.courseId}/exams/${this.examId}`)
         }
         this.$emitter.all.clear()
       })
