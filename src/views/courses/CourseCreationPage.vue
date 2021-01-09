@@ -26,6 +26,7 @@
               <BaseLabel>Coordinator</BaseLabel>
             </label>
             <BaseDropdown
+              v-if="coordinators.length"
               id="coordinator"
               :options="coordinators"
               @selection-change="handleChange"

@@ -1,21 +1,27 @@
 <template>
-  <div>
-    <BasePanel>
-      <div class="text-xl">Create New Exam for {{ course.name }}</div>
-      <div class="flex mt-3 divide-x divide-gray-300 dark:divide-gray-700">
-        <div>
+  <div v-if="course">
+    <BasePanel class="overflow-hidden">
+      <div
+        class="-mx-6 -mt-6 p-6 bg-gradient-to-r from-green-600 to-green-400 dark:from-green-700 dark:to-green-500"
+      >
+        <BaseLabel emphasis class="text-green-200 dark:text-green-400">{{
+          course.name
+        }}</BaseLabel>
+        <div class="text-2xl font-bold text-white">New Exam</div>
+      </div>
+      <div class="mt-4 flex divide-x divide-gray-300 dark:divide-gray-700">
+        <div class="pr-6">
           <label>
             <BaseLabel>Name</BaseLabel>
             <BaseInput v-model="examName" type="text" />
           </label>
         </div>
-        <div class="ml-6 pl-6">
+        <div class="px-6">
           <label>
             <BaseLabel>Duration</BaseLabel>
             <input
-              class="dark:bg-gray-800 rounded w-16"
+              class="input-number"
               type="number"
-              name=""
               id="hours"
               min="0"
               max="2"
@@ -24,11 +30,10 @@
             />
             {{ hour }}
           </label>
-          <label>
+          <label class="ml-2">
             <input
-              class="dark:bg-gray-800 rounded ml-3 w-16"
+              class="input-number"
               type="number"
-              name=""
               id="minutes"
               min="0"
               max="59"
@@ -38,13 +43,12 @@
             min
           </label>
         </div>
-        <div class="ml-6">
+        <div class="px-6">
           <label>
             <BaseLabel>Attempts</BaseLabel>
             <input
-              class="dark:bg-gray-800 rounded w-16"
+              class="input-number"
               type="number"
-              name=""
               id="minutes"
               min="1"
               max="5"
@@ -52,11 +56,11 @@
             />
           </label>
         </div>
-        <div class="ml-6">
+        <div class="pl-6">
           <label>
             <BaseLabel>Week</BaseLabel>
             <input
-              class="dark:bg-gray-800 rounded w-16"
+              class="input-number"
               type="number"
               id="week"
               min="1"
@@ -68,7 +72,7 @@
       </div>
       <div class="mt-4">
         <div class="border-b border-gray-300 dark:border-gray-700">
-          <BaseLabel emphasis>Exam Items</BaseLabel>
+          <BaseLabel>Exam Items</BaseLabel>
         </div>
         <div class="divide-y divide-gray-300 dark:divide-gray-700">
           <div v-for="(examItem, i) in examItems" :key="i" class="flex mb-4">
@@ -85,15 +89,15 @@
                     class="focus:outline-none text-gray-500 dark:hover:text-white mb-1"
                     @click="removeExamItem(i)"
                   >
+                    <!-- Heroicon name: minus-sm -->
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                      class="fill-current w-5 h-5"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      class="fill-current w-5 h-5"
                     >
                       <path
                         fill-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
                         clip-rule="evenodd"
                       />
                     </svg>
@@ -117,18 +121,6 @@
                 </label>
               </div>
             </div>
-            <!-- <div>
-            <label>
-              <div>Question Type</div>
-              <BaseDropdown
-                v-model="examItem.questionType"
-                :options="questionTypes"
-              />
-            </label>
-          </div> -->
-            <!-- <div class="mt-3" v-show="examItem.questionType !== 'text'">
-            <BaseButton @click="removeExamItem(i)">Add choice</BaseButton>
-          </div> -->
           </div>
         </div>
         <div class="flex justify-between">
@@ -171,7 +163,7 @@ export default defineComponent({
           answer: ''
         }
       ]
-        }
+    }
   },
   props: {
     courseId: {
@@ -254,3 +246,19 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.input-number {
+  @apply shadow focus:outline-none dark:bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  @apply opacity-100 duration-200 ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
+</style>
