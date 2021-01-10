@@ -73,8 +73,7 @@ export default defineComponent({
     },
     filteredStudents (): User[] {
       return this.students.filter(student => {
-        const { first, last } = student.name
-        return `${first} ${last}`.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })
     }
   }

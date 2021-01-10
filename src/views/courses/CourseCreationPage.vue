@@ -72,7 +72,7 @@ export default defineComponent({
   computed: {
     coordinators (): Option[] {
       return this.$store.getters.coordinators.map((c: User) => {
-        return { text: `${c.name.first} ${c.name.last}`, value: c.id }
+        return { text: c.fullName, value: c.id }
       })
     }
   },

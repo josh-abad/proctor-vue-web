@@ -6,8 +6,7 @@
       </label>
       <BaseInput id="search" type="text" v-model="searchFilter" />
       <div v-for="student in filteredStudents" :key="student.id" class="mb-2">
-        {{ student.name.first }}
-        {{ student.name.last }}
+        {{ student.fullName }}
         <BaseButton @click="$router.push(`/students/${student.id}/enroll`)"
           >Enroll</BaseButton
         >
@@ -41,8 +40,7 @@ export default defineComponent({
     },
     filteredStudents (): User[] {
       return this.students.filter(student => {
-        const studentFullName = `${student.name.first} ${student.name.last}`
-        return studentFullName.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })
     }
   }

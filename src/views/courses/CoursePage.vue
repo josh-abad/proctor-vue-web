@@ -70,7 +70,7 @@
         <AboutCourse
           :student-count="course.studentsEnrolled.length"
           :description="course.description"
-          :coordinator-name="coordinatorName"
+          :coordinator-name="course.coordinator.fullName"
           :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
         <BasePanel class="mt-4">
@@ -139,13 +139,6 @@ export default defineComponent({
     },
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)
-    },
-    coordinatorName (): string {
-      if (this.course.coordinator) {
-        const { first, last } = this.course.coordinator.name
-        return `${first} ${last}`
-      }
-      return ''
     }
   },
   mounted () {

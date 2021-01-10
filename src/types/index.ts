@@ -6,6 +6,7 @@ export interface User {
     first: string;
     last: string;
   };
+  fullName: string;
   courses: string[];
   email: string;
   verified: boolean;
@@ -17,7 +18,7 @@ export interface AuthenticatedUser extends User {
   token: string;
 }
 
-export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role' | 'verified' | 'avatarUrl'> {
+export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role' | 'verified' | 'avatarUrl' | 'fullName'> {
   password: string;
 }
 

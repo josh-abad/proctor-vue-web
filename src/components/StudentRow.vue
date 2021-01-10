@@ -6,7 +6,7 @@
       class="ml-2 w-8 h-8 object-cover rounded-full"
     />
     <div class="ml-4">
-      <div>{{ student.name.first }} {{ student.name.last }}</div>
+      <div>{{ student.fullName }}</div>
     </div>
   </div>
 </template>

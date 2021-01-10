@@ -2,7 +2,7 @@
   <Center>
     <BasePanel>
       <div class="flex flex-col items-center">
-        <div>Enroll {{ student.name.first }} {{ student.name.last }}</div>
+        <div>Enroll {{ student.fullName }}</div>
         <BaseDropdown
           :options="availableCourses"
           @selection-change="handleChange"

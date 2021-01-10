@@ -16,7 +16,7 @@
         aria-expanded="true"
       >
         <div class="flex flex-col items-end">
-          <div class="text-sm">{{ user.name.first }} {{ user.name.last }}</div>
+          <div class="text-sm">{{ user.fullName }}</div>
           <div
             class="uppercase font-bold tracking-wide text-xs rounded-full text-green-500"
             v-if="user.role !== 'student'"

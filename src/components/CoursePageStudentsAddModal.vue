@@ -57,13 +57,13 @@
               >
                 <input
                   type="checkbox"
-                  :id="userFullName(student)"
+                  :id="student.fullName"
                   :value="student.id"
                   v-model="checkedNames"
                 />
-                <label :for="userFullName(student)" class="ml-2"
+                <label :for="student.fullName" class="ml-2"
                   ><div class="inline-block">
-                    {{ userFullName(student) }}
+                    {{ student.fullName }}
                   </div>
                 </label>
               </div>
@@ -122,16 +122,11 @@ export default defineComponent({
     },
     filteredStudents (): User[] {
       return this.unenrolledStudents.filter(student => {
-        const studentFullName = this.userFullName(student)
-        return studentFullName.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })
     }
   },
   methods: {
-    userFullName (user: User): string {
-      const { first, last } = user.name
-      return `${first} ${last}`
-    },
     async handleSubmit (): Promise<void> {
       const payload = {
         userIds: this.checkedNames,
