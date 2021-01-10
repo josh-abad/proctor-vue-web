@@ -127,10 +127,11 @@ export default defineComponent({
       }
       try {
         await this.$store.dispatch(SIGN_UP, credentials)
-        this.$router.push('/')
         this.firstName = ''
         this.lastName = ''
+        this.email = ''
         this.password = ''
+        this.confirmPassword = ''
       } catch (error) {
         this.$store.dispatch(ALERT, credentials)
       }

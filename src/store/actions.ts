@@ -16,10 +16,11 @@ export default {
     try {
       nProgress.start()
       await usersService.create(credentials)
+      router.push('/')
       nProgress.done()
     } catch (error) {
       nProgress.done()
-      dispatch(ALERT, error)
+      dispatch(ALERT, error.response.data.error)
     }
   },
   async [LOG_IN] ({ commit, dispatch }, { email, password }): Promise<void> {
