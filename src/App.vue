@@ -3,7 +3,6 @@
     class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t from-green-700 to-teal-900"
   >
     <div id="modals"></div>
-    <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
       <NavBar v-if="isLoggedIn" @toggle="handleToggle" :is-open="sidebarOpen" />
       <div>
@@ -24,7 +23,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import DialogModal from './components/DialogModal.vue'
 import Snackbar from './components/Snackbar.vue'
 import NavBar from './components/NavBar.vue'
 import Sidebar from './components/Sidebar.vue'
@@ -38,8 +36,7 @@ export default defineComponent({
   components: {
     NavBar,
     Sidebar,
-    Snackbar,
-    DialogModal
+    Snackbar
   },
   data () {
     return {

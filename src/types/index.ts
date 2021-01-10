@@ -96,13 +96,6 @@ export interface ExamResult {
   attempt: string;
 }
 
-export interface DialogContent {
-  header: string;
-  message: string;
-  actionLabel: string;
-  closed: boolean;
-}
-
 export interface Link {
   name: string;
   url: string;
@@ -141,8 +134,4 @@ export type ThemeState = {
 
 export type AlertState = {
   message: string;
-}
-
-export type DialogState = {
-  dialog: DialogContent;
 }

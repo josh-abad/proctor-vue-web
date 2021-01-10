@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-if="exam">
       <ColorHeader :links="links" hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
         <div class="dark:text-gray-400">
@@ -35,17 +35,35 @@
           <BaseButton
             v-show="attemptsLeft > 0"
             :disabled="attempts.length === exam.maxAttempts"
-            @click="startAttempt"
+            @click="startModalOpen = true"
             prominent
           >
             {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </BaseButton>
           <BaseButton
             v-show="$store.getters.permissions('coordinator', 'admin')"
-            @click="deleteExam"
+            @click="deleteModalOpen = true"
           >
             Delete exam
           </BaseButton>
+          <teleport to="#modals">
+            <DialogModal
+              @cancel="startModalOpen = false"
+              @confirm="startAttempt"
+              v-show="startModalOpen"
+              header="Attempt Quiz"
+              message="Are you sure you want to start the quiz?"
+              action-label="Start Quiz"
+            />
+            <DialogModal
+              @cancel="deleteModalOpen = false"
+              @confirm="deleteExam"
+              v-show="deleteModalOpen"
+              header="Delete Quiz"
+              message="Are you sure you want to delete this quiz?"
+              action-label="Delete"
+            />
+          </teleport>
         </div>
       </BasePanel>
     </div>
@@ -61,28 +79,32 @@ import ColorHeader from '@/components/ColorHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { ALERT, DELETE_EXAM } from '@/store/action-types'
-import {
-  ADD_ATTEMPT,
-  DISPLAY_DIALOG,
-  SET_ACTIVE_EXAM
-} from '@/store/mutation-types'
-import { Attempt, DialogContent, Exam, Link } from '@/types'
+import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
+import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+import DialogModal from '@/components/DialogModal.vue'
 dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
-  components: { BaseButton, AttemptRow, BasePanel, BaseLabel, ColorHeader },
+  components: { BaseButton, AttemptRow, BasePanel, BaseLabel, ColorHeader, DialogModal },
   props: {
     courseId: {
       type: String,
       required: true
     },
+
     examId: {
       type: String,
       required: true
+    }
+  },
+  data () {
+    return {
+      startModalOpen: false,
+      deleteModalOpen: false
     }
   },
   computed: {
@@ -126,46 +148,23 @@ export default defineComponent({
     }
   },
   methods: {
-    startAttempt () {
-      this.$store.commit(DISPLAY_DIALOG, {
-        header: 'Attempt Quiz',
-        actionLabel: 'Start Quiz',
-        message: 'Are you sure you want to start the quiz?'
-      })
-
-      this.$emitter.on('closedDialog', async (confirm: boolean) => {
-        if (confirm) {
-          try {
-            const response = await examAttemptsService.start(this.examId)
-            this.$store.commit(ADD_ATTEMPT, response.attempt)
-            window.localStorage.setItem('activeExam', JSON.stringify(response))
-            examResultsService.setToken(response.token)
-            this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam)
-            this.$router.push(
-              `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
-            )
-          } catch (error) {
-            this.$store.dispatch(ALERT, 'Attempt could not be started')
-          }
-        }
-        this.$emitter.all.clear()
-      })
+    async startAttempt () {
+      try {
+        const response = await examAttemptsService.start(this.examId)
+        this.$store.commit(ADD_ATTEMPT, response.attempt)
+        localStorage.setItem('activeExam', JSON.stringify(response))
+        examResultsService.setToken(response.token)
+        this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam)
+        this.$router.push(
+          `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
+        )
+      } catch (error) {
+        this.$store.dispatch(ALERT, 'Attempt could not be started')
+      }
     },
     async deleteExam (): Promise<void> {
-      const dialogContent: Omit<DialogContent, 'closed'> = {
-        header: 'Delete Exam',
-        message: 'Are you sure you want to delete this exam?',
-        actionLabel: 'Delete'
-      }
-      this.$store.commit(DISPLAY_DIALOG, dialogContent)
-
-      this.$emitter.on('closedDialog', (confirmDelete: boolean) => {
-        if (confirmDelete) {
-          this.$store.dispatch(DELETE_EXAM, this.examId)
-          this.$router.push(`/courses/${this.courseId}`)
-        }
-        this.$emitter.all.clear()
-      })
+      await this.$store.dispatch(DELETE_EXAM, this.examId)
+      this.$router.push(`/courses/${this.courseId}`)
     }
   }
 })

@@ -7,7 +7,7 @@
     leave-from-class="opacity-100 translate-y-0"
     leave-to-class="opacity-0 translate-y-4"
   >
-    <div class="fixed z-30 inset-0 overflow-y-auto" v-show="!dialog.closed">
+    <div class="fixed z-30 inset-0 overflow-y-auto">
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
@@ -24,7 +24,6 @@
           >&#8203;</span
         >
         <div
-          v-show="!dialog.closed"
           class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
@@ -57,21 +56,23 @@
                   class="text-lg leading-6 font-medium text-gray-900 dark:text-white"
                   id="modal-headline"
                 >
-                  {{ dialog.header }}
+                  {{ header }}
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500">
-                    {{ dialog.message }}
+                    {{ message }}
                   </p>
                 </div>
               </div>
             </div>
           </div>
           <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <BaseButton @click="handleConfirm" prominent>{{
-              dialog.actionLabel
+            <BaseButton @click="$emit('confirm')" prominent>{{
+              actionLabel
             }}</BaseButton>
-            <BaseButton @click="handleCancel" class="mr-3"> Cancel </BaseButton>
+            <BaseButton @click="$emit('cancel')" class="mr-3">
+              Cancel
+            </BaseButton>
           </div>
         </div>
       </div>
@@ -80,28 +81,28 @@
 </template>
 
 <script lang="ts">
-import { CLOSE_DIALOG } from '@/store/mutation-types'
-import { DialogContent } from '@/types'
 import { defineComponent } from 'vue'
 import BaseButton from './BaseButton.vue'
 
 export default defineComponent({
   name: 'DialogModal',
   components: { BaseButton },
-  computed: {
-    dialog (): DialogContent {
-      return this.$store.state.dialog.dialog
+  props: {
+    header: {
+      type: String,
+      required: true
+    },
+
+    message: {
+      type: String,
+      required: true
+    },
+
+    actionLabel: {
+      type: String,
+      default: 'Confirm'
     }
   },
-  methods: {
-    handleConfirm () {
-      this.$store.commit(CLOSE_DIALOG)
-      this.$emitter.emit('closedDialog', true)
-    },
-    handleCancel () {
-      this.$store.commit(CLOSE_DIALOG)
-      this.$emitter.emit('closedDialog', false)
-    }
-  }
+  emits: ['cancel', 'confirm']
 })
 </script>

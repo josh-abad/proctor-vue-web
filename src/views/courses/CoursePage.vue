@@ -37,12 +37,22 @@
             >Edit Course</router-link
           >
           <button
-            @click="deleteCourse"
+            @click="deleteModalOpen = true"
             class="block w-full text-left px-4 py-2 text-sm border-t dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
             role="menuitem"
           >
             Delete Course
           </button>
+          <teleport to="#modals">
+            <DialogModal
+              v-show="deleteModalOpen"
+              header="Delete Course"
+              message="Are you sure you want to delete this course?"
+              action-label="Delete"
+              @cancel="deleteModalOpen = false"
+              @confirm="deleteCourse"
+            />
+          </teleport>
         </div>
       </div>
     </transition>
@@ -100,15 +110,16 @@ import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
+import DialogModal from '@/components/DialogModal.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
-import { ADD_RECENT_COURSE, DISPLAY_DIALOG } from '@/store/mutation-types'
-import { Course, DialogContent, Link } from '@/types'
+import { ADD_RECENT_COURSE } from '@/store/mutation-types'
+import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar, DialogModal },
   props: {
     courseId: {
       type: String,
@@ -117,7 +128,8 @@ export default defineComponent({
   },
   data () {
     return {
-      menuOpen: false
+      menuOpen: false,
+      deleteModalOpen: false
     }
   },
   computed: {
@@ -150,20 +162,8 @@ export default defineComponent({
   },
   methods: {
     deleteCourse (): void {
-      const dialogContent: Omit<DialogContent, 'closed'> = {
-        header: 'Delete Course',
-        message: 'Are you sure you want to delete this course?',
-        actionLabel: 'Delete'
-      }
-      this.$store.commit(DISPLAY_DIALOG, dialogContent)
-
-      this.$emitter.on('closedDialog', (confirmDelete: boolean) => {
-        if (confirmDelete) {
-          this.$store.dispatch(DELETE_COURSE, this.courseId)
-          this.$router.push('/courses')
-        }
-        this.$emitter.all.clear()
-      })
+      this.$store.dispatch(DELETE_COURSE, this.courseId)
+      this.$router.push('/courses')
     },
     editCourse (): void {
       // TODO: implement editing courses
