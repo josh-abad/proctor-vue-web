@@ -6,7 +6,7 @@
       >Recent Courses</BaseLabel
     >
     <div class="grid grid-cols-3 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
-      <CourseCard
+      <CoursesPageCard
         :course="course"
         :key="course.id"
         v-for="course in recentCourses"
@@ -16,14 +16,14 @@
 </template>
 
 <script lang="ts">
-import CourseCard from '@/components/CourseCard.vue'
+import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 
 export default defineComponent({
-  components: { CourseCard, BaseLabel },
   name: 'RecentCourses',
+  components: { CoursesPageCard, BaseLabel },
   computed: {
     recentCourses (): Course[] {
       return this.$store.getters.getRecentCourses

@@ -24,8 +24,8 @@ import { defineComponent } from 'vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 
 export default defineComponent({
-  components: { BaseLabel },
   name: 'CourseCard',
+  components: { BaseLabel },
   props: {
     course: {
       type: Object as () => Course,

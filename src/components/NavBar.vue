@@ -49,12 +49,13 @@ import SearchBar from './SearchBar.vue'
 import logoMixin from '@/mixins/logo'
 
 export default defineComponent({
+  name: 'NavBar',
   components: { NavBarUserDropdown, SearchBar },
-  emits: ['toggle'],
   mixins: [logoMixin],
   props: {
     isOpen: Boolean
   },
+  emits: ['toggle'],
   computed: {
     isLoggedIn (): boolean {
       return this.$store.getters.isLoggedIn

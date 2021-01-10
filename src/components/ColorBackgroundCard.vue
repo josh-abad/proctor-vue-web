@@ -19,7 +19,7 @@ import BasePanel from './BasePanel.vue'
 import Center from './Center.vue'
 
 export default defineComponent({
-  components: { Center, BasePanel },
-  name: 'ColorBackgroundCard'
+  name: 'ColorBackgroundCard',
+  components: { Center, BasePanel }
 })
 </script>

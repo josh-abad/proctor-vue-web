@@ -25,6 +25,7 @@ export default defineComponent({
       required: true
     }
   },
+  emits: ['timer-ended'],
   data () {
     return {
       displaySeconds: '0',
@@ -32,7 +33,21 @@ export default defineComponent({
       displayHours: '0'
     }
   },
-  emits: ['timer-ended'],
+  computed: {
+    seconds: (): number => 1000,
+    minutes (): number {
+      return this.seconds * 60
+    },
+    hours (): number {
+      return this.minutes * 60
+    },
+    days (): number {
+      return this.hours * 24
+    }
+  },
+  mounted () {
+    this.countdown()
+  },
   methods: {
     format (n: number): string {
       return n.toString().padStart(2, '0')
@@ -54,21 +69,6 @@ export default defineComponent({
         this.displaySeconds = this.format(seconds)
         this.displayHours = this.format(hours)
       }, 1000)
-    }
-  },
-  mounted () {
-    this.countdown()
-  },
-  computed: {
-    seconds: (): number => 1000,
-    minutes (): number {
-      return this.seconds * 60
-    },
-    hours (): number {
-      return this.minutes * 60
-    },
-    days (): number {
-      return this.hours * 24
     }
   }
 })

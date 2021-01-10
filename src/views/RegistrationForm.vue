@@ -98,8 +98,8 @@ import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
 
 export default defineComponent({
-  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect },
   name: 'RegistrationForm',
+  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect },
   mixins: [logoMixin],
   data () {
     return {

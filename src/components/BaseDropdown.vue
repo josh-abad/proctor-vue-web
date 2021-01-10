@@ -120,10 +120,16 @@
 
 <script lang="ts">
 import { Option } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'BaseDropdown',
+  props: {
+    options: {
+      type: Array as PropType<Option[]>,
+      required: true
+    }
+  },
   emits: ['selection-change'],
   data () {
     return {
@@ -131,20 +137,14 @@ export default defineComponent({
       selectedIndex: 0
     }
   },
-  props: {
-    options: {
-      type: Array,
-      required: true
-    }
-  },
-  mounted () {
-    this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
-  },
   computed: {
     selectedText (): string {
       const selected: Option = this.options[this.selectedIndex] as Option
       return selected ? selected.text : ''
     }
+  },
+  mounted () {
+    this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
   },
   methods: {
     handleChange (i: number): void {

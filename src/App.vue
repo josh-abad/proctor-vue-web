@@ -5,13 +5,9 @@
     <div id="modals"></div>
     <DialogModal />
     <div class="flex flex-col dark:text-white text-gray-900">
-      <TheNavBar
-        v-if="isLoggedIn"
-        @toggle="handleToggle"
-        :isOpen="sidebarOpen"
-      />
+      <NavBar v-if="isLoggedIn" @toggle="handleToggle" :is-open="sidebarOpen" />
       <div>
-        <TheSidebar :isOpen="sidebarOpen" />
+        <Sidebar :is-open="sidebarOpen" />
         <div>
           <router-view
             class="transform ease-in-out duration-300 p-6"
@@ -30,8 +26,8 @@
 import { defineComponent } from 'vue'
 import DialogModal from './components/DialogModal.vue'
 import Snackbar from './components/Snackbar.vue'
-import TheNavBar from './components/TheNavBar.vue'
-import TheSidebar from './components/TheSidebar.vue'
+import NavBar from './components/NavBar.vue'
+import Sidebar from './components/Sidebar.vue'
 import examResultsService from './services/exam-results'
 import { VALIDATE_TOKEN } from './store/action-types'
 import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
@@ -39,16 +35,24 @@ import { AuthenticatedUser } from './types'
 
 export default defineComponent({
   name: 'App',
+  components: {
+    NavBar,
+    Sidebar,
+    Snackbar,
+    DialogModal
+  },
   data () {
     return {
       isOpen: false
     }
   },
-  components: {
-    TheNavBar,
-    TheSidebar,
-    Snackbar,
-    DialogModal
+  computed: {
+    sidebarOpen (): boolean {
+      return this.isOpen && this.isLoggedIn
+    },
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
+    }
   },
   async created () {
     const theme = localStorage.getItem('theme')
@@ -86,14 +90,6 @@ export default defineComponent({
     handleToggle () {
       this.isOpen = !this.isOpen
       localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
-    }
-  },
-  computed: {
-    sidebarOpen (): boolean {
-      return this.isOpen && this.isLoggedIn
-    },
-    isLoggedIn () {
-      return this.$store.getters.isLoggedIn
     }
   }
 })

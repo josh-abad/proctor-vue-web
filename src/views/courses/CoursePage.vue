@@ -3,7 +3,7 @@
     <ColorHeader
       :links="links"
       @menu-clicked="menuOpen = !menuOpen"
-      :hideMenu="!$store.getters.permissions('coordinator', 'admin')"
+      :hide-menu="!$store.getters.permissions('coordinator', 'admin')"
       >{{ course.name }}</ColorHeader
     >
     <transition
@@ -68,10 +68,10 @@
       </div>
       <div class="w-72">
         <AboutCourse
-          :studentCount="course.studentsEnrolled.length"
+          :student-count="course.studentsEnrolled.length"
           :description="course.description"
-          :coordinatorName="coordinatorName"
-          :coordinatorAvatarUrl="course.coordinator.avatarUrl"
+          :coordinator-name="coordinatorName"
+          :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
         <BasePanel class="mt-4">
           <BaseLabel emphasis>Course Progress</BaseLabel>
@@ -107,25 +107,18 @@ import { Course, DialogContent, Link } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar },
   name: 'CoursePage',
-  data () {
-    return {
-      menuOpen: false
-    }
-  },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar },
   props: {
     courseId: {
       type: String,
       required: true
     }
   },
-  mounted () {
-    if (!this.$store.getters.permissions('admin') && !this.$store.getters.hasCourse(this.courseId)) {
-      this.$router.replace('/')
+  data () {
+    return {
+      menuOpen: false
     }
-    document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
-    this.$store.commit(ADD_RECENT_COURSE, this.courseId)
   },
   computed: {
     links (): Link[] {
@@ -154,6 +147,13 @@ export default defineComponent({
       }
       return ''
     }
+  },
+  mounted () {
+    if (!this.$store.getters.permissions('admin') && !this.$store.getters.hasCourse(this.courseId)) {
+      this.$router.replace('/')
+    }
+    document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+    this.$store.commit(ADD_RECENT_COURSE, this.courseId)
   },
   methods: {
     deleteCourse (): void {

@@ -48,19 +48,17 @@ import { Theme } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { ToggleButton, BasePanel },
   name: 'SettingsPage',
+  components: { ToggleButton, BasePanel },
   data () {
     return {
       automatic: false,
       darkMode: false
     }
   },
-  mounted () {
-    if (this.theme) {
-      this.darkMode = this.theme === 'dark'
-    } else {
-      this.automatic = true
+  computed: {
+    theme (): Theme {
+      return this.$store.state.theme.theme
     }
   },
   watch: {
@@ -75,14 +73,16 @@ export default defineComponent({
       this.handleChangeTheme(enabled ? 'dark' : 'light')
     }
   },
+  mounted () {
+    if (this.theme) {
+      this.darkMode = this.theme === 'dark'
+    } else {
+      this.automatic = true
+    }
+  },
   methods: {
     handleChangeTheme (theme: Theme) {
       this.$store.commit(SET_THEME, theme)
-    }
-  },
-  computed: {
-    theme (): Theme {
-      return this.$store.state.theme.theme
     }
   }
 })

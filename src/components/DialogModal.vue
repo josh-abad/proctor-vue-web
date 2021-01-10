@@ -86,8 +86,8 @@ import { defineComponent } from 'vue'
 import BaseButton from './BaseButton.vue'
 
 export default defineComponent({
-  components: { BaseButton },
   name: 'DialogModal',
+  components: { BaseButton },
   computed: {
     dialog (): DialogContent {
       return this.$store.state.dialog.dialog

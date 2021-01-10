@@ -41,14 +41,15 @@ dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptRow',
-  emits: ['review-clicked'],
   props: {
-    attemptNumber: Number,
     attempt: {
       type: Object as () => Attempt,
       required: true
-    }
+    },
+
+    attemptNumber: Number
   },
+  emits: ['review-clicked'],
   computed: {
     percentage (): number {
       return Math.floor(this.attempt.score / this.attempt.examTotal * 100)

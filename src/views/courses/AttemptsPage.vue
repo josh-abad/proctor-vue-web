@@ -20,7 +20,7 @@
             <AttemptRow
               v-for="(attempt, i) in attempts"
               :key="attempt.id"
-              :attemptNumber="i + 1"
+              :attempt-number="i + 1"
               :attempt="attempt"
               @review-clicked="
                 $router.push(
@@ -73,8 +73,8 @@ import duration from 'dayjs/plugin/duration'
 dayjs.extend(duration)
 
 export default defineComponent({
-  components: { BaseButton, AttemptRow, BasePanel, BaseLabel, ColorHeader },
   name: 'AttemptsPage',
+  components: { BaseButton, AttemptRow, BasePanel, BaseLabel, ColorHeader },
   props: {
     courseId: {
       type: String,

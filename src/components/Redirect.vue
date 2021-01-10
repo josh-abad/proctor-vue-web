@@ -34,8 +34,8 @@ import { defineComponent } from 'vue'
 import ColorBackgroundCard from './ColorBackgroundCard.vue'
 
 export default defineComponent({
-  components: { ColorBackgroundCard },
   name: 'Redirect',
+  components: { ColorBackgroundCard },
   mixins: [logoMixin],
   mounted () {
     setTimeout(() => {

@@ -6,7 +6,7 @@
         { name: 'Courses', url: '/courses' },
       ]"
       @menu-clicked="isOpen = !isOpen"
-      :hideMenu="!$store.getters.permissions('admin')"
+      :hide-menu="!$store.getters.permissions('admin')"
       >Courses</ColorHeader
     >
     <transition
@@ -84,7 +84,7 @@
       </div>
       <transition name="fade" mode="out-in">
         <div
-          v-if="!courses.length"
+          v-if="loaded && !courses.length"
           class="mt-3 flex justify-center items-center h-40"
         >
           <div class="font-semibold text-xl text-gray-500">
@@ -93,7 +93,7 @@
         </div>
         <div v-else-if="viewMode === 'card'" class="mt-3">
           <div class="grid grid-cols-3 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            <CourseCard
+            <CoursesPageCard
               :course="course"
               :key="course.id"
               v-for="course in courses"
@@ -101,12 +101,20 @@
           </div>
         </div>
         <div v-else>
-          <div class="divide-y divide-gray-300 dark:divide-gray-700">
-            <CourseListItem
-              :course="course"
-              :key="course.id"
-              v-for="course in courses"
-            />
+          <div>
+            <div
+              v-if="loaded"
+              class="divide-y divide-gray-300 dark:divide-gray-700"
+            >
+              <CoursesPageListItem
+                :course="course"
+                :key="course.id"
+                v-for="course in courses"
+              />
+            </div>
+            <div v-else class="divide-y divide-gray-300 dark:divide-gray-700">
+              <SkeletonCourseListItem v-for="i in 10" :key="i" />
+            </div>
           </div>
         </div>
       </transition>
@@ -117,18 +125,25 @@
 <script lang="ts">
 import BasePanel from '@/components/BasePanel.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
-import CourseCard from '@/components/CourseCard.vue'
-import CourseListItem from '@/components/CourseListItem.vue'
+import CoursesPageCard from '@/components/CoursesPageCard.vue'
+import CoursesPageListItem from '@/components/CoursesPageListItem.vue'
+import SkeletonCourseListItem from '@/components/SkeletonCourseListItem.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { CourseCard, BasePanel, ColorHeader, CourseListItem },
   name: 'CoursesPage',
+  components: { CoursesPageCard, BasePanel, ColorHeader, CoursesPageListItem, SkeletonCourseListItem },
   data () {
     return {
       isOpen: false,
-      viewMode: 'list' as 'card' | 'list'
+      viewMode: 'list' as 'card' | 'list',
+      loaded: false
+    }
+  },
+  computed: {
+    courses (): Course[] {
+      return this.$store.getters.courses
     }
   },
   created () {
@@ -136,16 +151,14 @@ export default defineComponent({
     if (coursesPageViewState) {
       this.viewMode = JSON.parse(coursesPageViewState)
     }
+    setTimeout(() => {
+      this.loaded = true
+    }, 1500)
   },
   methods: {
     handleViewChange (viewMode: 'card' | 'list'): void {
       this.viewMode = viewMode
       localStorage.setItem('coursesPageViewState', JSON.stringify(this.viewMode))
-    }
-  },
-  computed: {
-    courses (): Course[] {
-      return this.$store.getters.courses
     }
   }
 })

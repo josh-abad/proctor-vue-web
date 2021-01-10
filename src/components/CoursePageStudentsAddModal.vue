@@ -92,33 +92,19 @@ import { ENROLL_STUDENTS } from '@/store/action-types'
 import BaseInput from './BaseInput.vue'
 
 export default defineComponent({
-  components: { BasePanel, BaseButton, BaseInput },
   name: 'AddStudentModal',
-  emits: ['close-modal'],
-  data () {
-    return {
-      checkedNames: [],
-      searchFilter: ''
-    }
-  },
+  components: { BasePanel, BaseButton, BaseInput },
   props: {
     courseId: {
       type: String,
       required: true
     }
   },
-  methods: {
-    userFullName (user: User): string {
-      const { first, last } = user.name
-      return `${first} ${last}`
-    },
-    async handleSubmit (): Promise<void> {
-      const payload = {
-        userIds: this.checkedNames,
-        courseId: this.courseId
-      }
-      await this.$store.dispatch(ENROLL_STUDENTS, payload)
-      this.$emit('close-modal')
+  emits: ['close-modal'],
+  data () {
+    return {
+      checkedNames: [],
+      searchFilter: ''
     }
   },
   computed: {
@@ -139,6 +125,20 @@ export default defineComponent({
         const studentFullName = this.userFullName(student)
         return studentFullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })
+    }
+  },
+  methods: {
+    userFullName (user: User): string {
+      const { first, last } = user.name
+      return `${first} ${last}`
+    },
+    async handleSubmit (): Promise<void> {
+      const payload = {
+        userIds: this.checkedNames,
+        courseId: this.courseId
+      }
+      await this.$store.dispatch(ENROLL_STUDENTS, payload)
+      this.$emit('close-modal')
     }
   }
 })

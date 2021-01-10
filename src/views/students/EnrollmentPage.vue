@@ -24,34 +24,17 @@ import { Course, Option, User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseDropdown, BaseButton, Center, BasePanel },
   name: 'EnrollmentPage',
-  data () {
-    return {
-      selectedCourse: ''
-    }
-  },
+  components: { BaseDropdown, BaseButton, Center, BasePanel },
   props: {
     studentId: {
       type: String,
       required: true
     }
   },
-  methods: {
-    handleChange (value: string): void {
-      this.selectedCourse = value
-    },
-    async handleEnroll () {
-      try {
-        const payload = {
-          studentId: this.studentId,
-          courseId: this.selectedCourse
-        }
-        await this.$store.dispatch(ENROLL_STUDENT, payload)
-        this.$router.push('/students')
-      } catch (error) {
-        this.$store.dispatch(ALERT, error.response.data.error)
-      }
+  data () {
+    return {
+      selectedCourse: ''
     }
   },
   computed: {
@@ -71,6 +54,23 @@ export default defineComponent({
         }
       })
       return options
+    }
+  },
+  methods: {
+    handleChange (value: string): void {
+      this.selectedCourse = value
+    },
+    async handleEnroll () {
+      try {
+        const payload = {
+          studentId: this.studentId,
+          courseId: this.selectedCourse
+        }
+        await this.$store.dispatch(ENROLL_STUDENT, payload)
+        this.$router.push('/students')
+      } catch (error) {
+        this.$store.dispatch(ALERT, error.response.data.error)
+      }
     }
   }
 })

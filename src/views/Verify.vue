@@ -36,8 +36,8 @@ import verifyService from '@/services/verify'
 import { SET_VERIFIED } from '@/store/mutation-types'
 
 export default defineComponent({
-  components: { Center, BaseButton },
   name: 'Verify',
+  components: { Center, BaseButton },
   mixins: [logoMixin],
   data () {
     return {

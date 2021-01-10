@@ -17,7 +17,7 @@ import Center from '@/components/Center.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseButton, Center },
-  name: 'NotFound'
+  name: 'NotFound',
+  components: { BaseButton, Center }
 })
 </script>

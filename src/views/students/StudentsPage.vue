@@ -28,8 +28,8 @@ import { User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseLabel, BasePanel, BaseButton },
   name: 'StudentsPage',
+  components: { BaseInput, BaseLabel, BasePanel, BaseButton },
   data () {
     return {
       searchFilter: ''

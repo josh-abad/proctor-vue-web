@@ -35,8 +35,8 @@ import BaseLabel from './BaseLabel.vue'
 import ProgressBar from './ProgressBar.vue'
 
 export default defineComponent({
-  components: { ProgressBar, BaseLabel },
   name: 'CourseListItem',
+  components: { ProgressBar, BaseLabel },
   props: {
     course: {
       type: Object as () => Course,

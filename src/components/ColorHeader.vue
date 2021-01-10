@@ -34,7 +34,6 @@ import Breadcrumbs from '@/components/Breadcrumbs.vue'
 export default defineComponent({
   name: 'ColorHeader',
   components: { BasePanel, Breadcrumbs },
-  emits: ['menu-clicked'],
   props: {
     links: {
       type: Array,
@@ -44,6 +43,7 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
-  }
+  },
+  emits: ['menu-clicked']
 })
 </script>

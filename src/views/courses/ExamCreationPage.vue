@@ -148,8 +148,14 @@ import { Course, ExamItem, NewExam } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, BasePanel, BaseLabel },
   name: 'ExamCreationPage',
+  components: { BaseInput, BaseButton, BasePanel, BaseLabel },
+  props: {
+    courseId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       examName: '',
@@ -163,12 +169,6 @@ export default defineComponent({
           answer: ''
         }
       ]
-    }
-  },
-  props: {
-    courseId: {
-      type: String,
-      required: true
     }
   },
   computed: {

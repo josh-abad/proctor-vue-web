@@ -72,9 +72,8 @@ import { defineComponent, PropType } from 'vue'
 import BaseLabel from './BaseLabel.vue'
 
 export default defineComponent({
-  components: { BaseLabel },
   name: 'Week',
-  emits: ['toggle-collapse'],
+  components: { BaseLabel },
   props: {
     week: {
       type: Number,
@@ -88,6 +87,7 @@ export default defineComponent({
       type: Array as PropType<Exam[]>,
       required: true
     }
-  }
+  },
+  emits: ['toggle-collapse']
 })
 </script>

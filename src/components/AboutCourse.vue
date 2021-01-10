@@ -42,14 +42,17 @@ export default defineComponent({
       type: Number,
       required: true
     },
+
     description: {
       type: String,
       required: true
     },
+
     coordinatorName: {
       type: String,
       required: true
     },
+
     coordinatorAvatarUrl: {
       type: String,
       required: true

@@ -11,8 +11,8 @@
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
           :key="i"
-          :examItem="item"
-          :questionNumber="i + 1"
+          :exam-item="item"
+          :question-number="i + 1"
           @answer-changed="handleAnswerChange"
         />
         <div class="mt-4 flex justify-between items-center">
@@ -51,15 +51,8 @@ import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
 
 export default defineComponent({
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader },
   name: 'ExamPage',
-  data () {
-    const answers: Answer[] = []
-    return {
-      answers,
-      hasToken: false
-    }
-  },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader },
   props: {
     courseId: {
       type: String,
@@ -74,9 +67,12 @@ export default defineComponent({
       required: true
     }
   },
-  mounted () {
-    document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
-    this.hasToken = examResultsServices.hasToken()
+  data () {
+    const answers: Answer[] = []
+    return {
+      answers,
+      hasToken: false
+    }
   },
   computed: {
     exam (): Exam {
@@ -88,6 +84,10 @@ export default defineComponent({
     activeExam (): string | null {
       return this.$store.state.exams.activeExam
     }
+  },
+  mounted () {
+    document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
+    this.hasToken = examResultsServices.hasToken()
   },
   methods: {
     handleAnswerChange ({ question, answer }: Answer): void {

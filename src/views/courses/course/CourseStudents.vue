@@ -24,8 +24,8 @@
         </button>
       </div>
       <teleport to="#modals">
-        <AddStudentModal
-          :courseId="courseId"
+        <CoursePageStudentsAddModal
+          :course-id="courseId"
           v-show="addStudentModalOpen"
           @close-modal="addStudentModalOpen = false"
         />
@@ -49,22 +49,22 @@
 import { defineComponent } from 'vue'
 import { User } from '@/types'
 import BaseInput from '@/components/BaseInput.vue'
-import AddStudentModal from '@/components/AddStudentModal.vue'
+import CoursePageStudentsAddModal from '@/components/CoursePageStudentsAddModal.vue'
 import StudentRow from '@/components/StudentRow.vue'
 
 export default defineComponent({
-  components: { BaseInput, AddStudentModal, StudentRow },
   name: 'CourseStudents',
-  data () {
-    return {
-      searchFilter: '',
-      addStudentModalOpen: false
-    }
-  },
+  components: { BaseInput, CoursePageStudentsAddModal, StudentRow },
   props: {
     courseId: {
       type: String,
       required: true
+    }
+  },
+  data () {
+    return {
+      searchFilter: '',
+      addStudentModalOpen: false
     }
   },
   computed: {

@@ -61,8 +61,16 @@ import { defineComponent } from 'vue'
 import BaseInput from './BaseInput.vue'
 
 export default defineComponent({
-  components: { BaseInput },
   name: 'ExamItem',
+  components: { BaseInput },
+  props: {
+    examItem: {
+      type: Object as () => ExamItem,
+      required: true
+    },
+
+    questionNumber: Number
+  },
   emits: ['answer-changed'],
   data () {
     let answer: string | string[]
@@ -80,13 +88,6 @@ export default defineComponent({
     getNextAlphabetLetter (n: number): string {
       return String.fromCharCode(this.alphabetStart.charCodeAt(0) + n)
     }
-  },
-  props: {
-    examItem: {
-      type: Object as () => ExamItem,
-      required: true
-    },
-    questionNumber: Number
   }
 })
 </script>
