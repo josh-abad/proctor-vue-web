@@ -37,7 +37,13 @@
             <label for="email">
               <BaseLabel>Email</BaseLabel>
             </label>
-            <BaseInput id="email" class="w-full" v-model="email" type="text" />
+            <BaseInput
+              id="email"
+              class="w-full"
+              v-model="email"
+              type="text"
+              :error="!emailValid"
+            />
           </div>
           <div class="mt-2">
             <label for="password">
@@ -48,6 +54,7 @@
               class="w-full"
               v-model="password"
               type="password"
+              :error="!passwordsMatch"
             />
           </div>
           <div class="mt-2">
@@ -59,17 +66,21 @@
               class="w-full"
               v-model="confirmPassword"
               type="password"
+              :error="!passwordsMatch"
             />
           </div>
           <div class="mt-4">
             <BaseButton
               @click.prevent="handleRegister"
-              :disabled="!passwordsEqual"
+              :disabled="!allFieldsFilled || !!error"
               type="submit"
               prominent
             >
               Sign Up
             </BaseButton>
+            <span v-if="error" class="ml-4 text-xs text-red-500">{{
+              error
+            }}</span>
           </div>
           <p class="mt-3 text-xs">
             Already have an account?
@@ -111,8 +122,24 @@ export default defineComponent({
     }
   },
   computed: {
-    passwordsEqual (): boolean {
-      return this.password.length > 0 && this.password === this.confirmPassword
+    allFieldsFilled (): boolean {
+      return !!this.firstName && !!this.lastName && !!this.email && !!this.password && !!this.confirmPassword
+    },
+    passwordsMatch (): boolean {
+      return ((!!this.password && !this.confirmPassword) || (!this.password && !!this.confirmPassword)) || this.password === this.confirmPassword
+    },
+    emailValid (): boolean {
+      return !this.email || !!this.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    },
+    error (): string {
+      let error = ''
+      if (!this.passwordsMatch) {
+        error = 'Passwords do not match'
+      }
+      if (!this.emailValid) {
+        error = 'Invalid email'
+      }
+      return error
     }
   },
   methods: {
