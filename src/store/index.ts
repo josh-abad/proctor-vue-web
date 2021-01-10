@@ -31,27 +31,17 @@ const store = createStore({
 
 if (module.hot) {
   module.hot.accept(['./mutations', './actions', './getters', './modules/alert', './modules/courses', './modules/dialog', './modules/exams', './modules/theme', './modules/users'], () => {
-    const newMutations = require('./mutations').default
-    const newActions = require('./actions').default
-    const newGetters = require('./getters').default
-    const newAlert = require('./modules/alert').default
-    const newCourses = require('./modules/courses').default
-    const newDialog = require('./modules/dialog').default
-    const newExams = require('./modules/exams').default
-    const newTheme = require('./modules/theme').default
-    const newUsers = require('./modules/users').default
-
     store.hotUpdate({
+      mutations: require('./mutations'),
+      actions: require('./actions'),
+      getters: require('./getters'),
       modules: {
-        mutations: newMutations,
-        actions: newActions,
-        getters: newGetters,
-        alert: newAlert,
-        courses: newCourses,
-        dialog: newDialog,
-        exams: newExams,
-        theme: newTheme,
-        users: newUsers
+        alert: require('./modules/alert'),
+        courses: require('./modules/courses'),
+        dialog: require('./modules/dialog'),
+        exams: require('./modules/exams'),
+        theme: require('./modules/theme'),
+        users: require('./modules/users')
       }
     })
   })
