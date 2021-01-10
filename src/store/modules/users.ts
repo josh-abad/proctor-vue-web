@@ -1,4 +1,4 @@
-import { RootState, User, UsersState } from '@/types'
+import { Course, RootState, User, UsersState } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, LOAD_USERS } from '../action-types'
 import { SET_USERS } from '../mutation-types'
@@ -29,19 +29,20 @@ export default {
       return state.users.filter(user => user.role === 'coordinator')
     },
     students (state): Omit<User, 'token'>[] {
-      return [...state.users.filter(user => user.role === 'student')].sort(alphabeticalUsers)
+      return state.users.filter(user => user.role === 'student')
     },
     studentByID (state): (studentId: string) => Omit<User, 'token'> | undefined {
       return studentId => {
         return state.users.filter(user => user.role === 'student').find(student => student.id === studentId)
       }
     },
-    studentsByCourse (state): (courseId: string) => (User | undefined)[] | undefined {
+    studentsByCourse (state, getters): (courseId: string) => (User | undefined)[] | undefined {
       return (courseId) => {
-        const students = state.users.filter(student => {
-          return student.role === 'student' && student.courses.includes(courseId)
-        })
-        return students
+        const course: Course = getters.getCourseByID(courseId)
+        return course.studentsEnrolled.map(studentId => {
+          const student = state.users.find(user => user.id === studentId)
+          return student
+        }).filter(student => !!student).sort(alphabeticalUsers)
       }
     }
   }
