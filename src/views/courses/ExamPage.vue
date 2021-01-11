@@ -16,20 +16,14 @@
           @answer-changed="handleAnswerChange"
         />
         <div class="mt-4 flex justify-between items-center">
-          <Timer :end="attempt.endDate" @timer-ended="handleTimeEnd" />
-          <BaseButton @click="submitModalOpen = true" prominent
-            >Submit</BaseButton
-          >
-          <teleport to="#modals">
-            <DialogModal
-              v-show="submitModalOpen"
+          <ModalButton
               header="Submit Answers"
-              action-label="Submit"
               message="Are you sure you want to submit your answers?"
-              @cancel="submitModalOpen = false"
+            action-label="Submit"
               @confirm="handleSubmit"
-            />
-          </teleport>
+            prominent
+            >Submit</ModalButton
+          >
         </div>
       </BasePanel>
     </div>
@@ -61,10 +55,12 @@ import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
+import ModalButton from '@/components/ModalButton.vue'
 import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'ExamPage',
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton },
   mixins: [roleMixin],
   props: {
     courseId: {

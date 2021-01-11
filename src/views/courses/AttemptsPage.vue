@@ -32,19 +32,23 @@
         </div>
         <div v-else>You have made no attempts so far.</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
-          <BaseButton
-            v-show="attemptsLeft > 0"
-            :disabled="attempts.length === exam.maxAttempts"
-            @click="startModalOpen = true"
+          <ModalButton
+            header="Attempt Quiz"
+            message="Are you sure you want to start the quiz?"
+            action-label="Start Quiz"
+            @confirm="startAttempt"
             prominent
           >
             {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
+          </ModalButton>
+          <ModalButton
             v-show="hasPermission(['coordinator', 'admin'])"
-              header="Delete Quiz"
-              message="Are you sure you want to delete this quiz?"
-              action-label="Delete"
-            />
-          </teleport>
+            header="Delete Quiz"
+            message="Are you sure you want to delete this quiz?"
+            action-label="Delete"
+            @confirm="deleteExam"
+            >Delete Exam</ModalButton
+          >
         </div>
       </BasePanel>
     </div>
@@ -53,7 +57,6 @@
 
 <script lang="ts">
 import AttemptRow from '@/components/AttemptRow.vue'
-import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
@@ -65,11 +68,13 @@ import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+import ModalButton from '@/components/ModalButton.vue'
 import roleMixin from '@/mixins/role'
 dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
+  components: { AttemptRow, BasePanel, BaseLabel, ColorHeader, ModalButton },
   mixins: [roleMixin],
   props: {
     courseId: {
@@ -80,12 +85,6 @@ export default defineComponent({
     examId: {
       type: String,
       required: true
-    }
-  },
-  data () {
-    return {
-      startModalOpen: false,
-      deleteModalOpen: false
     }
   },
   computed: {
