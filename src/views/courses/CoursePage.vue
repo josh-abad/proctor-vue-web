@@ -3,7 +3,7 @@
     <ColorHeader
       :links="links"
       @menu-clicked="menuOpen = !menuOpen"
-      :hide-menu="!$store.getters.permissions('coordinator', 'admin')"
+      :hide-menu="!hasPermission(['coordinator', 'admin'])"
       >{{ course.name }}</ColorHeader
     >
     <transition
@@ -116,10 +116,12 @@ import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
+import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'CoursePage',
   components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar, DialogModal },
+  mixins: [roleMixin],
   props: {
     courseId: {
       type: String,
@@ -154,7 +156,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    if (!this.$store.getters.permissions('admin') && !this.$store.getters.hasCourse(this.courseId)) {
+    if (!this.hasPermission(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
       this.$router.replace('/')
     }
     document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'

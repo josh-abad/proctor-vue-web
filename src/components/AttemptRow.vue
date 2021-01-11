@@ -24,7 +24,7 @@
       <button
         class="focus:outline-none"
         @click="$emit('review-clicked')"
-        v-show="$store.getters.permissions('coordinator', 'admin')"
+        v-show="hasPermission(['coordinator', 'admin'])"
       >
         Review
       </button>
@@ -37,10 +37,12 @@ import { Attempt } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import roleMixin from '@/mixins/role'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptRow',
+  mixins: [roleMixin],
   props: {
     attempt: {
       type: Object as () => Attempt,

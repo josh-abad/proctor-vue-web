@@ -5,9 +5,9 @@ export default {
   isLoggedIn (state): boolean {
     return state.user !== null
   },
-  permissions (state): (...roles: Role[]) => boolean {
-    return (...roles) => {
-      return state.user ? roles.includes(state.user?.role) : false
+  permissions (state): (roles: Role[]) => boolean {
+    return (roles) => {
+      return state.user ? roles.includes(state.user.role) : false
     }
   },
   hasCourse (state): (courseId: string) => boolean {

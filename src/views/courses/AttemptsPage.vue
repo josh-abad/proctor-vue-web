@@ -39,26 +39,7 @@
             prominent
           >
             {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
-          </BaseButton>
-          <BaseButton
-            v-show="$store.getters.permissions('coordinator', 'admin')"
-            @click="deleteModalOpen = true"
-          >
-            Delete exam
-          </BaseButton>
-          <teleport to="#modals">
-            <DialogModal
-              @cancel="startModalOpen = false"
-              @confirm="startAttempt"
-              v-show="startModalOpen"
-              header="Attempt Quiz"
-              message="Are you sure you want to start the quiz?"
-              action-label="Start Quiz"
-            />
-            <DialogModal
-              @cancel="deleteModalOpen = false"
-              @confirm="deleteExam"
-              v-show="deleteModalOpen"
+            v-show="hasPermission(['coordinator', 'admin'])"
               header="Delete Quiz"
               message="Are you sure you want to delete this quiz?"
               action-label="Delete"
@@ -84,12 +65,12 @@ import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import DialogModal from '@/components/DialogModal.vue'
+import roleMixin from '@/mixins/role'
 dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
-  components: { BaseButton, AttemptRow, BasePanel, BaseLabel, ColorHeader, DialogModal },
+  mixins: [roleMixin],
   props: {
     courseId: {
       type: String,

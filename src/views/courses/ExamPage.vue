@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="
-        $store.getters.permissions('coordinator', 'admin') ||
+        hasPermission(['coordinator', 'admin']) ||
         (hasToken && activeExam === exam.id)
       "
     >
@@ -61,11 +61,11 @@ import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
-import DialogModal from '@/components/DialogModal.vue'
+import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, DialogModal },
+  mixins: [roleMixin],
   props: {
     courseId: {
       type: String,

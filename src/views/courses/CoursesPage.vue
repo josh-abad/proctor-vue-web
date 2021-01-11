@@ -6,7 +6,7 @@
         { name: 'Courses', url: '/courses' },
       ]"
       @menu-clicked="isOpen = !isOpen"
-      :hide-menu="!$store.getters.permissions('admin')"
+      :hide-menu="!hasPermission(['admin'])"
       >Courses</ColorHeader
     >
     <transition
@@ -44,32 +44,32 @@
         <div class="flex items-center" v-if="courses.length">
           <ViewToggle v-model="viewMode" value="card" class="mr-3">
             <!-- Heroicon name: view-grid -->
-              <svg
-                class="fill-current w-5 h-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
+            <svg
+              class="fill-current w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
                 d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zm0 8a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                />
-              </svg>
+              />
+            </svg>
           </ViewToggle>
           <ViewToggle v-model="viewMode" value="list">
             <!-- Heroicon name: view-list -->
-              <svg
-                class="fill-current w-5 h-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+            <svg
+              class="fill-current w-5 h-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </ViewToggle>
-          </div>
         </div>
+      </div>
       <transition name="fade" mode="out-in">
         <div
           v-if="loaded && !courses.length"
@@ -119,10 +119,12 @@ import SkeletonCourseListItem from '@/components/SkeletonCourseListItem.vue'
 import ViewToggle from '@/components/ViewToggle.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
+import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'CoursesPage',
   components: { CoursesPageCard, BasePanel, ColorHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle },
+  mixins: [roleMixin],
   data () {
     return {
       isOpen: false,

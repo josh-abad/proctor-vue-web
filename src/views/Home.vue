@@ -13,7 +13,7 @@
           <NavCard
             :icon="icon1"
             url="/students"
-            v-if="$store.getters.permissions('coordinator', 'admin')"
+            v-if="hasPermission(['coordinator', 'admin'])"
             >Students</NavCard
           >
           <NavCard :icon="icon2" url="/courses">Courses</NavCard>
@@ -36,10 +36,12 @@ import RecentCourses from '@/components/RecentCourses.vue'
 import NavCard from '@/components/NavCard.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'Home',
   components: { RecentCourses, NavCard, BaseLabel, BasePanel },
+  mixins: [roleMixin],
   data () {
     return {
       icon1: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>',
