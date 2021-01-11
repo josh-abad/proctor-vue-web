@@ -42,31 +42,20 @@
       >
         <div class="text-lg font-bold mb-3">Your Courses</div>
         <div class="flex items-center" v-if="courses.length">
-          <div class="mr-3">
-            <button
-              @click="handleViewChange('card')"
-              class="focus:outline-none rounded"
-              :class="viewMode === 'card' ? 'text-green-500' : 'text-gray-500'"
-              title="Card"
-            >
+          <ViewToggle v-model="viewMode" value="card" class="mr-3">
+            <!-- Heroicon name: view-grid -->
               <svg
                 class="fill-current w-5 h-5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
                 <path
-                  d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zm0 8a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
                 />
               </svg>
-            </button>
-          </div>
-          <div>
-            <button
-              @click="handleViewChange('list')"
-              class="focus:outline-none rounded"
-              :class="viewMode === 'list' ? 'text-green-500' : 'text-gray-500'"
-              title="List"
-            >
+          </ViewToggle>
+          <ViewToggle v-model="viewMode" value="list">
+            <!-- Heroicon name: view-list -->
               <svg
                 class="fill-current w-5 h-5"
                 viewBox="0 0 20 20"
@@ -78,10 +67,9 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </button>
+          </ViewToggle>
           </div>
         </div>
-      </div>
       <transition name="fade" mode="out-in">
         <div
           v-if="loaded && !courses.length"
@@ -128,12 +116,13 @@ import ColorHeader from '@/components/ColorHeader.vue'
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import CoursesPageListItem from '@/components/CoursesPageListItem.vue'
 import SkeletonCourseListItem from '@/components/SkeletonCourseListItem.vue'
+import ViewToggle from '@/components/ViewToggle.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CoursesPage',
-  components: { CoursesPageCard, BasePanel, ColorHeader, CoursesPageListItem, SkeletonCourseListItem },
+  components: { CoursesPageCard, BasePanel, ColorHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle },
   data () {
     return {
       isOpen: false,
@@ -146,6 +135,11 @@ export default defineComponent({
       return this.$store.getters.courses
     }
   },
+  watch: {
+    viewMode (mode: 'card' | 'list') {
+      localStorage.setItem('coursesPageViewState', JSON.stringify(mode))
+    }
+  },
   created () {
     const coursesPageViewState = localStorage.getItem('coursesPageViewState')
     if (coursesPageViewState) {
@@ -153,13 +147,7 @@ export default defineComponent({
     }
     setTimeout(() => {
       this.loaded = true
-    }, 1500)
-  },
-  methods: {
-    handleViewChange (viewMode: 'card' | 'list'): void {
-      this.viewMode = viewMode
-      localStorage.setItem('coursesPageViewState', JSON.stringify(this.viewMode))
-    }
+    }, 500)
   }
 })
 </script>
