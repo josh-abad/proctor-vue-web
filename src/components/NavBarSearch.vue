@@ -10,7 +10,7 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80"
+        class="w-80 shadow-none"
       />
       <button
         type="submit"
@@ -81,7 +81,7 @@ import { defineComponent } from 'vue'
 import BaseInput from './BaseInput.vue'
 
 export default defineComponent({
-  name: 'SearchBar',
+  name: 'NavBarSearch',
   components: { BaseInput },
   data () {
     return {

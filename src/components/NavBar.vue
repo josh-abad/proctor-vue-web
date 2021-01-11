@@ -33,7 +33,7 @@
     </div>
     <div class="flex items-center">
       <div class="mr-5">
-        <SearchBar />
+        <NavBarSearch />
       </div>
       <div class="hidden items-center sm:flex md:block">
         <NavBarUserDropdown />
@@ -45,12 +45,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import NavBarUserDropdown from './NavBarUserDropdown.vue'
-import SearchBar from './SearchBar.vue'
+import NavBarSearch from './NavBarSearch.vue'
 import logoMixin from '@/mixins/logo'
 
 export default defineComponent({
   name: 'NavBar',
-  components: { NavBarUserDropdown, SearchBar },
+  components: { NavBarUserDropdown, NavBarSearch },
   mixins: [logoMixin],
   props: {
     isOpen: Boolean
