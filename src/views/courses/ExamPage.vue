@@ -16,6 +16,7 @@
           @answer-changed="handleAnswerChange"
         />
         <div class="mt-4 flex justify-between items-center">
+          <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <ModalButton
               header="Submit Answers"
               message="Are you sure you want to submit your answers?"
@@ -107,11 +108,6 @@ export default defineComponent({
       } else {
         this.answers.push({ question, answer })
       }
-    },
-    async handleTimeEnd (): Promise<void> {
-      await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
-      this.$store.commit(SET_ACTIVE_EXAM, null)
-      this.$router.push(`/courses/${this.courseId}/exams/${this.examId}`)
     },
     async handleSubmit (): Promise<void> {
       await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
