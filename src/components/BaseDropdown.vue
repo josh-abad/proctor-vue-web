@@ -125,12 +125,17 @@ import { defineComponent, PropType } from 'vue'
 export default defineComponent({
   name: 'BaseDropdown',
   props: {
+    modelValue: {
+      type: String,
+      default: ''
+    },
+
     options: {
       type: Array as PropType<Option[]>,
       required: true
     }
   },
-  emits: ['selection-change'],
+  emits: ['update:modelValue'],
   data () {
     return {
       open: false,
@@ -144,12 +149,12 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
+    this.$emit('update:modelValue', (this.options[this.selectedIndex] as Option).value)
   },
   methods: {
     handleChange (i: number): void {
       this.selectedIndex = i
-      this.$emit('selection-change', (this.options[this.selectedIndex] as Option).value)
+      this.$emit('update:modelValue', (this.options[this.selectedIndex] as Option).value)
     }
   }
 })

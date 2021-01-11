@@ -5,7 +5,7 @@
         <div>Enroll {{ student.fullName }}</div>
         <BaseDropdown
           :options="availableCourses"
-          @selection-change="handleChange"
+          v-model="selectedCourse"
           class="w-full"
         />
         <BaseButton @click="handleEnroll">Enroll</BaseButton>
@@ -57,9 +57,6 @@ export default defineComponent({
     }
   },
   methods: {
-    handleChange (value: string): void {
-      this.selectedCourse = value
-    },
     async handleEnroll () {
       try {
         const payload = {

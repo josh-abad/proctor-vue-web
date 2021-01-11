@@ -29,7 +29,7 @@
               v-if="coordinators.length"
               id="coordinator"
               :options="coordinators"
-              @selection-change="handleChange"
+              v-model="coordinator"
             />
           </div>
         </div>
@@ -86,9 +86,6 @@ export default defineComponent({
       }
       await this.$store.dispatch(CREATE_COURSE, newCourse)
       this.$router.push('/courses')
-    },
-    handleChange (value: string): void {
-      this.coordinator = value
     }
   }
 })
