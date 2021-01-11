@@ -1,9 +1,8 @@
 import { RootState, UserCredentials } from '@/types'
 import { ActionTree } from 'vuex'
 import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VALIDATE_TOKEN, VERIFY } from './action-types'
-import { SET_ATTEMPTS, SET_EXAM_RESULTS, SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
+import { SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
-import examResultsService from '@/services/exam-results'
 import examsService from '@/services/exams'
 import loginService from '@/services/login'
 import usersService from '@/services/users'
@@ -34,16 +33,14 @@ export default {
       examAttemptsService.setToken(user.token)
       if (user.role !== 'student') {
         examsService.setToken(user.token)
-        await Promise.all([
-          dispatch(LOAD_USERS),
-          dispatch(LOAD_COURSES),
-          dispatch(LOAD_EXAMS),
-          dispatch(LOAD_ATTEMPTS, user.id),
-          dispatch(LOAD_EXAM_RESULTS, user.id)
-        ])
       }
-      commit(SET_ATTEMPTS, await examAttemptsService.getByUser(user.id))
-      commit(SET_EXAM_RESULTS, await examResultsService.getByUser(user.id))
+      await Promise.all([
+        dispatch(LOAD_USERS),
+        dispatch(LOAD_COURSES),
+        dispatch(LOAD_EXAMS),
+        dispatch(LOAD_ATTEMPTS, user.id),
+        dispatch(LOAD_EXAM_RESULTS, user.id)
+      ])
     } catch (error) {
       nProgress.done()
       dispatch(ALERT, 'Incorrect email or password')
@@ -73,16 +70,14 @@ export default {
       examAttemptsService.setToken(validatedUser.token)
       if (validatedUser.role !== 'student') {
         examsService.setToken(validatedUser.token)
-        await Promise.all([
-          dispatch(LOAD_USERS),
-          dispatch(LOAD_COURSES),
-          dispatch(LOAD_EXAMS),
-          dispatch(LOAD_ATTEMPTS, validatedUser.id),
-          dispatch(LOAD_EXAM_RESULTS, validatedUser.id)
-        ])
       }
-      commit(SET_ATTEMPTS, await examAttemptsService.getByUser(validatedUser.id))
-      commit(SET_EXAM_RESULTS, await examResultsService.getByUser(validatedUser.id))
+      await Promise.all([
+        dispatch(LOAD_USERS),
+        dispatch(LOAD_COURSES),
+        dispatch(LOAD_EXAMS),
+        dispatch(LOAD_ATTEMPTS, validatedUser.id),
+        dispatch(LOAD_EXAM_RESULTS, validatedUser.id)
+      ])
     } catch (error) {
       commit(SET_USER, null)
       localStorage.removeItem('loggedAppUser')
