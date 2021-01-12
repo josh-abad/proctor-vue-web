@@ -83,13 +83,7 @@
           :coordinator-name="course.coordinator.fullName"
           :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
-        <BasePanel class="mt-4">
-          <BaseLabel emphasis>Course Progress</BaseLabel>
-          <ProgressBar
-            class="mt-2"
-            :percentage="$store.getters.courseCompletedPercentage(courseId)"
-          />
-        </BasePanel>
+        <CoursePageProgress :courseId="courseId" />
       </div>
     </div>
   </div>
@@ -105,6 +99,7 @@
 
 <script lang="ts">
 import CoursePageAbout from '@/components/CoursePageAbout.vue'
+import CoursePageProgress from '@/components/CoursePageProgress.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
@@ -120,7 +115,7 @@ import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress },
   mixins: [roleMixin],
   props: {
     courseId: {
