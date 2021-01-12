@@ -65,7 +65,7 @@ export interface Attempt {
   id: string;
   exam: Exam;
   user: string;
-  status: string;
+  status: 'in-progress' | 'completed';
   startDate: Date;
   endDate: Date;
   submittedDate: Date;
@@ -91,7 +91,7 @@ export interface Score {
 export interface ExamResult {
   id: string;
   exam: string;
-  user: string;
+  user: User;
   scores: Score[];
   attempt: string;
 }

@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <BaseButton @click="$emit('confirm')" prominent>{{
+            <BaseButton @click="$emit('confirm')" prominent v-if="!noAction">{{
               actionLabel
             }}</BaseButton>
             <BaseButton @click="$emit('cancel')" class="mr-3">
@@ -101,6 +101,11 @@ export default defineComponent({
     actionLabel: {
       type: String,
       default: 'Confirm'
+    },
+
+    noAction: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['cancel', 'confirm']

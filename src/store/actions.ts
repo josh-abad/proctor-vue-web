@@ -1,7 +1,7 @@
 import { RootState, UserCredentials } from '@/types'
 import { ActionTree } from 'vuex'
 import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VALIDATE_TOKEN, VERIFY } from './action-types'
-import { SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
+import { SET_ATTEMPTS, SET_COURSES, SET_EXAM_RESULTS, SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import loginService from '@/services/login'
@@ -39,6 +39,7 @@ export default {
         dispatch(LOAD_COURSES),
         dispatch(LOAD_EXAMS),
         dispatch(LOAD_ATTEMPTS),
+        dispatch(LOAD_EXAM_RESULTS)
       ])
     } catch (error) {
       nProgress.done()
@@ -48,6 +49,9 @@ export default {
   async [LOG_OUT] ({ commit }): Promise<void> {
     localStorage.clear()
     commit(SET_USER, null)
+    commit(SET_COURSES, null)
+    commit(SET_ATTEMPTS, null)
+    commit(SET_EXAM_RESULTS, null)
     commit(SET_RECENT_COURSES, [])
   },
   async [VERIFY] ({ commit, dispatch }, token: string): Promise<void> {
@@ -75,6 +79,7 @@ export default {
         dispatch(LOAD_COURSES),
         dispatch(LOAD_EXAMS),
         dispatch(LOAD_ATTEMPTS),
+        dispatch(LOAD_EXAM_RESULTS)
       ])
     } catch (error) {
       commit(SET_USER, null)

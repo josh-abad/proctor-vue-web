@@ -66,6 +66,12 @@
           aria-labelledby="options-menu"
         >
           <router-link
+            :to="`/user/${user.id}`"
+            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            role="menuitem"
+            >Profile</router-link
+          >
+          <router-link
             to="/settings"
             class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
             role="menuitem"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between items-center py-3">
+  <div class="flex justify-between items-center pt-3 mt-3">
     <div class="flex">
       <div class="rounded overflow-hidden w-40 h-20 shadow">
         <router-link :to="`/courses/${course.id}`">
@@ -22,7 +22,12 @@
     </div>
     <div class="w-60">
       <ProgressBar
-        :percentage="$store.getters.courseCompletedPercentage(course.id)"
+        :percentage="
+          $store.getters.courseCompletedPercentage(
+            course.id,
+            $store.state.user.id
+          )
+        "
       />
     </div>
   </div>

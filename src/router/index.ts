@@ -162,6 +162,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Verify.vue')
   },
   {
+    path: '/user/:userId',
+    name: 'Profile',
+    props: true,
+    meta: {
+      title: createTitle('Profile'),
+      authorize: [] as Role[]
+    },
+    component: () => import('../views/UserPage.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     meta: {

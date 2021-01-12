@@ -36,11 +36,11 @@
         </div>
       </div>
     </transition>
-    <BasePanel class="mt-4">
+    <BasePanel class="mt-4 mb-0">
       <div
-        class="flex justify-between items-center border-b border-gray-300 dark:border-gray-700"
+        class="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 -mb-3 pb-2"
       >
-        <div class="text-lg font-bold mb-3">Your Courses</div>
+        <div class="text-lg font-bold">Your Courses</div>
         <div class="flex items-center" v-if="courses.length">
           <ViewToggle v-model="viewMode" value="card" class="mr-3">
             <!-- Heroicon name: view-grid -->
@@ -73,14 +73,14 @@
       <transition name="fade" mode="out-in">
         <div
           v-if="loaded && !courses.length"
-          class="mt-3 flex justify-center items-center h-40"
+          class="my-3 flex justify-center items-center h-40"
         >
           <div class="font-semibold text-xl text-gray-500">
             You don't have any courses.
           </div>
         </div>
-        <div v-else-if="viewMode === 'card'" class="mt-3">
-          <div class="grid grid-cols-3 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <div v-else-if="viewMode === 'card'" class="mt-6">
+          <div class="grid grid-cols-3 gap-4 sm:grid-cols-2 md:grid-cols-3">
             <CoursesPageCard
               :course="course"
               :key="course.id"

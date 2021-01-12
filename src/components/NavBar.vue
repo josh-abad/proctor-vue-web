@@ -1,10 +1,10 @@
 <template>
   <header
-    class="flex h-20 sticky top-0 w-full items-center justify-between px-6 py-4 shadow bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700 dark:text-gray-200 z-20"
+    class="flex h-20 sticky top-0 w-full items-center justify-between px-6 py-4 shadow bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700 text-gray-800 dark:text-gray-200 z-20"
   >
     <div class="flex items-center">
       <button
-        class="block focus:outline-none text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:border-transparent focus:ring-transparent"
+        class="block focus:outline-none text-gray-400 hover:text-green-500 dark:hover:text-gray-100 focus:border-transparent focus:ring-transparent"
         @click="$emit('toggle')"
       >
         <svg

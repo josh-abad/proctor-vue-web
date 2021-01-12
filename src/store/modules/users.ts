@@ -31,9 +31,14 @@ export default {
     students (state): Omit<User, 'token'>[] {
       return state.users.filter(user => user.role === 'student')
     },
-    studentByID (state): (studentId: string) => Omit<User, 'token'> | undefined {
+    studentByID (state): (studentId: string) => User | undefined {
       return studentId => {
         return state.users.filter(user => user.role === 'student').find(student => student.id === studentId)
+      }
+    },
+    userByID (state): (id: string) => User | undefined {
+      return id => {
+        return state.users.find(user => user.id === id)
       }
     },
     studentsByCourse (state, getters): (courseId: string) => (User | undefined)[] | undefined {

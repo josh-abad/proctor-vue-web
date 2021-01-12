@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between items-center py-3 animate-pulse" v-once>
+  <div class="flex justify-between items-center pt-3 mt-3 animate-pulse" v-once>
     <div class="flex">
       <div class="w-40 h-20 shadow bg-gray-400 dark:bg-gray-600 rounded" />
       <div class="ml-3">

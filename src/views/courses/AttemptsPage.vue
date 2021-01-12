@@ -12,13 +12,13 @@
           </div>
           <div v-show="attemptsLeft > 0">The quiz will end {{ duration }}.</div>
         </div>
-        <div v-if="attempts.length > 0" class="mt-4">
+        <div v-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
           <div
             class="rounded-xl overflow-hidden mt-2 divide-y divide-gray-300 dark:divide-gray-700"
           >
             <AttemptRow
-              v-for="(attempt, i) in attempts"
+              v-for="(attempt, i) in attemptsByExam"
               :key="attempt.id"
               :attempt-number="i + 1"
               :attempt="attempt"
@@ -39,7 +39,7 @@
             @confirm="startAttempt"
             prominent
           >
-            {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
+            {{ attemptsByExam.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </ModalButton>
           <ModalButton
             v-show="hasPermission(['coordinator', 'admin'])"
@@ -111,17 +111,20 @@ export default defineComponent({
     exam (): Exam {
       return this.$store.getters.getExamByID(this.examId)
     },
-    attempts (): Attempt[] {
-      return this.$store.getters.getAttemptsByExam(this.examId)
+    attemptsByUser (): Attempt[] {
+      return this.$store.getters.attemptsByUser(this.$store.state.user.id)
+    },
+    attemptsByExam (): Attempt[] {
+      return this.attemptsByUser.filter(attempt => attempt.exam.id === this.examId)
     },
     attemptsLeft (): number {
-      return this.exam.maxAttempts - this.attempts.length
+      return this.exam.maxAttempts - this.attemptsByExam.length
     },
     displayAttemptsLeft (): string {
       return `You have ${this.attemptsLeft} ${this.attemptsLeft === 1 ? 'attempt' : 'attempts'} left.`
     },
     highestGrade (): number {
-      return this.attempts.reduce((a, b) => Math.max(a, b.score), 0)
+      return this.attemptsByExam.reduce((a, b) => Math.max(a, b.score), 0)
     },
     duration (): string {
       return dayjs.duration({ seconds: this.exam.duration }).humanize(true)

@@ -11,10 +11,7 @@
           v-for="(content, i) in authorizedLinks"
           class="text-gray-500 dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
         >
-          <div
-            v-if="content.authorized === undefined || content.authorized"
-            class="flex items-center px-6 py-2 my-1"
-          >
+          <div class="flex items-center px-6 py-2 my-1">
             <div class="fill-current w-5 h-5" v-html="content.icon" />
             <div class="ml-6">
               {{ content.label }}

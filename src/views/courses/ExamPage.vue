@@ -18,10 +18,10 @@
         <div class="mt-4 flex justify-between items-center">
           <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <ModalButton
-              header="Submit Answers"
-              message="Are you sure you want to submit your answers?"
+            header="Submit Answers"
+            message="Are you sure you want to submit your answers?"
             action-label="Submit"
-              @confirm="handleSubmit"
+            @confirm="handleSubmit"
             prominent
             >Submit</ModalButton
           >
@@ -41,6 +41,15 @@
         >
       </div>
     </Center>
+    <teleport to="#modals">
+      <DialogModal
+        header="Hey"
+        message="Hey"
+        no-action
+        v-show="warningModalOpen"
+        @cancel="warningModalOpen = false"
+      />
+    </teleport>
   </div>
 </template>
 
@@ -58,10 +67,11 @@ import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import roleMixin from '@/mixins/role'
+import DialogModal from '@/components/DialogModal.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton, DialogModal },
   mixins: [roleMixin],
   props: {
     courseId: {
@@ -82,7 +92,9 @@ export default defineComponent({
     return {
       answers,
       hasToken: false,
-      submitModalOpen: false
+      warnings: 0,
+      maxWarnings: 5,
+      warningModalOpen: false
     }
   },
   computed: {
@@ -94,11 +106,28 @@ export default defineComponent({
     },
     activeExam (): string | null {
       return this.$store.state.exams.activeExam
+    },
+    warningsExceeded (): boolean {
+      return this.warnings === this.maxWarnings
+    }
+  },
+  watch: {
+    warningsExceeded (exceeded: boolean) {
+      if (exceeded) {
+        this.handleSubmit()
+      }
     }
   },
   mounted () {
     document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
     this.hasToken = examResultsServices.hasToken()
+    window.onblur = () => {
+      console.log('Not in focus,')
+      if (!this.warningsExceeded) {
+        console.log(`Warning added, ${++this.warnings}`)
+        this.warningModalOpen = true
+      }
+    }
   },
   methods: {
     handleAnswerChange ({ question, answer }: Answer): void {

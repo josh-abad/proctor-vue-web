@@ -40,7 +40,7 @@ export default defineComponent({
   },
   data () {
     return {
-      isOpen: false
+      isOpen: true
     }
   },
   computed: {
@@ -74,7 +74,7 @@ export default defineComponent({
       if (activeExamJSON) {
         const activeExam = JSON.parse(activeExamJSON)
         examResultsService.setToken(activeExam.token)
-        this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam)
+        this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam.id)
       }
     }
 

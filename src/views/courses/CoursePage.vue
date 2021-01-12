@@ -26,19 +26,19 @@
         >
           <router-link
             :to="`/courses/${courseId}/exams/new`"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="link"
             role="menuitem"
             >Create Exam</router-link
           >
           <router-link
             :to="`/courses/${courseId}/edit`"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="link"
             role="menuitem"
             >Edit Course</router-link
           >
           <button
             @click="deleteModalOpen = true"
-            class="block w-full text-left px-4 py-2 text-sm border-t dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+            class="link w-full text-left border-t dark:border-gray-700 focus:outline-none"
             role="menuitem"
           >
             Delete Course
@@ -203,5 +203,9 @@ export default defineComponent({
 .slide-right-enter-from,
 .slide-left-leave-to {
   @apply transform-gpu -translate-x-5 opacity-0;
+}
+
+.link {
+  @apply block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700;
 }
 </style>

@@ -1,15 +1,21 @@
 <template>
   <div v-if="students.length > 0">
     <BasePanel>
-      <label for="search">
-        <BaseLabel emphasis>Search Student</BaseLabel>
-      </label>
-      <BaseInput id="search" type="text" v-model="searchFilter" />
-      <div v-for="student in filteredStudents" :key="student.id" class="mb-2">
-        {{ student.fullName }}
-        <BaseButton @click="$router.push(`/students/${student.id}/enroll`)"
-          >Enroll</BaseButton
-        >
+      <div class="flex justify-between">
+        <div class="text-2xl font-bold">Students</div>
+        <BaseInput
+          type="text"
+          v-model="searchFilter"
+          placeholder="Search student"
+        />
+      </div>
+      <div class="divide-y divide-gray-300 dark:divide-gray-700">
+        <StudentRow
+          v-for="student in filteredStudents"
+          :key="student.id"
+          :student="student"
+          show-course-count
+        />
       </div>
     </BasePanel>
   </div>
@@ -19,16 +25,15 @@
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import StudentRow from '@/components/StudentRow.vue'
 import { User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'StudentsPage',
-  components: { BaseInput, BaseLabel, BasePanel, BaseButton },
+  components: { BaseInput, BasePanel, StudentRow },
   data () {
     return {
       searchFilter: ''

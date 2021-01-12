@@ -8,7 +8,7 @@ export default {
   }),
   mutations: {
     [SET_THEME] (state, theme: Theme | 'system-dark' | 'system-light'): void {
-      // This is so the logo in TheNavBar will react to change in system theme
+      // This is so the logo in NavBar will react to change in system theme
       if (theme?.includes('system')) {
         state.theme = theme.split('-')[1] as Theme
         state.theme = null

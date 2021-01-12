@@ -10,11 +10,11 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80 shadow-none"
+        class="w-80 shadow-none bg-opacity-50 dark:bg-opacity-50 rounded-full"
       />
       <button
         type="submit"
-        class="absolute right-0 top-0 mt-3 mr-3 bg-white dark:bg-gray-800 focus:outline-none"
+        class="absolute right-0 top-0 mt-3 mr-3 focus:outline-none"
         @click="searchFilter = ''"
       >
         <svg
