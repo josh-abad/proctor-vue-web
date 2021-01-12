@@ -3,7 +3,6 @@
     <div v-if="course.weeks" class="flex flex-col space-y-2">
       <Week
         :week="week"
-        :exams="exams.filter((exam) => exam.week === week)"
         v-for="week in course.weeks"
         :key="week"
         :expanded="weekVisibility[week - 1]"
@@ -14,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Course, Exam } from '@/types'
+import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import Week from '@/components/Week.vue'
 
@@ -35,9 +34,6 @@ export default defineComponent({
   computed: {
     course (): Course {
       return this.$store.getters.getCourseByID(this.courseId)
-    },
-    exams (): Exam[] {
-      return this.$store.getters.getExamsByCourse(this.courseId)
     }
   },
   created () {
