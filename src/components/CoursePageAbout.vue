@@ -35,7 +35,7 @@ import BaseLabel from './BaseLabel.vue'
 import BasePanel from './BasePanel.vue'
 
 export default defineComponent({
-  name: 'AboutCourse',
+  name: 'CoursePageAbout',
   components: { BaseLabel, BasePanel },
   props: {
     studentCount: {

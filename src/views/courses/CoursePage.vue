@@ -77,7 +77,7 @@
         </BasePanel>
       </div>
       <div class="w-72">
-        <AboutCourse
+        <CoursePageAbout
           :student-count="course.studentsEnrolled.length"
           :description="course.description"
           :coordinator-name="course.coordinator.fullName"
@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import AboutCourse from '@/components/AboutCourse.vue'
+import CoursePageAbout from '@/components/CoursePageAbout.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
@@ -120,7 +120,7 @@ import roleMixin from '@/mixins/role'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, AboutCourse, ProgressBar, DialogModal },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal },
   mixins: [roleMixin],
   props: {
     courseId: {
