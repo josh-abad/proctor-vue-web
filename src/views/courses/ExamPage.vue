@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="
-        hasPermission(['coordinator', 'admin']) ||
-        (hasToken && activeExam === exam.id)
-      "
-    >
+    <div v-if="hasToken && activeExam === exam.id && attempt && exam">
       <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
         <BaseExamItem
@@ -43,12 +38,15 @@
     </Center>
     <teleport to="#modals">
       <DialogModal
-        header="Hey"
-        message="Hey"
+        header="Warning"
         no-action
         v-show="warningModalOpen"
         @cancel="warningModalOpen = false"
-      />
+      >
+        Please refrain from leaving this page during the exam. You have
+        {{ warningsLeft }}
+        {{ warningsLeft === 1 ? "warning" : "warnings" }} left.
+      </DialogModal>
     </teleport>
   </div>
 </template>
@@ -98,17 +96,20 @@ export default defineComponent({
     }
   },
   computed: {
-    exam (): Exam {
-      return this.$store.getters.getExamByID(this.examId)
+    exam (): Exam | undefined {
+      return this.$store.getters.examByID(this.examId)
     },
-    attempt (): Attempt {
-      return this.$store.getters.getAttemptByID(this.attemptId)
+    attempt (): Attempt | undefined {
+      return this.$store.getters.attemptByID(this.attemptId)
     },
     activeExam (): string | null {
       return this.$store.state.exams.activeExam
     },
     warningsExceeded (): boolean {
       return this.warnings === this.maxWarnings
+    },
+    warningsLeft (): number {
+      return this.maxWarnings - this.warnings
     }
   },
   watch: {
@@ -119,6 +120,7 @@ export default defineComponent({
     }
   },
   mounted () {
+    if (this.exam) {
     document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
     this.hasToken = examResultsServices.hasToken()
     window.onblur = () => {

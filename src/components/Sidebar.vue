@@ -84,20 +84,4 @@ export default defineComponent({
 .router-link-active {
   @apply bg-gray-300 dark:bg-gray-700 bg-opacity-40 dark:bg-opacity-40 font-semibold text-green-500 dark:text-white border-l-2 border-green-500;
 }
-
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-300;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
-}
 </style>

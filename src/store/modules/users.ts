@@ -11,7 +11,9 @@ export default {
   }),
   mutations: {
     [SET_USERS] (state, users: User[]): void {
-      users.sort(alphabeticalUsers)
+      if (users) {
+        users.sort(alphabeticalUsers)
+      }
       state.users = users
     }
   },
@@ -25,29 +27,29 @@ export default {
     }
   },
   getters: {
-    coordinators (state): Omit<User, 'token'>[] {
+    coordinators (state): User[] {
       return state.users.filter(user => user.role === 'coordinator')
     },
-    students (state): Omit<User, 'token'>[] {
+    students (state): User[] {
       return state.users.filter(user => user.role === 'student')
     },
-    studentByID (state): (studentId: string) => User | undefined {
+    studentByID (state, getters): (studentId: string) => User | undefined {
       return studentId => {
-        return state.users.filter(user => user.role === 'student').find(student => student.id === studentId)
+        const students: User[] = getters.students
+        return students.find(student => student.id === studentId)
       }
     },
     userByID (state): (id: string) => User | undefined {
-      return id => {
-        return state.users.find(user => user.id === id)
-      }
+      return id => state.users.find(user => user.id === id)
     },
-    studentsByCourse (state, getters): (courseId: string) => (User | undefined)[] | undefined {
+    studentsByCourse (state, getters): (courseId: string) => (User | undefined)[] {
       return (courseId) => {
-        const course: Course = getters.getCourseByID(courseId)
-        return course.studentsEnrolled.map(studentId => {
-          const student = state.users.find(user => user.id === studentId)
-          return student
-        }).filter(student => !!student).sort(alphabeticalUsers)
+        const course: Course | undefined = getters.courseByID(courseId)
+        const userByID: (id: string) => User | undefined = getters.userByID
+        return course ? course.studentsEnrolled
+          .map(userByID)
+          .filter(student => !!student)
+          .sort(alphabeticalUsers) : []
       }
     }
   }

@@ -8,7 +8,7 @@
   >
     <div>
       <button
-        @click.prevent="toggleDropdown"
+        @click.prevent="isOpen = !isOpen"
         type="button"
         class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-700 dark:text-gray-200 focus:outline-none"
         id="options-menu"
@@ -47,15 +47,7 @@
     </div>
 
     <!-- The dropdown -->
-    <transition
-      enter-active-class="transition ease-out duration-100 transform"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75 transform"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
-      v-show="isOpen"
-    >
+    <transition name="dropdown-fade" v-show="isOpen">
       <div
         class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
       >
@@ -120,9 +112,6 @@ export default defineComponent({
     }
   },
   methods: {
-    toggleDropdown () {
-      this.isOpen = !this.isOpen
-    },
     async handleLogOut () {
       await this.$store.dispatch(LOG_OUT)
       this.$router.push('/login')

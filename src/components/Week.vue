@@ -41,10 +41,16 @@ export default defineComponent({
   name: 'Week',
   components: { BaseLabel, WeekExam },
   props: {
+    courseId: {
+      type: String,
+      required: true
+    },
+
     week: {
       type: Number,
       required: true
     },
+
     expanded: {
       type: Boolean,
       required: true
@@ -53,7 +59,7 @@ export default defineComponent({
   emits: ['toggle-collapse'],
   computed: {
     exams (): Exam[] {
-      return this.$store.getters.examsByWeek(this.week)
+      return this.$store.getters.examsByWeek(this.courseId, this.week)
     }
   }
 })

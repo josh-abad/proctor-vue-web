@@ -175,8 +175,8 @@ export default defineComponent({
     hour (): string {
       return this.examHours === 1 ? 'hour' : 'hours'
     },
-    course (): Course {
-      return this.$store.getters.getCourseByID(this.courseId)
+    course (): Course | undefined {
+      return this.$store.getters.courseByID(this.courseId)
     },
     examDurationInSeconds (): number {
       return this.examHours * 3600 + this.examMinutes * 60

@@ -1,12 +1,5 @@
 <template>
-  <transition
-    enter-active-class="transition ease-out duration-300 transform"
-    enter-from-class="opacity-0 translate-y-4"
-    enter-to-class="opacity-100 translate-y-0"
-    leave-active-class="transition ease-in duration-300 transform"
-    leave-from-class="opacity-100 translate-y-0"
-    leave-to-class="opacity-0 translate-y-4"
-  >
+  <transition name="modal-fade">
     <div class="fixed z-30 inset-0 overflow-y-auto">
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
@@ -108,15 +101,15 @@ export default defineComponent({
     }
   },
   computed: {
-    course (): Course {
-      return this.$store.getters.getCourseByID(this.courseId)
+    course (): Course | undefined {
+      return this.$store.getters.courseByID(this.courseId)
     },
     students (): User[] {
       return this.$store.getters.students
     },
     unenrolledStudents (): User[] {
-      const unenrolledStudents = (student: User) => {
-        return !this.course.studentsEnrolled.includes(student.id)
+      const unenrolledStudents = (student: User): boolean => {
+        return !!this.course && !this.course.studentsEnrolled.includes(student.id)
       }
       return this.students.filter(unenrolledStudents)
     },

@@ -94,15 +94,15 @@ export default defineComponent({
 
 <style lang="postcss">
 ::-webkit-scrollbar {
-  width: 10px;
+  @apply w-3;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-300 dark:bg-gray-800;
+  @apply bg-gray-100 dark:bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 dark:bg-gray-700 rounded-full shadow;
+  @apply bg-gray-400 dark:bg-gray-700;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -147,5 +147,41 @@ export default defineComponent({
 .nprogress-custom-parent #nprogress .spinner,
 .nprogress-custom-parent #nprogress .bar {
   @apply absolute;
+}
+
+.dropdown-fade-enter-active {
+  @apply transition ease-out duration-100 transform;
+}
+
+.dropdown-fade-leave-active {
+  @apply transition ease-in duration-75 transform;
+}
+
+.dropdown-fade-enter-from,
+.dropdown-fade-leave-to {
+  @apply opacity-0 scale-95;
+}
+
+.dropdown-fade-enter-to,
+.dropdown-fade-leave-from {
+  @apply opacity-100 scale-100;
+}
+
+.modal-fade-enter-active {
+  @apply transition ease-out duration-300 transform;
+}
+
+.modal-fade-leave-active {
+  @apply transition ease-in duration-300 transform;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  @apply opacity-0 translate-y-4;
+}
+
+.modal-fade-enter-to,
+.modal-fade-leave-from {
+  @apply opacity-100 translate-y-0;
 }
 </style>

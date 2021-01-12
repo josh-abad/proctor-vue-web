@@ -33,6 +33,7 @@
         <div v-else>You have made no attempts so far.</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
           <ModalButton
+            v-if="attemptsLeft > 0"
             header="Attempt Quiz"
             message="Are you sure you want to start the quiz?"
             action-label="Start Quiz"
@@ -99,26 +100,26 @@ export default defineComponent({
           url: '/courses'
         },
         {
-          name: this.exam.course.name,
+          name: this.exam ? this.exam.course.name : '',
           url: `/courses/${this.courseId}`
         },
         {
-          name: this.exam.label,
+          name: this.exam ? this.exam.label : '',
           url: `/courses/${this.courseId}/exams/${this.examId}`
         }
       ]
     },
-    exam (): Exam {
-      return this.$store.getters.getExamByID(this.examId)
+    exam (): Exam | undefined {
+      return this.$store.getters.examByID(this.examId)
     },
     attemptsByUser (): Attempt[] {
       return this.$store.getters.attemptsByUser(this.$store.state.user.id)
     },
     attemptsByExam (): Attempt[] {
-      return this.attemptsByUser.filter(attempt => attempt.exam.id === this.examId)
+      return this.attemptsByUser.filter(attempt => !!attempt.exam && attempt.exam.id === this.examId)
     },
     attemptsLeft (): number {
-      return this.exam.maxAttempts - this.attemptsByExam.length
+      return this.exam ? this.exam.maxAttempts - this.attemptsByExam.length : 0
     },
     displayAttemptsLeft (): string {
       return `You have ${this.attemptsLeft} ${this.attemptsLeft === 1 ? 'attempt' : 'attempts'} left.`
@@ -127,7 +128,7 @@ export default defineComponent({
       return this.attemptsByExam.reduce((a, b) => Math.max(a, b.score), 0)
     },
     duration (): string {
-      return dayjs.duration({ seconds: this.exam.duration }).humanize(true)
+      return this.exam ? dayjs.duration({ seconds: this.exam.duration }).humanize(true) : ''
     }
   },
   methods: {

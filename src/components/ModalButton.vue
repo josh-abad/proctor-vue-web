@@ -8,10 +8,11 @@
         v-show="modalOpen"
         :action-label="actionLabel"
         :header="header"
-        :message="message"
         @cancel="modalOpen = false"
         @confirm="$emit('confirm')"
-      />
+      >
+        {{ message }}
+      </DialogModal>
     </teleport>
   </div>
 </template>

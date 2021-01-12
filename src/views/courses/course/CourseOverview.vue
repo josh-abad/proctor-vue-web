@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div v-if="course.weeks" class="flex flex-col space-y-2">
+    <div v-if="course" class="flex flex-col space-y-2">
       <Week
+        :courseId="courseId"
         :week="week"
         v-for="week in course.weeks"
         :key="week"
@@ -32,13 +33,15 @@ export default defineComponent({
     }
   },
   computed: {
-    course (): Course {
-      return this.$store.getters.getCourseByID(this.courseId)
+    course (): Course | undefined {
+      return this.$store.getters.courseByID(this.courseId)
     }
   },
   created () {
-    for (let i = 0; i < this.course.weeks; i++) {
-      this.weekVisibility.push(true)
+    if (this.course) {
+      for (let i = 0; i < this.course.weeks; i++) {
+        this.weekVisibility.push(true)
+      }
     }
   },
   methods: {

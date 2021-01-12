@@ -31,25 +31,7 @@
           </svg>
         </span>
       </button>
-
-      <!--
-      Select popover, show/hide based on select state.
-
-      Entering: ""
-        From: ""
-        To: ""
-      Leaving: "transition ease-in duration-100"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-      <transition
-        enter-active-class=""
-        enter-from-class=""
-        enter-to-class=""
-        leave-active-class="transition ease-in duration-100"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
+      <transition name="dropdown-fade">
         <div
           class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-800 shadow-lg"
           v-show="open"

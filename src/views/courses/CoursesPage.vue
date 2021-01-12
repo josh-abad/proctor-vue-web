@@ -9,15 +9,7 @@
       :hide-menu="!hasPermission(['admin'])"
       >Courses</ColorHeader
     >
-    <transition
-      enter-active-class="transition ease-out duration-100 transform"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75 transform"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
-      v-show="isOpen"
-    >
+    <transition name="dropdown-fade" v-show="isOpen">
       <div
         class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
       >

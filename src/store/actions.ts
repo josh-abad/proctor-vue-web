@@ -49,9 +49,9 @@ export default {
   async [LOG_OUT] ({ commit }): Promise<void> {
     localStorage.clear()
     commit(SET_USER, null)
-    commit(SET_COURSES, null)
-    commit(SET_ATTEMPTS, null)
-    commit(SET_EXAM_RESULTS, null)
+    commit(SET_COURSES, [])
+    commit(SET_ATTEMPTS, [])
+    commit(SET_EXAM_RESULTS, [])
     commit(SET_RECENT_COURSES, [])
   },
   async [VERIFY] ({ commit, dispatch }, token: string): Promise<void> {

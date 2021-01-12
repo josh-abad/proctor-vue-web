@@ -108,41 +108,50 @@ export default {
     }
   },
   getters: {
+    examByID (state): (id: string) => Exam | undefined {
+      return id => state.exams.find(exam => exam.id === id)
+    },
+    attemptByID (state): (id: string) => Attempt | undefined {
+      return id => state.attempts.find(attempt => attempt.id === id)
+    },
+    examsByCourse (state): (courseId: string) => Exam[] {
+      return courseId => state.exams.filter(exam => exam.course.id === courseId)
+    },
     attemptsByUser (state): (userId: string) => Attempt[] {
-      return userId => state.attempts.filter(attempt => attempt.user === userId)
+      return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []
     },
     resultsByUser (state): (userId: string) => ExamResult[] {
       return userId => state.examResults.filter(result => {
         return result.user.id === userId
       })
     },
-    examsByWeek (state): (week: number) => Exam[] {
-      return week => state.exams.filter(exam => exam.week === week)
+    examsByWeek (state, getters): (courseId: string, week: number) => Exam[] {
+      return (courseId, week) => (getters.examsByCourse(courseId) as Exam[]).filter(exam => exam.week === week)
     },
-    getExamByID (state): (id: string) => Exam | undefined {
-      return id => state.exams.find(exam => exam.id === id)
-    },
-    getAttemptByID (state): (id: string) => Attempt | undefined {
-      return id => state.attempts.find(attempt => attempt.id === id)
-    },
-    getExamsByCourse (state): (courseId: string) => Exam[] | undefined {
-      return courseId => state.exams.filter(exam => exam.course.id === courseId)
-    },
-    courseCompletedPercentage (state, getters): (courseId: string, userId: string) => number | undefined {
+    courseCompletedPercentage (state, getters): (courseId: string, userId: string) => number {
       return (courseId, userId) => {
-        const exams: Exam[] = getters.getExamsByCourse(courseId)
+        const exams: Exam[] = getters.examsByCourse(courseId)
         const examsTaken = exams.filter(exam => getters.examTaken(exam.id, userId))
         const percentage = examsTaken.length / exams.length * 100
         return examsTaken.length === 0 ? 0 : Math.floor(percentage)
       }
     },
-    getAttemptsByExam (state): (examId: string) => Attempt[] | undefined {
+    getAttemptsByExam (state): (examId: string) => Attempt[] {
       return examId => state.attempts.filter(attempt => attempt.exam && attempt.exam.id === examId)
     },
     examTaken (state, getters): (examId: string, userId?: string) => boolean {
       return (examId, userId?) => {
         const results: ExamResult[] = userId ? getters.resultsByUser(userId) : state.examResults
         return results.some(result => result.exam === examId)
+      }
+    },
+    recentActivities (state, getters): (userId?: string) => Attempt[] {
+      return (userId?) => {
+        const attempts: Attempt[] = userId ? getters.attemptsByUser(userId) : state.attempts
+        const sortedAttempts = [...attempts].sort((a, b) => {
+          return new Date(b.endDate).valueOf() - new Date(a.endDate).valueOf()
+        })
+        return sortedAttempts.slice(0, 5)
       }
     }
   }

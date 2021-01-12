@@ -6,15 +6,7 @@
       :hide-menu="!hasPermission(['coordinator', 'admin'])"
       >{{ course.name }}</ColorHeader
     >
-    <transition
-      enter-active-class="transition ease-out duration-100 transform"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75 transform"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
-      v-show="menuOpen"
-    >
+    <transition name="dropdown-fade" v-show="menuOpen">
       <div
         class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
       >
@@ -47,11 +39,12 @@
             <DialogModal
               v-show="deleteModalOpen"
               header="Delete Course"
-              message="Are you sure you want to delete this course?"
               action-label="Delete"
               @cancel="deleteModalOpen = false"
               @confirm="deleteCourse"
-            />
+            >
+              Are you sure you want to delete this course?
+            </DialogModal>
           </teleport>
         </div>
       </div>
@@ -141,14 +134,23 @@ export default defineComponent({
           url: '/courses'
         },
         {
-          name: this.course.name,
+          name: this.course ? this.course.name : '',
           url: `/courses/${this.courseId}`
         }
       ]
     },
-    course (): Course {
-      return this.$store.getters.getCourseByID(this.courseId)
+    course (): Course | undefined {
+      return this.$store.getters.courseByID(this.courseId)
     }
+  },
+  created () {
+    this.$watch(
+      () => this.$route.params,
+      (toParams: { courseId: string }) => {
+        const course: Course | undefined = this.$store.getters.courseByID(toParams.courseId)
+        document.title = course ? `${course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+      }
+    )
   },
   mounted () {
     if (!this.hasPermission(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {

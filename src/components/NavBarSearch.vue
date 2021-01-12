@@ -37,38 +37,20 @@
         </svg>
       </button>
     </div>
-    <transition
-      enter-active-class="transition ease-out duration-100 transform"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75 transform"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
-    >
+    <transition name="dropdown-fade">
       <div
         class="absolute mt-1 w-full rounded-lg bg-white dark:bg-gray-800 shadow-lg"
         v-show="open && filteredCourses.length"
       >
         <ul
-          id="results"
-          tabindex="-1"
-          role="listbox"
-          aria-labelledby="listbox-label"
-          aria-activedescendant="listbox-item-3"
           class="max-h-56 rounded-md py-1 text-base ring-1 ring-gray-900 ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
         >
-          <li
-            id="listbox-item-0"
-            role="option"
-            class="text-gray-900 dark:text-white cursor-pointer select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-green-600"
+          <NavBarSearchResult
+            @result-click="$router.push(`/courses/${option.id}`)"
             v-for="(option, i) in filteredCourses"
             :key="i"
-            @click="$router.push(`/courses/${option.id}`)"
+            >{{ option.name }}</NavBarSearchResult
           >
-            <span class="ml-3 block truncate">
-              {{ option.name }}
-            </span>
-          </li>
         </ul>
       </div>
     </transition>
@@ -79,10 +61,11 @@
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import BaseInput from './BaseInput.vue'
+import NavBarSearchResult from './NavBarSearchResult.vue'
 
 export default defineComponent({
   name: 'NavBarSearch',
-  components: { BaseInput },
+  components: { BaseInput, NavBarSearchResult },
   data () {
     return {
       open: false,
@@ -110,18 +93,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 ::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-white;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-300;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
+  @apply w-1;
 }
 </style>

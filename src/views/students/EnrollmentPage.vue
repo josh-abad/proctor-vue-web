@@ -1,5 +1,5 @@
 <template>
-  <Center>
+  <Center v-if="student">
     <BasePanel>
       <div class="flex flex-col items-center">
         <div>Enroll {{ student.fullName }}</div>
@@ -38,13 +38,13 @@ export default defineComponent({
     }
   },
   computed: {
-    student (): User {
+    student (): User | undefined {
       return this.$store.getters.studentByID(this.studentId)
     },
     availableCourses (): Option[] {
       const courses: Course[] = this.$store.getters.courses
-      const unenrolledCourses = (course: Course) => {
-        return !course.studentsEnrolled.includes(this.student.id)
+      const unenrolledCourses = (course: Course): boolean => {
+        return this.student ? !course.studentsEnrolled.includes(this.student.id) : false
       }
 
       const options: Option[] = courses.filter(unenrolledCourses).map(course => {

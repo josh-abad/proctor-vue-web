@@ -26,7 +26,7 @@ export default defineComponent({
   components: { CoursesPageCard, BaseLabel },
   computed: {
     recentCourses (): Course[] {
-      return this.$store.getters.getRecentCourses
+      return this.$store.getters.recentCourses
     }
   }
 })

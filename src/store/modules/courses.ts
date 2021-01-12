@@ -15,7 +15,9 @@ export default {
   }),
   mutations: {
     [SET_COURSES] (state, courses: Course[]): void {
-      courses.sort(alphabeticalCourses)
+      if (courses) {
+        courses.sort(alphabeticalCourses)
+      }
       state.courses = courses
     },
     [ADD_COURSE] (state, course: Course): void {
@@ -110,12 +112,12 @@ export default {
     }
   },
   getters: {
-    getCourseByID (state): (id: string) => Course | undefined {
+    courseByID (state): (id: string) => Course | undefined {
       return (id) => {
         return state.courses.find(course => course.id === id)
       }
     },
-    getRecentCourses (state): (Course | undefined)[] {
+    recentCourses (state): (Course | undefined)[] {
       const toCourse = (id: string): Course | undefined => {
         return state.courses.find(course => course.id === id)
       }
