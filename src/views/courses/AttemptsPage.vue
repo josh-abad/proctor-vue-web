@@ -134,7 +134,7 @@ export default defineComponent({
         this.$store.commit(ADD_ATTEMPT, response.attempt)
         localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
-        this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam)
+        this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam.id)
         this.$router.push(
           `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
         )

@@ -38,8 +38,7 @@ export default {
         dispatch(LOAD_USERS),
         dispatch(LOAD_COURSES),
         dispatch(LOAD_EXAMS),
-        dispatch(LOAD_ATTEMPTS, user.id),
-        dispatch(LOAD_EXAM_RESULTS, user.id)
+        dispatch(LOAD_ATTEMPTS),
       ])
     } catch (error) {
       nProgress.done()
@@ -75,8 +74,7 @@ export default {
         dispatch(LOAD_USERS),
         dispatch(LOAD_COURSES),
         dispatch(LOAD_EXAMS),
-        dispatch(LOAD_ATTEMPTS, validatedUser.id),
-        dispatch(LOAD_EXAM_RESULTS, validatedUser.id)
+        dispatch(LOAD_ATTEMPTS),
       ])
     } catch (error) {
       commit(SET_USER, null)

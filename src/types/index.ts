@@ -63,7 +63,7 @@ export interface Submission {
 
 export interface Attempt {
   id: string;
-  exam: string;
+  exam: Exam;
   user: string;
   status: string;
   startDate: Date;

@@ -93,7 +93,7 @@ export default {
         commit(ADD_ATTEMPT, response.attempt)
         localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
-        commit(SET_ACTIVE_EXAM, response.attempt.exam)
+        commit(SET_ACTIVE_EXAM, response.attempt.exam.id)
       } catch (error) {
         nProgress.done()
         dispatch(ALERT, 'Attempt could not be started')
@@ -134,11 +134,7 @@ export default {
       }
     },
     getAttemptsByExam (state): (examId: string) => Attempt[] | undefined {
-      return (examId) => {
-        return state.attempts.filter(attempt => {
-          return attempt.exam === examId
-        })
-      }
+      return examId => state.attempts.filter(attempt => attempt.exam && attempt.exam.id === examId)
     },
     examTaken (state): (examId: string) => boolean {
       return examId => {
