@@ -1,4 +1,4 @@
-import { AuthenticatedUser, User, UserCredentials } from '@/types'
+import { User, UserCredentials } from '@/types'
 import axios from 'axios'
 const baseUrl = '/api/users'
 
@@ -28,18 +28,4 @@ const getUser = async (id: string): Promise<User> => {
   return response.data
 }
 
-/**
- * If a session token is found when first opening the app (the user ticked Keep Me Signed In when logging in), check if the token is still valid (i.e., token is expired).
- * If it's still valid, server returns the user with a new token, resetting the time for the token to expire. Else, it returns 401.
- * @param id the id of the user
- * @param token the user's session token
- */
-const validateUserToken = async (id: string, token: string): Promise<AuthenticatedUser> => {
-  const config = {
-    headers: { Authorization: `bearer ${token}` }
-  }
-  const response = await axios.get(`${baseUrl}/${id}`, config)
-  return response.data
-}
-
-export default { create, getAll, getUser, validateUserToken }
+export default { create, getAll, getUser }

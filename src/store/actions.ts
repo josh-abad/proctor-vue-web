@@ -9,6 +9,7 @@ import usersService from '@/services/users'
 import verifyService from '@/services/verify'
 import router from '@/router'
 import nProgress from 'nprogress'
+import validateService from '@/services/validate'
 
 export default {
   async [SIGN_UP] ({ dispatch }, credentials: UserCredentials): Promise<void> {
@@ -65,9 +66,9 @@ export default {
       dispatch(ALERT, error.response.data.error)
     }
   },
-  async [VALIDATE_TOKEN] ({ commit, dispatch }, { id, token }): Promise<void> {
+  async [VALIDATE_TOKEN] ({ commit, dispatch }, token: string): Promise<void> {
     try {
-      const validatedUser = await usersService.validateUserToken(id, token)
+      const validatedUser = await validateService.validate(token)
       commit(SET_USER, validatedUser)
       localStorage.setItem('loggedAppUser', JSON.stringify(validatedUser))
       examAttemptsService.setToken(validatedUser.token)
