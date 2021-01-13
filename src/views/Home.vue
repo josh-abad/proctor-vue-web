@@ -29,6 +29,23 @@
       <div class="mt-8" v-if="$store.state.courses.recentCourses.length">
         <RecentCourses />
       </div>
+      <div class="mt-8" v-if="recentActivities.length">
+        <BaseLabel
+          class="pb-2 border-b border-gray-300 dark:border-gray-700"
+          emphasis
+          >Recent Activity</BaseLabel
+        >
+        <div
+          class="mt-4 divide-y divide-gray-300 dark:divide-gray-700 rounded overflow-hidden"
+          v-if="user"
+        >
+          <ActivityRow
+            v-for="attempt of recentActivities"
+            :key="attempt.id"
+            :attempt="attempt"
+          />
+        </div>
+      </div>
     </BasePanel>
   </div>
 </template>
@@ -40,10 +57,12 @@ import NavCard from '@/components/NavCard.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import roleMixin from '@/mixins/role'
+import ActivityRow from '@/components/ActivityRow.vue'
+import { Attempt, User } from '@/types'
 
 export default defineComponent({
   name: 'Home',
-  components: { RecentCourses, NavCard, BaseLabel, BasePanel },
+  components: { RecentCourses, NavCard, BaseLabel, BasePanel, ActivityRow },
   mixins: [roleMixin],
   data () {
     return {
@@ -56,6 +75,12 @@ export default defineComponent({
   computed: {
     user (): User {
       return this.$store.state.user
+    },
+    recentActivities (): Attempt[] {
+      if (!this.user) {
+        return []
+      }
+      return this.user.role === 'admin' ? this.$store.getters.recentActivities() : this.$store.getters.recentActivities(this.user.id)
     }
   }
 })

@@ -59,8 +59,8 @@
         <ActivityRow
           :key="attempt.id"
           v-for="attempt in sortedAttempts"
-          :name="myAccount ? 'You' : user.name.first"
           :attempt="attempt"
+          hide-avatar
         />
       </div>
     </BasePanel>
@@ -90,7 +90,7 @@ export default defineComponent({
     myAccount (): boolean {
       return this.$store.state.user && this.$store.state.user.id === this.userId
     },
-    user (): User {
+    user (): User | undefined {
       return this.$store.getters.userByID(this.userId)
     },
     attempts (): Attempt[] {
@@ -108,7 +108,12 @@ export default defineComponent({
       })
     },
     completedCourses (): number {
-      return this.user.courses.reduce((a, courseId) => a + (this.$store.getters.courseCompletedPercentage(courseId, this.userId) === 100 ? 1 : 0), 0)
+      const reducer = (a: number, courseId: string): number => {
+        return a + (this.$store.getters.courseCompletedPercentage(courseId, this.userId) === 100 ? 1 : 0)
+      }
+      return this.user
+        ? this.user.courses.reduce(reducer, 0)
+        : 0
     }
   }
 })
