@@ -103,7 +103,6 @@ export default defineComponent({
     },
     completedAttempts (): Attempt[] {
       return this.sortedAttempts.filter(attempt => {
-        console.log(attempt)
         return attempt.status === 'completed'
       })
     },
