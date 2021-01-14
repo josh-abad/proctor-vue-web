@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="hasToken && activeExam === exam.id && attempt && exam">
+    <div v-if="examCanStart && exam && attempt">
       <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
         <BaseExamItem
@@ -96,6 +96,9 @@ export default defineComponent({
     }
   },
   computed: {
+    examCanStart (): boolean {
+      return !!this.exam && !!this.attempt && this.hasToken && (this.activeExam === this.exam.id)
+    },
     exam (): Exam | undefined {
       return this.$store.getters.examByID(this.examId)
     },
@@ -119,16 +122,25 @@ export default defineComponent({
       }
     }
   },
+  created () {
+    if (this.examCanStart) {
+      window.addEventListener('beforeunload', this.promptBeforeLeaving)
+      window.addEventListener('unload', this.handleUnload)
+      window.addEventListener('blur', this.warn)
+    }
+  },
   mounted () {
     if (this.exam) {
     document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
     this.hasToken = examResultsServices.hasToken()
-    window.onblur = () => {
-      console.log('Not in focus,')
-      if (!this.warningsExceeded) {
-        console.log(`Warning added, ${++this.warnings}`)
-        this.warningModalOpen = true
       }
+  },
+  unmount () {
+    window.removeEventListener('beforeunload', this.promptBeforeLeaving)
+    window.removeEventListener('unload', this.handleUnload)
+    window.removeEventListener('blur', this.warn)
+    if (this.activeExam) {
+      this.handleSubmit()
     }
   },
   methods: {
@@ -144,6 +156,29 @@ export default defineComponent({
       await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
       this.$store.commit(SET_ACTIVE_EXAM, null)
       this.$router.replace(`/courses/${this.courseId}/exams/${this.examId}`)
+    },
+    promptBeforeLeaving (e: BeforeUnloadEvent): void {
+      e.preventDefault()
+      e.returnValue = ''
+    },
+    handleUnload () {
+      localStorage.setItem('pendingSubmission', JSON.stringify({ answers: this.answers, examId: this.examId, submittedDate: new Date() }))
+      this.$store.commit(SET_ACTIVE_EXAM, null)
+      // await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
+    },
+    warn () {
+      if (!this.warningsExceeded) {
+        this.warnings++
+        if (Notification.permission === 'granted') {
+          const notification = new Notification('Return to exam')
+          notification.addEventListener('click', () => {
+            window.focus()
+          })
+        } else {
+          Notification.requestPermission()
+        }
+        this.warningModalOpen = true
+      }
     }
   }
 })
