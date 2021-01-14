@@ -20,7 +20,7 @@ import { defineComponent } from 'vue'
 import BasePanel from './BasePanel.vue'
 
 export default defineComponent({
-  name: 'NavCard',
+  name: 'ShortcutCard',
   components: { BasePanel },
   props: {
     icon: {

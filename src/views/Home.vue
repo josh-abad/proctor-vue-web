@@ -10,17 +10,17 @@
           Shortcuts</BaseLabel
         >
         <div class="mt-4 flex space-x-4">
-          <NavCard :icon="icon4" :url="`/user/${user.id}`" v-if="user"
-            >Profile</NavCard
+          <ShortcutCard :icon="icon4" :url="`/user/${user.id}`" v-if="user"
+            >Profile</ShortcutCard
           >
-          <NavCard
+          <ShortcutCard
             :icon="icon1"
             url="/students"
             v-if="hasPermission(['coordinator', 'admin'])"
-            >Students</NavCard
+            >Students</ShortcutCard
           >
-          <NavCard :icon="icon2" url="/courses">Courses</NavCard>
-          <NavCard :icon="icon3" url="/settings">Settings</NavCard>
+          <ShortcutCard :icon="icon2" url="/courses">Courses</ShortcutCard>
+          <ShortcutCard :icon="icon3" url="/settings">Settings</ShortcutCard>
         </div>
       </div>
       <div class="mt-8" v-if="$store.state.user && !$store.state.user.verified">
@@ -53,7 +53,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import RecentCourses from '@/components/RecentCourses.vue'
-import NavCard from '@/components/NavCard.vue'
+import ShortcutCard from '@/components/ShortcutCard.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import roleMixin from '@/mixins/role'
@@ -62,7 +62,7 @@ import { Attempt, User } from '@/types'
 
 export default defineComponent({
   name: 'Home',
-  components: { RecentCourses, NavCard, BaseLabel, BasePanel, ActivityRow },
+  components: { RecentCourses, ShortcutCard, BaseLabel, BasePanel, ActivityRow },
   mixins: [roleMixin],
   data () {
     return {
