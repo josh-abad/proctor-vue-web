@@ -19,16 +19,7 @@
         <div class="px-6">
           <label>
             <BaseLabel>Duration</BaseLabel>
-            <input
-              class="input-number"
-              type="number"
-              id="hours"
-              min="0"
-              max="2"
-              v-model.number="examHours"
-              placeholder="0"
-            />
-            {{ hour }}
+            <TimePicker v-model.number="examSeconds" />
           </label>
           <label class="ml-2">
             <input
@@ -46,26 +37,22 @@
         <div class="px-6">
           <label>
             <BaseLabel>Attempts</BaseLabel>
-            <input
-              class="input-number"
-              type="number"
-              id="minutes"
-              min="1"
-              max="5"
+          <NumberInput
               v-model.number="maxAttempts"
+            :min="1"
+            :max="5"
+            id="attempts"
             />
           </label>
         </div>
         <div class="pl-6">
           <label>
             <BaseLabel>Week</BaseLabel>
-            <input
-              class="input-number"
-              type="number"
-              id="week"
-              min="1"
-              :max="course.weeks"
+          <NumberInput
               v-model.number="week"
+            :min="1"
+            :max="course.weeks"
+            id="week"
             />
           </label>
         </div>
@@ -141,6 +128,8 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import NumberInput from '@/components/NumberInput.vue'
+import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
@@ -149,7 +138,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ExamCreationPage',
-  components: { BaseInput, BaseButton, BasePanel, BaseLabel },
+  components: { BaseInput, BaseButton, BasePanel, BaseLabel, TimePicker, NumberInput },
   props: {
     courseId: {
       type: String,
@@ -159,8 +148,7 @@ export default defineComponent({
   data () {
     return {
       examName: '',
-      examHours: 1,
-      examMinutes: 0,
+      examSeconds: 3600,
       maxAttempts: 3,
       week: 1,
       examItems: [
@@ -172,14 +160,8 @@ export default defineComponent({
     }
   },
   computed: {
-    hour (): string {
-      return this.examHours === 1 ? 'hour' : 'hours'
-    },
     course (): Course | undefined {
       return this.$store.getters.courseByID(this.courseId)
-    },
-    examDurationInSeconds (): number {
-      return this.examHours * 3600 + this.examMinutes * 60
     }
   },
   methods: {
@@ -229,7 +211,7 @@ export default defineComponent({
           label: this.examName,
           random: false,
           length: this.examItems.length,
-          duration: this.examDurationInSeconds,
+          duration: this.examSeconds,
           courseId: this.courseId,
           maxAttempts: this.maxAttempts,
           examItems: this.examItems.map(examItem => this.parseAnswer(examItem.question, examItem.answer)),
