@@ -2,12 +2,10 @@
   <div>
     <div v-if="course" class="flex flex-col space-y-2">
       <Week
-        :courseId="courseId"
-        :week="week"
         v-for="week in course.weeks"
         :key="week"
-        :expanded="weekVisibility[week - 1]"
-        @toggle-collapse="handleHide(week)"
+        :courseId="courseId"
+        :week="week"
       />
     </div>
   </div>
@@ -27,26 +25,9 @@ export default defineComponent({
       required: true
     }
   },
-  data () {
-    return {
-      weekVisibility: [] as boolean[]
-    }
-  },
   computed: {
     course (): Course | undefined {
       return this.$store.getters.courseByID(this.courseId)
-    }
-  },
-  created () {
-    if (this.course) {
-      for (let i = 0; i < this.course.weeks; i++) {
-        this.weekVisibility.push(true)
-      }
-    }
-  },
-  methods: {
-    handleHide (week: number): void {
-      this.weekVisibility[week - 1] = !this.weekVisibility[week - 1]
     }
   }
 })
