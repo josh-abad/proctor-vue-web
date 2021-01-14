@@ -23,7 +23,7 @@
           <ShortcutCard :icon="icon3" url="/settings">Settings</ShortcutCard>
         </div>
       </div>
-      <div class="mt-8" v-if="$store.state.user && !$store.state.user.verified">
+      <div class="mt-8" v-if="user && !user.verified">
         You are not yet verified
       </div>
       <div class="mt-8" v-if="$store.state.courses.recentCourses.length">
@@ -73,7 +73,7 @@ export default defineComponent({
     }
   },
   computed: {
-    user (): User {
+    user (): User | null {
       return this.$store.state.user
     },
     recentActivities (): Attempt[] {
