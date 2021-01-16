@@ -46,6 +46,7 @@
           />
         </div>
       </div>
+      <UpcomingExamsList class="mt-8" />
     </BasePanel>
   </div>
 </template>
@@ -59,10 +60,11 @@ import BasePanel from '@/components/BasePanel.vue'
 import roleMixin from '@/mixins/role'
 import ActivityRow from '@/components/ActivityRow.vue'
 import { AppEvent, User } from '@/types'
+import UpcomingExamsList from '@/components/UpcomingExamsList.vue'
 
 export default defineComponent({
   name: 'Home',
-  components: { RecentCourses, ShortcutCard, BaseLabel, BasePanel, ActivityRow },
+  components: { RecentCourses, ShortcutCard, BaseLabel, BasePanel, ActivityRow, UpcomingExamsList },
   mixins: [roleMixin],
   data () {
     return {

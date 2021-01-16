@@ -6,6 +6,8 @@ import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import nProgress from 'nprogress'
+import { eventDate } from '@/utils/sort'
+import dayjs from 'dayjs'
 
 export default {
   state: () => ({
@@ -192,9 +194,7 @@ export default {
     orderedAttemptEvents (state, getters): (userId?: string) => AppEvent[] {
       return userId => {
         const attemptEvents: AppEvent[] = getters.attemptEvents(userId)
-        const orderedAttemptEvents = [...attemptEvents].sort((a, b) => {
-          return new Date(b.date).valueOf() - new Date(a.date).valueOf()
-        })
+        const orderedAttemptEvents = [...attemptEvents].sort(eventDate)
         return orderedAttemptEvents
       }
     },
@@ -203,6 +203,11 @@ export default {
         const orderedAttemptEvents: AppEvent[] = getters.orderedAttemptEvents(userId)
         return orderedAttemptEvents.slice(0, 5)
       }
+    },
+    upcomingExams (state, getters): AppEvent[] {
+      const examEvents: AppEvent[] = getters.examEvents
+      const today = dayjs()
+      return examEvents.filter(event => dayjs(event.date).isAfter(today)).sort(eventDate).reverse()
     },
     attemptsByUser (state): (userId: string) => Attempt[] {
       return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []
