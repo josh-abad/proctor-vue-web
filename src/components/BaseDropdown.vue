@@ -102,7 +102,7 @@
 
 <script lang="ts">
 import { Option } from '@/types'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'BaseDropdown',
@@ -113,7 +113,7 @@ export default defineComponent({
     },
 
     options: {
-      type: Array as PropType<Option[]>,
+      type: Array as () => Option[],
       required: true
     }
   },
