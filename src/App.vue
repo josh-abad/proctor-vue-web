@@ -27,9 +27,7 @@ import Snackbar from './components/Snackbar.vue'
 import NavBar from './components/NavBar.vue'
 import Sidebar from './components/Sidebar.vue'
 import examResultsService from './services/exam-results'
-import { VALIDATE_TOKEN } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
-import { AuthenticatedUser } from './types'
+import { io } from 'socket.io-client'
 
 export default defineComponent({
   name: 'App',
@@ -40,7 +38,8 @@ export default defineComponent({
   },
   data () {
     return {
-      isOpen: true
+      isOpen: true,
+      socket: io()
     }
   },
   computed: {
@@ -52,6 +51,9 @@ export default defineComponent({
     }
   },
   async created () {
+    this.socket.on('new result', (updatedAttempt: Attempt) => {
+      this.$store.commit(ADD_ATTEMPT, updatedAttempt)
+    })
     const theme = localStorage.getItem('theme')
     this.$store.commit(SET_THEME, theme)
 
