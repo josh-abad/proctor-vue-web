@@ -53,15 +53,9 @@
     </BasePanel>
     <BasePanel class="rounded-t-none pt-0 -mt-2">
       <div
-        v-if="attempts"
         class="mt-2 divide-y divide-gray-300 dark:divide-gray-700 rounded overflow-hidden"
       >
-        <ActivityRow
-          :key="attempt.id"
-          v-for="attempt in sortedAttempts"
-          :attempt="attempt"
-          hide-avatar
-        />
+        <ActivityRow :key="i" v-for="(event, i) in userEvents" :event="event" />
       </div>
     </BasePanel>
   </div>
@@ -69,7 +63,7 @@
 
 <script lang="ts">
 import BasePanel from '@/components/BasePanel.vue'
-import { Attempt, User } from '@/types'
+import { AppEvent, User } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -93,18 +87,8 @@ export default defineComponent({
     user (): User | undefined {
       return this.$store.getters.userByID(this.userId)
     },
-    attempts (): Attempt[] {
-      return this.$store.getters.attemptsByUser(this.userId)
-    },
-    sortedAttempts (): Attempt[] {
-      return [...this.attempts].sort((a, b) => {
-        return new Date(b.endDate).valueOf() - new Date(a.endDate).valueOf()
-      })
-    },
-    completedAttempts (): Attempt[] {
-      return this.sortedAttempts.filter(attempt => {
-        return attempt.status === 'completed'
-      })
+    userEvents (): AppEvent[] {
+      return this.$store.getters.orderedAttemptEvents(this.userId)
     },
     completedCourses (): number {
       const reducer = (a: number, courseId: string): number => {

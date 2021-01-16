@@ -51,6 +51,11 @@ export default {
           .filter(student => !!student)
           .sort(alphabeticalUsers) : []
       }
+    },
+    avatarUrlByUser (state): (userId: string) => string | undefined {
+      return userId => {
+        return state.users.find(user => user.id === userId)?.avatarUrl
+      }
     }
   }
 } as Module<UsersState, RootState>

@@ -1,4 +1,4 @@
-import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState } from '@/types'
+import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState, User } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, DELETE_EXAM, LOAD_ATTEMPTS, LOAD_EXAMS, LOAD_EXAM_RESULTS, START_ATTEMPT, SUBMIT_EXAM } from '../action-types'
 import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_EXAM, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_EXAMS, SET_EXAM_RESULTS, UPDATE_ATTEMPT } from '../mutation-types'
@@ -152,6 +152,56 @@ export default {
       })
       return events
     },
+    attemptEvents (state, getters, rootState): (userId?: string) => AppEvent[] {
+      return userId => {
+        const attempts: Attempt[] = userId ? getters.attemptsByUser(userId) : state.attempts
+        const events: AppEvent[] = []
+        attempts.forEach(attempt => {
+          const user: User = getters.userByID(attempt.user)
+          if (user && attempt.exam) {
+            const sharedEventInfo = {
+              location: attempt.exam.course.name,
+              locationUrl: `/courses/${attempt.exam.course.id}`,
+              subject: rootState.user && rootState.user.id === user.id ? 'You' : user.name.first,
+              subjectId: user.id,
+              subjectUrl: `/user/${user.id}`,
+              predicate: attempt.exam.label,
+              predicateUrl: `/courses/${attempt.exam.course.id}/exams/${attempt.exam.id}`
+            }
+            const startAttemptEvent: AppEvent = {
+              ...sharedEventInfo,
+              action: 'started',
+              date: attempt.startDate
+            }
+            events.push(startAttemptEvent)
+            if (attempt.status === 'completed') {
+              const submitAttemptEvent: AppEvent = {
+                ...sharedEventInfo,
+                action: 'completed',
+                date: attempt.submittedDate
+              }
+              events.push(submitAttemptEvent)
+            }
+          }
+        })
+        return events
+      }
+    },
+    orderedAttemptEvents (state, getters): (userId?: string) => AppEvent[] {
+      return userId => {
+        const attemptEvents: AppEvent[] = getters.attemptEvents(userId)
+        const orderedAttemptEvents = [...attemptEvents].sort((a, b) => {
+          return new Date(b.date).valueOf() - new Date(a.date).valueOf()
+        })
+        return orderedAttemptEvents
+      }
+    },
+    recentAttemptEvents (state, getters): (userId?: string) => AppEvent[] {
+      return userId => {
+        const orderedAttemptEvents: AppEvent[] = getters.orderedAttemptEvents(userId)
+        return orderedAttemptEvents.slice(0, 5)
+      }
+    },
     attemptsByUser (state): (userId: string) => Attempt[] {
       return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []
     },
@@ -178,15 +228,6 @@ export default {
       return (examId, userId?) => {
         const results: ExamResult[] = userId ? getters.resultsByUser(userId) : state.examResults
         return results.some(result => result.exam === examId)
-      }
-    },
-    recentActivities (state, getters): (userId?: string) => Attempt[] {
-      return (userId?) => {
-        const attempts: Attempt[] = userId ? getters.attemptsByUser(userId) : state.attempts
-        const sortedAttempts = [...attempts].sort((a, b) => {
-          return new Date(b.endDate).valueOf() - new Date(a.endDate).valueOf()
-        })
-        return sortedAttempts.slice(0, 5)
       }
     }
   }

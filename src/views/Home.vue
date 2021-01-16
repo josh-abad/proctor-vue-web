@@ -37,12 +37,12 @@
         >
         <div
           class="mt-4 divide-y divide-gray-300 dark:divide-gray-700 rounded overflow-hidden"
-          v-if="user"
         >
           <ActivityRow
-            v-for="attempt of recentActivities"
-            :key="attempt.id"
-            :attempt="attempt"
+            v-for="(event, i) of recentActivities"
+            :key="i"
+            :event="event"
+            :avatarUrl="getAvatarUrl(event.subjectId)"
           />
         </div>
       </div>
@@ -58,7 +58,7 @@ import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import roleMixin from '@/mixins/role'
 import ActivityRow from '@/components/ActivityRow.vue'
-import { Attempt, User } from '@/types'
+import { AppEvent, User } from '@/types'
 
 export default defineComponent({
   name: 'Home',
@@ -76,11 +76,18 @@ export default defineComponent({
     user (): User | null {
       return this.$store.state.user
     },
-    recentActivities (): Attempt[] {
+    recentActivities (): AppEvent[] {
       if (!this.user) {
         return []
       }
-      return this.user.role === 'admin' ? this.$store.getters.recentActivities() : this.$store.getters.recentActivities(this.user.id)
+      return this.user.role === 'admin'
+        ? this.$store.getters.recentAttemptEvents()
+        : this.$store.getters.recentAttemptEvents(this.user.id)
+    }
+  },
+  methods: {
+    getAvatarUrl (userId: string): string | undefined {
+      return this.$store.getters.avatarUrlByUser(userId)
     }
   }
 })
