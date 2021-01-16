@@ -61,7 +61,7 @@
             Students
           </router-link>
         </div>
-        <BasePanel class="rounded-t-none pt-2 overflow-hidden">
+        <BasePanel class="rounded-t-none overflow-hidden">
           <router-view v-slot="{ Component, route }">
             <transition :name="route.meta.transition || 'fade'" mode="out-in">
               <component :is="Component" />

@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <div v-if="course" class="flex flex-col space-y-2">
-      <Week
-        v-for="week in course.weeks"
-        :key="week"
-        :courseId="courseId"
-        :week="week"
-      />
-    </div>
+  <div v-if="course" class="flex flex-col space-y-2">
+    <Week
+      v-for="week in course.weeks"
+      :key="week"
+      :courseId="courseId"
+      :week="week"
+    />
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="flex items-center pt-4 pb-2 border-b border-gray-300 dark:border-gray-700"
+      class="flex items-center border-b border-gray-300 dark:border-gray-700"
     >
       <div
         @click="expanded = !expanded"
@@ -27,7 +27,7 @@
       class="duration-100 ease-in-out transform"
       :class="
         expanded
-          ? 'py-4 opacity-100 translate-y-0'
+          ? 'py-3 opacity-100 translate-y-0'
           : 'py-0 opacity-0 -translate-y-2'
       "
     >

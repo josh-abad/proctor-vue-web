@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4">
+  <div>
     <div class="flex justify-between items-start">
       <BaseInput
         type="text"
@@ -31,16 +31,37 @@
         />
       </teleport>
     </div>
-    <div class="font-semibold text-lg mt-4">
+    <div
+      class="font-semibold text-lg mt-2 border-b border-gray-300 dark:border-gray-700"
+    >
       <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
-      <div v-else>Students Enrolled in Course</div>
+      <div v-else>Students</div>
     </div>
-    <div v-if="students" class="divide-y divide-gray-300 dark:divide-gray-700">
+    <div
+      v-if="students && students.length"
+      class="divide-y divide-gray-300 dark:divide-gray-700"
+    >
       <StudentRow
         :student="student"
         v-for="student in filteredStudents"
         :key="student.id"
       />
+    </div>
+    <div
+      v-else
+      class="flex items-center justify-center w-full py-5 font-semibold text-gray-500"
+    >
+      <!-- Heroicons name: exclamation-circle -->
+      <svg class="fill-current w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+        <path
+          fill-rule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <div class="ml-2 text-lg">
+        There are no students enrolled in this course.
+      </div>
     </div>
   </div>
 </template>

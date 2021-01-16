@@ -1,9 +1,7 @@
 <template>
-  <div :id="`week-${week}`">
-    <Accordion :label="`Week ${week}`">
-      <WeekExam v-for="exam in exams" :key="exam.id" :exam="exam" />
-    </Accordion>
-  </div>
+  <Accordion :label="`Week ${week}`">
+    <WeekExam v-for="exam in exams" :key="exam.id" :exam="exam" />
+  </Accordion>
 </template>
 
 <script lang="ts">
