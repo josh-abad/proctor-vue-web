@@ -30,8 +30,10 @@ export default {
     [SET_EXAM_RESULTS] (state, examResults: ExamResult[]): void {
       state.examResults = examResults
     },
-    [ADD_ATTEMPT] (state, attempt: Attempt): void {
-      state.attempts = state.attempts.concat(attempt)
+    [ADD_ATTEMPT] (state, newAttempt: Attempt): void {
+      if (!state.attempts.some(attempt => attempt.id === newAttempt.id)) {
+        state.attempts = state.attempts.concat(newAttempt)
+      }
     },
     [UPDATE_ATTEMPT] (state, newAttempt: Attempt): void {
       state.attempts = state.attempts.map(attempt => attempt.id === newAttempt.id ? newAttempt : attempt)
