@@ -124,7 +124,7 @@ export default {
         return state.exams
       }
       return state.exams.filter(exam => {
-        rootState.user && rootState.user.courses.some(courseId => courseId === exam.course.id)
+        return rootState.user?.courses.includes(exam.course.id)
       })
     },
     examEvents (state, getters): AppEvent[] {
