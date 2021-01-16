@@ -61,6 +61,7 @@ export interface Answer {
 export interface Submission {
   answers: Answer[];
   examId: string;
+  submittedDate?: Date;
 }
 
 export interface Attempt {

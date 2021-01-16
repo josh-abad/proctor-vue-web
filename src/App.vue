@@ -27,9 +27,9 @@ import Snackbar from './components/Snackbar.vue'
 import NavBar from './components/NavBar.vue'
 import Sidebar from './components/Sidebar.vue'
 import examResultsService from './services/exam-results'
-import { VALIDATE_TOKEN } from './store/action-types'
+import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
 import { ADD_ATTEMPT, SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser } from './types'
+import { Attempt, AuthenticatedUser, Submission } from './types'
 import { io } from 'socket.io-client'
 
 export default defineComponent({
@@ -68,40 +68,48 @@ export default defineComponent({
       localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
     },
     initTheme (): void {
-    const theme = localStorage.getItem('theme')
-    this.$store.commit(SET_THEME, theme)
+      const theme = localStorage.getItem('theme')
+      this.$store.commit(SET_THEME, theme)
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
-    })
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
+      })
     },
     initSidebarState (): void {
-    const sidebarState = localStorage.getItem('sidebarState')
-    if (sidebarState) {
-      this.isOpen = JSON.parse(sidebarState)
-    }
+      const sidebarState = localStorage.getItem('sidebarState')
+      if (sidebarState) {
+        this.isOpen = JSON.parse(sidebarState)
+      }
     },
     async initUser (): Promise<void> {
-    const loggedUserJSON = localStorage.getItem('loggedAppUser')
-    if (loggedUserJSON) {
-      const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
-      this.$store.commit(SET_USER, user)
+      const loggedUserJSON = localStorage.getItem('loggedAppUser')
+      if (loggedUserJSON) {
+        const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
+        this.$store.commit(SET_USER, user)
         await this.$store.dispatch(VALIDATE_TOKEN, user.token)
 
-      const activeExamJSON = localStorage.getItem('activeExam')
-      if (activeExamJSON) {
+        const activeExamJSON = localStorage.getItem('activeExam')
+        if (activeExamJSON) {
           const activeExam: { token: string; attempt: Attempt } = JSON.parse(activeExamJSON)
-        examResultsService.setToken(activeExam.token)
-        this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam.id)
-      }
-    }
+          examResultsService.setToken(activeExam.token)
+          this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam.id)
+        }
+
+        const pendingSubmissionsJSON = localStorage.getItem('pendingSubmission')
+        if (pendingSubmissionsJSON) {
+          const pendingSubmissions: Submission = JSON.parse(pendingSubmissionsJSON)
+          await this.$store.dispatch(SUBMIT_EXAM, pendingSubmissions)
+          this.$store.commit(SET_ACTIVE_EXAM, null)
+          localStorage.removeItem('pendingSubmission')
+          localStorage.removeItem('activeExam')
+        }
       }
     },
     initRecentCourses (): void {
-    const recentCourses = localStorage.getItem('recentCourses')
-    if (recentCourses) {
-      this.$store.commit(SET_RECENT_COURSES, JSON.parse(recentCourses))
-    }
+      const recentCourses = localStorage.getItem('recentCourses')
+      if (recentCourses) {
+        this.$store.commit(SET_RECENT_COURSES, JSON.parse(recentCourses))
+      }
     }
   }
 })
