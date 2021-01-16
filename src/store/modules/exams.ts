@@ -1,4 +1,4 @@
-import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState, User } from '@/types'
+import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState, Submission, User } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, DELETE_EXAM, LOAD_ATTEMPTS, LOAD_EXAMS, LOAD_EXAM_RESULTS, START_ATTEMPT, SUBMIT_EXAM } from '../action-types'
 import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_EXAM, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_EXAMS, SET_EXAM_RESULTS, UPDATE_ATTEMPT } from '../mutation-types'
@@ -101,7 +101,7 @@ export default {
         dispatch(ALERT, 'Attempt could not be started')
       }
     },
-    async [SUBMIT_EXAM] ({ commit }, payload) {
+    async [SUBMIT_EXAM] ({ commit }, payload: Submission) {
       nProgress.start()
       const response = await examResultsService.submit(payload)
       nProgress.done()
