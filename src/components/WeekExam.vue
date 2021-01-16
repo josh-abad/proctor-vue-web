@@ -1,7 +1,20 @@
 <template>
   <div class="text-base font-normal flex items-center">
+    <!-- Heroicon name: lock-closed -->
     <svg
-      v-if="$store.getters.examTaken(exam.id, $store.state.user.id)"
+      v-if="locked"
+      class="fill-current text-gray-400 dark:text-gray-600 w-6 h-6"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+        clip-rule="evenodd"
+      />
+    </svg>
+    <svg
+      v-else-if="$store.getters.examTaken(exam.id, $store.state.user.id)"
       class="stroke-current text-green-500 w-6 h-6"
       viewBox="0 0 24 24"
       stroke-width="2"
@@ -25,6 +38,7 @@
       <path d="M0 0h24v24H0z" stroke="none" />
       <rect x="4" y="4" width="16" height="16" rx="2" />
     </svg>
+
     <router-link
       :to="`/courses/${exam.course.id}/exams/${exam.id}`"
       class="ml-2 text-lg"
@@ -36,12 +50,24 @@
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent } from 'vue'
+import dayjs from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
+dayjs.extend(isBetween)
 
 export default defineComponent({
   name: 'WeekExam',
   props: {
     exam: {
-      type: Object as () => Exam
+      type: Object as () => Exam,
+      required: true
+    }
+  },
+  computed: {
+    locked (): boolean {
+      if (this.exam.startDate && this.exam.endDate) {
+        return !dayjs().isBetween(this.exam.startDate, this.exam.endDate, null, '[)')
+      }
+      return false
     }
   }
 })
