@@ -1,4 +1,4 @@
-import { Attempt, Exam, ExamResult, ExamsState, RootState } from '@/types'
+import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, DELETE_EXAM, LOAD_ATTEMPTS, LOAD_EXAMS, LOAD_EXAM_RESULTS, START_ATTEMPT, SUBMIT_EXAM } from '../action-types'
 import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_EXAM, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_EXAMS, SET_EXAM_RESULTS, UPDATE_ATTEMPT } from '../mutation-types'
@@ -116,6 +116,41 @@ export default {
     },
     examsByCourse (state): (courseId: string) => Exam[] {
       return courseId => state.exams.filter(exam => exam.course.id === courseId)
+    },
+    examsForUser (state, getters, rootState): Exam[] {
+      if (rootState.user && rootState.user.role === 'admin') {
+        return state.exams
+      }
+      return state.exams.filter(exam => {
+        rootState.user && rootState.user.courses.some(courseId => courseId === exam.course.id)
+      })
+    },
+    examEvents (state, getters): AppEvent[] {
+      const examsForUser: Exam[] = getters.examsForUser
+      const events: AppEvent[] = []
+      examsForUser.forEach(exam => {
+        if (exam.startDate && exam.endDate) {
+          const sharedEventInfo = {
+            location: exam.course.name,
+            locationUrl: `/courses/${exam.course.id}`,
+            subject: exam.label,
+            subjectId: exam.id,
+            subjectUrl: `/courses/${exam.course.id}/exams/${exam.id}`
+          }
+          const openEvent: AppEvent = {
+            ...sharedEventInfo,
+            action: 'opens',
+            date: exam.startDate
+          }
+          const closeEvent: AppEvent = {
+            ...sharedEventInfo,
+            action: 'closes',
+            date: exam.endDate
+          }
+          events.push(openEvent, closeEvent)
+        }
+      })
+      return events
     },
     attemptsByUser (state): (userId: string) => Attempt[] {
       return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []

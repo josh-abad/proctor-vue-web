@@ -1,105 +1,103 @@
 <template>
-  <div class="flex mb-4">
-    <div class="p-3 text-gray-500 font-thin">
-      {{ count }}
-    </div>
-    <div class="p-3 flex-grow">
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="question">
-            <BaseLabel>Question</BaseLabel>
-          </label>
-          <button
-            class="focus:outline-none text-gray-500 dark:hover:text-white mb-1"
-            @click="$emit('discard')"
-          >
-            <!-- Heroicon name: minus-sm -->
-            <svg
-              class="fill-current w-5 h-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
-                clip-rule="evenodd"
+  <div class="flex">
+    <div
+      class="flex flex-grow dark:bg-gray-700 dark:bg-opacity-40 rounded-lg shadow overflow-hidden"
+    >
+      <div class="p-1 bg-gradient-to-b from-teal-400 to-teal-600" />
+      <div class="p-4 flex-grow">
+        <div>
+          <div class="flex items-start">
+            <div class="flex-grow">
+              <BaseInput
+                placeholder="Question"
+                class="w-full"
+                :model-value="question"
+                @update:model-value="
+                  (newValue) => $emit('update:question', newValue)
+                "
+                type="text"
               />
-            </svg>
-          </button>
-        </div>
-        <BaseInput
-          id="question"
-          class="w-full"
-          v-model="questionValue"
-          type="text"
-        />
-      </div>
-      <div class="mt-4">
-        <label for="questionType">
-          <BaseLabel>Question Type</BaseLabel>
-        </label>
-        <BaseDropdown
-          id="questionType"
-          v-model="questionTypeValue"
-          :options="questionTypes"
-        />
-      </div>
-      <div class="mt-4" v-if="questionTypeValue === 'text'">
-        <label for="answer">
-          <BaseLabel>Answer</BaseLabel>
-        </label>
-        <BaseInput
-          id="answer"
-          class="w-full"
-          v-model="answerValue[0]"
-          type="text"
-        />
-      </div>
-      <div class="mt-4" v-else>
-        <div
-          v-for="(choice, i) in choicesValue"
-          :key="i"
-          class="flex items-center space-y-2"
-        >
-          <div>
-            <input
-              type="radio"
-              :value="choice"
-              v-model="answerValue[0]"
-              v-if="questionTypeValue === 'multiple choice'"
-            />
-            <input
-              type="checkbox"
-              :value="choice"
-              v-model="answerValue"
-              v-else-if="questionTypeValue === 'multiple answers'"
-            />
-          </div>
-          <div class="ml-2">
-            <BaseInput type="text" v-model="choicesValue[i]" />
+            </div>
+            <div class="ml-2">
+              <QuestionTypeInput
+                :model-value="questionType"
+                @update:model-value="
+                  (newValue) => $emit('update:questionType', newValue)
+                "
+              />
+            </div>
           </div>
         </div>
-        <div class="mt-2">
-          <BaseButton
-            @click="choicesValue.push(`Choice ${choicesValue.length + 1}`)"
-            >Add choice</BaseButton
+        <div class="mt-4"></div>
+        <div class="mt-4" v-if="questionType === 'text'">
+          <BaseInput
+            placeholder="Text answer"
+            class="w-1/2 text-sm"
+            :model-value="answer[0]"
+            @update:model-value="
+              (newValue) => $emit('update:answer', [newValue])
+            "
+            type="text"
+          />
+        </div>
+        <div class="mt-4" v-else>
+          <div
+            v-for="(choice, i) in choices"
+            :key="i"
+            class="flex items-center space-y-2"
           >
+            <div>
+              <input
+                type="radio"
+                :value="choice"
+                :checked="answer[0] === choice"
+                @change="$emit('update:answer', [choice])"
+                v-if="questionType === 'multiple choice'"
+              />
+              <input
+                type="checkbox"
+                :value="choice"
+                :model-value="answer"
+                @change="
+                  (event) => handleRadioChange(event.target.checked, choice)
+                "
+                v-else-if="questionType === 'multiple answers'"
+              />
+            </div>
+            <div class="ml-2">
+              <BaseInput
+                type="text"
+                :model-value="choices[i]"
+                @update:model-value="
+                  (newChoice) => handleUpdateChoices(newChoice, i)
+                "
+                class="text-sm"
+              />
+            </div>
+          </div>
+          <div class="mt-2">
+            <BaseButton @click="$emit('add-choice')">Add choice</BaseButton>
+          </div>
         </div>
       </div>
-      {{ choicesValue }}
     </div>
+    <ExamItemInputSideMenu
+      class="ml-2"
+      @discard="$emit('discard')"
+      @add-question="$emit('add-question', count)"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import BaseButton from './BaseButton.vue'
-import BaseDropdown from './BaseDropdown.vue'
 import BaseInput from './BaseInput.vue'
-import BaseLabel from './BaseLabel.vue'
+import QuestionTypeInput from './QuestionTypeInput.vue'
+import ExamItemInputSideMenu from './ExamItemInputSideMenu.vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseLabel, BaseDropdown, BaseButton },
+  components: { BaseInput, BaseButton, QuestionTypeInput, ExamItemInputSideMenu },
   name: 'ExamItemInput',
   props: {
     question: {
@@ -127,53 +125,30 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['update:question', 'update:answer', 'update:questionType', 'update:choices', 'discard'],
-  data () {
-    return {
-      questionValue: '',
-      answerValue: [] as string[],
-      questionTypeValue: '',
-      choicesValue: [] as string[],
-      questionTypes: [
-        {
-          text: 'Text',
-          value: 'text'
-        },
-        {
-          text: 'Multiple Choice',
-          value: 'multiple choice'
-        },
-        {
-          text: 'Checkbox',
-          value: 'multiple answers'
-        }
-      ]
-    }
-  },
+  emits: ['update:question', 'update:answer', 'update:questionType', 'update:choices', 'discard', 'add-choice', 'add-question'],
   watch: {
-    questionValue (newValue: string): void {
-      this.$emit('update:question', newValue)
-    },
-    answerValue (newValue: string[]): void {
-      this.$emit('update:answer', newValue)
-    },
-    questionTypeValue (newValue: string): void {
-      this.$emit('update:questionType', newValue)
-      if (newValue !== 'multiple answers') {
-        this.answerValue = ['']
+    questionType (newValue: string): void {
+      if (newValue === 'multiple answers') {
+        this.$emit('update:answer', [])
       } else {
-        this.answerValue = []
+        this.$emit('update:answer', [''])
       }
-    },
-    choicesValue (newValue: string[]): void {
-      this.$emit('update:choices', newValue)
     }
   },
-  created () {
-    this.questionValue = this.question
-    this.answerValue = this.answer
-    this.questionTypeValue = this.questionType
-    this.choicesValue = this.choices
+  methods: {
+    handleRadioChange (checked: boolean, choice: string): void {
+      const byIndex = (_value: string, index: number): boolean => {
+        return this.answer.indexOf(choice) !== index
+      }
+
+      this.$emit('update:answer', checked ? [...this.answer, choice] : this.answer.filter(byIndex))
+    },
+    handleUpdateChoices (newChoice: string, oldChoiceIndex: number): void {
+      const toNewChoice = (choice: string, index: number): string => {
+        return index === oldChoiceIndex ? newChoice : choice
+      }
+      this.$emit('update:choices', this.choices.map(toNewChoice))
+    }
   }
 })
 </script>

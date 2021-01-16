@@ -7,109 +7,74 @@
         <BaseLabel emphasis class="text-green-200 dark:text-green-400">{{
           course.name
         }}</BaseLabel>
-        <div class="text-2xl font-bold text-white">New Exam</div>
+        <div
+          class="text-2xl font-bold text-white focus:outline-none"
+          contenteditable
+          @input="examName = $event.target.innerText"
+          v-text="examName"
+        ></div>
       </div>
       <div class="mt-4 flex divide-x divide-gray-300 dark:divide-gray-700">
         <div class="pr-6">
           <label>
-            <BaseLabel>Name</BaseLabel>
-            <BaseInput v-model="examName" type="text" />
-          </label>
-        </div>
-        <div class="px-6">
-          <label>
             <BaseLabel>Duration</BaseLabel>
             <TimePicker v-model.number="examSeconds" />
           </label>
-          <label class="ml-2">
-            <input
-              class="input-number"
-              type="number"
-              id="minutes"
-              min="0"
-              max="59"
-              v-model.number="examMinutes"
-              placeholder="0"
-            />
-            min
-          </label>
         </div>
         <div class="px-6">
-          <label>
+          <label for="attempts">
             <BaseLabel>Attempts</BaseLabel>
+          </label>
           <NumberInput
-              v-model.number="maxAttempts"
+            v-model.number="maxAttempts"
             :min="1"
             :max="5"
             id="attempts"
-            />
-          </label>
+          />
         </div>
-        <div class="pl-6">
-          <label>
+        <div class="px-6">
+          <label for="week">
             <BaseLabel>Week</BaseLabel>
+          </label>
           <NumberInput
-              v-model.number="week"
+            v-model.number="week"
             :min="1"
             :max="course.weeks"
             id="week"
-            />
+          />
+        </div>
+        <div class="px-6">
+          <label for="startDate">
+            <BaseLabel>Start Date</BaseLabel>
           </label>
+          <DatePicker id="startDate" v-model="startDate" />
+        </div>
+        <div class="pl-6">
+          <label for="endDate">
+            <BaseLabel>End Date</BaseLabel>
+          </label>
+          <DatePicker id="endDate" v-model="endDate" />
         </div>
       </div>
       <div class="mt-4">
-        <div class="border-b border-gray-300 dark:border-gray-700">
-          <BaseLabel>Exam Items</BaseLabel>
+        <div>
+          <ExamItemInput
+            v-model:question="examItem.question"
+            v-model:answer="examItem.answer"
+            v-model:question-type="examItem.questionType"
+            v-model:choices="examItem.choices"
+            v-for="(examItem, i) in examItems"
+            :count="i + 1"
+            :key="i"
+            @discard="removeExamItem(i)"
+            @add-choice="
+              examItem.choices.push(`Choice ${examItem.choices.length + 1}`)
+            "
+            @add-question="addExamItem(i + 1)"
+            class="flex mb-4"
+          />
         </div>
-        <div class="divide-y divide-gray-300 dark:divide-gray-700">
-          <div v-for="(examItem, i) in examItems" :key="i" class="flex mb-4">
-            <div class="p-3 text-gray-500 font-thin">
-              {{ i + 1 }}
-            </div>
-            <div class="p-3 flex-grow">
-              <div>
-                <div class="flex items-center justify-between">
-                  <label for="question">
-                    <BaseLabel>Question</BaseLabel>
-                  </label>
-                  <button
-                    class="focus:outline-none text-gray-500 dark:hover:text-white mb-1"
-                    @click="removeExamItem(i)"
-                  >
-                    <!-- Heroicon name: minus-sm -->
-                    <svg
-                      class="fill-current w-5 h-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <BaseInput
-                  id="question"
-                  class="w-full"
-                  v-model="examItem.question"
-                  type="text"
-                />
-              </div>
-              <div class="mt-4">
-                <label>
-                  <BaseLabel>Answer</BaseLabel>
-                  <BaseInput
-                    class="w-full"
-                    v-model="examItem.answer"
-                    type="text"
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+        {{ examItems }}
         <div class="flex justify-between">
           <div>
             <BaseButton @click="addExamItem">Add Exam Item</BaseButton>
@@ -125,20 +90,21 @@
 
 <script lang="ts">
 import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import DatePicker from '@/components/DatePicker.vue'
+import ExamItemInput from '@/components/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
 import { ADD_EXAM } from '@/store/mutation-types'
-import { Course, ExamItem, NewExam } from '@/types'
+import { Course, ExamItem, NewExam, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ExamCreationPage',
-  components: { BaseInput, BaseButton, BasePanel, BaseLabel, TimePicker, NumberInput },
+  components: { BaseButton, BasePanel, BaseLabel, TimePicker, NumberInput, ExamItemInput, DatePicker },
   props: {
     courseId: {
       type: String,
@@ -147,16 +113,19 @@ export default defineComponent({
   },
   data () {
     return {
-      examName: '',
+      examName: 'New Exam',
       examSeconds: 3600,
       maxAttempts: 3,
       week: 1,
-      examItems: [
-        {
-          question: '',
-          answer: ''
-        }
-      ]
+      startDate: '',
+      endDate: '',
+      examItems: [{
+        question: '',
+        answer: [''],
+        choices: [],
+        questionType: 'text' as QuestionType
+      }] as ExamItem[],
+      openCalendar: false
     }
   },
   computed: {
@@ -165,42 +134,18 @@ export default defineComponent({
     }
   },
   methods: {
-    /**
-     * Determines question type based on how answer is formatted.
-     * Multiple choices are delimited by commas and answers are denoted by an asterisk at the beginning.
-     * For example, 'foo' is a text type question since there are no delimiters.
-     * Whereas 'foo,*bar,baz' is a multiple choice, and '*foo,*bar,baz' has multiple answers.
-     * @param answer the answer to parse
-     */
-    parseAnswer (question: string, answerValue: string): ExamItem {
-      const unparsedChoices = answerValue.split(',')
-
-      if (unparsedChoices.length === 1) {
-        return {
-          question,
-          questionType: 'text',
-          answer: unparsedChoices,
-          choices: []
-        }
-      }
-
-      const answer = unparsedChoices.filter(this.correctAnswer).map(choice => choice.substring(1))
-      const choices = unparsedChoices.map(choice => this.correctAnswer(choice) ? choice.substring(1) : choice)
-      return {
-        answer,
-        choices,
-        question,
-        questionType: answer.length === 1 ? 'multiple choice' : 'multiple answers'
-      }
-    },
-    correctAnswer (choice: string): boolean {
-      return choice.charAt(0) === '*'
-    },
-    addExamItem (): void {
-      this.examItems.push({
+    addExamItem (i?: number): void {
+      const newExamItem: ExamItem = {
         question: '',
-        answer: ''
-      })
+        answer: [''],
+        choices: [],
+        questionType: 'text'
+      }
+      if (i) {
+        this.examItems.splice(i, 0, newExamItem)
+      } else {
+        this.examItems.push(newExamItem)
+      }
     },
     removeExamItem (index: number): void {
       this.examItems = this.examItems.filter((item, i) => i !== index)
@@ -214,8 +159,10 @@ export default defineComponent({
           duration: this.examSeconds,
           courseId: this.courseId,
           maxAttempts: this.maxAttempts,
-          examItems: this.examItems.map(examItem => this.parseAnswer(examItem.question, examItem.answer)),
-          week: this.week
+          examItems: this.examItems,
+          week: this.week,
+          startDate: new Date(this.startDate),
+          endDate: new Date(this.endDate)
         }
         const createdExam = await examsService.create(newExam)
         this.$store.commit(ADD_EXAM, createdExam)

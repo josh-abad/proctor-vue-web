@@ -44,6 +44,8 @@ export interface Exam {
   course: Course;
   maxAttempts: number;
   week: number;
+  startDate: Date;
+  endDate: Date;
   id: string;
 }
 
@@ -104,6 +106,18 @@ export interface Link {
 export interface Option {
   text: string;
   value: string;
+}
+
+export interface AppEvent {
+  subject: string;
+  subjectUrl: string;
+  subjectId: string;
+  predicate?: string;
+  predicateUrl?: string;
+  action: string;
+  location: string;
+  locationUrl: string;
+  date: Date;
 }
 
 export type Theme = 'dark' | 'light' | null

@@ -172,6 +172,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/UserPage.vue')
   },
   {
+    path: '/calendar',
+    name: 'Calendar',
+    meta: {
+      title: createTitle('Calendar'),
+      authorize: [] as Role[]
+    },
+    component: () => import('../views/CalendarPage.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     meta: {
