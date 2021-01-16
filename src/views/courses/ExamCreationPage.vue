@@ -74,7 +74,6 @@
             class="flex mb-4"
           />
         </div>
-        {{ examItems }}
         <div class="flex justify-between">
           <div>
             <BaseButton @click="addExamItem">Add Exam Item</BaseButton>
