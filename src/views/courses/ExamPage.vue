@@ -131,9 +131,9 @@ export default defineComponent({
   },
   mounted () {
     if (this.exam) {
-    document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
-    this.hasToken = examResultsServices.hasToken()
-      }
+      document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
+      this.hasToken = examResultsServices.hasToken()
+    }
   },
   unmount () {
     window.removeEventListener('beforeunload', this.promptBeforeLeaving)
@@ -145,6 +145,7 @@ export default defineComponent({
   },
   methods: {
     handleAnswerChange ({ question, answer }: Answer): void {
+      // FIXME: duplicate questions don't get counted
       if (this.answers.some((a: Answer) => a.question === question)) {
         const index = this.answers.findIndex(a => a.question === question)
         this.answers[index] = { question, answer }

@@ -3,8 +3,7 @@
     <BasePanel>
       <div class="flex items-center">
         <svg
-          class="fill-current w-8 h-8"
-          xmlns="http://www.w3.org/2000/svg"
+          class="fill-current w-6 h-6"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -14,33 +13,35 @@
             clip-rule="evenodd"
           />
         </svg>
-        <div class="ml-2 font-bold text-3xl">Settings</div>
+        <div class="ml-2 font-semibold text-2xl">Settings</div>
       </div>
-      <div class="mt-8">
-        <h1
-          class="uppercase font-semibold tracking-wide text-xs dark:text-gray-400"
-        >
-          Appearance
-        </h1>
-        <div>
-          <ToggleButton
-            v-model="automatic"
-            label="Automatic (follows system settings)"
-          />
-        </div>
-        <div>
-          <ToggleButton
-            v-model="darkMode"
-            label="Dark Mode"
-            :disabled="automatic"
-          />
-        </div>
+      <div class="mt-4">
+        <Accordion label="User">
+          <BaseButton>Change Password</BaseButton>
+        </Accordion>
+        <Accordion label="Appearance" class="mt-2">
+          <div>
+            <ToggleButton
+              v-model="automatic"
+              label="Automatic (follows system settings)"
+            />
+          </div>
+          <div>
+            <ToggleButton
+              v-model="darkMode"
+              label="Dark Mode"
+              :disabled="automatic"
+            />
+          </div>
+        </Accordion>
       </div>
     </BasePanel>
   </div>
 </template>
 
 <script lang="ts">
+import Accordion from '@/components/Accordion.vue'
+import BaseButton from '@/components/BaseButton.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import ToggleButton from '@/components/ToggleButton.vue'
 import { SET_THEME } from '@/store/mutation-types'
@@ -49,7 +50,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { ToggleButton, BasePanel },
+  components: { ToggleButton, BasePanel, Accordion, BaseButton },
   data () {
     return {
       automatic: false,

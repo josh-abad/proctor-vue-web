@@ -22,9 +22,9 @@
           </div>
         </div>
         <div class="flex divide-x divide-green-700 mt-3">
-          <UserPageStat :count="user.courses.length" class="px-3"
-            >Courses</UserPageStat
-          >
+          <UserPageStat :count="user.courses.length" class="px-3">{{
+            user.courses.length !== 1 ? "Courses" : "Course"
+          }}</UserPageStat>
           <UserPageStat :count="completedCourses" class="px-3"
             >Completed</UserPageStat
           >
