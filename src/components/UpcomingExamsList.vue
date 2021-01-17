@@ -16,7 +16,6 @@
             :examEvent="examEvent"
             v-for="(examEvent, i) in events.slice(0, 5)"
             :key="i"
-            :priority="i"
           />
         </div>
       </Accordion>
