@@ -1,7 +1,7 @@
 import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState, Submission, User } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, DELETE_EXAM, LOAD_ATTEMPTS, LOAD_EXAMS, LOAD_EXAM_RESULTS, START_ATTEMPT, SUBMIT_EXAM } from '../action-types'
-import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_EXAM, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_EXAMS, SET_EXAM_RESULTS, UPDATE_ATTEMPT } from '../mutation-types'
+import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_ATTEMPTS_BY_EXAM, REMOVE_EXAM, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_EXAMS, SET_EXAM_RESULTS, REMOVE_EXAM_RESULTS_BY_EXAM, UPDATE_ATTEMPT } from '../mutation-types'
 import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
@@ -40,8 +40,14 @@ export default {
     [UPDATE_ATTEMPT] (state, newAttempt: Attempt): void {
       state.attempts = state.attempts.map(attempt => attempt.id === newAttempt.id ? newAttempt : attempt)
     },
+    [REMOVE_ATTEMPTS_BY_EXAM] (state, examId: string): void {
+      state.attempts = state.attempts.filter(attempt => attempt.exam?.id !== examId)
+    },
     [ADD_EXAM_RESULT] (state, examResult: ExamResult): void {
       state.examResults = state.examResults.concat(examResult)
+    },
+    [REMOVE_EXAM_RESULTS_BY_EXAM] (state, examId: string): void {
+      state.examResults = state.examResults.filter(result => result.exam !== examId)
     },
     [SET_ACTIVE_EXAM] (state, examId: string): void {
       state.activeExam = examId
@@ -61,6 +67,8 @@ export default {
         await examsService.deleteExam(examId)
         nProgress.done()
         commit(REMOVE_EXAM, examId)
+        commit(REMOVE_ATTEMPTS_BY_EXAM, examId)
+        commit(REMOVE_EXAM_RESULTS_BY_EXAM, examId)
         dispatch(ALERT, 'Exam successfully deleted')
       } catch (error) {
         nProgress.done()
