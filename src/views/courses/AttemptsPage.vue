@@ -49,7 +49,11 @@
           >
             {{ attemptsByExam.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </ModalButton>
-          <BaseButton @click="$router.push(`/courses/${courseId}`)" prominent>
+          <BaseButton
+            v-if="locked !== 0"
+            @click="$router.push(`/courses/${courseId}`)"
+            prominent
+          >
             Back to the Course
           </BaseButton>
           <ModalButton
