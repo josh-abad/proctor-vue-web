@@ -50,12 +50,11 @@
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent } from 'vue'
-import dayjs from 'dayjs'
-import isBetween from 'dayjs/plugin/isBetween'
-dayjs.extend(isBetween)
+import examMixin from '@/mixins/exam'
 
 export default defineComponent({
   name: 'WeekExam',
+  mixins: [examMixin],
   props: {
     exam: {
       type: Object as () => Exam,
@@ -64,10 +63,7 @@ export default defineComponent({
   },
   computed: {
     locked (): boolean {
-      if (this.exam.startDate && this.exam.endDate) {
-        return !dayjs().isBetween(this.exam.startDate, this.exam.endDate, null, '[)')
-      }
-      return false
+      return this.examLocked(this.exam)
     }
   }
 })

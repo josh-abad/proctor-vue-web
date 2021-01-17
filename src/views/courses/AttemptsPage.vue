@@ -12,7 +12,12 @@
           </div>
           <div v-show="attemptsLeft > 0">The quiz will end {{ duration }}.</div>
         </div>
-        <div v-if="attemptsByExam.length > 0" class="mt-4">
+        <div v-if="locked">
+          <div>
+            The exam will not be available until {{ formattedDate }} from now.
+          </div>
+        </div>
+        <div v-else-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
           <div
             class="rounded-xl overflow-hidden mt-2 divide-y divide-gray-300 dark:divide-gray-700"
@@ -33,7 +38,7 @@
         <div v-else>You have made no attempts so far.</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
           <ModalButton
-            v-if="attemptsLeft > 0"
+            v-if="!locked && attemptsLeft > 0"
             header="Attempt Quiz"
             message="Are you sure you want to start the quiz?"
             action-label="Start Quiz"
@@ -42,8 +47,11 @@
           >
             {{ attemptsByExam.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </ModalButton>
+          <BaseButton @click="$router.push(`/courses/${courseId}`)" prominent>
+            Back to the Course
+          </BaseButton>
           <ModalButton
-            v-show="hasPermission(['coordinator', 'admin'])"
+            v-if="hasPermission(['coordinator', 'admin'])"
             header="Delete Quiz"
             message="Are you sure you want to delete this quiz?"
             action-label="Delete"
@@ -67,16 +75,21 @@ import { ALERT, DELETE_EXAM } from '@/store/action-types'
 import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
+import examMixin from '@/mixins/exam'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import BaseButton from '@/components/BaseButton.vue'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
-  components: { AttemptRow, BasePanel, BaseLabel, ColorHeader, ModalButton },
-  mixins: [userMixin],
+  components: { AttemptRow, BasePanel, BaseLabel, ColorHeader, ModalButton, BaseButton },
+  mixins: [userMixin, examMixin],
   props: {
     courseId: {
       type: String,
@@ -112,6 +125,9 @@ export default defineComponent({
     exam (): Exam | undefined {
       return this.$store.getters.examByID(this.examId)
     },
+    locked (): boolean {
+      return !!this.exam && this.examLocked(this.exam)
+    },
     attemptsByUser (): Attempt[] {
       return this.$store.getters.attemptsByUser(this.$store.state.user.id)
     },
@@ -129,6 +145,9 @@ export default defineComponent({
     },
     duration (): string {
       return this.exam ? dayjs.duration({ seconds: this.exam.duration }).humanize(true) : ''
+    },
+    formattedDate (): string {
+      return this.exam ? dayjs(this.exam.startDate).fromNow(true) : ''
     }
   },
   methods: {
