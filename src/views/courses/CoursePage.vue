@@ -76,7 +76,8 @@
           :coordinator-name="course.coordinator.fullName"
           :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
-        <CoursePageProgress :courseId="courseId" />
+        <CoursePageUpcomingExams class="mt-4" :courseName="course.name" />
+        <CoursePageProgress class="mt-4" :courseId="courseId" />
       </div>
     </div>
   </div>
@@ -105,10 +106,11 @@ import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
+import CoursePageUpcomingExams from '@/components/CoursePageUpcomingExams.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress },
+  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress, CoursePageUpcomingExams },
   mixins: [userMixin],
   props: {
     courseId: {

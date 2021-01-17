@@ -224,6 +224,10 @@ export default {
         })
         .sort(eventDate).reverse()
     },
+    upcomingExamsByCourse (state, getters): (courseName: string) => AppEvent[] {
+      return courseName => {
+        return (getters.upcomingExams as AppEvent[]).filter(event => event.location === courseName)
+      }
     },
     attemptsByUser (state): (userId: string) => Attempt[] {
       return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []

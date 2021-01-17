@@ -1,5 +1,5 @@
 <template>
-  <BasePanel>
+  <BasePanel class="px-4 py-5">
     <BaseLabel emphasis>About course</BaseLabel>
     <div class="text-sm">
       {{ description }}
