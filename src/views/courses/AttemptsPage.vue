@@ -12,10 +12,12 @@
           </div>
           <div v-show="attemptsLeft > 0">The quiz will end {{ duration }}.</div>
         </div>
-        <div v-if="locked">
-          <div>
-            The exam will not be available until {{ formattedDate }} from now.
+        <div v-if="locked !== 0">
+          <div v-if="locked === -1">
+            The exam will not be available until {{ formattedStartDate }} from
+            now.
           </div>
+          <div v-else>The exam was closed {{ formattedEndDate }} ago.</div>
         </div>
         <div v-else-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
@@ -38,7 +40,7 @@
         <div v-else>You have made no attempts so far.</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
           <ModalButton
-            v-if="!locked && attemptsLeft > 0"
+            v-if="locked === 0 && attemptsLeft > 0"
             header="Attempt Quiz"
             message="Are you sure you want to start the quiz?"
             action-label="Start Quiz"
@@ -125,8 +127,8 @@ export default defineComponent({
     exam (): Exam | undefined {
       return this.$store.getters.examByID(this.examId)
     },
-    locked (): boolean {
-      return !!this.exam && this.examLocked(this.exam)
+    locked (): number {
+      return this.exam ? this.examLocked(this.exam) : 0
     },
     attemptsByUser (): Attempt[] {
       return this.$store.getters.attemptsByUser(this.$store.state.user.id)
@@ -146,8 +148,11 @@ export default defineComponent({
     duration (): string {
       return this.exam ? dayjs.duration({ seconds: this.exam.duration }).humanize(true) : ''
     },
-    formattedDate (): string {
+    formattedStartDate (): string {
       return this.exam ? dayjs(this.exam.startDate).fromNow(true) : ''
+    },
+    formattedEndDate (): string {
+      return this.exam ? dayjs(this.exam.endDate).toNow(true) : ''
     }
   },
   methods: {

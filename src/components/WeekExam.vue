@@ -63,7 +63,7 @@ export default defineComponent({
   },
   computed: {
     locked (): boolean {
-      return this.examLocked(this.exam)
+      return this.examLocked(this.exam) !== 0
     }
   }
 })
