@@ -215,7 +215,15 @@ export default {
     upcomingExams (state, getters): AppEvent[] {
       const examEvents: AppEvent[] = getters.examEvents
       const today = dayjs()
-      return examEvents.filter(event => dayjs(event.date).isAfter(today)).sort(eventDate).reverse()
+      return examEvents
+        .filter(event => dayjs(event.date).isAfter(today))
+        .filter((event, i, self) => {
+          return event.action === 'closes'
+            ? !self.some(e => e.subjectId === event.subjectId && e.action === 'opens')
+            : true
+        })
+        .sort(eventDate).reverse()
+    },
     },
     attemptsByUser (state): (userId: string) => Attempt[] {
       return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []
