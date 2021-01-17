@@ -64,13 +64,13 @@ import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
-import roleMixin from '@/mixins/role'
+import userMixin from '@/mixins/user'
 import DialogModal from '@/components/DialogModal.vue'
 
 export default defineComponent({
   name: 'ExamPage',
   components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton, DialogModal },
-  mixins: [roleMixin],
+  mixins: [userMixin],
   props: {
     courseId: {
       type: String,

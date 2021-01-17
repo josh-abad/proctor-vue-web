@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="filteredEvents.length">
     <BaseLabel
       class="pb-2 border-b border-gray-300 dark:border-gray-700"
       emphasis
@@ -48,9 +48,6 @@ export default defineComponent({
         }
         return true
       })
-    },
-    courses (): string[] {
-      return [...new Set(this.filteredEvents.map(event => event.location))].sort()
     },
     eventsByCourse (): AppEvent[][] {
       const map = new Map(Array.from(this.filteredEvents, event => [event.location, [] as AppEvent[]]))

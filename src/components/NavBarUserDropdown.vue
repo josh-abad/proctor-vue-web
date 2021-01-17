@@ -96,19 +96,15 @@
 
 <script lang="ts">
 import { LOG_OUT } from '@/store/action-types'
-import { AuthenticatedUser } from '@/types'
 import { defineComponent } from 'vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'NavBarUserDropdown',
+  mixins: [userMixin],
   data () {
     return {
       isOpen: false
-    }
-  },
-  computed: {
-    user (): AuthenticatedUser {
-      return this.$store.state.user
     }
   },
   methods: {

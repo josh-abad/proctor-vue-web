@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="recentCourses.length">
     <BaseLabel
       class="pb-2 border-b border-gray-300 dark:border-gray-700"
       emphasis

@@ -1,11 +1,8 @@
 <template>
-  <div
-    class="px-2 py-1 text-gray-700 dark:text-gray-300"
-    :class="priorityOpacity"
-  >
+  <div class="py-1 text-gray-700 dark:text-gray-300" :class="priorityOpacity">
     <div class="flex justify-between">
       <div class="flex items-center space-x-1">
-        <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+        <svg class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
           <!-- Heroicon name: lock-open -->
           <path
             class="text-green-500"
@@ -25,7 +22,7 @@
         </svg>
         <router-link
           :to="examEvent.subjectUrl"
-          class="ml-2 font-semibold text-gray-900 dark:text-white"
+          class="font-semibold text-gray-900 dark:text-white"
           :class="priorityOpacity"
           >{{ examEvent.subject }}</router-link
         >
@@ -79,11 +76,9 @@ export default defineComponent({
       return dayjs(this.examEvent.date).format('MMMM DD, YYYY')
     },
     priorityOpacity (): string {
-      return `text-opacity-${OPACITY[this.priority]} dark:text-opacity-${OPACITY[this.priority]}`
+      const className = `text-opacity-${OPACITY[this.priority]}`
+      return `${className} dark:${className}`
     }
-  },
-  mounted () {
-    console.log(this.priorityOpacity)
   }
 })
 </script>

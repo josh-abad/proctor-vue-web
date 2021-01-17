@@ -104,12 +104,12 @@ import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
-import roleMixin from '@/mixins/role'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'CoursePage',
   components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress },
-  mixins: [roleMixin],
+  mixins: [userMixin],
   props: {
     courseId: {
       type: String,

@@ -111,12 +111,12 @@ import SkeletonCourseListItem from '@/components/SkeletonCourseListItem.vue'
 import ViewToggle from '@/components/ViewToggle.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import roleMixin from '@/mixins/role'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'CoursesPage',
   components: { CoursesPageCard, BasePanel, ColorHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle },
-  mixins: [roleMixin],
+  mixins: [userMixin],
   data () {
     return {
       isOpen: false,

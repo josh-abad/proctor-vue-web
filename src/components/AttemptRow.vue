@@ -37,12 +37,12 @@ import { Attempt } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import roleMixin from '@/mixins/role'
+import userMixin from '@/mixins/user'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptRow',
-  mixins: [roleMixin],
+  mixins: [userMixin],
   props: {
     attempt: {
       type: Object as () => Attempt,

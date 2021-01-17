@@ -70,13 +70,13 @@ import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import ModalButton from '@/components/ModalButton.vue'
-import roleMixin from '@/mixins/role'
+import userMixin from '@/mixins/user'
 dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
   components: { AttemptRow, BasePanel, BaseLabel, ColorHeader, ModalButton },
-  mixins: [roleMixin],
+  mixins: [userMixin],
   props: {
     courseId: {
       type: String,

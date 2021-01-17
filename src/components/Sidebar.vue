@@ -26,11 +26,11 @@
 <script lang="ts">
 import { Role } from '@/types'
 import { defineComponent } from 'vue'
-import roleMixin from '@/mixins/role'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'Sidebar',
-  mixins: [roleMixin],
+  mixins: [userMixin],
   props: {
     isOpen: Boolean
   },
