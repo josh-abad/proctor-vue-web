@@ -23,7 +23,8 @@ module.exports = {
       backgroundOpacity: ['dark'],
       outline: ['focus'],
       opacity: ['disabled'],
-      scale: ['active']
+      scale: ['active'],
+      textOpacity: ['dark']
     }
   },
   plugins: [
