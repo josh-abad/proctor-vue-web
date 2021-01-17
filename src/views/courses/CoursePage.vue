@@ -146,9 +146,11 @@ export default defineComponent({
   created () {
     this.$watch(
       () => this.$route.params,
-      (toParams: { courseId: string }) => {
-        const course: Course | undefined = this.$store.getters.courseByID(toParams.courseId)
-        document.title = course ? `${course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+      (toParams: { courseId?: string }) => {
+        if (toParams.courseId) {
+          const course: Course | undefined = this.$store.getters.courseByID(toParams.courseId)
+          document.title = course ? `${course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+        }
       }
     )
   },
