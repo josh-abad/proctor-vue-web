@@ -1,6 +1,7 @@
+import { backendUrl } from '@/constants'
 import { AuthenticatedUser, UserCredentials } from '@/types'
 import axios from 'axios'
-const baseUrl = '/api/login'
+const baseUrl = `${backendUrl}/api/login`
 
 /**
  * Attempts to log in to the app with the specified credentials
