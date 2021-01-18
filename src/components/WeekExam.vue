@@ -2,7 +2,7 @@
   <div class="text-base font-normal flex items-center">
     <!-- Heroicon name: lock-closed -->
     <svg
-      v-if="$store.getters.examTaken(exam.id, $store.state.user.id)"
+      v-if="taken"
       class="stroke-current text-green-500 w-6 h-6"
       viewBox="0 0 24 24"
       stroke-width="2"
@@ -43,7 +43,7 @@
       :to="`/courses/${exam.course.id}/exams/${exam.id}`"
       class="ml-2 text-lg"
       :class="{
-        'text-gray-500 pointer-events-none': locked,
+        'text-gray-500 pointer-events-none': locked && !taken,
       }"
       >{{ exam.label }}</router-link
     >
@@ -67,6 +67,9 @@ export default defineComponent({
   computed: {
     locked (): boolean {
       return this.examLocked(this.exam) !== 0
+    },
+    taken (): boolean {
+      return this.$store.getters.examTaken(this.exam.id, this.$store.state.user.id)
     }
   }
 })
