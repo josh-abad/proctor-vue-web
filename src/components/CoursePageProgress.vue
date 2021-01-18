@@ -1,5 +1,5 @@
 <template>
-  <BasePanel class="mt-4">
+  <BasePanel class="px-3 py-4">
     <BaseLabel emphasis>Course Progress</BaseLabel>
     <ProgressBar class="mt-2" :percentage="percentage" />
   </BasePanel>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="filteredEvents.length">
+  <div v-if="upcomingExams.length">
     <BaseLabel
       class="pb-2 border-b border-gray-300 dark:border-gray-700"
       emphasis
@@ -16,7 +16,6 @@
             :examEvent="examEvent"
             v-for="(examEvent, i) in events.slice(0, 5)"
             :key="i"
-            :priority="i"
           />
         </div>
       </Accordion>
@@ -38,20 +37,9 @@ export default defineComponent({
     upcomingExams (): AppEvent[] {
       return this.$store.getters.upcomingExams
     },
-    /**
-     * Only show when an exam is closing when it is already active
-     */
-    filteredEvents (): AppEvent[] {
-      return this.upcomingExams.filter(examEvent => {
-        if (examEvent.action === 'closes') {
-          return !this.upcomingExams.some(event => event.subjectId === examEvent.subjectId && event.action === 'opens')
-        }
-        return true
-      })
-    },
     eventsByCourse (): AppEvent[][] {
-      const map = new Map(Array.from(this.filteredEvents, event => [event.location, [] as AppEvent[]]))
-      this.filteredEvents.forEach(event => map.get(event.location)?.push(event))
+      const map = new Map(Array.from(this.upcomingExams, event => [event.location, [] as AppEvent[]]))
+      this.upcomingExams.forEach(event => map.get(event.location)?.push(event))
       return Array.from(map.values())
     }
   }
