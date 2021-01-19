@@ -19,7 +19,12 @@
           />
         </svg>
       </div>
-      <BaseLabel class="ml-2 mb-0" emphasis>{{ label }}</BaseLabel>
+      <BaseLabel
+        class="ml-2 mb-0 cursor-pointer"
+        emphasis
+        @click="expanded = !expanded"
+        >{{ label }}</BaseLabel
+      >
     </div>
     <div
       class="duration-100 ease-in-out transform"
