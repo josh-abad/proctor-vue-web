@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-xs text-gray-600 dark:text-gray-400 font-semibold mb-1"
+    class="text-xs text-gray-400 font-semibold mb-1"
     :class="emphasis ? 'uppercase tracking-wider' : 'capitalize'"
   >
     <slot></slot>

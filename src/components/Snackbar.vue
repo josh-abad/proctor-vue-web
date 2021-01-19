@@ -1,9 +1,9 @@
 <template>
   <div
-    class="transform ease-in-out overflow-x-hidden overflow-auto transition-all duration-300 fixed flex items-center bottom-0 right-0 px-5 py-4 mr-10 mb-10 bg-gray-200 dark:bg-gray-800 rounded-lg shadow"
+    class="transform ease-in-out overflow-x-hidden overflow-auto transition-all duration-300 fixed flex items-center bottom-0 right-0 px-5 py-4 mr-10 mb-10 bg-gray-800 rounded-lg shadow"
     :class="message ? 'translate-y-0' : 'translate-x-52'"
   >
-    <div class="mr-12 text-gray-900 dark:text-white">
+    <div class="mr-12 text-white">
       {{ message }}
     </div>
     <button @click="dismiss" class="focus:outline-none" :disabled="!message">

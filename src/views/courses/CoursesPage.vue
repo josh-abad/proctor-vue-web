@@ -11,7 +11,7 @@
     >
     <transition name="dropdown-fade" v-show="isOpen">
       <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
+        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-gray-800 text-white border border-gray-700"
       >
         <div
           class="py-1"
@@ -21,16 +21,16 @@
         >
           <router-link
             to="/courses/new"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="block px-4 py-2 text-sm hover:bg-gray-700"
             role="menuitem"
             >Create Course</router-link
           >
         </div>
       </div>
     </transition>
-    <BasePanel class="mt-4 mb-0">
+    <BasePanel class="mt-4 mb-0 mx-4">
       <div
-        class="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 -mb-3 pb-2"
+        class="flex justify-between items-center border-b border-gray-700 -mb-3 pb-2"
       >
         <div class="text-lg font-bold">Your Courses</div>
         <div class="flex items-center" v-if="courses.length">
@@ -82,17 +82,14 @@
         </div>
         <div v-else>
           <div>
-            <div
-              v-if="loaded"
-              class="divide-y divide-gray-300 dark:divide-gray-700"
-            >
+            <div v-if="loaded" class="divide-y divide-gray-700">
               <CoursesPageListItem
                 :course="course"
                 :key="course.id"
                 v-for="course in courses"
               />
             </div>
-            <div v-else class="divide-y divide-gray-300 dark:divide-gray-700">
+            <div v-else class="divide-y divide-gray-700">
               <SkeletonCourseListItem v-for="i in 10" :key="i" />
             </div>
           </div>

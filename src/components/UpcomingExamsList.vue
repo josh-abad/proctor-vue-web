@@ -1,8 +1,6 @@
 <template>
   <div v-if="upcomingExams.length">
-    <BaseLabel
-      class="pb-2 border-b border-gray-300 dark:border-gray-700"
-      emphasis
+    <BaseLabel class="pb-2 border-b border-gray-700" emphasis
       >Upcoming Exams</BaseLabel
     >
     <div class="mt-4 space-y-1">
@@ -11,7 +9,7 @@
         v-for="(events, i) in eventsByCourse"
         :key="i"
       >
-        <div class="rounded-lg divide-gray-300 dark:divide-gray-700">
+        <div class="rounded-lg divide-gray-700">
           <UpcomingExamsListItem
             :examEvent="examEvent"
             v-for="(examEvent, i) in events.slice(0, 5)"

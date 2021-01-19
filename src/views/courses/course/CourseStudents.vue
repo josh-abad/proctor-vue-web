@@ -12,7 +12,7 @@
           class="flex flex-col items-center focus:outline-none"
         >
           <svg
-            class="fill-current w-10 h-10 text-gray-900 dark:text-white bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 rounded-full p-2"
+            class="fill-current w-10 h-10 text-white bg-gray-700 hover:bg-gray-600 rounded-full p-2"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -31,16 +31,11 @@
         />
       </teleport>
     </div>
-    <div
-      class="font-semibold text-lg mt-2 border-b border-gray-300 dark:border-gray-700"
-    >
+    <div class="font-semibold text-lg mt-2 border-b border-gray-700">
       <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
       <div v-else>Students</div>
     </div>
-    <div
-      v-if="students && students.length"
-      class="divide-y divide-gray-300 dark:divide-gray-700"
-    >
+    <div v-if="students && students.length" class="divide-y divide-gray-700">
       <StudentRow
         :student="student"
         v-for="student in filteredStudents"

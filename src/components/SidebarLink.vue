@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="url"
-    class="text-gray-500 dark:text-gray-400 hover:text-green-500 dark:hover:text-white border-l-2 border-gray-100 dark:border-gray-800"
+    class="text-gray-400 hover:text-white border-l-2 border-gray-800 border-opacity-0"
     v-slot="{ isActive }"
   >
     <div class="flex items-center px-6 py-2 my-1">
@@ -37,6 +37,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .router-link-active {
-  @apply bg-gray-300 dark:bg-gray-700 bg-opacity-40 dark:bg-opacity-40 font-semibold text-green-500 dark:text-white border-green-500 dark:border-green-500;
+  @apply bg-gray-700 bg-opacity-30 font-semibold text-white border-green-500;
 }
 </style>

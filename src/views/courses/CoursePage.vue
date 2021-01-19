@@ -8,7 +8,7 @@
     >
     <transition name="dropdown-fade" v-show="menuOpen">
       <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
+        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-gray-800 text-white border border-gray-700"
       >
         <div
           class="py-1"
@@ -30,7 +30,7 @@
           >
           <button
             @click="deleteModalOpen = true"
-            class="link w-full text-left border-t dark:border-gray-700 focus:outline-none"
+            class="link w-full text-left border-t border-gray-700 focus:outline-none"
             role="menuitem"
           >
             Delete Course
@@ -49,10 +49,10 @@
         </div>
       </div>
     </transition>
-    <div class="flex mt-4">
+    <div class="flex m-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-gray-800 rounded-t-lg shadow border-b border-gray-300 dark:border-gray-700"
+          class="flex space-x-2 text-gray-500 bg-gray-800 rounded-t-lg shadow border-b border-gray-700"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
@@ -177,11 +177,11 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .tab {
-  @apply px-6 py-2 text-center dark:hover:text-white;
+  @apply px-6 py-2 text-center hover:text-white;
 }
 
 .router-link-active {
-  @apply rounded-t-lg font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
+  @apply rounded-t-lg font-semibold text-white border-b-2 border-green-500;
 }
 
 .slide-left-enter-active,
@@ -212,6 +212,6 @@ export default defineComponent({
 }
 
 .link {
-  @apply block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700;
+  @apply block px-4 py-2 text-sm hover:bg-gray-700;
 }
 </style>

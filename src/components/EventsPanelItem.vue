@@ -15,12 +15,10 @@
       />
     </svg>
     <div class="ml-2">
-      <div class="text-gray-700 dark:text-gray-300">
-        <router-link
-          :to="event.subjectUrl"
-          class="font-semibold text-gray-900 dark:text-white"
-          >{{ event.subject }}</router-link
-        >
+      <div class="text-gray-300">
+        <router-link :to="event.subjectUrl" class="font-semibold text-white">{{
+          event.subject
+        }}</router-link>
         {{ action }}
       </div>
       <router-link

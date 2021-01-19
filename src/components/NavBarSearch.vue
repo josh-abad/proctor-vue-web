@@ -10,7 +10,7 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80 shadow-none bg-opacity-50 dark:bg-opacity-50 rounded-full"
+        class="w-80 shadow-none bg-opacity-50 rounded-full"
       />
       <button
         type="submit"
@@ -20,7 +20,7 @@
         <svg
           viewBox="0 0 20 20"
           fill="currentColor"
-          class="fill-current text-gray-400 dark:text-gray-600 w-5 h-5"
+          class="fill-current text-gray-600 w-5 h-5"
         >
           <path
             v-if="searchFilter"
@@ -39,7 +39,7 @@
     </div>
     <transition name="dropdown-fade">
       <div
-        class="absolute mt-1 w-full rounded-lg bg-white dark:bg-gray-800 shadow-lg"
+        class="absolute mt-1 w-full rounded-lg bg-gray-800 shadow-lg"
         v-show="open && filteredCourses.length"
       >
         <ul

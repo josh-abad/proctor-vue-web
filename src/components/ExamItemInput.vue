@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div
-      class="flex flex-grow dark:bg-gray-700 dark:bg-opacity-40 rounded-lg shadow overflow-hidden"
+      class="flex flex-grow bg-gray-700 bg-opacity-40 rounded-lg shadow overflow-hidden"
     >
       <div class="p-1 bg-gradient-to-b from-teal-400 to-teal-600" />
       <div class="p-4 flex-grow">

@@ -2,11 +2,7 @@
   <Center>
     <div class="flex flex-col items-center">
       <div>
-        <img
-          :src="require(`@/assets/${logoFilename}`)"
-          alt="Logo"
-          class="h-10"
-        />
+        <img src="../assets/logo-white.png" alt="Logo" class="h-10" />
       </div>
       <div class="mt-4 font-semibold text-xl">
         {{ message }}
@@ -30,7 +26,6 @@
 <script lang="ts">
 import Center from '@/components/Center.vue'
 import { defineComponent } from 'vue'
-import logoMixin from '@/mixins/logo'
 import BaseButton from '@/components/BaseButton.vue'
 import verifyService from '@/services/verify'
 import { SET_VERIFIED } from '@/store/mutation-types'
@@ -38,7 +33,6 @@ import { SET_VERIFIED } from '@/store/mutation-types'
 export default defineComponent({
   name: 'Verify',
   components: { Center, BaseButton },
-  mixins: [logoMixin],
   data () {
     return {
       message: 'Verifying...',

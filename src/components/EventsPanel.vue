@@ -7,7 +7,7 @@
       <button class="focus:outline-none" @click="$emit('close')">
         <!-- Heroicon name: x -->
         <svg
-          class="fill-current text-gray-500 hover:text-gray-900 dark:hover:text-white w-5 h-5"
+          class="fill-current text-gray-500 hover:text-white w-5 h-5"
           viewBox="0 0 20 20"
           fill="currentColor"
         >

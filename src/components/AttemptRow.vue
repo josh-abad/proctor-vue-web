@@ -1,14 +1,14 @@
 <template>
   <div class="flex px-6 py-5 justify-between w-full">
     <div class="flex">
-      <div class="mr-6 font-semibold dark:text-gray-400">
+      <div class="mr-6 font-semibold text-gray-400">
         {{ attemptNumber }}
       </div>
       <div class="mr-12">
         <div class="capitalize">
           {{ attempt.status }}
         </div>
-        <div class="text-sm dark:text-gray-400">
+        <div class="text-sm text-gray-400">
           <div v-if="attempt.status === 'in-progress'">
             Started {{ formattedDate(attempt.startDate) }}
           </div>

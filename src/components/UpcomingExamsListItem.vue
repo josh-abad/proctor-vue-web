@@ -1,5 +1,5 @@
 <template>
-  <div class="py-1 text-gray-700 dark:text-gray-300">
+  <div class="py-1 text-gray-300">
     <div class="flex justify-between">
       <div class="flex items-center space-x-1">
         <svg class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
@@ -22,16 +22,14 @@
         </svg>
         <router-link
           :to="examEvent.subjectUrl"
-          class="font-semibold text-gray-900 dark:text-white"
+          class="font-semibold text-white"
           >{{ examEvent.subject }}</router-link
         >
         <span>
           <span
-            class="text-green-800 dark:text-green-200"
+            class="text-green-200"
             :class="
-              examEvent.action === 'opens'
-                ? 'text-green-800 dark:text-green-200'
-                : 'text-red-800 dark:text-red-200'
+              examEvent.action === 'opens' ? 'text-green-200' : 'text-red-200'
             "
             >{{ examEvent.action }}</span
           >

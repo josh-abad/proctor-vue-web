@@ -27,5 +27,3 @@ export const SET_RECENT_COURSES = 'SET_RECENT_COURSES'
 export const ADD_RECENT_COURSE = 'ADD_RECENT_COURSE'
 
 export const SET_MESSAGE = 'SET_MESSAGE'
-
-export const SET_THEME = 'SET_THEME'

@@ -16,7 +16,7 @@
     </svg>
     <svg
       v-else-if="locked"
-      class="fill-current text-gray-400 dark:text-gray-600 w-5 h-5"
+      class="fill-current text-gray-600 w-5 h-5"
       viewBox="0 0 20 20"
       fill="currentColor"
     >
@@ -28,7 +28,7 @@
     </svg>
     <svg
       v-else
-      class="stroke-current text-gray-400 dark:text-gray-600 w-6 h-6"
+      class="stroke-current text-gray-600 w-6 h-6"
       viewBox="0 0 24 24"
       stroke-width="2"
       fill="none"

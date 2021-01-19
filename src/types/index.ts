@@ -121,8 +121,6 @@ export interface AppEvent {
   date: Date;
 }
 
-export type Theme = 'dark' | 'light' | null
-
 export type RootState = {
   user: AuthenticatedUser | null;
 }
@@ -141,10 +139,6 @@ export type ExamsState = {
   attempts: Attempt[];
   examResults: ExamResult[];
   activeExam: string | null;
-}
-
-export type ThemeState = {
-  theme: Theme;
 }
 
 export type AlertState = {

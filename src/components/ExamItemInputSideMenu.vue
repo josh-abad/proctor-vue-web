@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 dark:bg-gray-700 dark:bg-opacity-40 rounded-lg shadow">
+  <div class="p-2 bg-gray-700 bg-opacity-40 rounded-lg shadow">
     <div>
       <button class="button-input" @click="$emit('discard')">
         <!-- Heroicon name: trash -->
