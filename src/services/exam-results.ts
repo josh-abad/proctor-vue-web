@@ -1,7 +1,6 @@
-import { backendUrl } from '@/constants'
 import { Attempt, ExamResult, Submission } from '@/types'
 import axios from 'axios'
-const baseUrl = `${backendUrl}/api/exam-results`
+const baseUrl = '/api/exam-results'
 
 let token: string | null = null
 

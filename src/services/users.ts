@@ -1,7 +1,6 @@
-import { backendUrl } from '@/constants'
 import { User, UserCredentials } from '@/types'
 import axios from 'axios'
-const baseUrl = `${backendUrl}/api/users`
+const baseUrl = '/api/users'
 
 /**
  * Registers a new user to the server
