@@ -13,7 +13,7 @@
           <div class="ml-4">
             <label for="courseWeeks"><BaseLabel>Course Weeks</BaseLabel></label>
             <input
-              class="shadow focus:outline-none dark:bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500"
+              class="shadow focus:outline-none bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-700 focus:border-green-500"
               type="number"
               id="courseWeeks"
               min="4"
@@ -94,10 +94,10 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .label,
 .label-line {
-  @apply uppercase text-xs dark:text-gray-400 font-semibold tracking-wide;
+  @apply uppercase text-xs text-gray-400 font-semibold tracking-wide;
 }
 
 .label-line {
-  @apply pb-1 border-b dark:border-gray-700;
+  @apply pb-1 border-b border-gray-700;
 }
 </style>

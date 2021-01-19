@@ -25,11 +25,9 @@ module.exports = {
   variants: {
     extend: {
       backgroundColor: ['active'],
-      backgroundOpacity: ['dark'],
       outline: ['focus'],
       opacity: ['disabled'],
-      scale: ['active'],
-      textOpacity: ['dark']
+      scale: ['active']
     }
   },
   plugins: [

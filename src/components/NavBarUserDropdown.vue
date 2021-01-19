@@ -10,7 +10,7 @@
       <button
         @click.prevent="isOpen = !isOpen"
         type="button"
-        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-700 dark:text-gray-200 focus:outline-none"
+        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-200 focus:outline-none"
         id="options-menu"
         aria-haspopup="true"
         aria-expanded="true"
@@ -49,7 +49,7 @@
     <!-- The dropdown -->
     <transition name="dropdown-fade" v-show="isOpen">
       <div
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-700"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-gray-800 text-white border border-gray-700"
       >
         <div
           class="py-1"
@@ -59,31 +59,31 @@
         >
           <router-link
             :to="`/user/${user.id}`"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="block px-4 py-2 text-sm hover:bg-gray-700"
             role="menuitem"
             >Profile</router-link
           >
           <router-link
             to="/settings"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="block px-4 py-2 text-sm hover:bg-gray-700"
             role="menuitem"
             >User Settings</router-link
           >
           <a
             href="#"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="block px-4 py-2 text-sm hover:bg-gray-700"
             role="menuitem"
             >Support</a
           >
           <a
             href="#"
-            class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="block px-4 py-2 text-sm hover:bg-gray-700"
             role="menuitem"
             >License</a
           >
           <button
             @click="handleLogOut"
-            class="block w-full text-left px-4 py-2 text-sm border-t dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+            class="block w-full text-left px-4 py-2 text-sm border-t border-gray-700 hover:bg-gray-700 focus:outline-none"
             role="menuitem"
           >
             Log out

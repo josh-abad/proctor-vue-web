@@ -1,12 +1,8 @@
 <template>
   <div v-if="course">
     <BasePanel class="overflow-hidden">
-      <div
-        class="-mx-6 -mt-6 p-6 bg-gradient-to-r from-green-600 to-green-400 dark:from-green-700 dark:to-green-500"
-      >
-        <BaseLabel emphasis class="text-green-200 dark:text-green-400">{{
-          course.name
-        }}</BaseLabel>
+      <div class="-mx-6 -mt-6 p-6 bg-gradient-to-r from-green-700 to-green-500">
+        <BaseLabel emphasis class="text-green-400">{{ course.name }}</BaseLabel>
         <div
           class="text-2xl font-bold text-white focus:outline-none"
           contenteditable
@@ -14,7 +10,7 @@
           v-text="examName"
         ></div>
       </div>
-      <div class="mt-4 flex divide-x divide-gray-300 dark:divide-gray-700">
+      <div class="mt-4 flex divide-x divide-gray-700">
         <div class="pr-6">
           <label>
             <BaseLabel>Duration</BaseLabel>
@@ -177,7 +173,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .input-number {
-  @apply shadow focus:outline-none dark:bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-300 dark:border-gray-700 focus:border-green-500 dark:focus:border-green-500;
+  @apply shadow focus:outline-none bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-700 focus:border-green-500;
 }
 
 .fade-enter-active,

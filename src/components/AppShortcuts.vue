@@ -1,9 +1,6 @@
 <template>
   <div>
-    <BaseLabel
-      class="pb-2 border-b border-gray-300 dark:border-gray-700"
-      emphasis
-    >
+    <BaseLabel class="pb-2 border-b border-gray-700" emphasis>
       Shortcuts</BaseLabel
     >
     <div class="mt-4 flex space-x-4">

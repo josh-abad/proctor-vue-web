@@ -1,7 +1,7 @@
 <template>
   <div v-if="user">
     <BasePanel
-      class="bg-gradient-to-b from-green-300 dark:from-green-700 via-teal-100 dark:via-teal-900 to-gray-100 dark:to-gray-800 rounded-b-none"
+      class="bg-gradient-to-b from-green-700 via-teal-900 to-gray-800 rounded-b-none"
     >
       <div class="flex justify-between items-start mb-5">
         <div class="flex items-center">
@@ -30,10 +30,7 @@
           >
         </div>
         <div v-if="myAccount">
-          <router-link
-            to="/settings"
-            class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          >
+          <router-link to="/settings" class="text-gray-400 hover:text-white">
             <!-- Heroicon name: cog -->
             <svg
               class="fill-current w-5 h-5"
@@ -52,9 +49,7 @@
       <div class="text-xl font-semibold -mb-4">Activity</div>
     </BasePanel>
     <BasePanel class="rounded-t-none pt-0 -mt-2">
-      <div
-        class="mt-2 divide-y divide-gray-300 dark:divide-gray-700 rounded overflow-hidden"
-      >
+      <div class="mt-2 divide-y divide-gray-700 rounded overflow-hidden">
         <ActivityRow :key="i" v-for="(event, i) in userEvents" :event="event" />
       </div>
     </BasePanel>

@@ -6,7 +6,7 @@
     </div>
     <div class="mt-4">
       <div>{{ studentCount }}</div>
-      <div class="text-sm text-gray-600 dark:text-gray-400">
+      <div class="text-sm text-gray-400">
         {{ studentCount === 1 ? "Student" : "Students" }}
         Enrolled
       </div>
@@ -21,9 +21,7 @@
         <div>
           {{ coordinatorName }}
         </div>
-        <div class="text-sm text-gray-600 dark:text-gray-400">
-          Course Coordinator
-        </div>
+        <div class="text-sm text-gray-400">Course Coordinator</div>
       </div>
     </div>
   </BasePanel>

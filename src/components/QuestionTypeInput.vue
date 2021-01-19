@@ -55,6 +55,6 @@ export default defineComponent({
 }
 
 .toggle-selected {
-  @apply font-semibold text-green-400 bg-green-300 dark:bg-green-600 bg-opacity-20 dark:bg-opacity-40 rounded;
+  @apply font-semibold text-green-400 bg-green-600 bg-opacity-40 rounded;
 }
 </style>

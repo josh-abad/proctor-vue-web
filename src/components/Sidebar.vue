@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-56 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition duration-300 bg-white dark:bg-gray-800 shadow-lg"
+      class="transform w-56 pt-3 fixed h-full min-h-full overflow-y-auto ease-in-out transition duration-300 bg-gray-800 bg-opacity-40 shadow-lg border-r border-gray-800"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex flex-col">

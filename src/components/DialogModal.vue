@@ -5,9 +5,7 @@
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div
-            class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"
-          ></div>
+          <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
         </div>
 
         <!-- This element is to trick the browser into centering the modal contents. -->
@@ -17,7 +15,7 @@
           >&#8203;</span
         >
         <div
-          class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          class="inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
@@ -46,7 +44,7 @@
               </div>
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3
-                  class="text-lg leading-6 font-medium text-gray-900 dark:text-white"
+                  class="text-lg leading-6 font-medium text-white"
                   id="modal-headline"
                 >
                   {{ header }}

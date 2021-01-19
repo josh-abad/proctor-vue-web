@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white bg-gradient-to-t from-green-700 to-teal-900"
-  >
+  <div class="min-h-screen antialiased bg-gray-900 text-white">
     <div id="modals"></div>
-    <div class="flex flex-col dark:text-white text-gray-900">
+    <div class="flex flex-col text-white">
       <NavBar v-if="isLoggedIn" @toggle="handleToggle" :is-open="sidebarOpen" />
       <div>
         <Sidebar :is-open="sidebarOpen" />
@@ -28,7 +26,7 @@ import NavBar from './components/NavBar.vue'
 import Sidebar from './components/Sidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
-import { ADD_ATTEMPT, SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
+import { ADD_ATTEMPT, SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_USER } from './store/mutation-types'
 import { Attempt, AuthenticatedUser, Submission } from './types'
 import { io } from 'socket.io-client'
 
@@ -57,7 +55,6 @@ export default defineComponent({
     this.socket.on('new result', (updatedAttempt: Attempt) => {
       this.$store.commit(ADD_ATTEMPT, updatedAttempt)
     })
-    this.initTheme()
     this.initSidebarState()
     await this.initUser()
     this.initRecentCourses()
@@ -66,14 +63,6 @@ export default defineComponent({
     handleToggle (): void {
       this.isOpen = !this.isOpen
       localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
-    },
-    initTheme (): void {
-      const theme = localStorage.getItem('theme')
-      this.$store.commit(SET_THEME, theme)
-
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
-      })
     },
     initSidebarState (): void {
       const sidebarState = localStorage.getItem('sidebarState')
@@ -121,15 +110,15 @@ export default defineComponent({
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  @apply bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 dark:bg-gray-700;
+  @apply bg-gray-700;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500 dark:bg-gray-600;
+  @apply bg-gray-600;
 }
 
 #nprogress {

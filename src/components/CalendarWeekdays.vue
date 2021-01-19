@@ -1,11 +1,9 @@
 <template>
-  <ol
-    class="grid grid-cols-7 bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50"
-  >
+  <ol class="grid grid-cols-7 bg-gray-900 bg-opacity-50">
     <li
       v-for="weekday in weekdays"
       :key="weekday"
-      class="text-center py-2 uppercase tracking-wider text-xs text-gray-600 dark:text-gray-400 font-semibold select-none"
+      class="text-center py-2 uppercase tracking-wider text-xs text-gray-400 font-semibold select-none"
     >
       {{ weekday }}
     </li>

@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div
-      class="flex items-center border-b border-gray-300 dark:border-gray-700"
-    >
+    <div class="flex items-center border-b border-gray-700">
       <div
         @click="expanded = !expanded"
-        class="cursor-pointer dark:text-gray-400 dark:hover:text-white"
+        class="cursor-pointer text-gray-400 hover:text-white"
       >
         <!-- Heroicon name: chevron-right -->
         <svg
