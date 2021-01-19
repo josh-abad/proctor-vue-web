@@ -9,7 +9,7 @@
         <Sidebar :is-open="sidebarOpen" />
         <div>
           <router-view
-            class="transform ease-in-out duration-300 p-6"
+            class="transform ease-in-out duration-300"
             :class="sidebarOpen ? 'ml-56' : 'ml-0'"
           />
           <div class="mt-4">
