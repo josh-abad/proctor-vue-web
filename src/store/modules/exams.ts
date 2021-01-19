@@ -127,7 +127,7 @@ export default {
       return id => state.attempts.find(attempt => attempt.id === id)
     },
     examsByCourse (state): (courseId: string) => Exam[] {
-      return courseId => state.exams.filter(exam => exam.course.id === courseId)
+      return courseId => state.exams.filter(exam => exam?.course?.id === courseId)
     },
     examsForUser (state, getters, rootState): Exam[] {
       if (rootState.user && rootState.user.role === 'admin') {
