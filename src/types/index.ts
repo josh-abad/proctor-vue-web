@@ -26,12 +26,13 @@ export interface Course {
   id: string;
   name: string;
   description: string;
+  exams: string[];
   coordinator: Omit<User, 'token'>;
   studentsEnrolled: string[];
   weeks: number;
 }
 
-export interface NewCourse extends Omit<Course, 'id' | 'coordinator' | 'studentsEnrolled'> {
+export interface NewCourse extends Omit<Course, 'id' | 'coordinator' | 'studentsEnrolled' | 'exams'> {
   coordinatorId: string;
 }
 
