@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   purge: [
@@ -15,7 +16,11 @@ module.exports = {
       teal: colors.teal,
       white: colors.white
     },
-    extend: {}
+    extend: {
+      fontFamily: {
+        sans: ['Open Sans', ...defaultTheme.fontFamily.sans]
+      }
+    }
   },
   variants: {
     extend: {
