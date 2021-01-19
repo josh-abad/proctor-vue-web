@@ -1,7 +1,6 @@
-import { backendUrl } from '@/constants'
 import { Course, NewCourse } from '@/types'
 import axios from 'axios'
-const baseUrl = `${backendUrl}/api/courses`
+const baseUrl = '/api/courses'
 
 /**
  * Creates a new course in the server and returns it

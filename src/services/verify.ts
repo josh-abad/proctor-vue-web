@@ -1,7 +1,6 @@
-import { backendUrl } from '@/constants'
 import { User } from '@/types'
 import axios from 'axios'
-const baseUrl = `${backendUrl}/api/verify`
+const baseUrl = '/api/verify'
 
 /**
  * Verifies a user
