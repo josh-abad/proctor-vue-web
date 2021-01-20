@@ -25,31 +25,7 @@
       </svg>
       {{ exam.label }}</router-link
     >
-    <svg
-      v-if="taken"
-      class="stroke-current text-green-500 w-6 h-6"
-      viewBox="0 0 24 24"
-      stroke-width="2"
-      fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M0 0h24v24H0z" stroke="none" />
-      <rect x="4" y="4" width="16" height="16" rx="2" />
-      <path d="M9 12l2 2 4-4" />
-    </svg>
-    <svg
-      v-else
-      class="stroke-current text-gray-600 w-6 h-6"
-      viewBox="0 0 24 24"
-      stroke-width="2"
-      fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M0 0h24v24H0z" stroke="none" />
-      <rect x="4" y="4" width="16" height="16" rx="2" />
-    </svg>
+    <SVGCheckbox v-model="taken" static-check />
   </div>
 </template>
 
@@ -57,8 +33,10 @@
 import { Exam } from '@/types'
 import { defineComponent } from 'vue'
 import examMixin from '@/mixins/exam'
+import SVGCheckbox from './SVGCheckbox.vue'
 
 export default defineComponent({
+  components: { SVGCheckbox },
   name: 'WeekExam',
   mixins: [examMixin],
   props: {
