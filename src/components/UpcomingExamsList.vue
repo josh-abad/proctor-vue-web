@@ -9,6 +9,9 @@
         v-for="(events, i) in eventsByCourse"
         :key="i"
       >
+        <div
+          class="fixed bg-gradient-to-t from-gray-800 bottom-0 left-0 w-full h-1/2"
+        />
         <div class="rounded-lg divide-gray-700">
           <UpcomingExamsListItem
             :examEvent="examEvent"
