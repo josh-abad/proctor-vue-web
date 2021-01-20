@@ -33,7 +33,7 @@
           <BaseInput
             placeholder="Text answer"
             class="w-1/2 text-sm"
-            :model-value="answer[0]"
+            :model-value="answer?.[0] || ''"
             @update:model-value="
               (newValue) => $emit('update:answer', [newValue])
             "
@@ -50,7 +50,7 @@
               <input
                 type="radio"
                 :value="choice"
-                :checked="answer[0] === choice"
+                :checked="answer?.[0] === choice"
                 @change="$emit('update:answer', [choice])"
                 v-if="questionType === 'multiple choice'"
               />

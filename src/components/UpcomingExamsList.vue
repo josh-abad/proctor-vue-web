@@ -5,7 +5,7 @@
     >
     <div class="mt-4 space-y-1">
       <Accordion
-        :label="events[0].location"
+        :label="events?.[0].location || ''"
         v-for="(events, i) in eventsByCourse"
         :key="i"
       >

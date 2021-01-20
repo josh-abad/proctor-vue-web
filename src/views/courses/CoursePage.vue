@@ -52,7 +52,7 @@
     <div class="flex m-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-gray-800 rounded-t-lg shadow border-b border-gray-700"
+          class="flex space-x-2 text-gray-500 bg-gray-700 bg-opacity-25 rounded-t-lg shadow border-b border-gray-700"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
@@ -151,7 +151,7 @@ export default defineComponent({
       (toParams: { courseId?: string }) => {
         if (toParams.courseId) {
           const course: Course | undefined = this.$store.getters.courseByID(toParams.courseId)
-          document.title = course ? `${course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+          document.title = `${course?.name || 'Course Not Found'} - Proctor Vue`
         }
       }
     )

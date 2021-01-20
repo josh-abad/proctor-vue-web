@@ -94,13 +94,13 @@ export default defineComponent({
       })
     },
     previousMonthDays (): { date: string; isCurrentMonth: boolean }[] {
-      const firstDayOfTheMonthWeekday = this.getWeekday(this.currentMonthDays[0].date)
+      const firstDayOfTheMonthWeekday = this.getWeekday(this.currentMonthDays?.[0].date)
       const previousMonth = dayjs(`${this.year}-${this.month}-01`).subtract(1, 'month')
 
       // Cover first day of the month being sunday (firstDayOfTheMonthWeekday === 0)
       const visibleNumberOfDaysFromPreviousMonth = firstDayOfTheMonthWeekday ? firstDayOfTheMonthWeekday - 1 : 6
 
-      const previousMonthLastMondayDayOfMonth = dayjs(this.currentMonthDays[0].date).subtract(visibleNumberOfDaysFromPreviousMonth, 'day').date()
+      const previousMonthLastMondayDayOfMonth = dayjs(this.currentMonthDays?.[0].date).subtract(visibleNumberOfDaysFromPreviousMonth, 'day').date()
 
       return [...Array(visibleNumberOfDaysFromPreviousMonth)].map((day, i) => {
         return {
