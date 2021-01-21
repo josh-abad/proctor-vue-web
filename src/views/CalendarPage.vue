@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-6">
     <div class="flex">
       <div class="flex-grow">
         <CalendarMonth v-model="value" :events="events" />

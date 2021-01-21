@@ -1,8 +1,6 @@
 <template>
-  <div v-if="upcomingExams.length">
-    <BaseLabel class="pb-2 border-b border-gray-700" emphasis
-      >Upcoming Exams</BaseLabel
-    >
+  <BasePanel v-if="upcomingExams.length">
+    <div class="font-bold">Upcoming Exams</div>
     <div class="mt-4 space-y-1">
       <Accordion
         :label="events?.[0].location || ''"
@@ -10,7 +8,7 @@
         :key="i"
       >
         <div
-          class="fixed bg-gradient-to-t from-gray-800 bottom-0 left-0 w-full h-1/2"
+          class="fixed bg-gradient-to-t from-dark-02 to-transparent bottom-0 left-0 w-full h-1/2"
         />
         <div class="rounded-lg divide-gray-700">
           <UpcomingExamsListItem
@@ -21,19 +19,19 @@
         </div>
       </Accordion>
     </div>
-  </div>
+  </BasePanel>
 </template>
 
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
 import UpcomingExamsListItem from './UpcomingExamsListItem.vue'
-import BaseLabel from './BaseLabel.vue'
 import Accordion from './Accordion.vue'
+import BasePanel from './BasePanel.vue'
 
 export default defineComponent({
   name: 'UpcomingExams',
-  components: { UpcomingExamsListItem, BaseLabel, Accordion },
+  components: { UpcomingExamsListItem, Accordion, BasePanel },
   computed: {
     upcomingExams (): AppEvent[] {
       return this.$store.getters.upcomingExams

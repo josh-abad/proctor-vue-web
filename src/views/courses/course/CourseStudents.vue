@@ -31,11 +31,14 @@
         />
       </teleport>
     </div>
-    <div class="font-semibold text-lg mt-2 border-b border-gray-700">
+    <div class="font-semibold text-lg mt-2">
       <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
       <div v-else>Students</div>
     </div>
-    <div v-if="students && students.length" class="divide-y divide-gray-700">
+    <div
+      v-if="students && students.length"
+      class="mt-4 flex flex-col space-y-4"
+    >
       <StudentRow
         :student="student"
         v-for="student in filteredStudents"

@@ -3,7 +3,7 @@
     <span @click="selectPrevious">
       <!-- Heroicon name: chevron-left -->
       <svg
-        class="stroke-current text-teal-300 hover:text-white w-5 h-5"
+        class="stroke-current text-green-300 hover:text-white w-5 h-5"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

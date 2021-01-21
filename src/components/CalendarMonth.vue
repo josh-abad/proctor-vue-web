@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-800 rounded-lg overflow-hidden shadow">
+  <div class="bg-dark-01 rounded-lg overflow-hidden shadow-lg">
     <div
       class="flex items-center justify-between bg-green-500"
       :class="compact ? 'p-3' : 'p-6'"
