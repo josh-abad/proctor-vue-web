@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center py-4">
+  <div class="flex items-center px-2 py-4 bg-dark-06 rounded-lg shadow-lg">
     <img
       :src="student.avatarUrl"
       alt="Avatar"

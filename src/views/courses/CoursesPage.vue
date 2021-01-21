@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <ColorHeader
       :links="[
         { name: 'Home', url: '/' },
@@ -11,7 +11,7 @@
     >
     <transition name="dropdown-fade" v-show="isOpen">
       <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-gray-800 text-white border border-gray-700"
+        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
       >
         <div
           class="py-1"
@@ -28,7 +28,7 @@
         </div>
       </div>
     </transition>
-    <BasePanel class="mt-4 mb-0 mx-4">
+    <BasePanel class="mt-4 mb-0">
       <div
         class="flex justify-between items-center border-b border-gray-700 -mb-3 pb-2"
       >
@@ -71,8 +71,8 @@
             You don't have any courses.
           </div>
         </div>
-        <div v-else-if="viewMode === 'card'" class="mt-6">
-          <div class="grid grid-cols-3 gap-4 sm:grid-cols-2 md:grid-cols-3">
+        <div v-else-if="viewMode === 'card'" class="mt-8">
+          <div class="grid grid-cols-3 gap-6 sm:grid-cols-2 md:grid-cols-3">
             <CoursesPageCard
               :course="course"
               :key="course.id"

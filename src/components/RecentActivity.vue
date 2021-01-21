@@ -3,7 +3,9 @@
     <BaseLabel class="pb-2 border-b border-gray-700" emphasis
       >Recent Activity</BaseLabel
     >
-    <div class="mt-4 divide-y divide-gray-700 rounded overflow-hidden">
+    <div
+      class="mt-4 divide-y divide-gray-700 rounded-lg overflow-hidden shadow"
+    >
       <ActivityRow
         v-for="(event, i) of recentActivities"
         :key="i"

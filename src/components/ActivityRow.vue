@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="event" class="text-gray-400 bg-gray-700 bg-opacity-40 text-sm">
+    <div v-if="event" class="text-gray-400 bg-dark-08 text-sm">
       <div class="px-3 py-2 flex justify-between">
         <div class="flex items-center space-x-1">
           <img

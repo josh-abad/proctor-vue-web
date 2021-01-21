@@ -10,7 +10,7 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80 shadow-none bg-opacity-50 rounded-full"
+        class="w-80 bg-dark-06 border-0"
       />
       <button
         type="submit"
@@ -39,7 +39,7 @@
     </div>
     <transition name="dropdown-fade">
       <div
-        class="absolute mt-1 w-full rounded-lg bg-gray-800 shadow-lg"
+        class="absolute mt-1 w-full rounded-lg bg-dark-08 shadow-lg"
         v-show="open && filteredCourses.length"
       >
         <ul

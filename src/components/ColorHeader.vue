@@ -1,6 +1,6 @@
 <template>
-  <BasePanel
-    class="bg-gradient-to-r from-green-600 to-green-400 dark:from-green-700 dark:to-green-500"
+  <div
+    class="rounded-lg p-6 bg-gradient-to-r from-green-600 via-green-500 to-green-400 shadow-lg"
   >
     <div class="flex justify-between">
       <div class="text-3xl text-white font-bold">
@@ -23,17 +23,16 @@
       </svg>
     </div>
     <Breadcrumbs class="mt-2" :links="links" v-if="links" />
-  </BasePanel>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BasePanel from '@/components/BasePanel.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 
 export default defineComponent({
   name: 'ColorHeader',
-  components: { BasePanel, Breadcrumbs },
+  components: { Breadcrumbs },
   props: {
     links: {
       type: Array,

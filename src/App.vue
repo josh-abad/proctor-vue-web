@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen antialiased bg-gray-900 text-white">
+  <div
+    class="min-h-screen antialiased bg-gradient-to-t from-green-900 via-green-800 to-green-700 text-white"
+  >
     <div id="modals"></div>
     <div class="flex flex-col text-white">
       <NavBar v-if="isLoggedIn" @toggle="handleToggle" :is-open="sidebarOpen" />

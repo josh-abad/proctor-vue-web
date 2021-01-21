@@ -1,7 +1,7 @@
 <template>
   <teleport to="#modals">
     <div
-      class="fixed z-30 inset-0 overflow-y-auto bg-gradient-to-t from-green-700 to-teal-900"
+      class="fixed z-30 inset-0 overflow-y-auto bg-gradient-to-t from-green-700 to-green-900"
     >
       <ColorBackgroundCard>
         <div class="p-4">

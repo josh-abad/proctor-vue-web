@@ -3,7 +3,7 @@
     <BaseLabel class="pb-2 border-b border-gray-700" emphasis>
       Shortcuts</BaseLabel
     >
-    <div class="mt-4 flex space-x-4">
+    <nav class="mt-4 flex space-x-4">
       <ShortcutCard :icon="icon4" :url="`/user/${user.id}`" v-if="user"
         >Profile</ShortcutCard
       >
@@ -15,7 +15,7 @@
       >
       <ShortcutCard :icon="icon2" url="/courses">Courses</ShortcutCard>
       <ShortcutCard :icon="icon3" url="/settings">Settings</ShortcutCard>
-    </div>
+    </nav>
   </div>
 </template>
 <script lang="ts">

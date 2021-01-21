@@ -1,5 +1,5 @@
 <template>
-  <div v-if="course">
+  <div v-if="course" class="p-4">
     <ColorHeader
       :links="links"
       @menu-clicked="menuOpen = !menuOpen"
@@ -8,7 +8,7 @@
     >
     <transition name="dropdown-fade" v-show="menuOpen">
       <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-gray-800 text-white border border-gray-700"
+        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
       >
         <div
           class="py-1"
@@ -49,10 +49,10 @@
         </div>
       </div>
     </transition>
-    <div class="flex m-4">
+    <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-gray-700 bg-opacity-25 rounded-t-lg shadow border-b border-gray-700"
+          class="flex space-x-2 text-gray-500 bg-dark-01 rounded-t-lg shadow border-b border-gray-700"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview

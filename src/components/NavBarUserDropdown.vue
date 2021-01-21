@@ -16,16 +16,16 @@
         aria-expanded="true"
       >
         <div class="flex flex-col items-end">
-          <div class="text-sm">{{ user.fullName }}</div>
+          <div class="text-sm">{{ user?.fullName || "" }}</div>
           <div
             class="uppercase font-bold tracking-wide text-xs rounded-full text-green-500"
-            v-if="user.role !== 'student'"
+            v-if="user?.role !== 'student'"
           >
-            {{ user.role }}
+            {{ user?.role || "" }}
           </div>
         </div>
         <img
-          :src="user.avatarUrl"
+          :src="user?.avatarUrl || ''"
           alt="Avatar"
           class="ml-2 w-8 h-8 object-cover rounded-full"
         />
@@ -49,7 +49,7 @@
     <!-- The dropdown -->
     <transition name="dropdown-fade" v-show="isOpen">
       <div
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-gray-800 text-white border border-gray-700"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
       >
         <div
           class="py-1"
@@ -58,7 +58,7 @@
           aria-labelledby="options-menu"
         >
           <router-link
-            :to="`/user/${user.id}`"
+            :to="`/user/${user?.id || ''}`"
             class="block px-4 py-2 text-sm hover:bg-gray-700"
             role="menuitem"
             >Profile</router-link

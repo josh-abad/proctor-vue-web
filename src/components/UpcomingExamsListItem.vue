@@ -1,12 +1,12 @@
 <template>
-  <div class="py-1 text-gray-300">
+  <div class="py-1 text-gray-300 text-sm">
     <div class="flex justify-between">
-      <div class="flex items-center space-x-1">
-        <svg class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+      <div class="flex items-start space-x-1 w-full">
+        <svg class="mr-2 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
           <!-- Heroicon name: document-text -->
           <path
             v-if="examEvent.action === 'opens'"
-            class="text-green-500"
+            class="text-green-300"
             fill-rule="evenodd"
             d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
             clip-rule="evenodd"
@@ -20,24 +20,30 @@
             clip-rule="evenodd"
           />
         </svg>
-        <router-link
-          :to="examEvent.subjectUrl"
-          class="font-semibold text-white"
-          >{{ examEvent.subject }}</router-link
-        >
-        <span>
-          <span
-            class="text-green-200"
-            :class="
-              examEvent.action === 'opens' ? 'text-green-200' : 'text-red-200'
-            "
-            >{{ examEvent.action }}</span
-          >
-          {{ relativeDate }}
-        </span>
-      </div>
-      <div class="text-gray-500">
-        {{ formattedDate }}
+        <div>
+          <div class="flex">
+            <span>
+              <router-link
+                :to="examEvent.subjectUrl"
+                class="inline font-semibold text-white"
+                >{{ examEvent.subject }}</router-link
+              >
+              <span
+                class="ml-1 text-green-200"
+                :class="
+                  examEvent.action === 'opens'
+                    ? 'text-green-200'
+                    : 'text-red-200'
+                "
+                >{{ examEvent.action }}</span
+              >
+              {{ relativeDate }}
+            </span>
+          </div>
+          <div class="text-gray-500 text-xs">
+            {{ formattedDate }}
+          </div>
+        </div>
       </div>
     </div>
   </div>

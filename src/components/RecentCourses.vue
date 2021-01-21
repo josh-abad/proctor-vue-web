@@ -3,11 +3,11 @@
     <BaseLabel class="pb-2 border-b border-gray-700" emphasis
       >Recent Courses</BaseLabel
     >
-    <div class="grid grid-cols-3 gap-4 mt-4 sm:grid-cols-2 md:grid-cols-3">
+    <div class="mt-4 flex space-x-4">
       <CoursesPageCard
         :course="course"
         :key="course.id"
-        v-for="course in recentCourses"
+        v-for="course in recentCourses.splice(0, 2)"
       />
     </div>
   </div>
