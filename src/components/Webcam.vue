@@ -30,6 +30,8 @@ import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
 import BaseButton from './BaseButton.vue'
 
+const USE_TINY_MODEL = true
+
 export default defineComponent({
   components: { BaseButton },
   name: 'Webcam',
@@ -53,44 +55,22 @@ export default defineComponent({
       .catch(error => this.$store.dispatch(ALERT, error))
     this.cameraOn = true
 
+    const faceMatcher = await this.createFaceMatcher()
+
     const input = this.video as HTMLMediaElement
     input.addEventListener('play', () => {
       setInterval(async () => {
-        const useTinyModel = true
-
         const detections = await faceapi
           .detectAllFaces(input as TNetInput, new TinyFaceDetectorOptions({ inputSize: 128 }))
-          .withFaceLandmarks(useTinyModel)
+          .withFaceLandmarks(USE_TINY_MODEL)
           .withFaceDescriptors()
 
-        const labels = ['josh']
-        const labeledDescriptors = await Promise.all(
-          labels.map(async label => {
-            const imgUrl = `./img/users/${label}.jpg`
-            const img = await faceapi.fetchImage(imgUrl)
-
-            const detection = await faceapi
-              .detectSingleFace(img, new TinyFaceDetectorOptions())
-              .withFaceLandmarks(useTinyModel)
-              .withFaceDescriptor()
-
-            if (!detection) {
-              throw new Error(`No face detected for ${label}.`)
-            }
-
-            const descriptor = [detection.descriptor]
-            return new faceapi.LabeledFaceDescriptors(label, descriptor)
-          })
-        )
-
-        const maxDescriptorDistance = 0.6
-        const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, maxDescriptorDistance)
         const results = detections.map(fd => faceMatcher.findBestMatch(fd.descriptor))
 
         this.faceSeen = !!detections.length
         this.usersSeen = results.map(match => match.toString())
         this.multipleFacesSeen = detections.length
-      }, 100)
+      }, 64)
     })
   },
   unmounted () {
@@ -109,6 +89,24 @@ export default defineComponent({
         .getTracks()
         .forEach(track => track.stop())
       this.cameraOn = false
+    },
+    async createFaceMatcher (): Promise<faceapi.FaceMatcher> {
+      const imgUrl = './img/users/josh.jpg'
+      const img = await faceapi.fetchImage(imgUrl)
+      const detection = await faceapi
+        .detectSingleFace(img, new TinyFaceDetectorOptions())
+        .withFaceLandmarks(USE_TINY_MODEL)
+        .withFaceDescriptor()
+
+      if (!detection) {
+        throw new Error('No face detected for josh.')
+      }
+
+      const descriptor = [detection.descriptor]
+      const labeledDescriptor = new faceapi.LabeledFaceDescriptors('josh', descriptor)
+
+      const maxDescriptorDistance = 0.6
+      return new faceapi.FaceMatcher(labeledDescriptor, maxDescriptorDistance)
     }
   }
 })
