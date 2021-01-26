@@ -36,6 +36,7 @@ import BaseButton from './BaseButton.vue'
 import userMixin from '@/mixins/user'
 
 const USE_TINY_MODEL = true
+const MODELS_URL = './models'
 
 export default defineComponent({
   name: 'Webcam',
@@ -87,9 +88,9 @@ export default defineComponent({
   methods: {
     async loadModels (): Promise<void> {
       await Promise.all([
-        faceapi.loadTinyFaceDetectorModel('./models'),
-        faceapi.loadFaceLandmarkTinyModel('./models'),
-        faceapi.loadFaceRecognitionModel('./models')
+        faceapi.loadTinyFaceDetectorModel(MODELS_URL),
+        faceapi.loadFaceLandmarkTinyModel(MODELS_URL),
+        faceapi.loadFaceRecognitionModel(MODELS_URL)
       ])
     },
     stopVideo (): void {
