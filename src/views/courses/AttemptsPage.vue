@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <div v-if="exam">
       <ColorHeader :links="links" hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
@@ -10,7 +10,17 @@
           <div>
             {{ displayAttemptsLeft }}
           </div>
-          <div v-show="attemptsLeft > 0">The quiz will end {{ duration }}.</div>
+          <div v-show="attemptsLeft > 0" class="inline-flex items-center">
+            <!-- Heroicon name: clock -->
+            <svg class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            The quiz will end {{ duration }}.
+          </div>
         </div>
         <div v-if="locked !== 0">
           <div v-if="locked === -1">
@@ -18,6 +28,26 @@
             now.
           </div>
           <div v-else>The exam was closed {{ formattedEndDate }} ago.</div>
+        </div>
+        <div v-if="!user?.referenceImageUrl" class="inline-flex items-center">
+          <!-- Heroicon name: exclamation-circle -->
+          <svg class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <div>
+            Please set up
+            <router-link
+              :to="`/user/${user?.id}/reference-image`"
+              class="text-green-400"
+            >
+              Face Identification
+            </router-link>
+            in order to proceed with the exam.
+          </div>
         </div>
         <div v-else-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
@@ -38,7 +68,7 @@
         <div v-else>You have made no attempts so far.</div>
         <div class="mt-4 flex flex-row-reverse justify-between">
           <ModalButton
-            v-if="locked === 0 && attemptsLeft > 0"
+            v-if="locked === 0 && attemptsLeft > 0 && user?.referenceImageUrl"
             header="Attempt Quiz"
             message="Are you sure you want to start the quiz?"
             action-label="Start Quiz"

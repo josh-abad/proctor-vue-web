@@ -1,13 +1,19 @@
 <template>
   <div class="p-6">
     <div class="font-bold text-2xl">Webcam Test</div>
-    <div>{{ faceSeen ? "Face detected" : "No face detected" }}</div>
+    <div>
+      {{ faceSeen ? "Face detected" : "No face detected" }}
+      <span>
+        {{
+          usersSeen.some((seen) => seen.includes(userName))
+            ? `(${userName})`
+            : ""
+        }}
+      </span>
+    </div>
     <div class="font-bold">
       {{ multipleFacesSeen }}
       {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
-    </div>
-    <div>
-      {{ usersSeen.some((seen) => seen.includes(userName)) ? userName : "" }}
     </div>
     <video
       v-show="cameraOn"
@@ -32,7 +38,7 @@ import BaseButton from './BaseButton.vue'
 import userMixin from '@/mixins/user'
 
 const USE_TINY_MODEL = true
-const MODELS_URL = './models'
+const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'Webcam',

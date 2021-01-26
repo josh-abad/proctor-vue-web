@@ -162,6 +162,16 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Verify.vue')
   },
   {
+    path: '/user/:userId/reference-image',
+    name: 'Upload Reference Image',
+    props: true,
+    meta: {
+      title: createTitle('Upload Reference Image'),
+      authorize: [] as Role[]
+    },
+    component: () => import('../views/UploadReferenceImage.vue')
+  },
+  {
     path: '/user/:userId',
     name: 'Profile',
     props: true,
