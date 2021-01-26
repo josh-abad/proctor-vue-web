@@ -7,7 +7,11 @@
       {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
     </div>
     <div>
-      {{ usersSeen.some((user) => user.includes("josh")) ? "Hi, Josh" : "" }}
+      {{
+        usersSeen.some((seen) => seen.includes(user?.fullName || "unknown"))
+          ? user?.fullName
+          : ""
+      }}
     </div>
     <video
       v-show="cameraOn"
@@ -29,12 +33,14 @@ import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
 import BaseButton from './BaseButton.vue'
+import userMixin from '@/mixins/user'
 
 const USE_TINY_MODEL = true
 
 export default defineComponent({
-  components: { BaseButton },
   name: 'Webcam',
+  components: { BaseButton },
+  mixins: [userMixin],
   data () {
     return {
       faceSeen: false,
@@ -56,6 +62,8 @@ export default defineComponent({
     this.cameraOn = true
 
     const faceMatcher = await this.createFaceMatcher()
+
+    if (!faceMatcher) return
 
     const input = this.video as HTMLMediaElement
     input.addEventListener('play', () => {
@@ -90,8 +98,11 @@ export default defineComponent({
         .forEach(track => track.stop())
       this.cameraOn = false
     },
-    async createFaceMatcher (): Promise<faceapi.FaceMatcher> {
-      const imgUrl = './img/users/josh.jpg'
+    async createFaceMatcher (): Promise<faceapi.FaceMatcher | null> {
+      const imgUrl = this.user?.referenceImageUrl
+
+      if (!imgUrl) return null
+
       const img = await faceapi.fetchImage(imgUrl)
       const detection = await faceapi
         .detectSingleFace(img, new TinyFaceDetectorOptions())
@@ -99,11 +110,11 @@ export default defineComponent({
         .withFaceDescriptor()
 
       if (!detection) {
-        throw new Error('No face detected for josh.')
+        throw new Error(`No face detected for ${this.user?.fullName}.`)
       }
 
       const descriptor = [detection.descriptor]
-      const labeledDescriptor = new faceapi.LabeledFaceDescriptors('josh', descriptor)
+      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(this.user?.fullName || 'unknown', descriptor)
 
       const maxDescriptorDistance = 0.6
       return new faceapi.FaceMatcher(labeledDescriptor, maxDescriptorDistance)
