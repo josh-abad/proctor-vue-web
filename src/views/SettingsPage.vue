@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <BasePanel>
       <div class="flex items-center">
         <svg
@@ -18,6 +18,7 @@
       <div class="mt-4">
         <Accordion label="User">
           <BaseButton>Change Password</BaseButton>
+          <ImageUpload class="mt-4" />
         </Accordion>
       </div>
     </BasePanel>
@@ -28,10 +29,11 @@
 import Accordion from '@/components/Accordion.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import ImageUpload from '@/components/ImageUpload.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { BasePanel, Accordion, BaseButton }
+  components: { BasePanel, Accordion, BaseButton, ImageUpload }
 })
 </script>

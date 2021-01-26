@@ -28,4 +28,14 @@ const getUser = async (id: string): Promise<User> => {
   return response.data
 }
 
-export default { create, getAll, getUser }
+const uploadImage = async (id: string, data: FormData): Promise<User> => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+  const response = await axios.post(`${baseUrl}/${id}/reference-image`, data, config)
+  return response.data
+}
+
+export default { create, getAll, getUser, uploadImage }
