@@ -1,8 +1,6 @@
 <template>
   <div v-if="user" class="p-6">
-    <BasePanel
-      class="bg-gradient-to-b from-green-800 via-green-900 to-dark-02 rounded-b-none"
-    >
+    <BasePanel class="rounded-b-none">
       <div class="flex justify-between items-start mb-5">
         <div class="flex items-center">
           <img
@@ -46,13 +44,19 @@
           </router-link>
         </div>
       </div>
-      <div class="text-xl font-semibold -mb-4">Activity</div>
     </BasePanel>
     <BasePanel class="rounded-t-none pt-0 -mt-2">
-      <div
-        class="mt-2 divide-y divide-gray-700 rounded-lg overflow-hidden shadow"
-      >
-        <ActivityRow :key="i" v-for="(event, i) in userEvents" :event="event" />
+      <div>
+        <div class="text-xl font-semibold">Activity</div>
+        <div
+          class="mt-2 divide-y divide-gray-700 rounded-lg overflow-hidden shadow"
+        >
+          <ActivityRow
+            :key="i"
+            v-for="(event, i) in userEvents"
+            :event="event"
+          />
+        </div>
       </div>
     </BasePanel>
   </div>
