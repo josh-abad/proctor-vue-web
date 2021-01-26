@@ -7,11 +7,7 @@
       {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
     </div>
     <div>
-      {{
-        usersSeen.some((seen) => seen.includes(user?.fullName || "unknown"))
-          ? user?.fullName
-          : ""
-      }}
+      {{ usersSeen.some((seen) => seen.includes(userName)) ? userName : "" }}
     </div>
     <video
       v-show="cameraOn"
@@ -49,6 +45,11 @@ export default defineComponent({
       usersSeen: [] as string[],
       video: {} as HTMLMediaElement,
       cameraOn: false
+    }
+  },
+  computed: {
+    userName (): string {
+      return this.user?.fullName || ''
     }
   },
   async mounted () {
@@ -111,11 +112,11 @@ export default defineComponent({
         .withFaceDescriptor()
 
       if (!detection) {
-        throw new Error(`No face detected for ${this.user?.fullName}.`)
+        throw new Error(`No face detected for ${this.userName}.`)
       }
 
       const descriptor = [detection.descriptor]
-      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(this.user?.fullName || 'unknown', descriptor)
+      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(this.userName || 'unknown', descriptor)
 
       const maxDescriptorDistance = 0.6
       return new faceapi.FaceMatcher(labeledDescriptor, maxDescriptorDistance)
