@@ -18,7 +18,11 @@
       <div class="mt-4">
         <Accordion label="User">
           <BaseButton>Change Password</BaseButton>
-          <ImageUpload class="mt-4" />
+          <div class="mt-2">
+            <router-link :to="`/user/${user?.id}/reference-image`">
+              <BaseButton>Configure Face ID</BaseButton>
+            </router-link>
+          </div>
         </Accordion>
       </div>
     </BasePanel>
@@ -29,11 +33,12 @@
 import Accordion from '@/components/Accordion.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BasePanel from '@/components/BasePanel.vue'
-import ImageUpload from '@/components/ImageUpload.vue'
 import { defineComponent } from 'vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { BasePanel, Accordion, BaseButton, ImageUpload }
+  components: { BasePanel, Accordion, BaseButton },
+  mixins: [userMixin]
 })
 </script>
