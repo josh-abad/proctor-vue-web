@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <div v-if="examCanStart && exam && attempt">
       <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
