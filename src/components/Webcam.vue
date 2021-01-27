@@ -112,7 +112,7 @@ export default defineComponent({
       if (!imgUrl) return null
 
       try {
-        const img = await faceapi.fetchImage(imgUrl)
+        const img = await faceapi.fetchImage(encodeURI(imgUrl))
         const detection = await faceapi
           .detectSingleFace(img, new TinyFaceDetectorOptions())
           .withFaceLandmarks(USE_TINY_MODEL)
