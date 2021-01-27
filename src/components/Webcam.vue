@@ -111,21 +111,25 @@ export default defineComponent({
 
       if (!imgUrl) return null
 
-      const img = await faceapi.fetchImage(imgUrl)
-      const detection = await faceapi
-        .detectSingleFace(img, new TinyFaceDetectorOptions())
-        .withFaceLandmarks(USE_TINY_MODEL)
-        .withFaceDescriptor()
+      try {
+        const img = await faceapi.fetchImage(imgUrl)
+        const detection = await faceapi
+          .detectSingleFace(img, new TinyFaceDetectorOptions())
+          .withFaceLandmarks(USE_TINY_MODEL)
+          .withFaceDescriptor()
 
-      if (!detection) {
-        throw new Error(`No face detected for ${this.userName}.`)
+        if (!detection) {
+          throw new Error(`No face detected for ${this.userName}.`)
+        }
+
+        const descriptor = [detection.descriptor]
+        const labeledDescriptor = new faceapi.LabeledFaceDescriptors(this.userName || 'unknown', descriptor)
+
+        const maxDescriptorDistance = 0.6
+        return new faceapi.FaceMatcher(labeledDescriptor, maxDescriptorDistance)
+      } catch (error) {
+        return null
       }
-
-      const descriptor = [detection.descriptor]
-      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(this.userName || 'unknown', descriptor)
-
-      const maxDescriptorDistance = 0.6
-      return new faceapi.FaceMatcher(labeledDescriptor, maxDescriptorDistance)
     }
   }
 })
