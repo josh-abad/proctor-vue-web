@@ -3,6 +3,7 @@
     <div v-if="examCanStart && exam && attempt">
       <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
+        <Webcam hide-video />
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
           :key="i"
@@ -66,10 +67,11 @@ import ColorHeader from '@/components/ColorHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
 import DialogModal from '@/components/DialogModal.vue'
+import Webcam from '@/components/Webcam.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton, DialogModal },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton, DialogModal, Webcam },
   mixins: [userMixin],
   props: {
     courseId: {

@@ -1,6 +1,5 @@
 <template>
-  <div class="p-6">
-    <div class="font-bold text-2xl">Webcam Test</div>
+  <div>
     <div>
       {{ faceSeen ? "Face detected" : "No face detected" }}
       <span>
@@ -15,17 +14,15 @@
       {{ multipleFacesSeen }}
       {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
     </div>
+    <WebcamEyeIcon :on="cameraOn" />
     <video
-      v-show="cameraOn"
+      v-show="cameraOn && !hideVideo"
       ref="video"
       width="100"
       height="60"
       autoplay
       muted
     />
-    <div class="mt-4" v-if="cameraOn">
-      <BaseButton @click="stopVideo" prominent>Stop video</BaseButton>
-    </div>
   </div>
 </template>
 
@@ -34,16 +31,22 @@ import { defineComponent } from 'vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
-import BaseButton from './BaseButton.vue'
 import userMixin from '@/mixins/user'
+import WebcamEyeIcon from './WebcamEyeIcon.vue'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'Webcam',
-  components: { BaseButton },
+  components: { WebcamEyeIcon },
   mixins: [userMixin],
+  props: {
+    hideVideo: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       faceSeen: false,
@@ -63,31 +66,12 @@ export default defineComponent({
 
     await this.loadModels()
 
-    navigator.mediaDevices
-      .getUserMedia({ video: {} })
-      .then(stream => (this.video.srcObject = stream))
-      .catch(error => this.$store.dispatch(ALERT, error))
-    this.cameraOn = true
-
     const faceMatcher = await this.createFaceMatcher()
-
     if (!faceMatcher) return
 
-    const input = this.video as HTMLMediaElement
-    input.addEventListener('play', () => {
-      setInterval(async () => {
-        const detections = await faceapi
-          .detectAllFaces(input as TNetInput, new TinyFaceDetectorOptions({ inputSize: 128 }))
-          .withFaceLandmarks(USE_TINY_MODEL)
-          .withFaceDescriptors()
+    this.video.addEventListener('play', this.startDetection(faceMatcher))
 
-        const results = detections.map(fd => faceMatcher.findBestMatch(fd.descriptor))
-
-        this.faceSeen = !!detections.length
-        this.usersSeen = results.map(match => match.toString())
-        this.multipleFacesSeen = detections.length
-      }, 64)
-    })
+    await this.startVideo()
   },
   unmounted () {
     this.stopVideo()
@@ -100,11 +84,38 @@ export default defineComponent({
         faceapi.loadFaceRecognitionModel(MODELS_URL)
       ])
     },
+    startDetection (faceMatcher: faceapi.FaceMatcher): () => void {
+      return () => {
+        setInterval(async () => {
+          const detections = await faceapi
+            .detectAllFaces(this.video as TNetInput, new TinyFaceDetectorOptions({ inputSize: 128 }))
+            .withFaceLandmarks(USE_TINY_MODEL)
+            .withFaceDescriptors()
+
+          const results = detections.map(fd => faceMatcher.findBestMatch(fd.descriptor))
+
+          this.faceSeen = !!detections.length
+          this.usersSeen = results.map(match => match.toString())
+          this.multipleFacesSeen = detections.length
+        }, 64)
+      }
+    },
+    async startVideo (): Promise<void> {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+        this.video.srcObject = stream
+        this.video.play()
+        this.cameraOn = true
+      } catch (error) {
+        this.$store.dispatch(ALERT, error)
+      }
+    },
     stopVideo (): void {
-      (this.video?.srcObject as MediaStream)
-        .getTracks()
-        .forEach(track => track.stop())
-      this.cameraOn = false
+      const stream = this.video?.srcObject as MediaStream
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop())
+        this.cameraOn = false
+      }
     },
     async createFaceMatcher (): Promise<faceapi.FaceMatcher | null> {
       const imgUrl = this.user?.referenceImageUrl
