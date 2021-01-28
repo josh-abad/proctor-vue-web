@@ -45,12 +45,13 @@
         <ul
           class="max-h-56 rounded-md py-1 text-base ring-1 ring-gray-900 ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
         >
-          <NavBarSearchResult
+          <Result
             @result-click="$router.push(`/courses/${option.id}`)"
             v-for="(option, i) in filteredCourses"
             :key="i"
-            >{{ option.name }}</NavBarSearchResult
           >
+            {{ option.name }}
+          </Result>
         </ul>
       </div>
     </transition>
@@ -60,12 +61,12 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import BaseInput from './BaseInput.vue'
-import NavBarSearchResult from './NavBarSearchResult.vue'
+import BaseInput from '@/components/BaseInput.vue'
+import Result from './components/Result.vue'
 
 export default defineComponent({
-  name: 'NavBarSearch',
-  components: { BaseInput, NavBarSearchResult },
+  name: 'Search',
+  components: { BaseInput, Result },
   data () {
     return {
       open: false,

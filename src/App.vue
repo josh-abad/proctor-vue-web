@@ -4,7 +4,11 @@
   >
     <div id="modals"></div>
     <div class="flex flex-col text-white">
-      <NavBar v-if="isLoggedIn" @toggle="handleToggle" :is-open="sidebarOpen" />
+      <TheAppBar
+        v-if="isLoggedIn"
+        @toggle="handleToggle"
+        :is-open="sidebarOpen"
+      />
       <div>
         <TheSidebar :is-open="sidebarOpen" />
         <div>
@@ -24,6 +28,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Snackbar from './components/Snackbar.vue'
+import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
@@ -34,6 +39,7 @@ import { io } from 'socket.io-client'
 export default defineComponent({
   name: 'App',
   components: {
+    TheAppBar,
     TheSidebar,
     Snackbar
   },

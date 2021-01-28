@@ -15,7 +15,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'NavBarSearchResult',
+  name: 'Result',
   emits: ['result-click']
 })
 </script>

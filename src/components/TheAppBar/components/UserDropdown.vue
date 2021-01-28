@@ -100,7 +100,7 @@ import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
 
 export default defineComponent({
-  name: 'NavBarUserDropdown',
+  name: 'UserDropdown',
   mixins: [userMixin],
   data () {
     return {

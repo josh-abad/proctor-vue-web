@@ -24,7 +24,7 @@
       </button>
       <router-link to="/">
         <img
-          src="../assets/logo-white.png"
+          src="../../assets/logo-white.png"
           alt="Logo"
           class="ml-6 h-7"
           @click="$router.push('/')"
@@ -33,10 +33,10 @@
     </div>
     <div class="flex items-center">
       <div class="mr-5">
-        <NavBarSearch />
+        <Search />
       </div>
       <div class="hidden items-center sm:flex md:block">
-        <NavBarUserDropdown />
+        <UserDropdown />
       </div>
     </div>
   </header>
@@ -44,12 +44,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import NavBarUserDropdown from './NavBarUserDropdown.vue'
-import NavBarSearch from './NavBarSearch.vue'
+import UserDropdown from './components/UserDropdown.vue'
+import Search from './components/Search/Search.vue'
 
 export default defineComponent({
-  name: 'NavBar',
-  components: { NavBarUserDropdown, NavBarSearch },
+  name: 'TheAppBar',
+  components: { UserDropdown, Search },
   props: {
     isOpen: Boolean
   },
