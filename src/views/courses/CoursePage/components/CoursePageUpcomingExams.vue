@@ -56,8 +56,8 @@
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
-import BaseLabel from './BaseLabel.vue'
-import BasePanel from './BasePanel.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 

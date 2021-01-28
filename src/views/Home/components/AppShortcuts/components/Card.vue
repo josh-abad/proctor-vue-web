@@ -22,7 +22,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ShortcutCard',
+  name: 'Card',
   props: {
     icon: {
       type: String,

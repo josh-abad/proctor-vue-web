@@ -92,8 +92,9 @@
 </template>
 
 <script lang="ts">
-import CoursePageAbout from '@/components/CoursePageAbout.vue'
-import CoursePageProgress from '@/components/CoursePageProgress.vue'
+import CoursePageAbout from './components/CoursePageAbout.vue'
+import CoursePageProgress from './components/CoursePageProgress.vue'
+import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
@@ -106,7 +107,6 @@ import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
-import CoursePageUpcomingExams from '@/components/CoursePageUpcomingExams.vue'
 
 export default defineComponent({
   name: 'CoursePage',

@@ -7,9 +7,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseLabel from './BaseLabel.vue'
-import BasePanel from './BasePanel.vue'
-import ProgressBar from './ProgressBar.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default defineComponent({
   name: 'CoursePageProgress',

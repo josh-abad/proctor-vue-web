@@ -37,8 +37,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseLabel from './BaseLabel.vue'
-import BasePanel from './BasePanel.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({
   name: 'CoursePageAbout',

@@ -36,8 +36,8 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import BaseLabel from './BaseLabel.vue'
-import ProgressBar from './ProgressBar.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default defineComponent({
   name: 'CourseListItem',

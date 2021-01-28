@@ -41,7 +41,7 @@ import userMixin from '@/mixins/user'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
-  name: 'AttemptRow',
+  name: 'AttemptItem',
   mixins: [userMixin],
   props: {
     attempt: {

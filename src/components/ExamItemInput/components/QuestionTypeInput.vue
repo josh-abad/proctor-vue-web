@@ -29,11 +29,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ViewToggle from './ViewToggle.vue'
+import ViewToggle from '@/components/ViewToggle.vue'
 
 export default defineComponent({
-  components: { ViewToggle },
   name: 'QuestionTypeInput',
+  components: { ViewToggle },
   props: {
     modelValue: {
       type: String,

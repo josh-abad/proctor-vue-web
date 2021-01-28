@@ -11,7 +11,7 @@
           class="fixed bg-gradient-to-t from-dark-02 to-transparent bottom-0 left-0 w-full h-1/2"
         />
         <div class="rounded-lg divide-gray-700">
-          <UpcomingExamsListItem
+          <Item
             :examEvent="examEvent"
             v-for="(examEvent, i) in events.slice(0, 5)"
             :key="i"
@@ -25,13 +25,13 @@
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
-import UpcomingExamsListItem from './UpcomingExamsListItem.vue'
-import Accordion from './Accordion.vue'
-import BasePanel from './BasePanel.vue'
+import Item from './components/Item.vue'
+import Accordion from '@/components/Accordion.vue'
+import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({
   name: 'UpcomingExams',
-  components: { UpcomingExamsListItem, Accordion, BasePanel },
+  components: { Item, Accordion, BasePanel },
   computed: {
     upcomingExams (): AppEvent[] {
       return this.$store.getters.upcomingExams

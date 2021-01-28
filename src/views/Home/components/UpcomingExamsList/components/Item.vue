@@ -57,7 +57,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
-  name: 'UpcomingExamsListItem',
+  name: 'Item',
   props: {
     examEvent: {
       type: Object as () => AppEvent,

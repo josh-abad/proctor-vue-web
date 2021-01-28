@@ -4,29 +4,27 @@
       Shortcuts</BaseLabel
     >
     <nav class="mt-4 flex space-x-4">
-      <ShortcutCard :icon="icon4" :url="`/user/${user.id}`" v-if="user"
-        >Profile</ShortcutCard
-      >
-      <ShortcutCard
+      <Card :icon="icon4" :url="`/user/${user.id}`" v-if="user">Profile</Card>
+      <Card
         :icon="icon1"
         url="/students"
         v-if="hasPermission(['coordinator', 'admin'])"
-        >Students</ShortcutCard
+        >Students</Card
       >
-      <ShortcutCard :icon="icon2" url="/courses">Courses</ShortcutCard>
-      <ShortcutCard :icon="icon3" url="/settings">Settings</ShortcutCard>
+      <Card :icon="icon2" url="/courses">Courses</Card>
+      <Card :icon="icon3" url="/settings">Settings</Card>
     </nav>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseLabel from './BaseLabel.vue'
-import ShortcutCard from './ShortcutCard.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import Card from './components/Card.vue'
 import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'AppShortcuts',
-  components: { BaseLabel, ShortcutCard },
+  components: { BaseLabel, Card },
   mixins: [userMixin],
   data () {
     return {

@@ -7,8 +7,8 @@
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent } from 'vue'
-import Accordion from './Accordion.vue'
-import WeekExam from './WeekExam.vue'
+import Accordion from '@/components/Accordion.vue'
+import WeekExam from './components/WeekExam.vue'
 
 export default defineComponent({
   name: 'Week',

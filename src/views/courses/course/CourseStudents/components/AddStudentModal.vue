@@ -78,9 +78,9 @@
 import { defineComponent } from 'vue'
 import { Course, User } from '@/types'
 import BasePanel from '@/components/BasePanel.vue'
-import BaseButton from './BaseButton.vue'
+import BaseButton from '@/components/BaseButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
-import BaseInput from './BaseInput.vue'
+import BaseInput from '@/components/BaseInput.vue'
 
 export default defineComponent({
   name: 'AddStudentModal',

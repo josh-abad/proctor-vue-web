@@ -52,7 +52,7 @@
         <div v-else-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
           <div class="rounded-xl overflow-hidden mt-2 divide-y divide-gray-700">
-            <AttemptRow
+            <AttemptItem
               v-for="(attempt, i) in attemptsByExam"
               :key="attempt.id"
               :attempt-number="i + 1"
@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import AttemptRow from '@/components/AttemptRow.vue'
+import AttemptItem from './components/AttemptItem.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
@@ -122,7 +122,7 @@ dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
-  components: { AttemptRow, BasePanel, BaseLabel, PageHeader, ModalButton, BaseButton },
+  components: { AttemptItem, BasePanel, BaseLabel, PageHeader, ModalButton, BaseButton },
   mixins: [userMixin, examMixin],
   props: {
     courseId: {

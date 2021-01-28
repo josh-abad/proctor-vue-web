@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
       title: 'Proctor Vue',
       authorize: [] as Role[]
     },
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home/Home.vue')
   },
   {
     path: '/login',
@@ -43,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'Courses Page',
-        component: () => import('../views/courses/CoursesPage.vue')
+        component: () => import('../views/courses/CoursesPage/CoursesPage.vue')
       },
       {
         path: 'new',
@@ -67,7 +67,7 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               transition: 'slide-left'
             },
-            component: () => import('../views/courses/course/CourseStudents.vue')
+            component: () => import('../views/courses/course/CourseStudents/CourseStudents.vue')
           },
           {
             path: 'overview',
@@ -76,10 +76,10 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               transition: 'slide-right'
             },
-            component: () => import('../views/courses/course/CourseOverview.vue')
+            component: () => import('../views/courses/course/CourseOverview/CourseOverview.vue')
           }
         ],
-        component: () => import('../views/courses/CoursePage.vue')
+        component: () => import('../views/courses/CoursePage/CoursePage.vue')
       },
       {
         path: ':courseId/exams/new',
@@ -96,7 +96,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: createTitle('Attempts')
         },
-        component: () => import('../views/courses/AttemptsPage.vue')
+        component: () => import('../views/courses/AttemptsPage/AttemptsPage.vue')
       },
       {
         path: ':courseId/exams/:examId/:attemptId',

@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import Week from '@/components/Week.vue'
+import Week from './components/Week/Week.vue'
 
 export default defineComponent({
   name: 'CourseOverview',

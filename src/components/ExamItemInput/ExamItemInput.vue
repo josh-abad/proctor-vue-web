@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <ExamItemInputSideMenu
+    <SideMenu
       class="ml-2"
       @discard="$emit('discard')"
       @add-question="$emit('add-question', count)"
@@ -91,13 +91,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import BaseButton from './BaseButton.vue'
-import BaseInput from './BaseInput.vue'
-import QuestionTypeInput from './QuestionTypeInput.vue'
-import ExamItemInputSideMenu from './ExamItemInputSideMenu.vue'
+import BaseButton from '@/components/BaseButton.vue'
+import BaseInput from '@/components/BaseInput.vue'
+import QuestionTypeInput from './components/QuestionTypeInput.vue'
+import SideMenu from './components/SideMenu.vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, QuestionTypeInput, ExamItemInputSideMenu },
+  components: { BaseInput, BaseButton, QuestionTypeInput, SideMenu },
   name: 'ExamItemInput',
   props: {
     question: {

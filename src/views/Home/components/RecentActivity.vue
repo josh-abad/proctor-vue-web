@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ActivityRow from './ActivityRow.vue'
-import BaseLabel from './BaseLabel.vue'
+import ActivityRow from '@/components/ActivityRow.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
 import userMixin from '@/mixins/user'
 import { AppEvent } from '@/types'
 

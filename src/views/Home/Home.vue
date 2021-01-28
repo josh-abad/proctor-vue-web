@@ -12,10 +12,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import RecentCourses from '@/components/RecentCourses.vue'
-import UpcomingExamsList from '@/components/UpcomingExamsList.vue'
-import RecentActivity from '@/components/RecentActivity.vue'
-import AppShortcuts from '@/components/AppShortcuts.vue'
+import RecentCourses from './components/RecentCourses.vue'
+import UpcomingExamsList from './components/UpcomingExamsList/UpcomingExamsList.vue'
+import RecentActivity from './components/RecentActivity.vue'
+import AppShortcuts from './components/AppShortcuts/AppShortcuts.vue'
 import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({

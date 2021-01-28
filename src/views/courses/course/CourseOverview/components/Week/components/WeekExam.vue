@@ -33,11 +33,11 @@
 import { Exam } from '@/types'
 import { defineComponent } from 'vue'
 import examMixin from '@/mixins/exam'
-import SVGCheckbox from './SVGCheckbox.vue'
+import SVGCheckbox from '@/components/SVGCheckbox.vue'
 
 export default defineComponent({
-  components: { SVGCheckbox },
   name: 'WeekExam',
+  components: { SVGCheckbox },
   mixins: [examMixin],
   props: {
     exam: {
