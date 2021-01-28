@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="examCanStart && exam && attempt">
-      <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
+      <PageHeader hideMenu>{{ exam.label }}</PageHeader>
       <BasePanel class="mt-4">
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
@@ -37,16 +37,14 @@
       </div>
     </Center>
     <teleport to="#modals">
-      <DialogModal
-        header="Warning"
-        no-action
-        v-show="warningModalOpen"
-        @cancel="warningModalOpen = false"
-      >
-        Please refrain from leaving this page during the exam. You have
-        {{ warningsLeft }}
-        {{ warningsLeft === 1 ? "warning" : "warnings" }} left.
-      </DialogModal>
+      <AppModal :open="warningModalOpen" @close="warningModalOpen = false">
+        <template #header> Warning </template>
+        <template #body>
+          Please refrain from leaving this page during the exam. You have
+          {{ warningsLeft }}
+          {{ warningsLeft === 1 ? "warning" : "warnings" }} left.
+        </template>
+      </AppModal>
     </teleport>
   </div>
 </template>
@@ -62,14 +60,14 @@ import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
-import ColorHeader from '@/components/ColorHeader.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
-import DialogModal from '@/components/DialogModal.vue'
+import AppModal from '@/components/AppModal.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton, DialogModal },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, AppModal },
   mixins: [userMixin],
   props: {
     courseId: {
