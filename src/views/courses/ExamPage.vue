@@ -37,7 +37,7 @@
       </div>
     </Center>
     <teleport to="#modals">
-      <AppModal v-show="warningModalOpen" @close="warningModalOpen = false">
+      <AppModal v-if="warningModalOpen" @close="warningModalOpen = false">
         <template #header> Warning </template>
         <template #body>
           Please refrain from leaving this page during the exam. You have
