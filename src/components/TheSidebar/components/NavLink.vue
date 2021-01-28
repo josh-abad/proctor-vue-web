@@ -25,7 +25,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SidebarLink',
+  name: 'NavLink',
   props: {
     url: {
       type: String,

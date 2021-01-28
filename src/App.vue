@@ -6,7 +6,7 @@
     <div class="flex flex-col text-white">
       <NavBar v-if="isLoggedIn" @toggle="handleToggle" :is-open="sidebarOpen" />
       <div>
-        <Sidebar :is-open="sidebarOpen" />
+        <TheSidebar :is-open="sidebarOpen" />
         <div>
           <router-view
             class="transform ease-in-out duration-300"
@@ -24,8 +24,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Snackbar from './components/Snackbar.vue'
-import NavBar from './components/NavBar.vue'
-import Sidebar from './components/Sidebar.vue'
+import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
 import { ADD_ATTEMPT, SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_USER } from './store/mutation-types'
@@ -35,8 +34,7 @@ import { io } from 'socket.io-client'
 export default defineComponent({
   name: 'App',
   components: {
-    NavBar,
-    Sidebar,
+    TheSidebar,
     Snackbar
   },
   data () {

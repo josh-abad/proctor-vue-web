@@ -5,7 +5,7 @@
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <nav class="flex flex-col">
-        <SidebarLink url="/">
+        <NavLink url="/">
           <template #label> Home </template>
           <template #icon>
             <!-- Heroicon name: home -->
@@ -22,8 +22,8 @@
               d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
             />
           </template>
-        </SidebarLink>
-        <SidebarLink url="/courses">
+        </NavLink>
+        <NavLink url="/courses">
           <template #label> Courses </template>
           <template #icon>
             <!-- Heroicon name: book-open -->
@@ -40,11 +40,8 @@
               d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"
             />
           </template>
-        </SidebarLink>
-        <SidebarLink
-          url="/students"
-          v-if="hasPermission(['coordinator', 'admin'])"
-        >
+        </NavLink>
+        <NavLink url="/students" v-if="hasPermission(['coordinator', 'admin'])">
           <template #label> Students </template>
           <template #icon>
             <!-- Heroicon name: users -->
@@ -61,8 +58,8 @@
               d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
             />
           </template>
-        </SidebarLink>
-        <SidebarLink url="/calendar">
+        </NavLink>
+        <NavLink url="/calendar">
           <template #label> Calendar </template>
           <template #icon>
             <!-- Heroicon name: calendar  -->
@@ -81,8 +78,8 @@
               clip-rule="evenodd"
             />
           </template>
-        </SidebarLink>
-        <SidebarLink url="/files">
+        </NavLink>
+        <NavLink url="/files">
           <template #label> Files </template>
           <template #icon>
             <!-- Heroicon name: document-text  -->
@@ -101,7 +98,7 @@
               clip-rule="evenodd"
             />
           </template>
-        </SidebarLink>
+        </NavLink>
       </nav>
     </aside>
   </div>
@@ -110,11 +107,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
-import SidebarLink from './SidebarLink.vue'
+import NavLink from './components/NavLink.vue'
 
 export default defineComponent({
-  name: 'Sidebar',
-  components: { SidebarLink },
+  name: 'TheSidebar',
+  components: { NavLink },
   mixins: [userMixin],
   props: {
     isOpen: Boolean
