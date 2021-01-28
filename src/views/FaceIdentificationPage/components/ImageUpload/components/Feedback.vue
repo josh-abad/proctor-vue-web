@@ -37,10 +37,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import LoadingWheel from './LoadingWheel.vue'
+import LoadingWheel from '@/components/LoadingWheel.vue'
 
 export default defineComponent({
-  name: 'ImageUploadInfo',
+  name: 'Feedback',
   components: { LoadingWheel },
   props: {
     valid: {

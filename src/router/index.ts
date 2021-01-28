@@ -163,13 +163,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/user/:userId/reference-image',
-    name: 'Upload Reference Image',
+    name: 'Face Identification',
     props: true,
     meta: {
-      title: createTitle('Upload Reference Image'),
+      title: createTitle('Face Identification'),
       authorize: [] as Role[]
     },
-    component: () => import('../views/UploadReferenceImage.vue')
+    component: () => import('../views/FaceIdentificationPage/FaceIdentificationPage.vue')
   },
   {
     path: '/user/:userId',

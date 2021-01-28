@@ -13,11 +13,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ImageUpload from '@/components/ImageUpload.vue'
+import ImageUpload from './components/ImageUpload/ImageUpload.vue'
 import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({
-  name: 'UploadReferenceImage',
+  name: 'FaceIdentificationPage',
   components: { ImageUpload, BasePanel },
   props: {
     userId: {
