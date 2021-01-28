@@ -1,7 +1,7 @@
 <template>
   <BaseButton id="btn-open" @click="isOpen = true">Add Student</BaseButton>
   <teleport to="#modals">
-    <AppModal v-if="isOpen" @close="isOpen = false">
+    <AppModal :open="isOpen" @close="isOpen = false">
       <template #header>Choose Students</template>
       <template #body>
         <div class="mt-4">

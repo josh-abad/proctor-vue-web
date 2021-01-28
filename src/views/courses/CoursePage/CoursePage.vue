@@ -37,7 +37,7 @@
             Delete Course
           </button>
           <teleport to="#modals">
-            <AppModal v-if="deleteModalOpen" @close="deleteModalOpen = false">
+            <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
               <template #header> Delete Course </template>
               <template #body>
                 Are you sure you want to delete this course?

@@ -4,7 +4,7 @@
       ><slot></slot
     ></BaseButton>
     <teleport to="#modals">
-      <AppModal v-if="modalOpen" @close="modalOpen = false">
+      <AppModal :open="modalOpen" @close="modalOpen = false">
         <template #header>{{ header }}</template>
         <template #body>{{ message }}</template>
         <template #action>

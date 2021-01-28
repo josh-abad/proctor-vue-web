@@ -1,6 +1,6 @@
 <template>
   <transition name="modal-fade">
-    <div class="modal-backdrop">
+    <div class="modal-backdrop" v-show="open">
       <div class="modal" v-click-outside="{ handler: closeModal, middleware }">
         <header class="modal-header">
           <slot name="header">Dialog Header</slot>
@@ -24,11 +24,21 @@ import BaseButton from './BaseButton.vue'
 export default defineComponent({
   name: 'AppModal',
   components: { BaseButton },
+  props: {
+    open: {
+      type: Boolean,
+      default: false
+    }
+  },
   emits: ['close'],
-  mounted () {
-    const body = document.querySelector('body')
-    if (body) {
-      body.classList.add('overflow-hidden')
+  watch: {
+    open (isOpen: boolean): void {
+      if (isOpen) {
+        const body = document.querySelector('body')
+        if (body) {
+          body.classList.add('overflow-hidden')
+        }
+      }
     }
   },
   methods: {
