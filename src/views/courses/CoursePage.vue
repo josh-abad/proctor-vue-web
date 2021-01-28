@@ -1,10 +1,10 @@
 <template>
   <div v-if="course" class="p-4">
-    <ColorHeader
+    <PageHeader
       :links="links"
       @menu-clicked="menuOpen = !menuOpen"
       :hide-menu="!hasPermission(['coordinator', 'admin'])"
-      >{{ course.name }}</ColorHeader
+      >{{ course.name }}</PageHeader
     >
     <transition name="dropdown-fade" v-show="menuOpen">
       <div
@@ -98,7 +98,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
-import ColorHeader from '@/components/ColorHeader.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import DialogModal from '@/components/DialogModal.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
@@ -110,7 +110,7 @@ import CoursePageUpcomingExams from '@/components/CoursePageUpcomingExams.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, ColorHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress, CoursePageUpcomingExams },
+  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress, CoursePageUpcomingExams },
   mixins: [userMixin],
   props: {
     courseId: {

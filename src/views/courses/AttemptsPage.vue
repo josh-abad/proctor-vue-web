@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <div v-if="exam">
-      <ColorHeader :links="links" hideMenu>{{ exam.label }}</ColorHeader>
+      <PageHeader :links="links" hideMenu>{{ exam.label }}</PageHeader>
       <BasePanel class="mt-4">
         <div class="text-gray-400">
           <div v-if="highestGrade">
@@ -102,7 +102,7 @@
 import AttemptRow from '@/components/AttemptRow.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
-import ColorHeader from '@/components/ColorHeader.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { ALERT, DELETE_EXAM } from '@/store/action-types'
@@ -122,7 +122,7 @@ dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
-  components: { AttemptRow, BasePanel, BaseLabel, ColorHeader, ModalButton, BaseButton },
+  components: { AttemptRow, BasePanel, BaseLabel, PageHeader, ModalButton, BaseButton },
   mixins: [userMixin, examMixin],
   props: {
     courseId: {

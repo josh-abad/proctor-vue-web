@@ -1,13 +1,13 @@
 <template>
   <div class="p-4">
-    <ColorHeader
+    <PageHeader
       :links="[
         { name: 'Home', url: '/' },
         { name: 'Courses', url: '/courses' },
       ]"
       @menu-clicked="isOpen = !isOpen"
       :hide-menu="!hasPermission(['admin'])"
-      >Courses</ColorHeader
+      >Courses</PageHeader
     >
     <transition name="dropdown-fade" v-show="isOpen">
       <div
@@ -101,7 +101,7 @@
 
 <script lang="ts">
 import BasePanel from '@/components/BasePanel.vue'
-import ColorHeader from '@/components/ColorHeader.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import CoursesPageListItem from '@/components/CoursesPageListItem.vue'
 import SkeletonCourseListItem from '@/components/SkeletonCourseListItem.vue'
@@ -112,7 +112,7 @@ import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'CoursesPage',
-  components: { CoursesPageCard, BasePanel, ColorHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle },
+  components: { CoursesPageCard, BasePanel, PageHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle },
   mixins: [userMixin],
   data () {
     return {

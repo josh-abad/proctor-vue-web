@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="examCanStart && exam && attempt">
-      <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
+      <PageHeader hideMenu>{{ exam.label }}</PageHeader>
       <BasePanel class="mt-4">
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
@@ -62,14 +62,14 @@ import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
-import ColorHeader from '@/components/ColorHeader.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
 import DialogModal from '@/components/DialogModal.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, ColorHeader, ModalButton, DialogModal },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, DialogModal },
   mixins: [userMixin],
   props: {
     courseId: {

@@ -28,10 +28,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import Breadcrumbs from './components/Breadcrumbs.vue'
 
 export default defineComponent({
-  name: 'ColorHeader',
+  name: 'PageHeader',
   components: { Breadcrumbs },
   props: {
     links: {
