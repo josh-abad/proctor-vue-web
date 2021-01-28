@@ -16,7 +16,7 @@ import { defineComponent } from 'vue'
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export default defineComponent({
-  name: 'CalendarWeekdays',
+  name: 'Weekdays',
   computed: {
     weekdays () {
       return WEEKDAYS

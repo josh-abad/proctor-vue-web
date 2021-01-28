@@ -188,7 +188,7 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Calendar'),
       authorize: [] as Role[]
     },
-    component: () => import('../views/CalendarPage.vue')
+    component: () => import('../views/CalendarPage/CalendarPage.vue')
   },
   {
     path: '/:pathMatch(.*)*',

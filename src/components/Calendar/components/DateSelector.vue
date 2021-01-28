@@ -45,7 +45,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'CalendarDateIndicator',
+  name: 'DateIndicator',
   props: {
     currentDate: {
       type: String,

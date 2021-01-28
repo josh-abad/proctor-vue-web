@@ -4,16 +4,16 @@
       class="flex items-center justify-between bg-green-500"
       :class="compact ? 'p-3' : 'p-6'"
     >
-      <CalendarDateIndicator :selected-date="selectedDate" :compact="compact" />
-      <CalendarDateSelector
+      <DateIndicator :selected-date="selectedDate" :compact="compact" />
+      <DateSelector
         :current-date="today"
         :selected-date="selectedDate"
         @date-selected="selectDate"
       />
     </div>
-    <CalendarWeekdays :compact="compact" />
+    <Weekdays :compact="compact" />
     <ol class="grid grid-cols-7 h-full relative">
-      <CalendarMonthDayItem
+      <DayItem
         v-for="day in days"
         :compact="compact"
         :key="day.date"
@@ -31,10 +31,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import CalendarDateSelector from './CalendarDateSelector.vue'
-import CalendarDateIndicator from './CalendarDateIndicator.vue'
-import CalendarWeekdays from './CalendarWeekdays.vue'
-import CalendarMonthDayItem from './CalendarMonthDayItem.vue'
+import DateSelector from './components/DateSelector.vue'
+import DateIndicator from './components/DateIndicator.vue'
+import Weekdays from './components/Weekdays.vue'
+import DayItem from './components/DayItem.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
@@ -45,8 +45,8 @@ dayjs.extend(weekday)
 dayjs.extend(weekOfYear)
 
 export default defineComponent({
-  name: 'CalendarMonth',
-  components: { CalendarDateSelector, CalendarDateIndicator, CalendarWeekdays, CalendarMonthDayItem },
+  name: 'Calendar',
+  components: { DateSelector, DateIndicator, Weekdays, DayItem },
   mixins: [compactMixin],
   props: {
     modelValue: {

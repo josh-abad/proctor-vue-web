@@ -13,7 +13,7 @@ import { defineComponent } from 'vue'
 import compactMixin from '@/mixins/compact'
 
 export default defineComponent({
-  name: 'CalendarDateIndicator',
+  name: 'DateIndicator',
   mixins: [compactMixin],
   props: {
     selectedDate: {

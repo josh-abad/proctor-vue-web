@@ -29,8 +29,8 @@
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
-import BasePanel from './BasePanel.vue'
-import EventsPanelItem from './EventsPanelItem.vue'
+import BasePanel from '@/components/BasePanel.vue'
+import EventsPanelItem from './components/EventsPanelItem.vue'
 
 export default defineComponent({
   name: 'EventsPanel',

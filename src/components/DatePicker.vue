@@ -41,7 +41,7 @@
 import dayjs from 'dayjs'
 import { defineComponent } from 'vue'
 import BaseButton from './BaseButton.vue'
-import CalendarMonth from './CalendarMonth.vue'
+import CalendarMonth from '@/components/Calendar/Calendar.vue'
 
 export default defineComponent({
   name: 'DatePicker',

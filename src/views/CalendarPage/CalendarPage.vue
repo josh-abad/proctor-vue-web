@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import EventsPanel from '@/components/EventsPanel.vue'
-import CalendarMonth from '@/components/CalendarMonth.vue'
+import EventsPanel from './components/EventsPanel/EventsPanel.vue'
+import CalendarMonth from '@/components/Calendar/Calendar.vue'
 import { AppEvent } from '@/types'
 import dayjs from 'dayjs'
 import { defineComponent } from 'vue'

@@ -33,7 +33,7 @@ import { defineComponent, PropType } from 'vue'
 import compactMixin from '@/mixins/compact'
 
 export default defineComponent({
-  name: 'CalendarMonthDayItem',
+  name: 'DayItem',
   mixins: [compactMixin],
   props: {
     modelValue: {
