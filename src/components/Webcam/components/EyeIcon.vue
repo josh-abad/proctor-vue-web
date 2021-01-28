@@ -40,7 +40,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'WebcamEyeIcon',
+  name: 'EyeIcon',
   props: {
     on: {
       type: Boolean,

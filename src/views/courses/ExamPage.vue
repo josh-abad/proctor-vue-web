@@ -67,7 +67,7 @@ import ColorHeader from '@/components/ColorHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
 import DialogModal from '@/components/DialogModal.vue'
-import Webcam from '@/components/Webcam.vue'
+import Webcam from '@/components/Webcam/Webcam.vue'
 
 export default defineComponent({
   name: 'ExamPage',

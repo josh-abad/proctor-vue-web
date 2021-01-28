@@ -6,7 +6,7 @@
         {{
           usersSeen.some((seen) => seen.includes(userName))
             ? `(${userName})`
-            : ""
+            : `${faceSeen ? "(unknown)" : ""}`
         }}
       </span>
     </div>
@@ -14,7 +14,7 @@
       {{ multipleFacesSeen }}
       {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
     </div>
-    <WebcamEyeIcon :on="cameraOn" />
+    <EyeIcon :on="cameraOn" />
     <video
       v-show="cameraOn && !hideVideo"
       ref="video"
@@ -32,14 +32,14 @@ import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
 import userMixin from '@/mixins/user'
-import WebcamEyeIcon from './WebcamEyeIcon.vue'
+import EyeIcon from './components/EyeIcon.vue'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'Webcam',
-  components: { WebcamEyeIcon },
+  components: { EyeIcon },
   mixins: [userMixin],
   props: {
     hideVideo: {
