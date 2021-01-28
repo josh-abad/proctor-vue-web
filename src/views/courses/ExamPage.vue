@@ -37,16 +37,14 @@
       </div>
     </Center>
     <teleport to="#modals">
-      <DialogModal
-        header="Warning"
-        no-action
-        v-show="warningModalOpen"
-        @cancel="warningModalOpen = false"
-      >
-        Please refrain from leaving this page during the exam. You have
-        {{ warningsLeft }}
-        {{ warningsLeft === 1 ? "warning" : "warnings" }} left.
-      </DialogModal>
+      <AppModal v-show="warningModalOpen" @close="warningModalOpen = false">
+        <template #header> Warning </template>
+        <template #body>
+          Please refrain from leaving this page during the exam. You have
+          {{ warningsLeft }}
+          {{ warningsLeft === 1 ? "warning" : "warnings" }} left.
+        </template>
+      </AppModal>
     </teleport>
   </div>
 </template>
@@ -65,11 +63,11 @@ import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
-import DialogModal from '@/components/DialogModal.vue'
+import AppModal from '@/components/AppModal.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, DialogModal },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, AppModal },
   mixins: [userMixin],
   props: {
     courseId: {

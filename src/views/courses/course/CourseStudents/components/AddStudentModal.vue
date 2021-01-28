@@ -1,90 +1,56 @@
 <template>
-  <transition name="modal-fade">
-    <div class="fixed z-30 inset-0 overflow-y-auto">
-      <div
-        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-      >
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
+  <BaseButton id="btn-open" @click="isOpen = true">Add Student</BaseButton>
+  <teleport to="#modals">
+    <AppModal v-show="isOpen" @close="isOpen = false">
+      <template #header>Choose Students</template>
+      <template #body>
+        <div class="mt-4">
+          <BaseInput type="text" v-model="searchFilter" placeholder="Search" />
         </div>
-        <!-- This element is to trick the browser into centering the modal contents. -->
-        <span
-          class="hidden sm:inline-block sm:align-middle sm:h-screen"
-          aria-hidden="true"
-          >&#8203;</span
-        >
-        <div
-          class="inline-block align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-        >
-          <BasePanel class="border-none">
-            <div class="flex justify-between">
-              <div class="font-bold text-lg">Choose Students</div>
-              <button @click="$emit('close-modal')" class="focus:outline-none">
-                <svg
-                  class="fill-current w-4 h-4"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="mt-4">
-              <BaseInput
-                type="text"
-                v-model="searchFilter"
-                placeholder="Search"
-              />
-            </div>
-            <div class="mt-4 divide-y divide-gray-700">
-              <div
-                v-for="student in filteredStudents"
-                :key="student.id"
-                class="py-2"
-              >
-                <input
-                  type="checkbox"
-                  :id="student.fullName"
-                  :value="student.id"
-                  v-model="checkedNames"
-                />
-                <label :for="student.fullName" class="ml-2"
-                  ><div class="inline-block">
-                    {{ student.fullName }}
-                  </div>
-                </label>
+        <div class="mt-4">
+          <div
+            v-for="student in filteredStudents"
+            :key="student.id"
+            class="py-2"
+          >
+            <input
+              type="checkbox"
+              :id="student.fullName"
+              :value="student.id"
+              v-model="checkedNames"
+            />
+            <label :for="student.fullName" class="ml-2"
+              ><div class="inline-block">
+                {{ student.fullName }}
               </div>
-            </div>
-            <div class="mt-4 flex justify-end">
-              <BaseButton
-                @click="handleSubmit"
-                prominent
-                :disabled="!checkedNames.length"
-                >Add</BaseButton
-              >
-            </div>
-          </BasePanel>
+            </label>
+          </div>
         </div>
-      </div>
-    </div>
-  </transition>
+      </template>
+      <template #action>
+        <BaseButton
+          @click="handleSubmit"
+          prominent
+          :disabled="!checkedNames.length"
+        >
+          Add
+        </BaseButton>
+      </template>
+    </AppModal>
+  </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Course, User } from '@/types'
-import BasePanel from '@/components/BasePanel.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
 import BaseInput from '@/components/BaseInput.vue'
+import AppModal from '@/components/AppModal.vue'
 
 export default defineComponent({
   name: 'AddStudentModal',
-  components: { BasePanel, BaseButton, BaseInput },
+  components: { BaseButton, BaseInput, AppModal },
   props: {
     courseId: {
       type: String,
@@ -95,7 +61,8 @@ export default defineComponent({
   data () {
     return {
       checkedNames: [],
-      searchFilter: ''
+      searchFilter: '',
+      isOpen: false
     }
   },
   computed: {

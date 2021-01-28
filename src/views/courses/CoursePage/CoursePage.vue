@@ -30,21 +30,24 @@
           >
           <button
             @click="deleteModalOpen = true"
+            id="btn-open"
             class="link w-full text-left border-t border-gray-700 focus:outline-none"
             role="menuitem"
           >
             Delete Course
           </button>
           <teleport to="#modals">
-            <DialogModal
-              v-show="deleteModalOpen"
-              header="Delete Course"
-              action-label="Delete"
-              @cancel="deleteModalOpen = false"
-              @confirm="deleteCourse"
-            >
-              Are you sure you want to delete this course?
-            </DialogModal>
+            <AppModal v-show="deleteModalOpen" @close="deleteModalOpen = false">
+              <template #header> Delete Course </template>
+              <template #body>
+                Are you sure you want to delete this course?
+              </template>
+              <template #action>
+                <BaseButton @click="deleteCourse" prominent>
+                  Delete
+                </BaseButton>
+              </template>
+            </AppModal>
           </teleport>
         </div>
       </div>
@@ -100,17 +103,17 @@ import BaseLabel from '@/components/BaseLabel.vue'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import DialogModal from '@/components/DialogModal.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
+import AppModal from '@/components/AppModal.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, DialogModal, CoursePageProgress, CoursePageUpcomingExams },
+  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal },
   mixins: [userMixin],
   props: {
     courseId: {
