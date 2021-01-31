@@ -141,7 +141,7 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Webcam'),
       authorize: [] as Role[]
     },
-    component: () => import('../components/Webcam/Webcam.vue')
+    component: () => import('../views/WebcamTest.vue')
   },
   {
     path: '/settings',

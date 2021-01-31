@@ -23,6 +23,26 @@
       autoplay
       muted
     />
+    <div class="webcam-timer-display">
+      <div class="timer">
+        <h3 class="timer-header">Detection Timer</h3>
+        <div class="timer-remaining">
+          Remaining: {{ detectionTimer?.remaining ?? 0 }} seconds
+        </div>
+        <div class="timer-status">
+          Status: {{ detectionTimer?.status ?? "stopped" }}
+        </div>
+      </div>
+      <div class="timer">
+        <h3 class="timer-header">Identification Timer</h3>
+        <div class="timer-remaining">
+          Remaining: {{ identificationTimer?.remaining ?? 0 }} seconds
+        </div>
+        <div class="timer-status">
+          Status: {{ identificationTimer?.status ?? "stopped" }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,6 +53,7 @@ import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
 import userMixin from '@/mixins/user'
 import EyeIcon from './components/EyeIcon.vue'
+import { WebcamTimer } from '@/types'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
@@ -45,23 +66,68 @@ export default defineComponent({
     hideVideo: {
       type: Boolean,
       default: false
+    },
+
+    detectionDuration: {
+      type: Number,
+      default: 5
     }
   },
+  emits: ['no-face-seen', 'unidentified-face'],
   data () {
     return {
       faceSeen: false,
       multipleFacesSeen: 0,
       usersSeen: [] as string[],
       video: {} as HTMLMediaElement,
-      cameraOn: false
+      cameraOn: false,
+      detectionTimer: null as WebcamTimer | null,
+      detectionTimerOn: false,
+      identificationTimer: null as WebcamTimer | null,
+      identificationTimerOn: false
     }
   },
   computed: {
     userName (): string {
       return this.user?.fullName || ''
+    },
+
+    faceIdentified (): boolean {
+      return this.usersSeen.length === 1 && this.usersSeen[0].includes(this.userName)
+    },
+
+    duration (): number {
+      return this.detectionDuration * 1000
+    }
+  },
+  watch: {
+    faceSeen (isFaceSeen: boolean): void {
+      if (this.detectionTimer) {
+        if (isFaceSeen) {
+          this.detectionTimer.stop()
+          if (this.identificationTimer?.status === 'paused') {
+            this.identificationTimer && this.identificationTimer.resume()
+          }
+        } else if (['stopped', 'paused'].includes(this.detectionTimer.status)) {
+          this.detectionTimer.start()
+          this.identificationTimer && this.identificationTimer.pause()
+        }
+      }
+    },
+    faceIdentified (isFaceIdentified: boolean): void {
+      if (this.identificationTimer) {
+        if (isFaceIdentified) {
+          this.identificationTimer.stop()
+        } else if (['stopped', 'paused'].includes(this.identificationTimer.status) && this.detectionTimer?.status === 'stopped') {
+          this.identificationTimer.start()
+        }
+      }
     }
   },
   async mounted () {
+    this.detectionTimer = new WebcamTimer(this.detectionTimeout, this.duration)
+    this.identificationTimer = new WebcamTimer(this.identificationTimeout, this.duration)
+
     this.video = this.$refs.video as HTMLMediaElement
 
     await this.loadModels()
@@ -72,11 +138,24 @@ export default defineComponent({
     this.video.addEventListener('play', this.startDetection(faceMatcher))
 
     await this.startVideo()
+    this.detectionTimer.start()
   },
   unmounted () {
     this.stopVideo()
+    this.detectionTimer && this.detectionTimer.stop()
+    this.identificationTimer && this.identificationTimer.stop()
   },
   methods: {
+    detectionTimeout (): void {
+      console.log(`No face seen for ${this.detectionDuration} seconds`)
+      this.$emit('no-face-seen')
+      this.detectionTimer && this.detectionTimer.start()
+    },
+    identificationTimeout (): void {
+      console.log(`Face unidentified for ${this.detectionDuration} seconds`)
+      this.$emit('unidentified-face')
+      this.identificationTimer && this.identificationTimer.start()
+    },
     async loadModels (): Promise<void> {
       await Promise.all([
         faceapi.loadTinyFaceDetectorModel(MODELS_URL),
@@ -145,3 +224,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.timer-header {
+  @apply font-semibold;
+}
+</style>
