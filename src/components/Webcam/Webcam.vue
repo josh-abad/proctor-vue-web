@@ -147,12 +147,10 @@ export default defineComponent({
   },
   methods: {
     detectionTimeout (): void {
-      console.log(`No face seen for ${this.detectionDuration} seconds`)
       this.$emit('no-face-seen')
       this.detectionTimer && this.detectionTimer.start()
     },
     identificationTimeout (): void {
-      console.log(`Face unidentified for ${this.detectionDuration} seconds`)
       this.$emit('unidentified-face')
       this.identificationTimer && this.identificationTimer.start()
     },
