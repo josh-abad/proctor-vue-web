@@ -3,7 +3,11 @@
     <div v-if="examCanStart && exam && attempt">
       <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
       <BasePanel class="mt-4">
-        <Webcam hide-video />
+        <Webcam
+          @no-face-seen="handleNoFaceSeen"
+          @unidentified-face="handleUnidentifiedFace"
+          hide-video
+        />
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
           :key="i"
@@ -60,7 +64,7 @@ import examResultsServices from '@/services/exam-results'
 import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
-import { SUBMIT_EXAM } from '@/store/action-types'
+import { ALERT, SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import ColorHeader from '@/components/ColorHeader.vue'
@@ -146,6 +150,14 @@ export default defineComponent({
     }
   },
   methods: {
+    handleNoFaceSeen (): void {
+      this.warnings++
+      this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
+    },
+    handleUnidentifiedFace (): void {
+      this.warnings++
+      this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
+    },
     handleAnswerChange ({ question, answer }: Answer): void {
       // FIXME: duplicate questions don't get counted
       if (this.answers.some((a: Answer) => a.question === question)) {
