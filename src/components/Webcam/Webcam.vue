@@ -14,7 +14,8 @@
       {{ multipleFacesSeen }}
       {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
     </div>
-    <EyeIcon :on="cameraOn" />
+    <EyeIcon :on="cameraOn" :detected="faceSeen" :identified="faceIdentified" />
+    <EyeIconGuide />
     <video
       v-show="cameraOn && !hideVideo"
       ref="video"
@@ -54,13 +55,14 @@ import { ALERT } from '@/store/action-types'
 import userMixin from '@/mixins/user'
 import EyeIcon from './components/EyeIcon.vue'
 import { WebcamTimer } from '@/types'
+import EyeIconGuide from './components/EyeIconGuide.vue'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'Webcam',
-  components: { EyeIcon },
+  components: { EyeIcon, EyeIconGuide },
   mixins: [userMixin],
   props: {
     hideVideo: {
