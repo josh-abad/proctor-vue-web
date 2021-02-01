@@ -23,7 +23,7 @@
       autoplay
       muted
     />
-    <div class="webcam-timer-display">
+    <div class="webcam-timer-display" v-if="debug">
       <div class="timer">
         <h3 class="timer-header">Detection Timer</h3>
         <div class="timer-remaining">
@@ -71,6 +71,11 @@ export default defineComponent({
     detectionDuration: {
       type: Number,
       default: 5
+    },
+
+    debug: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['no-face-seen', 'unidentified-face'],

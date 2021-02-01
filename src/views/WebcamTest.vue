@@ -5,6 +5,7 @@
         @no-face-seen="handleNoFaceSeen"
         @unidentified-face="handleUnidentifiedFace"
         :detection-duration="10"
+        debug
       />
       <div class="inline-flex items-center">
         <!-- Heroicon name: exclamation -->
