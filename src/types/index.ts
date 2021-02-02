@@ -11,6 +11,7 @@ export interface User {
   email: string;
   verified: boolean;
   avatarUrl: string;
+  referenceImageUrl?: string;
   role: Role;
 }
 
@@ -18,7 +19,12 @@ export interface AuthenticatedUser extends User {
   token: string;
 }
 
-export interface UserCredentials extends Omit<User, 'courses' | 'id' | 'role' | 'verified' | 'avatarUrl' | 'fullName'> {
+export interface UserCredentials {
+  name: {
+    first: string;
+    last: string;
+  };
+  email: string;
   password: string;
 }
 
@@ -26,12 +32,13 @@ export interface Course {
   id: string;
   name: string;
   description: string;
+  exams: string[];
   coordinator: Omit<User, 'token'>;
   studentsEnrolled: string[];
   weeks: number;
 }
 
-export interface NewCourse extends Omit<Course, 'id' | 'coordinator' | 'studentsEnrolled'> {
+export interface NewCourse extends Omit<Course, 'id' | 'coordinator' | 'studentsEnrolled' | 'exams'> {
   coordinatorId: string;
 }
 
@@ -121,8 +128,6 @@ export interface AppEvent {
   date: Date;
 }
 
-export type Theme = 'dark' | 'light' | null
-
 export type RootState = {
   user: AuthenticatedUser | null;
 }
@@ -143,10 +148,69 @@ export type ExamsState = {
   activeExam: string | null;
 }
 
-export type ThemeState = {
-  theme: Theme;
-}
-
 export type AlertState = {
   message: string;
+}
+
+export class WebcamTimer {
+  private _start: number
+  private _remaining: number
+  private _status: 'active' | 'stopped' | 'paused'
+  private timerId: number | null
+  private callback: () => void
+  private duration: number
+
+  constructor (callback: () => void, duration: number, start = false) {
+    this._remaining = duration
+    this.callback = callback
+    this.duration = duration
+    this._start = start ? Date.now() : 0
+    this.timerId = start ? window.setTimeout(this.callback, duration) : null
+    this._status = start ? 'active' : 'stopped'
+  }
+
+  start (): void {
+    this.timerId && clearTimeout(this.timerId)
+    this._start = Date.now()
+    this.timerId = window.setTimeout(this.callback, this.duration)
+    this._status = 'active'
+  }
+
+  stop (): void {
+    if (this._status === 'active') {
+      this.timerId && clearTimeout(this.timerId)
+      this._remaining = 0
+      this._status = 'stopped'
+    }
+  }
+
+  pause (): void {
+    if (this._status === 'active') {
+      this.timerId && clearTimeout(this.timerId)
+      this._remaining = this.duration - (Date.now() - this._start)
+      this._status = 'paused'
+    }
+  }
+
+  resume (): void {
+    if (this._status === 'paused') {
+      this.timerId && clearTimeout(this.timerId)
+      this._start = Date.now()
+      this.timerId = window.setTimeout(this.callback, this._remaining)
+      this._status = 'active'
+    }
+  }
+
+  get remaining (): number {
+    if (this._status === 'paused') {
+      return Math.floor(this._remaining / 1000)
+    } else if (this._status === 'active') {
+      return Math.floor((this.duration - (Date.now() - this._start)) / 1000)
+    }
+    return 0
+  }
+
+  get status (): 'active' | 'paused' | 'stopped' {
+    return this._status
+  }
 }

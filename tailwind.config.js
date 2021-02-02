@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   purge: [
@@ -12,19 +13,33 @@ module.exports = {
       gray: colors.gray,
       green: colors.emerald,
       red: colors.rose,
-      teal: colors.teal,
       white: colors.white
     },
-    extend: {}
+    extend: {
+      fontFamily: {
+        sans: ['Open Sans', ...defaultTheme.fontFamily.sans]
+      },
+      colors: {
+        transparent: 'rgba(0, 0, 0, 0)',
+        'dark-00': '#121212',
+        'dark-01': '#1e1e1e',
+        'dark-02': '#232323',
+        'dark-03': '#252525',
+        'dark-04': '#272727',
+        'dark-06': '#2c2c2c',
+        'dark-08': '#2f2f2f',
+        'dark-12': '#333333',
+        'dark-16': '#353535',
+        'dark-24': '#383838'
+      }
+    }
   },
   variants: {
     extend: {
       backgroundColor: ['active'],
-      backgroundOpacity: ['dark'],
       outline: ['focus'],
       opacity: ['disabled'],
-      scale: ['active'],
-      textOpacity: ['dark']
+      scale: ['active']
     }
   },
   plugins: [

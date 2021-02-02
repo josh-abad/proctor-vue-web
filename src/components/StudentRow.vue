@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center py-4">
+  <div class="flex items-center px-2 py-4 bg-dark-06 rounded-lg shadow-lg">
     <img
       :src="student.avatarUrl"
       alt="Avatar"
@@ -9,10 +9,7 @@
       <router-link :to="`/user/${student.id}`">{{
         student.fullName
       }}</router-link>
-      <div
-        class="text-sm text-gray-600 dark:text-gray-400"
-        v-if="showCourseCount"
-      >
+      <div class="text-sm text-gray-400" v-if="showCourseCount">
         Enrolled in {{ student.courses.length }}
         {{ student.courses.length === 1 ? "course" : "courses" }}
       </div>

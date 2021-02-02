@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="event"
-      class="text-gray-600 dark:text-gray-400 bg-gray-300 dark:bg-gray-700 bg-opacity-40 dark:bg-opacity-40 text-sm"
-    >
+    <div v-if="event" class="text-gray-400 bg-dark-08 text-sm">
       <div class="px-3 py-2 flex justify-between">
         <div class="flex items-center space-x-1">
           <img
@@ -12,23 +9,17 @@
             alt="Avatar"
             class="mr-2 w-5 h-5 object-cover rounded-full"
           />
-          <router-link
-            :to="event.subjectUrl"
-            class="text-green-800 dark:text-gray-300"
-            >{{ event.subject }}</router-link
-          >
+          <router-link :to="event.subjectUrl" class="text-gray-300">{{
+            event.subject
+          }}</router-link>
           <span>{{ event.action }}</span>
-          <router-link
-            class="text-gray-900 dark:text-white"
-            :to="event.predicateUrl || '#'"
-            >{{ event.predicate || "" }}</router-link
-          >
+          <router-link class="text-white" :to="event.predicateUrl || '#'">{{
+            event.predicate || ""
+          }}</router-link>
           <span>in</span>
-          <router-link
-            :to="event.locationUrl"
-            class="text-green-800 dark:text-gray-300"
-            >{{ event.location }}</router-link
-          >
+          <router-link :to="event.locationUrl" class="text-gray-300">{{
+            event.location
+          }}</router-link>
         </div>
         <div>{{ formattedDate(event.date) }}</div>
       </div>

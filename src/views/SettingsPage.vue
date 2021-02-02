@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <BasePanel>
       <div class="flex items-center">
         <svg
@@ -18,20 +18,10 @@
       <div class="mt-4">
         <Accordion label="User">
           <BaseButton>Change Password</BaseButton>
-        </Accordion>
-        <Accordion label="Appearance" class="mt-2">
-          <div>
-            <ToggleButton
-              v-model="automatic"
-              label="Automatic (follows system settings)"
-            />
-          </div>
-          <div>
-            <ToggleButton
-              v-model="darkMode"
-              label="Dark Mode"
-              :disabled="automatic"
-            />
+          <div class="mt-2">
+            <router-link :to="`/user/${user?.id}/reference-image`">
+              <BaseButton>Configure Face ID</BaseButton>
+            </router-link>
           </div>
         </Accordion>
       </div>
@@ -43,48 +33,12 @@
 import Accordion from '@/components/Accordion.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BasePanel from '@/components/BasePanel.vue'
-import ToggleButton from '@/components/ToggleButton.vue'
-import { SET_THEME } from '@/store/mutation-types'
-import { Theme } from '@/types'
 import { defineComponent } from 'vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { ToggleButton, BasePanel, Accordion, BaseButton },
-  data () {
-    return {
-      automatic: false,
-      darkMode: false
-    }
-  },
-  computed: {
-    theme (): Theme {
-      return this.$store.state.theme.theme
-    }
-  },
-  watch: {
-    automatic (enabled: boolean) {
-      if (enabled) {
-        this.handleChangeTheme(null)
-      } else {
-        this.handleChangeTheme(this.darkMode ? 'dark' : 'light')
-      }
-    },
-    darkMode (enabled: boolean) {
-      this.handleChangeTheme(enabled ? 'dark' : 'light')
-    }
-  },
-  mounted () {
-    if (this.theme) {
-      this.darkMode = this.theme === 'dark'
-    } else {
-      this.automatic = true
-    }
-  },
-  methods: {
-    handleChangeTheme (theme: Theme) {
-      this.$store.commit(SET_THEME, theme)
-    }
-  }
+  components: { BasePanel, Accordion, BaseButton },
+  mixins: [userMixin]
 })
 </script>

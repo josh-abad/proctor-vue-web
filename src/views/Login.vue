@@ -2,14 +2,10 @@
   <div>
     <ColorBackgroundCard v-if="!$store.state.user">
       <div class="p-4">
-        <img
-          :src="require(`@/assets/${logoFilename}`)"
-          alt="Logo"
-          class="h-7"
-        />
+        <img src="../assets/logo-white.png" alt="Logo" class="h-7" />
         <form class="mt-4">
           <h3 class="font-medium">Login</h3>
-          <p class="text-xs dark:text-gray-400">
+          <p class="text-xs text-gray-400">
             By continuing, you agree to our
             <router-link to="#" class="text-green-500"
               >User Agreement</router-link
@@ -70,14 +66,12 @@ import BaseInput from '@/components/BaseInput.vue'
 import BaseLabel from '@/components/BaseLabel.vue'
 import { LOG_IN } from '@/store/action-types'
 import { defineComponent } from 'vue'
-import logoMixin from '@/mixins/logo'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
 
 export default defineComponent({
   name: 'Login',
   components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect },
-  mixins: [logoMixin],
   data () {
     return {
       email: '',

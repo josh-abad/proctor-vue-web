@@ -1,12 +1,12 @@
 <template>
   <teleport to="#modals">
     <div
-      class="fixed z-30 inset-0 overflow-y-auto bg-gradient-to-t from-green-700 to-teal-900 dark:from-green-700 dark:to-teal-900"
+      class="fixed z-30 inset-0 overflow-y-auto bg-gradient-to-t from-green-700 to-green-900"
     >
       <ColorBackgroundCard>
         <div class="p-4">
           <img
-            :src="require(`@/assets/${logoFilename}`)"
+            src="../assets/logo-white.png"
             alt="Logo"
             class="h-7"
             @click="$router.push('/')"
@@ -29,14 +29,12 @@
 </template>
 
 <script lang="ts">
-import logoMixin from '@/mixins/logo'
 import { defineComponent } from 'vue'
 import ColorBackgroundCard from './ColorBackgroundCard.vue'
 
 export default defineComponent({
   name: 'Redirect',
   components: { ColorBackgroundCard },
-  mixins: [logoMixin],
   mounted () {
     setTimeout(() => {
       this.$router.replace('/')

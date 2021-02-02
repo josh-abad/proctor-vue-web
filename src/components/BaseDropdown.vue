@@ -6,7 +6,7 @@
         aria-haspopup="listbox"
         aria-expanded="true"
         aria-labelledby="listbox-label"
-        class="relative w-full appearance-none bg-white border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:ring-green-500 focus:border-green-500 sm:text-sm"
+        class="relative w-full appearance-none border border-gray-700 bg-gray-800 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:ring-green-500 focus:border-green-500 sm:text-sm"
         @click.prevent="open = !open"
       >
         <span class="flex items-center">
@@ -33,7 +33,7 @@
       </button>
       <transition name="dropdown-fade">
         <div
-          class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-800 shadow-lg"
+          class="absolute mt-1 w-full rounded-md bg-gray-800 shadow-lg"
           v-show="open"
         >
           <ul
@@ -51,7 +51,7 @@
             <li
               id="listbox-item-0"
               role="option"
-              class="text-gray-900 dark:text-white cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-green-600"
+              class="text-white cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-green-600"
               v-for="(option, i) in options"
               :key="i"
               @click="handleChange(i)"
@@ -72,7 +72,7 @@
             Highlighted: "text-white", Not Highlighted: "text-indigo-600"
           -->
               <span
-                class="absolute inset-y-0 right-0 flex items-center pr-4 hover:text-white dark:hover:text-white text-green-600 dark:text-green-600"
+                class="absolute inset-y-0 right-0 flex items-center pr-4 hover:text-white text-green-600"
                 v-show="selectedIndex === i"
               >
                 <!-- Heroicon name: check -->
