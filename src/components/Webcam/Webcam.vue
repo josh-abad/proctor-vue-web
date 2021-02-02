@@ -1,21 +1,21 @@
 <template>
   <div>
-    <div>
-      {{ faceSeen ? "Face detected" : "No face detected" }}
-      <span>
+    <div class="flex items-center">
+      <EyeIcon
+        :on="cameraOn"
+        :detected="faceSeen"
+        :identified="faceIdentified"
+      />
+      <div class="ml-2">
         {{
-          usersSeen.some((seen) => seen.includes(userName))
-            ? `(${userName})`
-            : `${faceSeen ? "(unknown)" : ""}`
+          faceIdentified
+            ? "Face Identified"
+            : faceSeen
+            ? "Face Detected"
+            : "No Face detected"
         }}
-      </span>
+      </div>
     </div>
-    <div class="font-bold">
-      {{ multipleFacesSeen }}
-      {{ multipleFacesSeen === 1 ? "face" : "faces" }} detected
-    </div>
-    <EyeIcon :on="cameraOn" :detected="faceSeen" :identified="faceIdentified" />
-    <EyeIconGuide />
     <video
       v-show="cameraOn && !hideVideo"
       ref="video"
@@ -55,14 +55,13 @@ import { ALERT } from '@/store/action-types'
 import userMixin from '@/mixins/user'
 import EyeIcon from './components/EyeIcon.vue'
 import { WebcamTimer } from '@/types'
-import EyeIconGuide from './components/EyeIconGuide.vue'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'Webcam',
-  components: { EyeIcon, EyeIconGuide },
+  components: { EyeIcon },
   mixins: [userMixin],
   props: {
     hideVideo: {
@@ -89,9 +88,7 @@ export default defineComponent({
       video: {} as HTMLMediaElement,
       cameraOn: false,
       detectionTimer: null as WebcamTimer | null,
-      detectionTimerOn: false,
-      identificationTimer: null as WebcamTimer | null,
-      identificationTimerOn: false
+      identificationTimer: null as WebcamTimer | null
     }
   },
   computed: {
@@ -181,7 +178,7 @@ export default defineComponent({
           this.faceSeen = !!detections.length
           this.usersSeen = results.map(match => match.toString())
           this.multipleFacesSeen = detections.length
-        }, 64)
+        }, 300)
       }
     },
     async startVideo (): Promise<void> {
