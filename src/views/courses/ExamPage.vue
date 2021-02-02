@@ -1,5 +1,16 @@
 <template>
-  <div>
+  <div class="p-4">
+    <teleport to="#modals">
+      <div
+        class="mr-8 bg-dark-12 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+      >
+        <Webcam
+          @no-face-seen="handleNoFaceSeen"
+          @unidentified-face="handleUnidentifiedFace"
+          hide-video
+        />
+      </div>
+    </teleport>
     <div v-if="examCanStart && exam && attempt">
       <PageHeader hideMenu>{{ exam.label }}</PageHeader>
       <BasePanel class="mt-4">
@@ -57,17 +68,18 @@ import examResultsServices from '@/services/exam-results'
 import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
-import { SUBMIT_EXAM } from '@/store/action-types'
+import { ALERT, SUBMIT_EXAM } from '@/store/action-types'
 import BasePanel from '@/components/BasePanel.vue'
 import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ModalButton from '@/components/ModalButton.vue'
 import userMixin from '@/mixins/user'
 import AppModal from '@/components/AppModal.vue'
+import Webcam from '@/components/Webcam/Webcam.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, AppModal },
+  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, AppModal, Webcam },
   mixins: [userMixin],
   props: {
     courseId: {
@@ -142,6 +154,14 @@ export default defineComponent({
     }
   },
   methods: {
+    handleNoFaceSeen (): void {
+      this.warnings++
+      this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
+    },
+    handleUnidentifiedFace (): void {
+      this.warnings++
+      this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
+    },
     handleAnswerChange ({ question, answer }: Answer): void {
       // FIXME: duplicate questions don't get counted
       if (this.answers.some((a: Answer) => a.question === question)) {
