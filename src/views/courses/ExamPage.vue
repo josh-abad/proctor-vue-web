@@ -1,13 +1,19 @@
 <template>
   <div class="p-4">
-    <div v-if="examCanStart && exam && attempt">
-      <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
-      <BasePanel class="mt-4">
+    <teleport to="#modals">
+      <div
+        class="mr-8 bg-dark-12 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+      >
         <Webcam
           @no-face-seen="handleNoFaceSeen"
           @unidentified-face="handleUnidentifiedFace"
           hide-video
         />
+      </div>
+    </teleport>
+    <div v-if="examCanStart && exam && attempt">
+      <ColorHeader hideMenu>{{ exam.label }}</ColorHeader>
+      <BasePanel class="mt-4">
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
           :key="i"

@@ -6,7 +6,7 @@
         :detected="faceSeen"
         :identified="faceIdentified"
       />
-      <div class="ml-2">
+      <div class="ml-2" v-if="debug">
         {{
           faceIdentified
             ? "Face Identified"
