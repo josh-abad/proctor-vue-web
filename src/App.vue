@@ -32,9 +32,8 @@ import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
-import { ADD_ATTEMPT, SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_USER } from './store/mutation-types'
+import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_USER } from './store/mutation-types'
 import { Attempt, AuthenticatedUser, Submission } from './types'
-import { io } from 'socket.io-client'
 
 export default defineComponent({
   name: 'App',
@@ -45,8 +44,7 @@ export default defineComponent({
   },
   data () {
     return {
-      isOpen: true,
-      socket: io()
+      isOpen: true
     }
   },
   computed: {
@@ -58,9 +56,6 @@ export default defineComponent({
     }
   },
   async created () {
-    this.socket.on('new result', (updatedAttempt: Attempt) => {
-      this.$store.commit(ADD_ATTEMPT, updatedAttempt)
-    })
     this.initSidebarState()
     await this.initUser()
     this.initRecentCourses()
