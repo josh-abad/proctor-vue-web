@@ -1,7 +1,7 @@
 import { User, UserCredentials } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
-const baseUrl = `${API_URL}/api/users`
+const baseUrl = `${API_URL}/users`
 
 /**
  * Registers a new user to the server
