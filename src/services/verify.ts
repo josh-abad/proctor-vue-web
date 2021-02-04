@@ -1,6 +1,7 @@
 import { User } from '@/types'
 import axios from 'axios'
-const baseUrl = '/api/verify'
+import API_URL from './utils/config'
+const baseUrl = `${API_URL}/api/verify`
 
 /**
  * Verifies a user
