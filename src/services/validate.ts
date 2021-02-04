@@ -1,7 +1,7 @@
 import { AuthenticatedUser } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
-const baseUrl = `${API_URL}/api/validate`
+const baseUrl = `${API_URL}/validate`
 
 /**
  * If a session token is found when first opening the app (the user ticked Keep Me Signed In when logging in), check if the token is still valid (i.e., token is expired).

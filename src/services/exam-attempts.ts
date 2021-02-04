@@ -1,7 +1,7 @@
 import { Attempt } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
-const baseUrl = `${API_URL}/api/exam-attempts`
+const baseUrl = `${API_URL}/exam-attempts`
 
 let token: string | null = null
 
