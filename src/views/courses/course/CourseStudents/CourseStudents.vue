@@ -6,7 +6,10 @@
         v-model="searchFilter"
         placeholder="Filter students"
       />
-      <AddStudentModal :course-id="courseId" />
+      <AddStudentModal
+        v-if="hasPermission(['coordinator', 'admin'])"
+        :course-id="courseId"
+      />
     </div>
     <div class="font-semibold text-lg mt-2">
       <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
@@ -47,10 +50,12 @@ import { User } from '@/types'
 import BaseInput from '@/components/BaseInput.vue'
 import AddStudentModal from './components/AddStudentModal.vue'
 import StudentRow from '@/components/StudentRow.vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'CourseStudents',
   components: { BaseInput, AddStudentModal, StudentRow },
+  mixins: [userMixin],
   props: {
     courseId: {
       type: String,
