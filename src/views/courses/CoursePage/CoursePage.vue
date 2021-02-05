@@ -63,6 +63,9 @@
           <router-link :to="`/courses/${courseId}/students`" class="tab">
             Students
           </router-link>
+          <router-link :to="`/courses/${courseId}/grades`" class="tab">
+            Grades
+          </router-link>
         </div>
         <BasePanel class="rounded-t-none overflow-hidden">
           <router-view v-slot="{ Component, route }">
