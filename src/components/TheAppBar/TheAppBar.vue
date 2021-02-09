@@ -23,12 +23,7 @@
         </svg>
       </button>
       <router-link to="/">
-        <img
-          src="../../assets/logo-white.png"
-          alt="Logo"
-          class="ml-6 h-7"
-          @click="$router.push('/')"
-        />
+        <AppLogo class="ml-6 h-7" @click="$router.push('/')" />
       </router-link>
     </div>
     <div class="flex items-center">
@@ -46,10 +41,11 @@
 import { defineComponent } from 'vue'
 import UserDropdown from './components/UserDropdown.vue'
 import Search from './components/Search/Search.vue'
+import AppLogo from '../AppLogo.vue'
 
 export default defineComponent({
   name: 'TheAppBar',
-  components: { UserDropdown, Search },
+  components: { UserDropdown, Search, AppLogo },
   props: {
     isOpen: Boolean
   },
