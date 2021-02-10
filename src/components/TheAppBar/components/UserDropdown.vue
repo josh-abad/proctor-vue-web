@@ -36,52 +36,13 @@
         </svg>
       </button>
     </div>
-
-    <!-- The dropdown -->
-    <transition name="dropdown-fade" v-show="isOpen">
-      <div
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
-      >
-        <div
-          class="py-1"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="options-menu"
-        >
-          <router-link
-            :to="`/user/${user?.id || ''}`"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >Profile</router-link
-          >
-          <router-link
-            to="/settings"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >User Settings</router-link
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >Support</a
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >License</a
-          >
-          <button
-            @click="handleLogOut"
-            class="block w-full text-left px-4 py-2 text-sm border-t border-gray-700 hover:bg-gray-700 focus:outline-none"
-            role="menuitem"
-          >
-            Log out
-          </button>
-        </div>
-      </div>
-    </transition>
+    <MenuDropdown class="mt-2" v-show="isOpen">
+      <MenuDropdownItem :path="`/user/${user?.id || ''}`">
+        Profile
+      </MenuDropdownItem>
+      <MenuDropdownItem path="/settings">Settings</MenuDropdownItem>
+      <MenuDropdownItem @item-click="handleLogOut"> Log out </MenuDropdownItem>
+    </MenuDropdown>
   </div>
 </template>
 
@@ -89,9 +50,12 @@
 import { LOG_OUT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
+import MenuDropdown from '@/components/MenuDropdown.vue'
 
 export default defineComponent({
   name: 'UserDropdown',
+  components: { MenuDropdownItem, MenuDropdown },
   mixins: [userMixin],
   data () {
     return {

@@ -1,7 +1,9 @@
 <template>
   <div class="p-4">
     <div v-if="exam">
-      <PageHeader :links="links" hideMenu>{{ exam.label }}</PageHeader>
+      <PageHeader :links="links" hide-menu>
+        <template #label>{{ exam.label }}</template>
+      </PageHeader>
       <BasePanel class="mt-4">
         <div class="text-gray-400">
           <div v-if="highestGrade">

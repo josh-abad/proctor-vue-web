@@ -12,7 +12,9 @@
       </div>
     </teleport>
     <div v-if="examCanStart && exam && attempt">
-      <PageHeader hideMenu>{{ exam.label }}</PageHeader>
+      <PageHeader hide-menu>
+        <template #label>{{ exam.label }}</template>
+      </PageHeader>
       <BasePanel class="mt-4">
         <BaseExamItem
           v-for="(item, i) in exam.examItems"

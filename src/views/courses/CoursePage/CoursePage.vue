@@ -4,54 +4,33 @@
       :links="links"
       @menu-clicked="menuOpen = !menuOpen"
       :hide-menu="!hasPermission(['coordinator', 'admin'])"
-      >{{ course.name }}</PageHeader
     >
-    <transition name="dropdown-fade" v-show="menuOpen">
-      <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
-      >
-        <div
-          class="py-1"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="options-menu"
-        >
-          <router-link
-            :to="`/courses/${courseId}/exams/new`"
-            class="link"
-            role="menuitem"
-            >Create Exam</router-link
-          >
-          <router-link
-            :to="`/courses/${courseId}/edit`"
-            class="link"
-            role="menuitem"
-            >Edit Course</router-link
-          >
-          <button
-            @click="deleteModalOpen = true"
-            id="btn-open"
-            class="link w-full text-left border-t border-gray-700 focus:outline-none"
-            role="menuitem"
-          >
+      <template #label>{{ course.name }}</template>
+      <template #menu>
+        <MenuDropdown class="mt-2 mr-2" v-show="menuOpen">
+          <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
+            Create Exam
+          </MenuDropdownItem>
+          <MenuDropdownItem :path="`/courses/${courseId}/edit`">
+            Edit Course
+          </MenuDropdownItem>
+          <MenuDropdownItem id="btn-open" @item-click="deleteModalOpen = true">
             Delete Course
-          </button>
-          <teleport to="#modals">
-            <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
-              <template #header> Delete Course </template>
-              <template #body>
-                Are you sure you want to delete this course?
-              </template>
-              <template #action>
-                <BaseButton @click="deleteCourse" prominent>
-                  Delete
-                </BaseButton>
-              </template>
-            </AppModal>
-          </teleport>
-        </div>
-      </div>
-    </transition>
+          </MenuDropdownItem>
+        </MenuDropdown>
+      </template>
+    </PageHeader>
+    <teleport to="#modals">
+      <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+        <template #header> Delete Course </template>
+        <template #body>
+          Are you sure you want to delete this course?
+        </template>
+        <template #action>
+          <BaseButton @click="deleteCourse" prominent> Delete </BaseButton>
+        </template>
+      </AppModal>
+    </teleport>
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
@@ -110,10 +89,12 @@ import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
 import AppModal from '@/components/AppModal.vue'
+import MenuDropdown from '@/components/MenuDropdown.vue'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal },
+  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal, MenuDropdown, MenuDropdownItem },
   mixins: [userMixin],
   props: {
     courseId: {
