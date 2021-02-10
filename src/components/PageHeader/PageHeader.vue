@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-lg p-6 bg-gradient-to-r from-green-600 via-green-500 to-green-400 shadow-lg"
+    class="rounded-lg p-6 bg-gradient-to-t from-green-600 via-green-500 to-green-400 shadow-lg"
   >
     <div class="flex justify-between">
       <div class="text-3xl text-white font-bold">
