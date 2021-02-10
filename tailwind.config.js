@@ -42,8 +42,7 @@ module.exports = {
     extend: {
       backgroundColor: ['active'],
       outline: ['focus'],
-      opacity: ['disabled'],
-      scale: ['active']
+      opacity: ['disabled']
     }
   },
   plugins: [
