@@ -15,15 +15,6 @@
         aria-haspopup="true"
         aria-expanded="true"
       >
-        <div class="flex flex-col items-end">
-          <div class="text-sm">{{ user?.fullName || "" }}</div>
-          <div
-            class="uppercase font-bold tracking-wide text-xs rounded-full text-green-500"
-            v-if="user?.role !== 'student'"
-          >
-            {{ user?.role || "" }}
-          </div>
-        </div>
         <img
           :src="user?.avatarUrl || ''"
           alt="Avatar"
