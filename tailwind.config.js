@@ -32,6 +32,10 @@ module.exports = {
         'dark-16': '#353535',
         'dark-24': '#383838'
       }
+    },
+    backdropFilter: {
+      none: 'none',
+      blur: 'blur(10px)'
     }
   },
   variants: {
@@ -43,6 +47,7 @@ module.exports = {
     }
   },
   plugins: [
-    require('@tailwindcss/forms')
+    require('@tailwindcss/forms'),
+    require('tailwindcss-filters')
   ]
 }
