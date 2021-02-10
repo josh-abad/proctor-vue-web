@@ -3,6 +3,7 @@ import { createStore, StoreOptions } from 'vuex'
 import alert from './modules/alert'
 import courses from './modules/courses'
 import exams from './modules/exams'
+import theme from './modules/theme'
 import users from './modules/users'
 import mutations from './mutations'
 import actions from './actions'
@@ -21,12 +22,13 @@ const store = createStore({
     alert,
     courses,
     exams,
+    theme,
     users
   }
 } as StoreOptions<RootState>)
 
 if (module.hot) {
-  module.hot.accept(['./mutations', './actions', './getters', './modules/alert', './modules/courses', './modules/exams', './modules/users'], () => {
+  module.hot.accept(['./mutations', './actions', './getters', './modules/alert', './modules/courses', './modules/exams', './modules/theme', './modules/users'], () => {
     store.hotUpdate({
       mutations: require('./mutations'),
       actions: require('./actions'),
@@ -35,6 +37,7 @@ if (module.hot) {
         alert: require('./modules/alert'),
         courses: require('./modules/courses'),
         exams: require('./modules/exams'),
+        theme: require('./modules/theme'),
         users: require('./modules/users')
       }
     })

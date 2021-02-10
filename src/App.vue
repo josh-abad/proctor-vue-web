@@ -32,7 +32,7 @@ import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_USER } from './store/mutation-types'
+import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
 import { Attempt, AuthenticatedUser, Submission } from './types'
 
 export default defineComponent({
@@ -56,6 +56,7 @@ export default defineComponent({
     }
   },
   async created () {
+    this.initTheme()
     this.initSidebarState()
     await this.initUser()
     this.initRecentCourses()
@@ -64,6 +65,13 @@ export default defineComponent({
     handleToggle (): void {
       this.isOpen = !this.isOpen
       localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
+    },
+    initTheme (): void {
+      const theme = localStorage.getItem('theme')
+      this.$store.commit(SET_THEME, theme)
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
+      })
     },
     initSidebarState (): void {
       const sidebarState = localStorage.getItem('sidebarState')
