@@ -24,6 +24,21 @@
             </router-link>
           </div>
         </Accordion>
+        <Accordion label="Appearance" class="mt-2">
+          <div>
+            <ToggleButton
+              v-model="automatic"
+              label="Automatic (follows system settings)"
+            />
+          </div>
+          <div>
+            <ToggleButton
+              v-model="darkMode"
+              label="Dark Mode"
+              :disabled="automatic"
+            />
+          </div>
+        </Accordion>
       </div>
     </BasePanel>
   </div>
@@ -33,12 +48,50 @@
 import Accordion from '@/components/Accordion.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import ToggleButton from '@/components/ToggleButton.vue'
+import { SET_THEME } from '@/store/mutation-types'
+import { Theme } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { BasePanel, Accordion, BaseButton },
-  mixins: [userMixin]
+  components: { ToggleButton, BasePanel, Accordion, BaseButton },
+  mixins: [userMixin],
+  data () {
+    return {
+      automatic: false,
+      darkMode: false
+    }
+  },
+  computed: {
+    theme (): Theme {
+      return this.$store.state.theme.theme
+    }
+  },
+  watch: {
+    automatic (enabled: boolean) {
+      if (enabled) {
+        this.handleChangeTheme(null)
+      } else {
+        this.handleChangeTheme(this.darkMode ? 'dark' : 'light')
+      }
+    },
+    darkMode (enabled: boolean) {
+      this.handleChangeTheme(enabled ? 'dark' : 'light')
+    }
+  },
+  mounted () {
+    if (this.theme) {
+      this.darkMode = this.theme === 'dark'
+    } else {
+      this.automatic = true
+    }
+  },
+  methods: {
+    handleChangeTheme (theme: Theme) {
+      this.$store.commit(SET_THEME, theme)
+    }
+  }
 })
 </script>

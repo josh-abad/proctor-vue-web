@@ -1,9 +1,11 @@
 <template>
-  <div class="flex mt-3 shadow rounded-lg overflow-hidden">
-    <div class="px-3 py-3 bg-gray-700 text-gray-400">
+  <div class="flex mt-3 shadow-md rounded-lg overflow-hidden">
+    <div class="px-3 py-3 bg-gray-100 dark:bg-gray-700 text-gray-400">
       {{ questionNumber }}
     </div>
-    <div class="pl-4 pr-12 py-3 bg-gray-800 w-full select-none">
+    <div
+      class="pl-4 pr-12 py-3 bg-gray-100 dark:bg-gray-800 w-full select-none"
+    >
       {{ examItem.question }}
       <div class="mt-4">
         <BaseInput

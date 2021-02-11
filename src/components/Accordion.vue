@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="flex items-center border-b border-gray-700">
+    <div class="flex items-center label-border">
       <div
         @click="expanded = !expanded"
         class="cursor-pointer text-gray-400 hover:text-white"
       >
         <!-- Heroicon name: chevron-right -->
         <svg
-          class="w-5 h-5 mb-1 transform ease-in-out duration-100"
+          class="w-5 h-5 mb-1 transition-transform transform ease-in-out duration-100"
           viewBox="0 0 20 20"
           fill="currentColor"
           :class="expanded ? 'rotate-90' : 'rotate-0'"

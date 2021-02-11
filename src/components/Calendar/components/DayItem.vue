@@ -1,6 +1,6 @@
 <template>
   <li
-    class="h-full border-t border-gray-700"
+    class="h-full border-t border-gray-300 dark:border-gray-700"
     :class="{
       'text-gray-500': !isCurrentMonth,
       'font-semibold text-green-500': isToday,

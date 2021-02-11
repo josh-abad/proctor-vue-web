@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative inline-block text-left"
+    class="relative inline-block text-left backdrop-none"
     v-click-outside="{
       handler: handleClose,
       middleware: clickOutsideMiddleware,
@@ -10,20 +10,11 @@
       <button
         @click.prevent="isOpen = !isOpen"
         type="button"
-        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-200 focus:outline-none"
+        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-500 focus:outline-none"
         id="options-menu"
         aria-haspopup="true"
         aria-expanded="true"
       >
-        <div class="flex flex-col items-end">
-          <div class="text-sm">{{ user?.fullName || "" }}</div>
-          <div
-            class="uppercase font-bold tracking-wide text-xs rounded-full text-green-500"
-            v-if="user?.role !== 'student'"
-          >
-            {{ user?.role || "" }}
-          </div>
-        </div>
         <img
           :src="user?.avatarUrl || ''"
           alt="Avatar"
@@ -45,52 +36,13 @@
         </svg>
       </button>
     </div>
-
-    <!-- The dropdown -->
-    <transition name="dropdown-fade" v-show="isOpen">
-      <div
-        class="origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
-      >
-        <div
-          class="py-1"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="options-menu"
-        >
-          <router-link
-            :to="`/user/${user?.id || ''}`"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >Profile</router-link
-          >
-          <router-link
-            to="/settings"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >User Settings</router-link
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >Support</a
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >License</a
-          >
-          <button
-            @click="handleLogOut"
-            class="block w-full text-left px-4 py-2 text-sm border-t border-gray-700 hover:bg-gray-700 focus:outline-none"
-            role="menuitem"
-          >
-            Log out
-          </button>
-        </div>
-      </div>
-    </transition>
+    <MenuDropdown class="mt-2" v-show="isOpen">
+      <MenuDropdownItem :path="`/user/${user?.id || ''}`">
+        Profile
+      </MenuDropdownItem>
+      <MenuDropdownItem path="/settings">Settings</MenuDropdownItem>
+      <MenuDropdownItem @item-click="handleLogOut"> Log out </MenuDropdownItem>
+    </MenuDropdown>
   </div>
 </template>
 
@@ -98,9 +50,12 @@
 import { LOG_OUT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
+import MenuDropdown from '@/components/MenuDropdown.vue'
 
 export default defineComponent({
   name: 'UserDropdown',
+  components: { MenuDropdownItem, MenuDropdown },
   mixins: [userMixin],
   data () {
     return {

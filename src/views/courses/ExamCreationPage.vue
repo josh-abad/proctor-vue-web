@@ -172,19 +172,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.input-number {
-  @apply shadow focus:outline-none bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-700 focus:border-green-500;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100 duration-200 ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-}
-</style>
