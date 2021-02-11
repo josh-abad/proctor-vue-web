@@ -34,7 +34,7 @@
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-dark-01 rounded-t-lg shadow border-b border-gray-700"
+          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-dark-01 rounded-t-lg shadow label-border"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
@@ -161,11 +161,11 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .tab {
-  @apply px-6 py-2 text-center hover:text-white;
+  @apply px-6 py-2 text-center hover:text-gray-900 dark:hover:text-white transition-colors ease-in-out duration-300;
 }
 
 .router-link-active {
-  @apply rounded-t-lg font-semibold text-white border-b-2 border-green-500;
+  @apply rounded-t-lg font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
 }
 
 .slide-left-enter-active,
@@ -196,6 +196,6 @@ export default defineComponent({
 }
 
 .link {
-  @apply block px-4 py-2 text-sm hover:bg-gray-700;
+  @apply block px-4 py-2 text-sm hover:bg-gray-800 dark:hover:bg-gray-100 hover:bg-opacity-10 dark:hover:bg-opacity-10;
 }
 </style>

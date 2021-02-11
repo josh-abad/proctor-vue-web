@@ -5,8 +5,8 @@
     @click="handleToggle"
   >
     <div
-      class="box-border w-5 h-5 rounded border-2 border-gray-600"
-      :class="{ 'border-green-500': modelValue }"
+      class="box-border w-5 h-5 rounded border-2 border-gray-400 dark:border-gray-600"
+      :class="{ 'border-green-500 dark:border-green-500': modelValue }"
     >
       <!-- Heroicon name: check -->
       <svg

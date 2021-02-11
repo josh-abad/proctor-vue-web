@@ -1,9 +1,9 @@
 <template>
   <div
-    class="min-h-screen antialiased bg-gradient-to-t from-green-900 via-green-800 to-green-700 text-white"
+    class="min-h-screen antialiased bg-gray-200 dark:bg-dark-00 from-green-900 via-green-800 to-green-700 text-gray-900 dark:text-white"
   >
-    <div id="modals"></div>
-    <div class="flex flex-col text-white">
+    <div id="modals" />
+    <div class="flex flex-col text-gray-900 dark:text-white">
       <TheAppBar
         v-if="isLoggedIn"
         @toggle="handleToggle"
@@ -119,15 +119,15 @@ export default defineComponent({
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-800;
+  @apply bg-gray-200 dark:bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-700;
+  @apply bg-gray-300 dark:bg-gray-700;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-600;
+  @apply bg-gray-400 dark:bg-gray-600;
 }
 
 #nprogress {
@@ -204,5 +204,13 @@ export default defineComponent({
 .modal-fade-enter-to,
 .modal-fade-leave-from {
   @apply opacity-100 translate-y-0;
+}
+
+.separator-y {
+  @apply divide-y divide-gray-300 dark:divide-gray-700;
+}
+
+.label-border {
+  @apply border-b border-gray-300 dark:border-gray-700;
 }
 </style>

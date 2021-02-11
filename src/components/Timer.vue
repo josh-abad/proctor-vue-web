@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center h-10 rounded overflow-hidden">
+  <div class="flex items-center h-10 rounded overflow-hidden shadow-md">
     <div class="w-2 h-full bg-green-500" />
-    <div class="p-3 bg-gray-700 text-lg font-semibold">
+    <div class="p-3 bg-gray-100 dark:bg-gray-700 text-lg font-semibold">
       <span v-if="displayHours !== '00'"
         >{{ displayHours }}<span class="font-thin">h</span></span
       >

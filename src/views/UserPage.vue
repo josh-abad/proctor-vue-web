@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="flex divide-x divide-green-700 mt-3">
+        <div class="flex divide-x divide-gray-300 dark:divide-gray-700 mt-3">
           <UserPageStat :count="user.courses.length" class="px-3">{{
             user.courses.length !== 1 ? "Courses" : "Course"
           }}</UserPageStat>
@@ -28,7 +28,7 @@
           >
         </div>
         <div v-if="myAccount">
-          <router-link to="/settings" class="text-gray-400 hover:text-white">
+          <router-link to="/settings" class="text-gray-600 dark:text-gray-400">
             <!-- Heroicon name: cog -->
             <svg
               class="fill-current w-5 h-5"
@@ -48,9 +48,7 @@
     <BasePanel class="rounded-t-none pt-0 -mt-2">
       <div>
         <div class="text-xl font-semibold">Activity</div>
-        <div
-          class="mt-2 divide-y divide-gray-700 rounded-lg overflow-hidden shadow"
-        >
+        <div class="mt-2 separator-y rounded-lg overflow-hidden shadow-lg">
           <ActivityRow
             :key="i"
             v-for="(event, i) in userEvents"

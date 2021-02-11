@@ -1,8 +1,6 @@
 <template>
   <transition name="dropdown-fade">
-    <div
-      class="origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur"
-    >
+    <div class="dropdown-menu">
       <div
         class="py-1"
         role="menu"
@@ -24,7 +22,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.dropdown-bg {
-  @apply origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75;
+.dropdown-menu {
+  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur;
 }
 </style>

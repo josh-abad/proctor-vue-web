@@ -1,5 +1,5 @@
 <template>
-  <ol class="grid grid-cols-7 bg-gray-900 bg-opacity-50">
+  <ol class="grid grid-cols-7 bg-gray-100 dark:bg-gray-900 bg-opacity-50">
     <li
       v-for="weekday in weekdays"
       :key="weekday"

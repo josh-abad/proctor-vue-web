@@ -5,7 +5,7 @@
         <template #label>{{ exam.label }}</template>
       </PageHeader>
       <BasePanel class="mt-4">
-        <div class="text-gray-400">
+        <div class="text-gray-600 dark:text-gray-400">
           <div v-if="highestGrade">
             Your highest score for this quiz is {{ highestGrade }}.
           </div>
@@ -53,7 +53,7 @@
         </div>
         <div v-else-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
-          <div class="rounded-xl overflow-hidden mt-2 divide-y divide-gray-700">
+          <div class="rounded-xl overflow-hidden mt-2 separator-y">
             <AttemptItem
               v-for="(attempt, i) in attemptsByExam"
               :key="attempt.id"

@@ -5,7 +5,7 @@
       <RecentCourses class="mt-8" />
       <RecentActivity class="mt-8" />
     </BasePanel>
-    <UpcomingExamsList class="ml-4 w-full" />
+    <UpcomingExamsList class="ml-4" />
   </div>
 </template>
 

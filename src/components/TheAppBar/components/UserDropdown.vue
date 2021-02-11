@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative inline-block text-left"
+    class="relative inline-block text-left backdrop-none"
     v-click-outside="{
       handler: handleClose,
       middleware: clickOutsideMiddleware,
@@ -10,7 +10,7 @@
       <button
         @click.prevent="isOpen = !isOpen"
         type="button"
-        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-200 focus:outline-none"
+        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-500 focus:outline-none"
         id="options-menu"
         aria-haspopup="true"
         aria-expanded="true"

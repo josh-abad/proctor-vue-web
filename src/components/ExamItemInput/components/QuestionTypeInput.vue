@@ -51,10 +51,10 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .toggle {
-  @apply text-sm px-2 hover:text-green-400;
+  @apply text-sm px-2 hover:text-green-500;
 }
 
 .toggle-selected {
-  @apply font-semibold text-green-400 bg-green-600 bg-opacity-40 rounded;
+  @apply font-semibold text-green-500 bg-green-400 dark:bg-green-600 bg-opacity-40 dark:bg-opacity-40 rounded;
 }
 </style>

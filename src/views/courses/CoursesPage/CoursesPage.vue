@@ -18,9 +18,7 @@
       </template>
     </PageHeader>
     <BasePanel class="mt-4 mb-0">
-      <div
-        class="flex justify-between items-center border-b border-gray-700 -mb-3 pb-2"
-      >
+      <div class="flex justify-between items-center label-border -mb-3 pb-2">
         <div class="text-lg font-bold">Your Courses</div>
         <div class="flex items-center" v-if="courses.length">
           <ViewToggle v-model="viewMode" value="card" class="mr-3">
@@ -71,14 +69,14 @@
         </div>
         <div v-else>
           <div>
-            <div v-if="loaded" class="divide-y divide-gray-700">
+            <div v-if="loaded" class="separator-y">
               <CoursesPageListItem
                 :course="course"
                 :key="course.id"
                 v-for="course in courses"
               />
             </div>
-            <div v-else class="divide-y divide-gray-700">
+            <div v-else class="separator-y">
               <SkeletonCourseListItem v-for="i in 10" :key="i" />
             </div>
           </div>
@@ -137,7 +135,7 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .fade-enter-active,
 .fade-leave-active {
-  @apply opacity-100 duration-200 ease-in-out;
+  @apply opacity-100 duration-200 ease-in-out transition-opacity;
 }
 
 .fade-enter-from,
