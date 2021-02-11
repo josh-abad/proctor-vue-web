@@ -89,7 +89,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .table-bg {
-  @apply bg-dark-06 rounded-lg shadow-lg overflow-hidden;
+  @apply bg-white dark:bg-dark-06 rounded-lg shadow-lg overflow-hidden;
 }
 
 table {
@@ -101,11 +101,11 @@ td {
 }
 
 .table-data {
-  @apply text-right text-gray-400;
+  @apply text-right text-gray-600 dark:text-gray-400;
 }
 
 tbody {
-  @apply divide-y divide-dark-16;
+  @apply divide-y divide-gray-200 dark:divide-dark-16;
 }
 
 .table-header {
@@ -118,16 +118,16 @@ tbody {
 }
 
 .table-footer {
-  @apply border-t bg-dark-16;
+  @apply border-t bg-white dark:bg-dark-16;
 }
 
 .table-header,
 .table-footer {
-  @apply border-dark-16;
+  @apply border-gray-200 dark:border-dark-16;
 }
 
 .prominent {
-  @apply text-white;
+  @apply text-gray-900 dark:text-white;
 }
 
 .course-total-value {
