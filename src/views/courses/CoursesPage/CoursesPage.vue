@@ -7,31 +7,18 @@
       ]"
       @menu-clicked="isOpen = !isOpen"
       :hide-menu="!hasPermission(['admin'])"
-      >Courses</PageHeader
     >
-    <transition name="dropdown-fade" v-show="isOpen">
-      <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
-      >
-        <div
-          class="py-1"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="options-menu"
-        >
-          <router-link
-            to="/courses/new"
-            class="block px-4 py-2 text-sm hover:bg-gray-700"
-            role="menuitem"
-            >Create Course</router-link
-          >
-        </div>
-      </div>
-    </transition>
+      <template #label>Courses</template>
+      <template #menu>
+        <MenuDropdown class="mt-2 mr-2" v-show="isOpen">
+          <MenuDropdownItem path="/courses/new">
+            Create Course
+          </MenuDropdownItem>
+        </MenuDropdown>
+      </template>
+    </PageHeader>
     <BasePanel class="mt-4 mb-0">
-      <div
-        class="flex justify-between items-center border-b border-gray-700 -mb-3 pb-2"
-      >
+      <div class="flex justify-between items-center label-border -mb-3 pb-2">
         <div class="text-lg font-bold">Your Courses</div>
         <div class="flex items-center" v-if="courses.length">
           <ViewToggle v-model="viewMode" value="card" class="mr-3">
@@ -82,14 +69,14 @@
         </div>
         <div v-else>
           <div>
-            <div v-if="loaded" class="divide-y divide-gray-700">
+            <div v-if="loaded" class="separator-y">
               <CoursesPageListItem
                 :course="course"
                 :key="course.id"
                 v-for="course in courses"
               />
             </div>
-            <div v-else class="divide-y divide-gray-700">
+            <div v-else class="separator-y">
               <SkeletonCourseListItem v-for="i in 10" :key="i" />
             </div>
           </div>
@@ -109,10 +96,12 @@ import ViewToggle from '@/components/ViewToggle.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
+import MenuDropdown from '@/components/MenuDropdown.vue'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 
 export default defineComponent({
   name: 'CoursesPage',
-  components: { CoursesPageCard, BasePanel, PageHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle },
+  components: { CoursesPageCard, BasePanel, PageHeader, CoursesPageListItem, SkeletonCourseListItem, ViewToggle, MenuDropdown, MenuDropdownItem },
   mixins: [userMixin],
   data () {
     return {
@@ -146,7 +135,7 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .fade-enter-active,
 .fade-leave-active {
-  @apply opacity-100 duration-200 ease-in-out;
+  @apply opacity-100 duration-200 ease-in-out transition-opacity;
 }
 
 .fade-enter-from,

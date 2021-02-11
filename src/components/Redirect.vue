@@ -5,12 +5,7 @@
     >
       <ColorBackgroundCard>
         <div class="p-4">
-          <img
-            src="../assets/logo-white.png"
-            alt="Logo"
-            class="h-7"
-            @click="$router.push('/')"
-          />
+          <AppLogo @click="$router.push('/')" class="h-7" />
           <div class="mt-4 font-semibold text-xl">Welcome back!</div>
           <div class="mt-4">
             You are already logged in and will be redirected back to Proctor Vue
@@ -30,11 +25,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import AppLogo from './AppLogo.vue'
 import ColorBackgroundCard from './ColorBackgroundCard.vue'
 
 export default defineComponent({
   name: 'Redirect',
-  components: { ColorBackgroundCard },
+  components: { ColorBackgroundCard, AppLogo },
   mounted () {
     setTimeout(() => {
       this.$router.replace('/')

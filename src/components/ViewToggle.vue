@@ -2,7 +2,11 @@
   <button
     @click="$emit('update:modelValue', value)"
     class="focus:outline-none rounded"
-    :class="modelValue === value ? 'text-green-500' : 'text-gray-500'"
+    :class="
+      modelValue === value
+        ? 'text-green-500'
+        : 'text-gray-400 dark:text-gray-600'
+    "
   >
     <slot></slot>
   </button>

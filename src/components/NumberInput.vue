@@ -19,7 +19,9 @@
         />
       </svg>
     </button>
-    <div class="rounded-lg shadow px-1 border border-gray-700">
+    <div
+      class="rounded-lg shadow px-1 border border-gray-300 dark:border-gray-700"
+    >
       <transition name="fade">{{ pad ? paddedValue : value }}</transition>
     </div>
     <button
@@ -111,11 +113,11 @@ export default defineComponent({
 }
 
 .button-icon {
-  @apply fill-current w-5 h-5 text-gray-400 hover:text-white;
+  @apply fill-current w-5 h-5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white;
 }
 
 .button-disabled {
-  @apply text-gray-600 hover:text-gray-600;
+  @apply text-gray-400 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-600;
 }
 
 .fade-enter-active {

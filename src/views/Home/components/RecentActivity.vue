@@ -1,11 +1,7 @@
 <template>
   <div v-if="recentActivities.length">
-    <BaseLabel class="pb-2 border-b border-gray-700" emphasis
-      >Recent Activity</BaseLabel
-    >
-    <div
-      class="mt-4 divide-y divide-gray-700 rounded-lg overflow-hidden shadow"
-    >
+    <BaseLabel class="pb-2 label-border" emphasis>Recent Activity</BaseLabel>
+    <div class="mt-4 separator-y rounded-lg overflow-hidden shadow">
       <ActivityRow
         v-for="(event, i) of recentActivities"
         :key="i"

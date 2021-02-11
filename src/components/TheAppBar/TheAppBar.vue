@@ -1,15 +1,14 @@
 <template>
   <header
-    class="flex h-20 sticky top-0 w-full items-center justify-between px-6 py-4 shadow-lg bg-dark-04 text-gray-200 z-20"
+    class="app-bar flex h-20 sticky top-0 w-full items-center justify-between py-4 shadow-lg bg-gray-100 dark:bg-dark-04 bg-opacity-50 dark:bg-opacity-75 border-b dark:border-dark-12 z-20"
   >
-    <div class="flex items-center">
+    <div class="flex items-center pl-6">
       <button
-        class="block focus:outline-none text-gray-400 hover:text-gray-100 focus:border-transparent focus:ring-transparent"
+        class="block focus:outline-none text-gray-500 focus:border-transparent focus:ring-transparent"
         @click="$emit('toggle')"
       >
         <svg
           class="w-5 h-5 fill-current"
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -23,21 +22,14 @@
         </svg>
       </button>
       <router-link to="/">
-        <img
-          src="../../assets/logo-white.png"
-          alt="Logo"
-          class="ml-6 h-7"
-          @click="$router.push('/')"
-        />
+        <AppLogo class="ml-6 h-7" @click="$router.push('/')" />
       </router-link>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center pr-6">
       <div class="mr-5">
         <Search />
       </div>
-      <div class="hidden items-center sm:flex md:block">
-        <UserDropdown />
-      </div>
+      <UserDropdown />
     </div>
   </header>
 </template>
@@ -46,10 +38,11 @@
 import { defineComponent } from 'vue'
 import UserDropdown from './components/UserDropdown.vue'
 import Search from './components/Search/Search.vue'
+import AppLogo from '../AppLogo.vue'
 
 export default defineComponent({
   name: 'TheAppBar',
-  components: { UserDropdown, Search },
+  components: { UserDropdown, Search, AppLogo },
   props: {
     isOpen: Boolean
   },
@@ -61,3 +54,12 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+/* Fix for backdrop-filter not working in nested elements (UserDropdown and Search, in this case) */
+.app-bar::before {
+  content: "";
+  z-index: -1;
+  @apply absolute w-full h-full backdrop-blur;
+}
+</style>

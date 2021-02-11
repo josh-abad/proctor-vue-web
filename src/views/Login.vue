@@ -2,7 +2,7 @@
   <div>
     <ColorBackgroundCard v-if="!$store.state.user">
       <div class="p-4">
-        <img src="../assets/logo-white.png" alt="Logo" class="h-7" />
+        <AppLogo class="h-7" />
         <form class="mt-4">
           <h3 class="font-medium">Login</h3>
           <p class="text-xs text-gray-400">
@@ -68,10 +68,11 @@ import { LOG_IN } from '@/store/action-types'
 import { defineComponent } from 'vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
+import AppLogo from '@/components/AppLogo.vue'
 
 export default defineComponent({
   name: 'Login',
-  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect },
+  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect, AppLogo },
   data () {
     return {
       email: '',

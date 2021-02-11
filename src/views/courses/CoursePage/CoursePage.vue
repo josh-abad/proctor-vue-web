@@ -4,64 +4,46 @@
       :links="links"
       @menu-clicked="menuOpen = !menuOpen"
       :hide-menu="!hasPermission(['coordinator', 'admin'])"
-      >{{ course.name }}</PageHeader
     >
-    <transition name="dropdown-fade" v-show="menuOpen">
-      <div
-        class="origin-top-right z-10 absolute right-0 -mt-24 mr-20 w-56 rounded-lg shadow-lg bg-dark-08 text-white"
-      >
-        <div
-          class="py-1"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="options-menu"
-        >
-          <router-link
-            :to="`/courses/${courseId}/exams/new`"
-            class="link"
-            role="menuitem"
-            >Create Exam</router-link
-          >
-          <router-link
-            :to="`/courses/${courseId}/edit`"
-            class="link"
-            role="menuitem"
-            >Edit Course</router-link
-          >
-          <button
-            @click="deleteModalOpen = true"
-            id="btn-open"
-            class="link w-full text-left border-t border-gray-700 focus:outline-none"
-            role="menuitem"
-          >
+      <template #label>{{ course.name }}</template>
+      <template #menu>
+        <MenuDropdown class="mt-2 mr-2" v-show="menuOpen">
+          <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
+            Create Exam
+          </MenuDropdownItem>
+          <MenuDropdownItem :path="`/courses/${courseId}/edit`">
+            Edit Course
+          </MenuDropdownItem>
+          <MenuDropdownItem id="btn-open" @item-click="deleteModalOpen = true">
             Delete Course
-          </button>
-          <teleport to="#modals">
-            <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
-              <template #header> Delete Course </template>
-              <template #body>
-                Are you sure you want to delete this course?
-              </template>
-              <template #action>
-                <BaseButton @click="deleteCourse" prominent>
-                  Delete
-                </BaseButton>
-              </template>
-            </AppModal>
-          </teleport>
-        </div>
-      </div>
-    </transition>
+          </MenuDropdownItem>
+        </MenuDropdown>
+      </template>
+    </PageHeader>
+    <teleport to="#modals">
+      <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+        <template #header> Delete Course </template>
+        <template #body>
+          Are you sure you want to delete this course?
+        </template>
+        <template #action>
+          <BaseButton @click="deleteCourse" prominent> Delete </BaseButton>
+        </template>
+      </AppModal>
+    </teleport>
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-dark-01 rounded-t-lg shadow border-b border-gray-700"
+          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-dark-01 rounded-t-lg shadow label-border"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
           </router-link>
           <router-link :to="`/courses/${courseId}/students`" class="tab">
             Students
+          </router-link>
+          <router-link :to="`/courses/${courseId}/grades`" class="tab">
+            Grades
           </router-link>
         </div>
         <BasePanel class="rounded-t-none overflow-hidden">
@@ -110,10 +92,12 @@ import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
 import AppModal from '@/components/AppModal.vue'
+import MenuDropdown from '@/components/MenuDropdown.vue'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal },
+  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal, MenuDropdown, MenuDropdownItem },
   mixins: [userMixin],
   props: {
     courseId: {
@@ -180,41 +164,41 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .tab {
-  @apply px-6 py-2 text-center hover:text-white;
+  @apply px-6 py-2 text-center hover:text-gray-900 dark:hover:text-white transition-colors ease-in-out duration-300;
 }
 
 .router-link-active {
-  @apply rounded-t-lg font-semibold text-white border-b-2 border-green-500;
+  @apply rounded-t-lg font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
 }
 
 .slide-left-enter-active,
 .slide-right-enter-active {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-transform duration-200 ease-out;
 }
 
 .slide-left-leave-active,
 .slide-right-leave-active {
-  @apply transition-all duration-300 ease-in;
+  @apply transition-transform duration-200 ease-in;
 }
 
 .slide-left-enter-from,
 .slide-right-leave-to {
-  @apply transform-gpu translate-x-40 opacity-0;
+  @apply transform-gpu translate-x-full;
 }
 
 .slide-left-enter-to,
 .slide-right-leave-from,
 .slide-right-enter-to,
 .slide-left-leave-from {
-  @apply transform-gpu translate-x-0 opacity-100;
+  @apply transform-gpu translate-x-0;
 }
 
 .slide-right-enter-from,
 .slide-left-leave-to {
-  @apply transform-gpu -translate-x-5 opacity-0;
+  @apply transform-gpu -translate-x-full;
 }
 
 .link {
-  @apply block px-4 py-2 text-sm hover:bg-gray-700;
+  @apply block px-4 py-2 text-sm hover:bg-gray-800 dark:hover:bg-gray-100 hover:bg-opacity-10 dark:hover:bg-opacity-10;
 }
 </style>

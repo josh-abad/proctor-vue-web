@@ -1,8 +1,6 @@
 <template>
   <div v-if="recentCourses.length">
-    <BaseLabel class="pb-2 border-b border-gray-700" emphasis
-      >Recent Courses</BaseLabel
-    >
+    <BaseLabel class="pb-2 label-border" emphasis>Recent Courses</BaseLabel>
     <div class="mt-4 flex space-x-4">
       <CoursesPageCard
         :course="course"

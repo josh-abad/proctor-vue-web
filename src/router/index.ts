@@ -62,21 +62,29 @@ const routes: Array<RouteRecordRaw> = [
         },
         children: [
           {
-            path: 'students',
-            props: true,
-            meta: {
-              transition: 'slide-left'
-            },
-            component: () => import('../views/courses/course/CourseStudents/CourseStudents.vue')
-          },
-          {
             path: 'overview',
             alias: '',
             props: true,
             meta: {
-              transition: 'slide-right'
+              tabPosition: 1
             },
             component: () => import('../views/courses/course/CourseOverview/CourseOverview.vue')
+          },
+          {
+            path: 'students',
+            props: true,
+            meta: {
+              tabPosition: 2
+            },
+            component: () => import('../views/courses/course/CourseStudents/CourseStudents.vue')
+          },
+          {
+            path: 'grades',
+            props: true,
+            meta: {
+              tabPosition: 3
+            },
+            component: () => import('../views/courses/course/CourseGrades/CourseGrades.vue')
           }
         ],
         component: () => import('../views/courses/CoursePage/CoursePage.vue')
@@ -228,6 +236,12 @@ router.beforeEach((to, _from, next) => {
   }
 
   next()
+})
+
+router.afterEach((to, from) => {
+  if (to.meta.tabPosition && from.meta.tabPosition) {
+    to.meta.transition = to.meta.tabPosition < from.meta.tabPosition ? 'slide-right' : 'slide-left'
+  }
 })
 
 export default router

@@ -2,7 +2,7 @@
   <div>
     <ColorBackgroundCard v-if="!$store.state.user">
       <div class="p-4">
-        <img src="../assets/logo-white.png" alt="Logo" class="h-7" />
+        <AppLogo class="h-7" />
         <form class="mt-4">
           <h3 class="font-semibold text-lg">Sign up</h3>
           <p class="text-xs text-gray-400">

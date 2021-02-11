@@ -10,7 +10,7 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80 bg-dark-06 border-0"
+        class="w-80 shadow-none text-gray-900 dark:text-white bg-dark-00 dark:bg-white bg-opacity-10 dark:bg-opacity-5 border-0"
       />
       <button
         type="submit"
@@ -20,7 +20,7 @@
         <svg
           viewBox="0 0 20 20"
           fill="currentColor"
-          class="fill-current text-gray-600 w-5 h-5"
+          class="fill-current text-gray-400 dark:text-gray-600 w-5 h-5"
         >
           <path
             v-if="searchFilter"
@@ -39,12 +39,10 @@
     </div>
     <transition name="dropdown-fade">
       <div
-        class="absolute mt-1 w-full rounded-lg bg-dark-08 shadow-lg"
+        class="absolute mt-2 w-full rounded-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg"
         v-show="open && filteredCourses.length"
       >
-        <ul
-          class="max-h-56 rounded-md py-1 text-base ring-1 ring-gray-900 ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-        >
+        <ul class="max-h-56 rounded-lg py-1 overflow-auto sm:text-sm">
           <Result
             @result-click="$router.push(`/courses/${option.id}`)"
             v-for="(option, i) in filteredCourses"

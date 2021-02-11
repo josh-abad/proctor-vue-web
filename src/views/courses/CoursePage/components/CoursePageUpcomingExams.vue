@@ -31,7 +31,7 @@
       <div
         v-for="(event, i) in visibleExams"
         :key="i"
-        class="flex py-1 items-center text-sm text-gray-300"
+        class="flex py-1 items-center text-sm text-gray-700 dark:text-gray-300"
       >
         <!-- Heroicon name: document-text -->
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
@@ -42,7 +42,7 @@
           />
         </svg>
         <div>
-          <span class="ml-1 font-semibold text-white">
+          <span class="ml-1 font-semibold text-gray-900 dark:text-white">
             {{ event.subject }}
           </span>
           {{ event.action }}
