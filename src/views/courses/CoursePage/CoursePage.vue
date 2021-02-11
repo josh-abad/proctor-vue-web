@@ -42,6 +42,9 @@
           <router-link :to="`/courses/${courseId}/students`" class="tab">
             Students
           </router-link>
+          <router-link :to="`/courses/${courseId}/grades`" class="tab">
+            Grades
+          </router-link>
         </div>
         <BasePanel class="rounded-t-none overflow-hidden">
           <router-view v-slot="{ Component, route }">
@@ -170,29 +173,29 @@ export default defineComponent({
 
 .slide-left-enter-active,
 .slide-right-enter-active {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-transform duration-200 ease-out;
 }
 
 .slide-left-leave-active,
 .slide-right-leave-active {
-  @apply transition-all duration-300 ease-in;
+  @apply transition-transform duration-200 ease-in;
 }
 
 .slide-left-enter-from,
 .slide-right-leave-to {
-  @apply transform-gpu translate-x-40 opacity-0;
+  @apply transform-gpu translate-x-full;
 }
 
 .slide-left-enter-to,
 .slide-right-leave-from,
 .slide-right-enter-to,
 .slide-left-leave-from {
-  @apply transform-gpu translate-x-0 opacity-100;
+  @apply transform-gpu translate-x-0;
 }
 
 .slide-right-enter-from,
 .slide-left-leave-to {
-  @apply transform-gpu -translate-x-5 opacity-0;
+  @apply transform-gpu -translate-x-full;
 }
 
 .link {

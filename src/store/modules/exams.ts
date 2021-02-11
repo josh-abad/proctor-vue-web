@@ -256,6 +256,40 @@ export default {
         const results: ExamResult[] = userId ? getters.resultsByUser(userId) : state.examResults
         return results.some(result => result.exam === examId)
       }
+    },
+    courseGrades (state): (courseId: string, userId: string) => number[] {
+      return (courseId, userId) => {
+        const examsInCourse = state.exams.filter(exam => {
+          return exam.course.id === courseId
+        })
+
+        const grades = examsInCourse.filter(exam => !!exam).map(exam => {
+          const examAttempts = state.attempts.filter(attempt => {
+            return attempt.user === userId && attempt.exam?.id === exam.id
+          })
+
+          const highestScore = examAttempts.reduce((a, b) => {
+            return Math.max(a, b.score)
+          }, 0)
+
+          return Math.floor(highestScore / exam.examItems.length * 100)
+        })
+
+        return grades
+      }
+    },
+    courseTotal (state, getters): (courseId: string, userId: string) => number {
+      return (courseId, userId) => {
+        const grades: number[] = getters.courseGrades(courseId, userId)
+
+        // TODO: until each exam has an associated weight, calculate the regular mean
+        const examCount = state.exams.filter(exam => exam.course.id === courseId).length
+
+        const total = grades
+          .map(grade => grade * (1 / examCount))
+          .reduce((a, b) => a + b, 0)
+        return Math.round(total)
+      }
     }
   }
 } as Module<ExamsState, RootState>
