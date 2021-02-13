@@ -1,11 +1,7 @@
 <template>
-  <router-link v-if="path" :to="path" class="dropdown-item" role="menuitem">
-    <slot />
-  </router-link>
   <button
-    v-else
-    @click="$emit('item-click')"
-    class="dropdown-item w-full text-left focus:outline-none"
+    @click="handleClick"
+    class="w-full text-left dropdown-item focus:outline-none"
     role="menuitem"
   >
     <slot />
@@ -23,7 +19,15 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ['item-click']
+  emits: ['item-click'],
+  methods: {
+    handleClick (): void {
+      this.$emit('item-click')
+      if (this.path) {
+        this.$router.push(this.path)
+      }
+    }
+  }
 })
 </script>
 
