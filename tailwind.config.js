@@ -35,7 +35,7 @@ module.exports = {
     },
     backdropFilter: {
       none: 'none',
-      blur: 'blur(10px)'
+      blur: 'blur(15px)'
     }
   },
   variants: {
