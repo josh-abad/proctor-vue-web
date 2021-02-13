@@ -1,28 +1,21 @@
 <template>
-  <div
-    class="relative inline-block text-left backdrop-none"
-    v-click-outside="{
-      handler: handleClose,
-      middleware: clickOutsideMiddleware,
-    }"
-  >
+  <div class="relative inline-block text-left backdrop-none">
     <div>
       <button
-        @click.prevent="isOpen = !isOpen"
+        @click="isOpen = !isOpen"
         type="button"
         class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-500 focus:outline-none"
-        id="options-menu"
+        id="dropdown-toggle"
         aria-haspopup="true"
         aria-expanded="true"
       >
         <img
           :src="user?.avatarUrl || ''"
           alt="Avatar"
-          class="ml-2 w-8 h-8 object-cover rounded-full"
+          class="object-cover w-8 h-8 ml-2 rounded-full pointer-events-none"
         />
         <svg
-          id="dropdownToggle"
-          class="-mr-1 ml-2 h-5 w-5"
+          class="w-5 h-5 ml-2 -mr-1 pointer-events-none"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -36,11 +29,16 @@
         </svg>
       </button>
     </div>
-    <MenuDropdown class="mt-2" v-show="isOpen">
-      <MenuDropdownItem :path="`/user/${user?.id || ''}`">
+    <MenuDropdown class="mt-2" v-show="isOpen" @click-outside="isOpen = false">
+      <MenuDropdownItem
+        :path="`/user/${user?.id || ''}`"
+        @item-click="isOpen = false"
+      >
         Profile
       </MenuDropdownItem>
-      <MenuDropdownItem path="/settings">Settings</MenuDropdownItem>
+      <MenuDropdownItem path="/settings" @item-click="isOpen = false">
+        Settings
+      </MenuDropdownItem>
       <MenuDropdownItem @item-click="handleLogOut"> Log out </MenuDropdownItem>
     </MenuDropdown>
   </div>
@@ -66,12 +64,6 @@ export default defineComponent({
     async handleLogOut () {
       await this.$store.dispatch(LOG_OUT)
       this.$router.push('/login')
-    },
-    handleClose () {
-      this.isOpen = false
-    },
-    clickOutsideMiddleware (e: Event) {
-      return (e.target as Element).id !== 'dropdownToggle'
     }
   }
 })

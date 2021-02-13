@@ -1,6 +1,6 @@
 <template>
   <transition name="dropdown-fade">
-    <div class="dropdown-menu">
+    <div class="dropdown-menu" v-click-outside="handleClickOutside">
       <div
         class="py-1"
         role="menu"
@@ -17,7 +17,24 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'MenuDropdown'
+  name: 'MenuDropdown',
+  emits: ['click-outside'],
+  computed: {
+    handleClickOutside () {
+      return {
+        handler: () => this.clickOutsideHandler(),
+        middleware: (e: Event) => this.clickOutsideMiddleware(e)
+      }
+    }
+  },
+  methods: {
+    clickOutsideHandler (): void {
+      this.$emit('click-outside')
+    },
+    clickOutsideMiddleware (e: Event): boolean {
+      return (e.target as Element).id !== 'dropdown-toggle'
+    }
+  }
 })
 </script>
 

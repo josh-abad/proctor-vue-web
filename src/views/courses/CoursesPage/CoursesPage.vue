@@ -10,7 +10,11 @@
     >
       <template #label>Courses</template>
       <template #menu>
-        <MenuDropdown class="mt-2 mr-2" v-show="isOpen">
+        <MenuDropdown
+          class="mt-2 mr-2"
+          v-show="isOpen"
+          @click-outside="isOpen = false"
+        >
           <MenuDropdownItem path="/courses/new">
             Create Course
           </MenuDropdownItem>
@@ -18,13 +22,13 @@
       </template>
     </PageHeader>
     <BasePanel class="mt-4 mb-0">
-      <div class="flex justify-between items-center label-border -mb-3 pb-2">
+      <div class="flex items-center justify-between pb-2 -mb-3 label-border">
         <div class="text-lg font-bold">Your Courses</div>
         <div class="flex items-center" v-if="courses.length">
           <ViewToggle v-model="viewMode" value="card" class="mr-3">
             <!-- Heroicon name: view-grid -->
             <svg
-              class="fill-current w-5 h-5"
+              class="w-5 h-5 fill-current"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -36,7 +40,7 @@
           <ViewToggle v-model="viewMode" value="list">
             <!-- Heroicon name: view-list -->
             <svg
-              class="fill-current w-5 h-5"
+              class="w-5 h-5 fill-current"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -52,9 +56,9 @@
       <transition name="fade" mode="out-in">
         <div
           v-if="loaded && !courses.length"
-          class="my-3 flex justify-center items-center h-40"
+          class="flex items-center justify-center h-40 my-3"
         >
-          <div class="font-semibold text-xl text-gray-500">
+          <div class="text-xl font-semibold text-gray-500">
             You don't have any courses.
           </div>
         </div>

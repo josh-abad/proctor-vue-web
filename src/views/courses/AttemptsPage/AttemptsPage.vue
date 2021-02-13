@@ -1,9 +1,33 @@
 <template>
   <div class="p-4">
     <div v-if="exam">
-      <PageHeader :links="links" hide-menu>
+      <PageHeader
+        :links="links"
+        @menu-clicked="menuOpen = !menuOpen"
+        :hide-menu="!hasPermission(['coordinator', 'admin'])"
+      >
         <template #label>{{ exam.label }}</template>
+        <template #menu>
+          <MenuDropdown
+            class="mt-2 mr-2"
+            v-show="menuOpen"
+            @click-outside="menuOpen = false"
+          >
+            <MenuDropdownItem id="btn-open" @item-click="modalOpen = true">
+              Delete Exam
+            </MenuDropdownItem>
+          </MenuDropdown>
+        </template>
       </PageHeader>
+      <teleport to="#modals">
+        <AppModal :open="modalOpen" @close="modalOpen = false">
+          <template #header>Delete Quiz</template>
+          <template #body>Are you sure you want to delete this quiz?</template>
+          <template #action>
+            <BaseButton @click="deleteExam" prominent> Delete </BaseButton>
+          </template>
+        </AppModal>
+      </teleport>
       <BasePanel class="mt-4">
         <div class="text-gray-600 dark:text-gray-400">
           <div v-if="highestGrade">
@@ -53,7 +77,7 @@
         </div>
         <div v-else-if="attemptsByExam.length > 0" class="mt-4">
           <BaseLabel emphasis>Previous Attempts</BaseLabel>
-          <div class="rounded-xl overflow-hidden mt-2 separator-y">
+          <div class="mt-2 overflow-hidden rounded-xl separator-y">
             <AttemptItem
               v-for="(attempt, i) in attemptsByExam"
               :key="attempt.id"
@@ -68,7 +92,7 @@
           </div>
         </div>
         <div v-else>You have made no attempts so far.</div>
-        <div class="mt-4 flex flex-row-reverse justify-between">
+        <div class="flex flex-row-reverse justify-between mt-4">
           <ModalButton
             v-if="locked === 0 && attemptsLeft > 0 && user?.referenceImageUrl"
             header="Attempt Quiz"
@@ -86,14 +110,6 @@
           >
             Back to the Course
           </BaseButton>
-          <ModalButton
-            v-if="hasPermission(['coordinator', 'admin'])"
-            header="Delete Quiz"
-            message="Are you sure you want to delete this quiz?"
-            action-label="Delete"
-            @confirm="deleteExam"
-            >Delete Exam</ModalButton
-          >
         </div>
       </BasePanel>
     </div>
@@ -118,13 +134,26 @@ import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import BaseButton from '@/components/BaseButton.vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import MenuDropdown from '@/components/MenuDropdown.vue'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
+import AppModal from '@/components/AppModal.vue'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 
 export default defineComponent({
   name: 'AttemptsPage',
-  components: { AttemptItem, BasePanel, BaseLabel, PageHeader, ModalButton, BaseButton },
+  components: {
+    AttemptItem,
+    BasePanel,
+    BaseLabel,
+    PageHeader,
+    ModalButton,
+    BaseButton,
+    MenuDropdown,
+    MenuDropdownItem,
+    AppModal
+  },
   mixins: [userMixin, examMixin],
   props: {
     courseId: {
@@ -135,6 +164,12 @@ export default defineComponent({
     examId: {
       type: String,
       required: true
+    }
+  },
+  data () {
+    return {
+      menuOpen: false,
+      modalOpen: false
     }
   },
   computed: {

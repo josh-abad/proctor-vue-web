@@ -7,7 +7,11 @@
     >
       <template #label>{{ course.name }}</template>
       <template #menu>
-        <MenuDropdown class="mt-2 mr-2" v-show="menuOpen">
+        <MenuDropdown
+          class="mt-2 mr-2"
+          v-show="menuOpen"
+          @click-outside="menuOpen = false"
+        >
           <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
             Create Exam
           </MenuDropdownItem>
@@ -34,7 +38,7 @@
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
         <div
-          class="flex space-x-2 text-gray-500 bg-gray-100 dark:bg-dark-01 rounded-t-lg shadow label-border"
+          class="flex space-x-2 text-gray-500 bg-gray-100 rounded-t-lg shadow dark:bg-dark-01 label-border"
         >
           <router-link :to="`/courses/${courseId}`" class="tab">
             Overview
@@ -46,7 +50,7 @@
             Grades
           </router-link>
         </div>
-        <BasePanel class="rounded-t-none overflow-hidden">
+        <BasePanel class="overflow-hidden rounded-t-none">
           <router-view v-slot="{ Component, route }">
             <transition :name="route.meta.transition || 'fade'" mode="out-in">
               <component :is="Component" />
@@ -68,7 +72,7 @@
   </div>
   <Center v-else>
     <div class="flex flex-col items-center">
-      <p class="font-thin text-2xl">Sorry, that course cannot be found.</p>
+      <p class="text-2xl font-thin">Sorry, that course cannot be found.</p>
       <BaseButton class="mt-3" @click="$router.push('/courses')" prominent
         >Go to courses</BaseButton
       >

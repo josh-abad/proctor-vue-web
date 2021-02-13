@@ -1,18 +1,22 @@
 <template>
   <div
-    class="glow rounded-lg p-6 bg-gradient-to-t from-green-600 via-green-500 to-green-400 shadow-lg"
+    class="p-6 rounded-lg shadow-lg glow bg-gradient-to-t from-green-600 via-green-500 to-green-400"
   >
     <div class="flex justify-between">
-      <div class="text-3xl text-white font-bold">
+      <div class="text-3xl font-bold text-white">
         <slot name="label" />
       </div>
-      <div class="relative" v-if="!hideMenu">
+      <button
+        class="relative focus:outline-none"
+        v-if="!hideMenu"
+        @click="$emit('menu-clicked')"
+        id="dropdown-toggle"
+      >
         <svg
-          class="fill-current text-white w-6 h-6 cursor-pointer"
+          class="w-6 h-6 text-white pointer-events-none fill-current"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          @click="$emit('menu-clicked')"
         >
           <path
             stroke-linecap="round"
@@ -22,7 +26,7 @@
           />
         </svg>
         <slot name="menu" />
-      </div>
+      </button>
     </div>
     <Breadcrumbs class="mt-2" :links="links" v-if="links" />
   </div>
