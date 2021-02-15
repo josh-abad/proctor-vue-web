@@ -1,4 +1,4 @@
-# cs-design-frontend
+# Proctor Vue Web Application
 
 ## Project setup
 ```
