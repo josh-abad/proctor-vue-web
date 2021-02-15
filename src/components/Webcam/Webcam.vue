@@ -57,7 +57,7 @@ import EyeIcon from './components/EyeIcon.vue'
 import { WebcamTimer } from '@/types'
 
 const USE_TINY_MODEL = true
-const MODELS_URL = '/models'
+const MODELS_URL = './assets/models'
 
 export default defineComponent({
   name: 'Webcam',
