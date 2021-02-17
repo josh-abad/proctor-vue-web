@@ -1,23 +1,13 @@
 <template>
   <BasePanel v-if="upcomingExams.length">
-    <div class="font-bold">Upcoming Exams</div>
-    <div class="mt-4 space-y-1">
-      <Accordion
-        :label="events?.[0].location || ''"
-        v-for="(events, i) in eventsByCourse"
-        :key="i"
-      >
-        <div
-          class="fixed bg-gradient-to-t from-gray-100 dark:from-dark-02 to-transparent bottom-0 left-0 w-full h-1/2"
-        />
-        <div class="rounded-lg divide-gray-700 w-80">
-          <Item
-            :examEvent="examEvent"
-            v-for="(examEvent, i) in events.slice(0, 5)"
-            :key="i"
-          />
+    <BaseLabel class="pb-2 label-border" emphasis>Timeline</BaseLabel>
+    <div class="mt-4 space-y-2">
+      <div v-for="(events, i) in eventsByDate" :key="i">
+        <div class="item__date">{{ formattedDate(events?.[0]) }}</div>
+        <div class="w-64">
+          <Item :event="examEvent" v-for="(examEvent, i) in events" :key="i" />
         </div>
-      </Accordion>
+      </div>
     </div>
   </BasePanel>
 </template>
@@ -26,21 +16,33 @@
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
 import Item from './components/Item.vue'
-import Accordion from '@/components/Accordion.vue'
 import BasePanel from '@/components/BasePanel.vue'
+import BaseLabel from '@/components/BaseLabel.vue'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'UpcomingExams',
-  components: { Item, Accordion, BasePanel },
+  components: { Item, BasePanel, BaseLabel },
   computed: {
     upcomingExams (): AppEvent[] {
-      return this.$store.getters.upcomingExams
+      return this.$store.getters.upcomingExams.slice(0, 5)
     },
-    eventsByCourse (): AppEvent[][] {
-      const map = new Map(Array.from(this.upcomingExams, event => [event.location, [] as AppEvent[]]))
-      this.upcomingExams.forEach(event => map.get(event.location)?.push(event))
+    eventsByDate (): AppEvent[][] {
+      const map = new Map(Array.from(this.upcomingExams, event => [event.date, [] as AppEvent[]]))
+      this.upcomingExams.forEach(event => map.get(event.date)?.push(event))
       return Array.from(map.values())
+    }
+  },
+  methods: {
+    formattedDate (event?: AppEvent): string {
+      return event ? dayjs(event.date).format('dddd, DD MMMM YYYY') : ''
     }
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.item__date {
+  @apply dark:text-gray-400 text-sm;
+}
+</style>
