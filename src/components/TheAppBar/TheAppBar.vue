@@ -1,6 +1,6 @@
 <template>
   <header
-    class="app-bar flex h-20 sticky top-0 w-full items-center justify-between py-4 shadow-lg bg-gray-100 dark:bg-dark-04 bg-opacity-50 dark:bg-opacity-75 border-b dark:border-dark-12 z-20"
+    class="app-bar flex h-20 sticky top-0 w-full items-center justify-between py-4 shadow-lg bg-gray-100 dark:bg-dark-04 bg-opacity-50 dark:bg-opacity-75 app-bar__border z-20"
   >
     <div class="flex items-center pl-6">
       <button
@@ -61,5 +61,9 @@ export default defineComponent({
   content: "";
   z-index: -1;
   @apply absolute w-full h-full backdrop-blur;
+}
+
+.app-bar__border {
+  @apply border-b border-gray-800 border-opacity-10 dark:border-gray-100 dark:border-opacity-10;
 }
 </style>
