@@ -12,23 +12,13 @@
       </div>
       <div class="ml-3">
         <BaseLabel emphasis>2023 Online Class</BaseLabel>
-        <router-link
-          :to="`/courses/${course.id}`"
-          class="text-lg font-semibold"
-        >
+        <router-link :to="`/courses/${course.id}`" class="font-semibold">
           {{ course.name }}
         </router-link>
       </div>
     </div>
-    <div class="w-60">
-      <ProgressBar
-        :percentage="
-          $store.getters.courseCompletedPercentage(
-            course.id,
-            $store.state.user.id
-          )
-        "
-      />
+    <div class="w-52">
+      <ProgressBar :percentage="percentage" />
     </div>
   </div>
 </template>
@@ -46,6 +36,11 @@ export default defineComponent({
     course: {
       type: Object as () => Course,
       required: true
+    }
+  },
+  computed: {
+    percentage (): number {
+      return this.$store.getters.courseCompletedPercentage(this.course.id, this.$store.state.user?.id)
     }
   }
 })
