@@ -5,19 +5,24 @@
       <RecentCourses class="mt-8" />
       <RecentActivity class="mt-8" />
     </BasePanel>
-    <UpcomingExamsList class="ml-4" />
+    <Timeline class="ml-4" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import RecentCourses from './components/RecentCourses.vue'
-import UpcomingExamsList from './components/UpcomingExamsList/UpcomingExamsList.vue'
+import Timeline from './components/Timeline/Timeline.vue'
 import RecentActivity from './components/RecentActivity.vue'
 import BasePanel from '@/components/BasePanel.vue'
 
 export default defineComponent({
   name: 'Home',
-  components: { RecentCourses, UpcomingExamsList, RecentActivity, BasePanel }
+  components: {
+    RecentCourses,
+    Timeline,
+    RecentActivity,
+    BasePanel
+  }
 })
 </script>

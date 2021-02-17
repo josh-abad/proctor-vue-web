@@ -21,7 +21,7 @@ import BaseLabel from '@/components/BaseLabel.vue'
 import dayjs from 'dayjs'
 
 export default defineComponent({
-  name: 'UpcomingExams',
+  name: 'Timeline',
   components: { Item, BasePanel, BaseLabel },
   computed: {
     upcomingExams (): AppEvent[] {
