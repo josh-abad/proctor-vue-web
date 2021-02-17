@@ -74,7 +74,7 @@
         </div>
         <div class="flex justify-between">
           <div>
-            <BaseButton @click="addExamItem">Add Exam Item</BaseButton>
+            <BaseButton @click="addExamItem()">Add Question</BaseButton>
           </div>
           <div class="ml-2">
             <BaseButton @click="saveExam" prominent>Save Exam</BaseButton>
