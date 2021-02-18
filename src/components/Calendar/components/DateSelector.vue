@@ -3,7 +3,7 @@
     <span @click="selectPrevious">
       <!-- Heroicon name: chevron-left -->
       <svg
-        class="stroke-current text-green-300 hover:text-white w-5 h-5"
+        class="stroke-current text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white w-5 h-5"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -18,13 +18,13 @@
     </span>
     <span
       @click="selectCurrent"
-      class="rounded-full uppercase font-semibold tracking-wider text-sm text-white"
+      class="rounded-full uppercase font-semibold tracking-wider text-sm"
       >Today</span
     >
     <span @click="selectNext">
       <!-- Heroicon name: chevron-right -->
       <svg
-        class="stroke-current text-green-300 hover:text-white w-5 h-5"
+        class="stroke-current text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white w-5 h-5"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

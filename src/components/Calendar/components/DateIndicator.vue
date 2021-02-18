@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="text-white"
-    :class="compact ? 'font-semibold' : 'font-bold text-2xl'"
-  >
+  <div :class="compact ? 'font-semibold' : 'font-bold text-2xl'">
     {{ selectedMonth }}
   </div>
 </template>
