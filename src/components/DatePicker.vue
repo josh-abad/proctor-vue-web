@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <BaseButton class="date-picker-btn" @click="isOpen = true">
+  <div class="date-picker" v-click-outside="closeModal">
+    <BaseButton class="date-picker-btn" @click="isOpen = !isOpen">
+      <!-- Heroicon name: calendar -->
       <svg
         class="date-picker-btn__icon"
         viewBox="0 0 20 20"
@@ -16,37 +17,16 @@
         {{ dateSelected ? formattedDate : "Select Date" }}
       </div>
     </BaseButton>
-    <teleport to="#modals">
-      <transition name="modal-fade"
-        ><div class="fixed z-30 inset-0 overflow-y-auto" v-show="isOpen">
-          <div
-            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-          >
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
-            </div>
-
-            <!-- This element is to trick the browser into centering the modal contents. -->
-            <span
-              class="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-              >&#8203;</span
-            >
-            <div
-              class="inline-block align-bottom bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-            >
-              <CalendarMonth
-                :model-value="modelValue"
-                @update:model-value="
-                  (newValue) => $emit('update:modelValue', newValue)
-                "
-                @date-pick="isOpen = false"
-                compact
-              />
-            </div>
-          </div></div
-      ></transition>
-    </teleport>
+    <transition name="dropdown-fade">
+      <CalendarMonth
+        :model-value="modelValue"
+        @update:model-value="handleUpdate"
+        @date-pick="closeModal"
+        class="date-picker__dropdown"
+        v-show="isOpen"
+        compact
+      />
+    </transition>
   </div>
 </template>
 
@@ -78,16 +58,32 @@ export default defineComponent({
     dateSelected (): boolean {
       return this.formattedDate !== 'Invalid Date'
     }
+  },
+  methods: {
+    closeModal (): void {
+      this.isOpen = false
+    },
+    handleUpdate (date: string): void {
+      this.$emit('update:modelValue', date)
+    }
   }
 })
 </script>
 
 <style lang="postcss" scoped>
+.date-picker {
+  @apply relative;
+}
+
 .date-picker-btn {
   @apply flex items-center space-x-1 font-semibold text-base shadow bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2;
 }
 
 .date-picker-btn__icon {
   @apply w-4 h-4 fill-current;
+}
+
+.date-picker__dropdown {
+  @apply mt-2 origin-top-right z-30 w-80 absolute right-0 shadow-xl;
 }
 </style>
