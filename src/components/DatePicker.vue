@@ -18,7 +18,7 @@
       </div>
     </BaseButton>
     <transition name="dropdown-fade">
-      <CalendarMonth
+      <Calendar
         :model-value="modelValue"
         @update:model-value="handleUpdate"
         @date-pick="closeModal"
@@ -34,11 +34,11 @@
 import dayjs from 'dayjs'
 import { defineComponent } from 'vue'
 import BaseButton from './BaseButton.vue'
-import CalendarMonth from '@/components/Calendar/Calendar.vue'
+import Calendar from '@/components/Calendar/Calendar.vue'
 
 export default defineComponent({
   name: 'DatePicker',
-  components: { BaseButton, CalendarMonth },
+  components: { BaseButton, Calendar },
   props: {
     modelValue: {
       type: String,
