@@ -37,20 +37,8 @@
     </teleport>
     <div class="flex mt-4">
       <div class="flex-grow mr-4">
-        <div
-          class="flex space-x-2 text-gray-500 bg-gray-100 rounded-t-lg shadow dark:bg-dark-01 label-border"
-        >
-          <router-link :to="`/courses/${courseId}`" class="tab">
-            Overview
-          </router-link>
-          <router-link :to="`/courses/${courseId}/students`" class="tab">
-            Students
-          </router-link>
-          <router-link :to="`/courses/${courseId}/grades`" class="tab">
-            Grades
-          </router-link>
-        </div>
-        <BasePanel class="overflow-hidden rounded-t-none">
+        <TabRow :course-id="courseId" />
+        <BasePanel class="overflow-hidden rounded-t-none border-t-0">
           <router-view v-slot="{ Component, route }">
             <transition :name="route.meta.transition || 'fade'" mode="out-in">
               <component :is="Component" />
@@ -65,8 +53,8 @@
           :coordinator-name="course.coordinator.fullName"
           :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
-        <CoursePageUpcomingExams class="mt-4" :courseName="course.name" />
-        <CoursePageProgress class="mt-4" :courseId="courseId" />
+        <CoursePageUpcomingExams class="mt-4" :course-name="course.name" />
+        <CoursePageProgress class="mt-4" :course-id="courseId" />
       </div>
     </div>
   </div>
@@ -98,10 +86,11 @@ import userMixin from '@/mixins/user'
 import AppModal from '@/components/AppModal.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
+import TabRow from './components/TabRow.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal, MenuDropdown, MenuDropdownItem },
+  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal, MenuDropdown, MenuDropdownItem, TabRow },
   mixins: [userMixin],
   props: {
     courseId: {
@@ -167,14 +156,6 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.tab {
-  @apply px-6 py-2 text-center hover:text-gray-900 dark:hover:text-white transition-colors ease-in-out duration-300;
-}
-
-.router-link-active {
-  @apply rounded-t-lg font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
-}
-
 .slide-left-enter-active,
 .slide-right-enter-active {
   @apply transition-transform duration-200 ease-out;
@@ -200,9 +181,5 @@ export default defineComponent({
 .slide-right-enter-from,
 .slide-left-leave-to {
   @apply transform-gpu -translate-x-full;
-}
-
-.link {
-  @apply block px-4 py-2 text-sm hover:bg-gray-800 dark:hover:bg-gray-100 hover:bg-opacity-10 dark:hover:bg-opacity-10;
 }
 </style>

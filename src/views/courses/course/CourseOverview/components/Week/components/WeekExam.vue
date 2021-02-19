@@ -2,7 +2,7 @@
   <div class="text-base font-normal flex justify-between items-center">
     <router-link
       :to="`/courses/${exam.course.id}/exams/${exam.id}`"
-      class="text-lg flex items-center"
+      class="flex items-center"
       :class="{
         'text-gray-500 pointer-events-none': locked && !taken,
       }"

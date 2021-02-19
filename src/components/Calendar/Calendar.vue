@@ -1,8 +1,11 @@
 <template>
-  <div class="bg-gray-100 dark:bg-dark-01 rounded-lg overflow-hidden shadow-lg">
+  <div
+    class="calendar calendar__border"
+    :class="{ 'calendar--compact': compact }"
+  >
     <div
-      class="flex items-center justify-between bg-green-500"
-      :class="compact ? 'p-3' : 'p-6'"
+      class="calendar__header"
+      :class="{ 'calendar__header--compact': compact }"
     >
       <DateIndicator :selected-date="selectedDate" :compact="compact" />
       <DateSelector
@@ -135,3 +138,25 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.calendar {
+  @apply bg-gray-100 dark:bg-dark-01 rounded-lg overflow-hidden shadow-lg;
+}
+
+.calendar--compact {
+  @apply bg-opacity-50 dark:bg-opacity-75 backdrop-blur;
+}
+
+.calendar__border {
+  @apply border border-gray-800 border-opacity-10 dark:border-gray-100 dark:border-opacity-10;
+}
+
+.calendar__header {
+  @apply p-6 flex items-center justify-between;
+}
+
+.calendar__header--compact {
+  @apply px-3 py-3;
+}
+</style>

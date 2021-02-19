@@ -1,12 +1,13 @@
 {
-  "name": "cs-design-frontend",
-  "version": "0.7.1",
+  "name": "proctor-vue-web",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "license": "MIT",
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",
     "axios": "^0.21.0",

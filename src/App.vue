@@ -33,7 +33,7 @@ import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
 import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser, Submission } from './types'
+import { Attempt, AuthenticatedUser, Course, Submission } from './types'
 
 export default defineComponent({
   name: 'App',
@@ -107,6 +107,9 @@ export default defineComponent({
       const recentCourses = localStorage.getItem('recentCourses')
       if (recentCourses) {
         this.$store.commit(SET_RECENT_COURSES, JSON.parse(recentCourses))
+      } else {
+        const courses: Course[] = this.$store.getters.courses
+        this.$store.commit(SET_RECENT_COURSES, courses.map(course => course.id))
       }
     }
   }

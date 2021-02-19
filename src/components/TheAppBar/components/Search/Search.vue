@@ -39,7 +39,7 @@
     </div>
     <transition name="dropdown-fade">
       <div
-        class="absolute mt-2 w-full rounded-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg"
+        class="absolute mt-2 w-full rounded-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
         v-show="open && filteredCourses.length"
       >
         <ul class="max-h-56 rounded-lg py-1 overflow-auto sm:text-sm">
