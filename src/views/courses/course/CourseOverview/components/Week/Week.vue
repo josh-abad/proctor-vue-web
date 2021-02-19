@@ -1,6 +1,8 @@
 <template>
   <Accordion :label="`Week ${week}`">
-    <WeekExam v-for="exam in exams" :key="exam.id" :exam="exam" />
+    <div class="week__exams">
+      <WeekExam v-for="exam in exams" :key="exam.id" :exam="exam" />
+    </div>
   </Accordion>
 </template>
 
@@ -31,3 +33,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.week__exams {
+  @apply space-y-2;
+}
+</style>
