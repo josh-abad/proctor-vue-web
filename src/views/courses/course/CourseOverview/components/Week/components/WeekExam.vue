@@ -1,13 +1,13 @@
 <template>
-  <div class="text-base font-normal flex justify-between items-center">
+  <div class="week-exam">
     <router-link
       :to="`/courses/${exam.course.id}/exams/${exam.id}`"
-      class="flex items-center"
+      class="week-exam__link"
       :class="{
-        'text-gray-500 pointer-events-none': locked && !taken,
+        'week-exam__link--locked': locked && !taken,
       }"
     >
-      <svg class="mr-2 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="week-exam__icon" viewBox="0 0 20 20" fill="currentColor">
         <!-- Heroicon name: document-text -->
         <path
           v-if="!locked"
@@ -23,8 +23,8 @@
           clip-rule="evenodd"
         />
       </svg>
-      {{ exam.label }}</router-link
-    >
+      {{ exam.label }}
+    </router-link>
     <SVGCheckbox v-model="taken" static-check />
   </div>
 </template>
@@ -55,3 +55,20 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.week-exam {
+  @apply text-base font-normal flex justify-between items-center;
+}
+.week-exam__link {
+  @apply flex items-center;
+}
+
+.week-exam__link--locked {
+  @apply text-gray-500 pointer-events-none;
+}
+
+.week-exam__icon {
+  @apply mr-2 w-5 h-5;
+}
+</style>
