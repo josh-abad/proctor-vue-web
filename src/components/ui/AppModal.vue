@@ -62,7 +62,7 @@ export default defineComponent({
 }
 
 .modal {
-  @apply overflow-x-auto flex flex-col bg-gray-100 dark:bg-gray-800 rounded-lg shadow-2xl;
+  @apply overflow-x-auto flex flex-col bg-gray-100 dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 backdrop-blur border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10 rounded-lg shadow-2xl;
 }
 
 .modal-header,
