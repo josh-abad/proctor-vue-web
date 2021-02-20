@@ -1,6 +1,6 @@
 <template>
-  <ColorBackgroundCard>
-    <div>
+  <div class="p-4">
+    <AppPanel>
       <div class="font-semibold text-xl">Create New Course</div>
       <div class="flex flex-col items-start">
         <div class="mt-4 flex">
@@ -43,8 +43,8 @@
       <div class="mt-4 flex justify-end">
         <AppButton @click="saveCourse" prominent>Create</AppButton>
       </div>
-    </div>
-  </ColorBackgroundCard>
+    </AppPanel>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,15 +52,15 @@ import AppButton from '@/components/ui/AppButton.vue'
 import AppDropdown from '@/components/ui/AppDropdown.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import AppTextArea from '@/components/ui/AppTextArea.vue'
-import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import { CREATE_COURSE } from '@/store/action-types'
 import { NewCourse, Option, User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
-  components: { AppInput, AppButton, AppTextArea, AppDropdown, AppLabel, ColorBackgroundCard },
+  components: { AppInput, AppButton, AppTextArea, AppDropdown, AppLabel, AppPanel },
   data () {
     return {
       courseName: '',
