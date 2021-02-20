@@ -13,13 +13,13 @@
           @click-outside="menuOpen = false"
         >
           <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
-            Create Exam
+            <template #label>Create Exam</template>
           </MenuDropdownItem>
           <MenuDropdownItem :path="`/courses/${courseId}/edit`">
-            Edit Course
+            <template #label>Edit Course</template>
           </MenuDropdownItem>
           <MenuDropdownItem id="btn-open" @item-click="deleteModalOpen = true">
-            Delete Course
+            <template #label>Delete Course</template>
           </MenuDropdownItem>
         </MenuDropdown>
       </template>

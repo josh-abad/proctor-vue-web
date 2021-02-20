@@ -16,7 +16,7 @@
           @click-outside="isOpen = false"
         >
           <MenuDropdownItem path="/courses/new">
-            Create Course
+            <template #label>Create Course</template>
           </MenuDropdownItem>
         </MenuDropdown>
       </template>

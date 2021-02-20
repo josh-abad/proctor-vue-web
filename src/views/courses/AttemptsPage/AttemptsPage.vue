@@ -14,7 +14,7 @@
             @click-outside="menuOpen = false"
           >
             <MenuDropdownItem id="btn-open" @item-click="modalOpen = true">
-              Delete Exam
+              <template #label>Delete Exam</template>
             </MenuDropdownItem>
           </MenuDropdown>
         </template>
