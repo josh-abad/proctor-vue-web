@@ -1,11 +1,11 @@
 <template>
-  <div class="relative inline-block text-left backdrop-none">
+  <div class="relative inline-block text-left">
     <div>
       <button
         @click="isOpen = !isOpen"
         type="button"
         class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-500 focus:outline-none"
-        id="dropdown-toggle"
+        id="user-dropdown-toggle"
         aria-haspopup="true"
         aria-expanded="true"
       >
@@ -29,7 +29,7 @@
         </svg>
       </button>
     </div>
-    <MenuDropdown class="mt-2" v-show="isOpen" @click-outside="isOpen = false">
+    <MenuDropdown class="mt-2" v-show="isOpen" @click-outside="isOpen = false" toggle-id="user-dropdown-toggle">
       <MenuDropdownItem
         :path="`/user/${user?.id || ''}`"
         @item-click="isOpen = false"

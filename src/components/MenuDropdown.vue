@@ -18,6 +18,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'MenuDropdown',
+  props: {
+    toggleId: {
+      type: String,
+      default: 'dropdown-toggle'
+    }
+  },
   emits: ['click-outside'],
   computed: {
     handleClickOutside () {
@@ -32,7 +38,7 @@ export default defineComponent({
       this.$emit('click-outside')
     },
     clickOutsideMiddleware (e: Event): boolean {
-      return (e.target as Element).id !== 'dropdown-toggle'
+      return (e.target as Element).id !== this.toggleId
     }
   }
 })
