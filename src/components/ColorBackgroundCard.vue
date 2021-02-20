@@ -1,6 +1,6 @@
 <template>
   <Center>
-    <BasePanel class="flex overflow-hidden">
+    <AppPanel class="flex overflow-hidden">
       <div class="-mb-12">
         <img
           class="w-60 h-full -m-6 object-cover"
@@ -9,17 +9,17 @@
         />
       </div>
       <slot></slot>
-    </BasePanel>
+    </AppPanel>
   </Center>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BasePanel from './BasePanel.vue'
+import AppPanel from './ui/AppPanel.vue'
 import Center from './Center.vue'
 
 export default defineComponent({
   name: 'ColorBackgroundCard',
-  components: { Center, BasePanel }
+  components: { Center, AppPanel }
 })
 </script>

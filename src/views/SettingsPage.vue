@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <BasePanel>
+    <AppPanel>
       <div class="flex items-center">
         <svg
           class="fill-current w-6 h-6"
@@ -16,15 +16,15 @@
         <div class="ml-2 font-semibold text-2xl">Settings</div>
       </div>
       <div class="mt-4">
-        <Accordion label="User">
-          <BaseButton>Change Password</BaseButton>
+        <AppAccordion label="User">
+          <AppButton>Change Password</AppButton>
           <div class="mt-2">
             <router-link :to="`/user/${user?.id}/reference-image`">
-              <BaseButton>Configure Face ID</BaseButton>
+              <AppButton>Configure Face ID</AppButton>
             </router-link>
           </div>
-        </Accordion>
-        <Accordion label="Appearance" class="mt-2">
+        </AppAccordion>
+        <AppAccordion label="Appearance" class="mt-2">
           <div>
             <ToggleButton
               v-model="automatic"
@@ -38,17 +38,17 @@
               :disabled="automatic"
             />
           </div>
-        </Accordion>
+        </AppAccordion>
       </div>
-    </BasePanel>
+    </AppPanel>
   </div>
 </template>
 
 <script lang="ts">
-import Accordion from '@/components/Accordion.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import ToggleButton from '@/components/ToggleButton.vue'
+import AppAccordion from '@/components/ui/AppAccordion.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
+import ToggleButton from '@/components/ui/AppSwitch.vue'
 import { SET_THEME } from '@/store/mutation-types'
 import { Theme } from '@/types'
 import { defineComponent } from 'vue'
@@ -56,7 +56,7 @@ import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { ToggleButton, BasePanel, Accordion, BaseButton },
+  components: { ToggleButton, AppPanel, AppAccordion, AppButton },
   mixins: [userMixin],
   data () {
     return {

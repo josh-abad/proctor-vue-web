@@ -1,9 +1,9 @@
 <template>
   <div class="p-4">
-    <BasePanel v-if="students.length > 0">
+    <AppPanel v-if="students.length > 0">
       <div class="flex justify-between">
         <div class="text-2xl font-bold">Students</div>
-        <BaseInput
+        <AppInput
           type="text"
           v-model="searchFilter"
           placeholder="Search student"
@@ -17,7 +17,7 @@
           show-course-count
         />
       </div>
-    </BasePanel>
+    </AppPanel>
     <div v-else>
       <div>No students found</div>
     </div>
@@ -25,15 +25,15 @@
 </template>
 
 <script lang="ts">
-import BaseInput from '@/components/BaseInput.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import StudentRow from '@/components/StudentRow.vue'
 import { User } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'StudentsPage',
-  components: { BaseInput, StudentRow, BasePanel },
+  components: { AppInput, StudentRow, AppPanel },
   data () {
     return {
       searchFilter: ''

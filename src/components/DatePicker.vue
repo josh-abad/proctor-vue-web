@@ -1,6 +1,6 @@
 <template>
   <div class="date-picker" v-click-outside="closeModal">
-    <BaseButton class="date-picker-btn" @click="isOpen = !isOpen">
+    <AppButton class="date-picker-btn" @click="isOpen = !isOpen">
       <!-- Heroicon name: calendar -->
       <svg
         class="date-picker-btn__icon"
@@ -16,7 +16,7 @@
       <div class="date-picker-btn__selected">
         {{ dateSelected ? formattedDate : "Select Date" }}
       </div>
-    </BaseButton>
+    </AppButton>
     <transition name="dropdown-fade">
       <Calendar
         :model-value="modelValue"
@@ -33,12 +33,12 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import { defineComponent } from 'vue'
-import BaseButton from './BaseButton.vue'
+import AppButton from './ui/AppButton.vue'
 import Calendar from '@/components/Calendar/Calendar.vue'
 
 export default defineComponent({
   name: 'DatePicker',
-  components: { BaseButton, Calendar },
+  components: { AppButton, Calendar },
   props: {
     modelValue: {
       type: String,

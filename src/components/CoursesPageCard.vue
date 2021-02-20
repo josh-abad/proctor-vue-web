@@ -10,7 +10,7 @@
       />
     </router-link>
     <div class="px-4 py-3">
-      <BaseLabel emphasis>2023 Online Class</BaseLabel>
+      <AppLabel emphasis>2023 Online Class</AppLabel>
       <router-link :to="`/courses/${course.id}`">
         <h1 class="text-lg truncate font-semibold">{{ course.name }}</h1>
       </router-link>
@@ -21,11 +21,11 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 
 export default defineComponent({
   name: 'CourseCard',
-  components: { BaseLabel },
+  components: { AppLabel },
   props: {
     course: {
       type: Object as () => Course,

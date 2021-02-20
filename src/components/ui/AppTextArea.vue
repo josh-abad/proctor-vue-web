@@ -12,7 +12,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BaseTextArea',
+  name: 'AppTextArea',
   props: {
     modelValue: {
       type: String,

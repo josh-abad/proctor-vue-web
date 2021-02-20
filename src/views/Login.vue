@@ -17,15 +17,15 @@
           </p>
           <div class="mt-4">
             <label for="email">
-              <BaseLabel>Email</BaseLabel>
+              <AppLabel>Email</AppLabel>
             </label>
-            <BaseInput class="w-full" id="email" type="text" v-model="email" />
+            <AppInput class="w-full" id="email" type="text" v-model="email" />
           </div>
           <div class="mt-2">
             <label for="password">
-              <BaseLabel>Password</BaseLabel>
+              <AppLabel>Password</AppLabel>
             </label>
-            <BaseInput
+            <AppInput
               class="w-full"
               id="password"
               type="password"
@@ -33,12 +33,12 @@
             />
           </div>
           <div class="mt-4">
-            <BaseButton
+            <AppButton
               @click.prevent="handleLogin"
               :disabled="!fieldsFilled"
               type="submit"
               prominent
-              >Sign In</BaseButton
+              >Sign In</AppButton
             >
           </div>
           <p class="mt-3 text-xs">
@@ -61,9 +61,9 @@
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 import { LOG_IN } from '@/store/action-types'
 import { defineComponent } from 'vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
@@ -72,7 +72,7 @@ import AppLogo from '@/components/AppLogo.vue'
 
 export default defineComponent({
   name: 'Login',
-  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect, AppLogo },
+  components: { AppButton, AppInput, AppLabel, ColorBackgroundCard, Redirect, AppLogo },
   data () {
     return {
       email: '',

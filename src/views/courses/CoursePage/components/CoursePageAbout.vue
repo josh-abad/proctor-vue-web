@@ -1,6 +1,6 @@
 <template>
-  <BasePanel class="px-4 py-5">
-    <BaseLabel emphasis>About course</BaseLabel>
+  <AppPanel class="px-4 py-5">
+    <AppLabel emphasis>About course</AppLabel>
     <div class="text-sm">
       {{ description }}
     </div>
@@ -32,17 +32,17 @@
         <div class="text-sm text-gray-400">Course Coordinator</div>
       </div>
     </div>
-  </BasePanel>
+  </AppPanel>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 
 export default defineComponent({
   name: 'CoursePageAbout',
-  components: { BaseLabel, BasePanel },
+  components: { AppLabel, AppPanel },
   props: {
     studentCount: {
       type: Number,

@@ -1,11 +1,11 @@
 <template>
-  <BasePanel
+  <AppPanel
     class="px-3 py-4"
     :class="showMore ? 'h-56' : 'h-36'"
     v-if="upcomingExams.length"
   >
     <div class="flex justify-between items-center">
-      <BaseLabel emphasis>Upcoming Exams</BaseLabel>
+      <AppLabel emphasis>Upcoming Exams</AppLabel>
       <div v-if="moreThanMax">
         <button
           class="focus:outline-none text-sm"
@@ -50,14 +50,14 @@
         </div>
       </div>
     </div>
-  </BasePanel>
+  </AppPanel>
 </template>
 
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
-import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -66,7 +66,7 @@ const MAX_VISIBLE = 3
 
 export default defineComponent({
   name: 'CoursePageUpcomingEvents',
-  components: { BasePanel, BaseLabel },
+  components: { AppPanel, AppLabel },
   props: {
     courseName: {
       type: String,

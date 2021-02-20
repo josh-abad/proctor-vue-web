@@ -24,28 +24,28 @@
         </div>
       </div>
     </teleport>
-    <BasePanel>
+    <AppPanel>
       <div class="flex flex-col items-start">
-        <BaseButton @click="warnings = 0">Reset Warnings</BaseButton>
+        <AppButton @click="warnings = 0">Reset Warnings</AppButton>
         <ToggleButton v-model="debug" label="Debug" />
         <ToggleButton v-model="video" label="Show Video" />
       </div>
       <div v-for="i in 25" :key="i">foo</div>
-    </BasePanel>
+    </AppPanel>
   </div>
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import ToggleButton from '@/components/ToggleButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
+import ToggleButton from '@/components/ui/AppSwitch.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
 import { ALERT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'WebcamTest',
-  components: { BaseButton, Webcam, BasePanel, ToggleButton },
+  components: { AppButton, Webcam, AppPanel, ToggleButton },
   data () {
     return {
       warnings: 0,

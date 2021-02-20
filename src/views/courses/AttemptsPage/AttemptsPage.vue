@@ -24,11 +24,11 @@
           <template #header>Delete Quiz</template>
           <template #body>Are you sure you want to delete this quiz?</template>
           <template #action>
-            <BaseButton @click="deleteExam" prominent> Delete </BaseButton>
+            <AppButton @click="deleteExam" prominent> Delete </AppButton>
           </template>
         </AppModal>
       </teleport>
-      <BasePanel class="mt-4">
+      <AppPanel class="mt-4">
         <div class="text-gray-600 dark:text-gray-400">
           <div v-if="highestGrade">
             Your highest score for this quiz is {{ highestGrade }}.
@@ -76,7 +76,7 @@
           </div>
         </div>
         <div v-else-if="attemptsByExam.length > 0" class="mt-4">
-          <BaseLabel emphasis>Previous Attempts</BaseLabel>
+          <AppLabel emphasis>Previous Attempts</AppLabel>
           <div class="mt-2 overflow-hidden rounded-xl separator-y">
             <AttemptItem
               v-for="(attempt, i) in attemptsByExam"
@@ -103,23 +103,23 @@
           >
             {{ attemptsByExam.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </ModalButton>
-          <BaseButton
+          <AppButton
             v-if="locked !== 0"
             @click="$router.push(`/courses/${courseId}`)"
             prominent
           >
             Back to the Course
-          </BaseButton>
+          </AppButton>
         </div>
-      </BasePanel>
+      </AppPanel>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import AttemptItem from './components/AttemptItem.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
@@ -127,16 +127,16 @@ import { ALERT, DELETE_EXAM } from '@/store/action-types'
 import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
-import ModalButton from '@/components/ModalButton.vue'
+import ModalButton from '@/components/ui/ModalButton.vue'
 import userMixin from '@/mixins/user'
 import examMixin from '@/mixins/exam'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
-import BaseButton from '@/components/BaseButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
-import AppModal from '@/components/AppModal.vue'
+import AppModal from '@/components/ui/AppModal.vue'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -145,11 +145,11 @@ export default defineComponent({
   name: 'AttemptsPage',
   components: {
     AttemptItem,
-    BasePanel,
-    BaseLabel,
+    AppPanel,
+    AppLabel,
     PageHeader,
     ModalButton,
-    BaseButton,
+    AppButton,
     MenuDropdown,
     MenuDropdownItem,
     AppModal

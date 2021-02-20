@@ -1,6 +1,6 @@
 <template>
   <div class="user-page">
-    <BasePanel class="user-page__header">
+    <AppPanel class="user-page__header">
       <div class="user-page__user">
         <img :src="user?.avatarUrl" alt="Avatar" class="user-page__avatar" />
         <div class="user-page__info">
@@ -18,8 +18,8 @@
         </UserPageStat>
         <UserPageStat :count="completedCourses"> Completed </UserPageStat>
       </div>
-    </BasePanel>
-    <BasePanel class="user-page__content">
+    </AppPanel>
+    <AppPanel class="user-page__content">
       <h3 class="user-page__activity-header">Activity</h3>
       <div class="user-page__activities separator-y">
         <ActivityRow
@@ -28,12 +28,12 @@
           :event="event"
         />
       </div>
-    </BasePanel>
+    </AppPanel>
   </div>
 </template>
 
 <script lang="ts">
-import BasePanel from '@/components/BasePanel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import { AppEvent, User } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
@@ -44,7 +44,7 @@ dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'UserPage',
-  components: { BasePanel, ActivityRow, UserPageStat },
+  components: { AppPanel, ActivityRow, UserPageStat },
   props: {
     userId: {
       type: String,

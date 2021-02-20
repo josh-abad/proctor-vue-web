@@ -1,23 +1,23 @@
 <template>
   <Center v-if="student">
-    <BasePanel>
+    <AppPanel>
       <div class="flex flex-col items-center">
         <div>Enroll {{ student.fullName }}</div>
-        <BaseDropdown
+        <AppDropdown
           :options="availableCourses"
           v-model="selectedCourse"
           class="w-full"
         />
-        <BaseButton @click="handleEnroll">Enroll</BaseButton>
+        <AppButton @click="handleEnroll">Enroll</AppButton>
       </div>
-    </BasePanel>
+    </AppPanel>
   </Center>
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BaseDropdown from '@/components/BaseDropdown.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppDropdown from '@/components/ui/AppDropdown.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
 import { ALERT, ENROLL_STUDENT } from '@/store/action-types'
 import { Course, Option, User } from '@/types'
@@ -25,7 +25,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'EnrollmentPage',
-  components: { BaseDropdown, BaseButton, Center, BasePanel },
+  components: { AppDropdown, AppButton, Center, AppPanel },
   props: {
     studentId: {
       type: String,

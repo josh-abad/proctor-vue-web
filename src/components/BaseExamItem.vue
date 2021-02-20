@@ -8,7 +8,7 @@
     >
       {{ examItem.question }}
       <div class="mt-4">
-        <BaseInput
+        <AppInput
           v-if="examItem.questionType === 'text'"
           v-model="answer"
           type="text"
@@ -56,11 +56,11 @@
 <script lang="ts">
 import { ExamItem } from '@/types'
 import { defineComponent } from 'vue'
-import BaseInput from './BaseInput.vue'
+import AppInput from './ui/AppInput.vue'
 
 export default defineComponent({
-  name: 'ExamItem',
-  components: { BaseInput },
+  name: 'BaseExamItem',
+  components: { AppInput },
   props: {
     examItem: {
       type: Object as () => ExamItem,

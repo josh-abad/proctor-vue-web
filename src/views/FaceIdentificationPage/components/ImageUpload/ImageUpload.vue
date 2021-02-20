@@ -2,14 +2,14 @@
   <div>
     <div class="flex">
       <div v-if="previewImage" class="mr-4">
-        <BaseLabel emphasis>New</BaseLabel>
+        <AppLabel emphasis>New</AppLabel>
         <Preview :src="previewImage" />
       </div>
       <div
         class="ease-in-out duration-300 transform"
         :class="{ 'opacity-50 scale-95': validImage }"
       >
-        <BaseLabel emphasis>Current</BaseLabel>
+        <AppLabel emphasis>Current</AppLabel>
         <Preview
           v-if="user?.referenceImageUrl"
           :src="user?.referenceImageUrl"
@@ -57,13 +57,13 @@
             @change="handleChange"
           />
         </label>
-        <BaseButton
+        <AppButton
           class="mt-2"
           @click.prevent="handleSubmit"
           :disabled="!(image && validImage)"
           type="submit"
           prominent
-          >Confirm</BaseButton
+          >Confirm</AppButton
         >
       </div>
     </form>
@@ -75,19 +75,19 @@ import usersService from '@/services/users'
 import { SET_USER } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
-import BaseButton from '@/components/BaseButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions } from 'face-api.js'
 import Feedback from './components/Feedback.vue'
 import Preview from './components/Preview.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 import nProgress from 'nprogress'
 
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'ImageUpload',
-  components: { BaseButton, Feedback, Preview, BaseLabel },
+  components: { AppButton, Feedback, Preview, AppLabel },
   mixins: [userMixin],
   data () {
     return {

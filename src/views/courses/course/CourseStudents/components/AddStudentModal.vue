@@ -1,11 +1,11 @@
 <template>
-  <BaseButton id="btn-open" @click="isOpen = true">Add Student</BaseButton>
+  <AppButton id="btn-open" @click="isOpen = true">Add Student</AppButton>
   <teleport to="#modals">
     <AppModal :open="isOpen" @close="isOpen = false">
       <template #header>Choose Students</template>
       <template #body>
         <div class="mt-4">
-          <BaseInput type="text" v-model="searchFilter" placeholder="Search" />
+          <AppInput type="text" v-model="searchFilter" placeholder="Search" />
         </div>
         <div class="mt-4">
           <div
@@ -28,13 +28,13 @@
         </div>
       </template>
       <template #action>
-        <BaseButton
+        <AppButton
           @click="handleSubmit"
           prominent
           :disabled="!checkedNames.length"
         >
           Add
-        </BaseButton>
+        </AppButton>
       </template>
     </AppModal>
   </teleport>
@@ -43,14 +43,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Course, User } from '@/types'
-import BaseButton from '@/components/BaseButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
-import BaseInput from '@/components/BaseInput.vue'
-import AppModal from '@/components/AppModal.vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppModal from '@/components/ui/AppModal.vue'
 
 export default defineComponent({
   name: 'AddStudentModal',
-  components: { BaseButton, BaseInput, AppModal },
+  components: { AppButton, AppInput, AppModal },
   props: {
     courseId: {
       type: String,

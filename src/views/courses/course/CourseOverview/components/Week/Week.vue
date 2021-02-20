@@ -1,20 +1,20 @@
 <template>
-  <Accordion :label="`Week ${week}`">
+  <AppAccordion :label="`Week ${week}`">
     <div class="week__exams">
       <WeekExam v-for="exam in exams" :key="exam.id" :exam="exam" />
     </div>
-  </Accordion>
+  </AppAccordion>
 </template>
 
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent } from 'vue'
-import Accordion from '@/components/Accordion.vue'
+import AppAccordion from '@/components/ui/AppAccordion.vue'
 import WeekExam from './components/WeekExam.vue'
 
 export default defineComponent({
   name: 'Week',
-  components: { WeekExam, Accordion },
+  components: { WeekExam, AppAccordion },
   props: {
     courseId: {
       type: String,

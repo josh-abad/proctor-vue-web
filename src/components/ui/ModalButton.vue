@@ -1,16 +1,16 @@
 <template>
   <div>
-    <BaseButton id="btn-open" @click="modalOpen = true" :prominent="prominent"
-      ><slot></slot
-    ></BaseButton>
+    <AppButton id="btn-open" @click="modalOpen = true" :prominent="prominent">
+      <slot></slot>
+    </AppButton>
     <teleport to="#modals">
       <AppModal :open="modalOpen" @close="modalOpen = false">
         <template #header>{{ header }}</template>
         <template #body>{{ message }}</template>
         <template #action>
-          <BaseButton @click="$emit('confirm')" prominent>
+          <AppButton @click="$emit('confirm')" prominent>
             {{ actionLabel }}
-          </BaseButton>
+          </AppButton>
         </template>
       </AppModal>
     </teleport>
@@ -20,11 +20,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import AppModal from './AppModal.vue'
-import BaseButton from './BaseButton.vue'
+import AppButton from './AppButton.vue'
 
 export default defineComponent({
   name: 'ModalButton',
-  components: { BaseButton, AppModal },
+  components: { AppButton, AppModal },
   props: {
     actionLabel: {
       type: String,

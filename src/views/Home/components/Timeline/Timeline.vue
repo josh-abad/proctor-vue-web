@@ -1,6 +1,6 @@
 <template>
-  <BasePanel v-if="upcomingExams.length">
-    <BaseLabel class="pb-2 label-border" emphasis>Timeline</BaseLabel>
+  <AppPanel v-if="upcomingExams.length">
+    <AppLabel class="pb-2 label-border" emphasis>Timeline</AppLabel>
     <div class="mt-4 space-y-2">
       <div v-for="(events, i) in eventsByDate" :key="i">
         <div class="item__date">{{ formattedDate(events?.[0]) }}</div>
@@ -9,20 +9,20 @@
         </div>
       </div>
     </div>
-  </BasePanel>
+  </AppPanel>
 </template>
 
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
 import Item from './components/Item.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'Timeline',
-  components: { Item, BasePanel, BaseLabel },
+  components: { Item, AppPanel, AppLabel },
   computed: {
     upcomingExams (): AppEvent[] {
       return this.$store.getters.upcomingExams.slice(0, 5)

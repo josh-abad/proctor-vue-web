@@ -1,6 +1,6 @@
 <template>
   <div v-if="recentCourses.length">
-    <BaseLabel class="pb-2 label-border" emphasis>Recent Courses</BaseLabel>
+    <AppLabel class="pb-2 label-border" emphasis>Recent Courses</AppLabel>
     <div class="mt-4 flex space-x-4">
       <CoursesPageCard
         :course="course"
@@ -15,11 +15,11 @@
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 
 export default defineComponent({
   name: 'RecentCourses',
-  components: { CoursesPageCard, BaseLabel },
+  components: { CoursesPageCard, AppLabel },
   computed: {
     recentCourses (): Course[] {
       return this.$store.getters.recentCourses

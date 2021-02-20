@@ -8,7 +8,7 @@
         <div>
           <div class="flex items-start">
             <div class="flex-grow">
-              <BaseInput
+              <AppInput
                 placeholder="Question"
                 class="w-full"
                 :model-value="question"
@@ -30,7 +30,7 @@
         </div>
         <div class="mt-4"></div>
         <div class="mt-4" v-if="questionType === 'text'">
-          <BaseInput
+          <AppInput
             placeholder="Text answer"
             class="w-1/2 text-sm"
             :model-value="answer?.[0] || ''"
@@ -65,7 +65,7 @@
               />
             </div>
             <div class="ml-2">
-              <BaseInput
+              <AppInput
                 type="text"
                 :model-value="choices[i]"
                 @update:model-value="
@@ -76,7 +76,7 @@
             </div>
           </div>
           <div class="mt-2">
-            <BaseButton @click="$emit('add-choice')">Add choice</BaseButton>
+            <AppButton @click="$emit('add-choice')">Add choice</AppButton>
           </div>
         </div>
       </div>
@@ -91,13 +91,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppInput from '@/components/ui/AppInput.vue'
 import QuestionTypeInput from './components/QuestionTypeInput.vue'
 import SideMenu from './components/SideMenu.vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, QuestionTypeInput, SideMenu },
+  components: { AppInput, AppButton, QuestionTypeInput, SideMenu },
   name: 'ExamItemInput',
   props: {
     question: {

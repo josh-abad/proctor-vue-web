@@ -104,7 +104,7 @@ import { Option } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BaseDropdown',
+  name: 'AppDropdown',
   props: {
     modelValue: {
       type: String,

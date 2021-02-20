@@ -21,14 +21,14 @@
         </MenuDropdown>
       </template>
     </PageHeader>
-    <BasePanel class="mt-4 mb-0">
+    <AppPanel class="mt-4 mb-0">
       <CourseList :courses="courses" />
-    </BasePanel>
+    </AppPanel>
   </div>
 </template>
 
 <script lang="ts">
-import BasePanel from '@/components/BasePanel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
@@ -39,7 +39,7 @@ import CourseList from '@/components/CourseList/CourseList.vue'
 
 export default defineComponent({
   name: 'CoursesPage',
-  components: { BasePanel, PageHeader, MenuDropdown, MenuDropdownItem, CourseList },
+  components: { AppPanel, PageHeader, MenuDropdown, MenuDropdownItem, CourseList },
   mixins: [userMixin],
   data () {
     return {

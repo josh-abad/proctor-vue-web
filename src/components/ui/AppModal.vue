@@ -9,7 +9,7 @@
           <slot name="body">Dialog body text</slot>
         </section>
         <footer class="modal-footer">
-          <BaseButton @click="closeModal">Cancel</BaseButton>
+          <AppButton @click="closeModal">Cancel</AppButton>
           <slot name="action" />
         </footer>
       </div>
@@ -19,11 +19,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseButton from './BaseButton.vue'
+import AppButton from './AppButton.vue'
 
 export default defineComponent({
   name: 'AppModal',
-  components: { BaseButton },
+  components: { AppButton },
   props: {
     open: {
       type: Boolean,
@@ -62,7 +62,7 @@ export default defineComponent({
 }
 
 .modal {
-  @apply overflow-x-auto flex flex-col bg-gray-100 dark:bg-dark-06 rounded-lg shadow-2xl;
+  @apply overflow-x-auto flex flex-col bg-gray-100 dark:bg-gray-800 rounded-lg shadow-2xl;
 }
 
 .modal-header,

@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full">
     <div class="flex">
-      <BaseInput
+      <AppInput
         type="text"
         placeholder="Search courses"
         v-model="searchFilter"
@@ -39,7 +39,7 @@
     </div>
     <transition name="dropdown-fade">
       <div
-        class="absolute mt-2 w-full rounded-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
+        class="absolute mt-2 w-full rounded-lg bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
         v-show="open && filteredCourses.length"
       >
         <ul class="max-h-56 rounded-lg py-1 overflow-auto sm:text-sm">
@@ -59,12 +59,12 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import BaseInput from '@/components/BaseInput.vue'
+import AppInput from '@/components/ui/AppInput.vue'
 import Result from './components/Result.vue'
 
 export default defineComponent({
   name: 'Search',
-  components: { BaseInput, Result },
+  components: { AppInput, Result },
   data () {
     return {
       open: false,
