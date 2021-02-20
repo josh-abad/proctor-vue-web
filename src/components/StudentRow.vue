@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center px-2 py-4 bg-white dark:bg-dark-06 rounded-lg shadow-lg"
+    class="flex items-center px-2 py-4 bg-white dark:bg-gray-700 rounded-lg shadow-lg"
   >
     <img
       :src="student.avatarUrl"

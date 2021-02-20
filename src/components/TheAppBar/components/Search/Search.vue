@@ -10,7 +10,7 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80 shadow-none text-gray-900 dark:text-white bg-dark-00 dark:bg-white bg-opacity-10 dark:bg-opacity-5 border-0"
+        class="w-80 shadow-none text-gray-900 dark:text-white bg-gray-900 dark:bg-white bg-opacity-10 dark:bg-opacity-5 border-0"
       />
       <button
         type="submit"

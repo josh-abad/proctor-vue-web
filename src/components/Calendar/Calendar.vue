@@ -141,11 +141,11 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .calendar {
-  @apply bg-gray-100 dark:bg-dark-01 rounded-lg overflow-hidden shadow-lg;
+  @apply bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg;
 }
 
 .calendar--compact {
-  @apply bg-opacity-50 dark:bg-opacity-75 backdrop-blur;
+  @apply dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur;
 }
 
 .calendar__border {

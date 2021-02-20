@@ -101,6 +101,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .sidebar__border {
-  @apply border-r border-gray-100 dark:border-dark-12;
+  @apply border-r border-gray-100 dark:border-gray-800;
 }
 </style>

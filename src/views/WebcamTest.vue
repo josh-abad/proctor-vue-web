@@ -2,7 +2,7 @@
   <div class="p-4">
     <teleport to="#modals">
       <div
-        class="mr-8 bg-dark-12 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+        class="mr-8 bg-gray-700 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
       >
         <Webcam
           @no-face-seen="handleNoFaceSeen"

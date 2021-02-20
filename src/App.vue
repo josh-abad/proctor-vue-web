@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen antialiased bg-gray-200 dark:bg-dark-00 from-green-900 via-green-800 to-green-700 text-gray-900 dark:text-white"
+    class="min-h-screen antialiased bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white"
   >
     <div id="modals" />
     <div class="flex flex-col text-gray-900 dark:text-white">
@@ -210,7 +210,7 @@ export default defineComponent({
 }
 
 .separator-y {
-  @apply divide-y divide-gray-300 dark:divide-gray-700;
+  @apply divide-y divide-gray-300 dark:divide-gray-600;
 }
 
 .label-border {

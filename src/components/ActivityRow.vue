@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="event"
-      class="text-gray-600 dark:text-gray-400 bg-white dark:bg-dark-08 text-sm"
+      class="text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 text-sm"
     >
       <div class="px-3 py-2 flex justify-between">
         <div class="flex items-center space-x-1">

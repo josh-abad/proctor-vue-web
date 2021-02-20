@@ -15,7 +15,7 @@
           :src="user?.referenceImageUrl"
         />
         <div v-else>
-          <div class="w-56 h-56 bg-dark-06 rounded-lg">
+          <div class="w-56 h-56 bg-gray-700 rounded-lg">
             <div
               class="flex items-center justify-center h-full text-gray-500 font-semibold uppercase tracking-wider"
             >
