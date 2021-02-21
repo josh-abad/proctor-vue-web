@@ -36,8 +36,8 @@
       </tbody>
       <tr class="table-footer">
         <td>
-          Course Total
-          <div class="text-gray-500 font-normal text-sm">
+          Total
+          <div class="text-gray-500 font-normal text-sm hidden sm:block">
             Weighted mean of grades
           </div>
         </td>

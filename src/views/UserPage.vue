@@ -84,7 +84,7 @@ export default defineComponent({
 }
 
 .user-page__stats {
-  @apply flex divide-x divide-gray-300 dark:divide-gray-700 mt-3;
+  @apply divide-x divide-gray-300 dark:divide-gray-700 mt-3 hidden sm:flex;
 }
 
 .user-page__avatar {

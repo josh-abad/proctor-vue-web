@@ -1,6 +1,6 @@
 <template>
   <header
-    class="app-bar flex h-20 sticky top-0 w-full items-center justify-between py-4 shadow-lg bg-gray-100 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 app-bar__border z-20"
+    class="app-bar flex h-20 sticky top-0 w-full items-center justify-between py-4 shadow-lg bg-gray-100 dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 app-bar__border z-20"
   >
     <div class="flex items-center pl-6">
       <button
@@ -26,7 +26,7 @@
       </router-link>
     </div>
     <div class="flex items-center pr-6">
-      <div class="mr-5">
+      <div class="mr-5 hidden sm:block">
         <Search />
       </div>
       <UserDropdown />

@@ -1,10 +1,11 @@
 <template>
   <div class="p-6">
-    <div class="flex">
+    <div class="block space-y-4 sm:space-y-0 sm:space-x-4 sm:flex">
       <div class="flex-grow">
         <CalendarMonth v-model="value" :events="events" />
       </div>
       <EventsPanel
+        class="w-full sm:w-80"
         :date="date"
         :events="eventsOnDate"
         @close="value = null"

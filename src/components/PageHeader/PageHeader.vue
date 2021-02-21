@@ -3,7 +3,7 @@
     class="p-6 rounded-lg shadow-lg glow bg-gradient-to-t from-green-600 via-green-500 to-green-400"
   >
     <div class="flex justify-between">
-      <div class="text-3xl font-bold text-white">
+      <div class="text-2xl sm:text-3xl font-bold text-white">
         <slot name="label" />
       </div>
       <button

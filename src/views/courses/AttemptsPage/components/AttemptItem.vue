@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-6 py-5 justify-between w-full">
+  <div class="flex py-5 justify-between w-full">
     <div class="flex">
       <div class="mr-6 font-semibold text-gray-400">
         {{ attemptNumber }}
@@ -21,13 +21,6 @@
       <div class="font-thin text-xl mr-6">
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
-      <button
-        class="focus:outline-none"
-        @click="$emit('review-clicked')"
-        v-show="hasPermission(['coordinator', 'admin'])"
-      >
-        Review
-      </button>
     </div>
   </div>
 </template>

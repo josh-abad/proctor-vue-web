@@ -23,10 +23,10 @@
             :to="event.predicateUrl || '#'"
             >{{ event.predicate || "" }}</router-link
           >
-          <span>in</span>
+          <span class="hidden sm:inline-block">in</span>
           <router-link
             :to="event.locationUrl"
-            class="text-gray-700 dark:text-gray-300"
+            class="text-gray-700 dark:text-gray-300 hidden sm:inline-block"
             >{{ event.location }}</router-link
           >
         </div>

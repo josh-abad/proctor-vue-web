@@ -17,7 +17,7 @@
         </router-link>
       </div>
     </div>
-    <div class="w-52">
+    <div class="w-52 hidden sm:block">
       <ProgressBar :percentage="percentage" />
     </div>
   </div>

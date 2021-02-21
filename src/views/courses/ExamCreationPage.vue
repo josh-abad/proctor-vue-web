@@ -1,9 +1,7 @@
 <template>
   <div v-if="course" class="form">
     <AppPanel class="form__panel">
-      <header class="form__header">
-        Create a new exam for {{ course.name }}
-      </header>
+      <header class="form__header">New exam for {{ course.name }}</header>
       <FormError class="form__error" v-show="error">
         {{ error }}
       </FormError>
@@ -24,23 +22,27 @@
           <label for="attempts">
             <AppLabel>Attempts</AppLabel>
           </label>
-          <NumberInput
-            v-model.number="maxAttempts"
-            :min="1"
-            :max="5"
-            id="attempts"
-          />
+          <div class="inline-block">
+            <NumberInput
+              v-model.number="maxAttempts"
+              :min="1"
+              :max="5"
+              id="attempts"
+            />
+          </div>
         </div>
         <div class="form__detail">
           <label for="week">
             <AppLabel>Week</AppLabel>
           </label>
-          <NumberInput
-            v-model.number="week"
-            :min="1"
-            :max="course.weeks"
-            id="week"
-          />
+          <div class="inline-block">
+            <NumberInput
+              v-model.number="week"
+              :min="1"
+              :max="course.weeks"
+              id="week"
+            />
+          </div>
         </div>
         <div class="form__detail">
           <label for="startDate">
@@ -248,7 +250,10 @@ export default defineComponent({
   @apply text-xl;
 }
 
-.form__details,
+.form__details {
+  @apply flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between;
+}
+
 .form__footer {
   @apply flex justify-between;
 }

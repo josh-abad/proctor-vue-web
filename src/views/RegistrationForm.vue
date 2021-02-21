@@ -65,7 +65,7 @@
               :error="!passwordsMatch"
             />
           </div>
-          <div class="mt-4">
+          <div class="flex justify-between mt-4">
             <AppButton
               @click.prevent="handleRegister"
               :disabled="!allFieldsFilled || !!error"
@@ -74,9 +74,7 @@
             >
               Sign Up
             </AppButton>
-            <span v-if="error" class="ml-4 text-xs text-red-500">{{
-              error
-            }}</span>
+            <FormError v-show="error">{{ error }}</FormError>
           </div>
           <p class="mt-3 text-xs">
             Already have an account?
@@ -102,10 +100,12 @@ import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
+import FormError from '@/components/FormError.vue'
+import AppLogo from '@/components/AppLogo.vue'
 
 export default defineComponent({
   name: 'RegistrationForm',
-  components: { AppButton, AppInput, AppLabel, ColorBackgroundCard, Redirect },
+  components: { AppButton, AppInput, AppLabel, ColorBackgroundCard, Redirect, FormError, AppLogo },
   data () {
     return {
       firstName: '',

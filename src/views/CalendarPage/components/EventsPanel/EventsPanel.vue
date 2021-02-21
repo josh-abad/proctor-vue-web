@@ -1,5 +1,5 @@
 <template>
-  <AppPanel class="ml-4 w-80">
+  <AppPanel>
     <div class="flex justify-between items-start">
       <div class="uppercase text-xs tracking-wider font-semibold text-gray-500">
         {{ date }}
