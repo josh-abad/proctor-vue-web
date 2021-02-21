@@ -28,7 +28,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .tab-row {
-  @apply flex space-x-2 text-gray-500 bg-gray-100 rounded-t-lg shadow dark:bg-dark-02;
+  @apply flex space-x-2 text-gray-500 bg-gray-100 rounded-t-lg shadow dark:bg-gray-800;
 }
 
 .tab-row__tab {

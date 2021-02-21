@@ -10,12 +10,12 @@
       <div class="mt-4">
         <div v-if="$store.state.user">
           <router-link to="/"
-            ><BaseButton prominent>Go Home</BaseButton></router-link
+            ><AppButton prominent>Go Home</AppButton></router-link
           >
         </div>
         <div v-else>
           <router-link to="/login"
-            ><BaseButton prominent>Log In</BaseButton></router-link
+            ><AppButton prominent>Log In</AppButton></router-link
           >
         </div>
       </div>
@@ -26,14 +26,14 @@
 <script lang="ts">
 import Center from '@/components/Center.vue'
 import { defineComponent } from 'vue'
-import BaseButton from '@/components/BaseButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import verifyService from '@/services/verify'
 import { SET_VERIFIED } from '@/store/mutation-types'
 import AppLogo from '@/components/AppLogo.vue'
 
 export default defineComponent({
   name: 'Verify',
-  components: { Center, BaseButton, AppLogo },
+  components: { Center, AppButton, AppLogo },
   data () {
     return {
       message: 'Verifying...',

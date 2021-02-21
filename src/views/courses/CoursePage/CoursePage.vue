@@ -13,13 +13,13 @@
           @click-outside="menuOpen = false"
         >
           <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
-            Create Exam
+            <template #label>Create Exam</template>
           </MenuDropdownItem>
           <MenuDropdownItem :path="`/courses/${courseId}/edit`">
-            Edit Course
+            <template #label>Edit Course</template>
           </MenuDropdownItem>
           <MenuDropdownItem id="btn-open" @item-click="deleteModalOpen = true">
-            Delete Course
+            <template #label>Delete Course</template>
           </MenuDropdownItem>
         </MenuDropdown>
       </template>
@@ -31,22 +31,22 @@
           Are you sure you want to delete this course?
         </template>
         <template #action>
-          <BaseButton @click="deleteCourse" prominent> Delete </BaseButton>
+          <AppButton @click="deleteCourse" prominent> Delete </AppButton>
         </template>
       </AppModal>
     </teleport>
-    <div class="flex mt-4">
-      <div class="flex-grow mr-4">
+    <div class="flex flex-col sm:flex-row mt-4">
+      <div class="flex-grow mr-0 sm:mr-4">
         <TabRow :course-id="courseId" />
-        <BasePanel class="overflow-hidden rounded-t-none border-t-0">
+        <AppPanel class="overflow-hidden rounded-t-none border-t-0">
           <router-view v-slot="{ Component, route }">
             <transition :name="route.meta.transition || 'fade'" mode="out-in">
               <component :is="Component" />
             </transition>
           </router-view>
-        </BasePanel>
+        </AppPanel>
       </div>
-      <div class="w-72">
+      <div class="w-full sm:w-72 mt-4 sm:mt-0">
         <CoursePageAbout
           :student-count="course.studentsEnrolled.length"
           :description="course.description"
@@ -61,8 +61,8 @@
   <Center v-else>
     <div class="flex flex-col items-center">
       <p class="text-2xl font-thin">Sorry, that course cannot be found.</p>
-      <BaseButton class="mt-3" @click="$router.push('/courses')" prominent
-        >Go to courses</BaseButton
+      <AppButton class="mt-3" @click="$router.push('/courses')" prominent
+        >Go to courses</AppButton
       >
     </div>
   </Center>
@@ -72,25 +72,25 @@
 import CoursePageAbout from './components/CoursePageAbout.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import ProgressBar from '@/components/ProgressBar.vue'
+import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
 import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
-import AppModal from '@/components/AppModal.vue'
+import AppModal from '@/components/ui/AppModal.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import TabRow from './components/TabRow.vue'
 
 export default defineComponent({
   name: 'CoursePage',
-  components: { BaseButton, BasePanel, Center, BaseLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal, MenuDropdown, MenuDropdownItem, TabRow },
+  components: { AppButton, AppPanel, Center, AppLabel, PageHeader, CoursePageAbout, ProgressBar, CoursePageProgress, CoursePageUpcomingExams, AppModal, MenuDropdown, MenuDropdownItem, TabRow },
   mixins: [userMixin],
   props: {
     courseId: {

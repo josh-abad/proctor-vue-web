@@ -1,7 +1,7 @@
 <template>
   <div class="course-list">
     <div class="course-list__header label-border">
-      <BaseLabel emphasis>Your Courses</BaseLabel>
+      <AppLabel emphasis>Your Courses</AppLabel>
       <ViewOptions class="mb-2" v-model="viewMode" />
     </div>
     <transition name="fade" mode="out-in">
@@ -29,7 +29,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Course } from '@/types'
-import BaseLabel from '../BaseLabel.vue'
+import AppLabel from '../ui/AppLabel.vue'
 import CoursesPageCard from '../CoursesPageCard.vue'
 import CoursesPageListItem from '@/views/courses/CoursesPage/components/CoursesPageListItem.vue'
 import ViewOptions from './components/ViewOptions.vue'
@@ -37,7 +37,7 @@ import ViewOptions from './components/ViewOptions.vue'
 export default defineComponent({
   name: 'CourseList',
   components: {
-    BaseLabel,
+    AppLabel,
     CoursesPageCard,
     CoursesPageListItem,
     ViewOptions

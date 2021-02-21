@@ -1,5 +1,5 @@
 <template>
-  <BasePanel class="ml-4 w-80">
+  <AppPanel>
     <div class="flex justify-between items-start">
       <div class="uppercase text-xs tracking-wider font-semibold text-gray-500">
         {{ date }}
@@ -23,18 +23,18 @@
     <div>
       <EventsPanelItem :event="event" v-for="(event, i) in events" :key="i" />
     </div>
-  </BasePanel>
+  </AppPanel>
 </template>
 
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import EventsPanelItem from './components/EventsPanelItem.vue'
 
 export default defineComponent({
   name: 'EventsPanel',
-  components: { BasePanel, EventsPanelItem },
+  components: { AppPanel, EventsPanelItem },
   props: {
     date: {
       type: String,

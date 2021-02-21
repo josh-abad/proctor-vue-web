@@ -6,7 +6,7 @@ import coursesService from '@/services/courses'
 import { alphabeticalCourses } from '@/utils/sort'
 import nProgress from 'nprogress'
 
-const MAX_RECENT_COURSES = 3
+const MAX_RECENT_COURSES = 6
 
 export default {
   state: () => ({
@@ -117,12 +117,15 @@ export default {
         return state.courses.find(course => course.id === id)
       }
     },
-    recentCourses (state): (Course | undefined)[] {
+    recentCourses (state, getters): (Course | undefined)[] {
       const toCourse = (id: string): Course | undefined => {
         return state.courses.find(course => course.id === id)
       }
       const defined = (course: Course | undefined): boolean => {
         return course !== undefined
+      }
+      if (!state.recentCourses.length) {
+        return getters.courses.slice(0, MAX_RECENT_COURSES)
       }
       return state.recentCourses.map(toCourse).filter(defined).reverse()
     },

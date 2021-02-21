@@ -36,8 +36,8 @@
       </tbody>
       <tr class="table-footer">
         <td>
-          Course Total
-          <div class="text-gray-500 font-normal text-sm">
+          Total
+          <div class="text-gray-500 font-normal text-sm hidden sm:block">
             Weighted mean of grades
           </div>
         </td>
@@ -89,7 +89,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .table-bg {
-  @apply bg-white dark:bg-dark-06 rounded-lg shadow-lg overflow-hidden;
+  @apply bg-white dark:bg-gray-700 rounded-lg shadow-lg overflow-hidden;
 }
 
 table {
@@ -105,7 +105,7 @@ td {
 }
 
 tbody {
-  @apply divide-y divide-gray-200 dark:divide-dark-16;
+  @apply divide-y divide-gray-200 dark:divide-gray-600;
 }
 
 .table-header {
@@ -118,12 +118,12 @@ tbody {
 }
 
 .table-footer {
-  @apply border-t bg-white dark:bg-dark-16;
+  @apply border-t bg-white dark:bg-gray-700;
 }
 
 .table-header,
 .table-footer {
-  @apply border-gray-200 dark:border-dark-16;
+  @apply border-gray-200 dark:border-gray-600;
 }
 
 .prominent {

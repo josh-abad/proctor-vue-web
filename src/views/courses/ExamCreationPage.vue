@@ -1,56 +1,58 @@
 <template>
   <div v-if="course" class="form">
-    <BasePanel class="form__panel">
-      <header class="form__header">
-        Create a new exam for {{ course.name }}
-      </header>
+    <AppPanel class="form__panel">
+      <header class="form__header">New exam for {{ course.name }}</header>
       <FormError class="form__error" v-show="error">
         {{ error }}
       </FormError>
       <div class="form__details">
         <div class="form__detail">
           <label for="name">
-            <BaseLabel>Name</BaseLabel>
+            <AppLabel>Name</AppLabel>
           </label>
-          <BaseInput type="text" id="name" v-model="examName" />
+          <AppInput type="text" id="name" v-model="examName" />
         </div>
         <div class="form__detail">
           <label for="duration">
-            <BaseLabel>Duration</BaseLabel>
+            <AppLabel>Duration</AppLabel>
           </label>
           <TimePicker id="duration" v-model.number="examSeconds" />
         </div>
         <div class="form__detail">
           <label for="attempts">
-            <BaseLabel>Attempts</BaseLabel>
+            <AppLabel>Attempts</AppLabel>
           </label>
-          <NumberInput
-            v-model.number="maxAttempts"
-            :min="1"
-            :max="5"
-            id="attempts"
-          />
+          <div class="inline-block">
+            <NumberInput
+              v-model.number="maxAttempts"
+              :min="1"
+              :max="5"
+              id="attempts"
+            />
+          </div>
         </div>
         <div class="form__detail">
           <label for="week">
-            <BaseLabel>Week</BaseLabel>
+            <AppLabel>Week</AppLabel>
           </label>
-          <NumberInput
-            v-model.number="week"
-            :min="1"
-            :max="course.weeks"
-            id="week"
-          />
+          <div class="inline-block">
+            <NumberInput
+              v-model.number="week"
+              :min="1"
+              :max="course.weeks"
+              id="week"
+            />
+          </div>
         </div>
         <div class="form__detail">
           <label for="startDate">
-            <BaseLabel>Start Date</BaseLabel>
+            <AppLabel>Start Date</AppLabel>
           </label>
           <DatePicker id="startDate" v-model="startDate" />
         </div>
         <div class="form__detail">
           <label for="endDate">
-            <BaseLabel>End Date</BaseLabel>
+            <AppLabel>End Date</AppLabel>
           </label>
           <DatePicker id="endDate" v-model="endDate" />
         </div>
@@ -73,20 +75,20 @@
         />
       </div>
       <footer class="form__footer">
-        <BaseButton @click="addExamItem()">Add Question</BaseButton>
-        <BaseButton @click="saveExam" :disabled="!valid" prominent>
+        <AppButton @click="addExamItem()">Add Question</AppButton>
+        <AppButton @click="saveExam" :disabled="!valid" prominent>
           Save Exam
-        </BaseButton>
+        </AppButton>
       </footer>
-    </BasePanel>
+    </AppPanel>
   </div>
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import DatePicker from '@/components/DatePicker.vue'
 import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
@@ -101,7 +103,7 @@ import FormError from '@/components/FormError.vue'
 
 export default defineComponent({
   name: 'ExamCreationPage',
-  components: { BaseButton, BasePanel, BaseLabel, TimePicker, NumberInput, ExamItemInput, DatePicker, BaseInput, FormError },
+  components: { AppButton, AppPanel, AppLabel, TimePicker, NumberInput, ExamItemInput, DatePicker, AppInput, FormError },
   props: {
     courseId: {
       type: String,
@@ -248,7 +250,10 @@ export default defineComponent({
   @apply text-xl;
 }
 
-.form__details,
+.form__details {
+  @apply flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between;
+}
+
 .form__footer {
   @apply flex justify-between;
 }

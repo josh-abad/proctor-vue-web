@@ -2,7 +2,7 @@
   <div class="p-4">
     <teleport to="#modals">
       <div
-        class="mr-8 bg-dark-12 bg-opacity-75 backdrop-blur px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+        class="mr-8 bg-gray-700 bg-opacity-75 backdrop-blur px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
       >
         <Webcam
           @no-face-seen="handleNoFaceSeen"
@@ -15,7 +15,7 @@
       <PageHeader hide-menu>
         <template #label>{{ exam.label }}</template>
       </PageHeader>
-      <BasePanel class="mt-4">
+      <AppPanel class="mt-4">
         <BaseExamItem
           v-for="(item, i) in exam.examItems"
           :key="i"
@@ -34,18 +34,18 @@
             >Submit</ModalButton
           >
         </div>
-      </BasePanel>
+      </AppPanel>
     </div>
     <Center v-else>
       <div class="flex flex-col items-center">
         <p class="font-thin text-2xl">
           Sorry, you are not allowed to take this exam.
         </p>
-        <BaseButton
+        <AppButton
           class="mt-3"
           @click="$router.push(`/courses/${courseId}`)"
           prominent
-          >Return to course</BaseButton
+          >Return to course</AppButton
         >
       </div>
     </Center>
@@ -64,24 +64,24 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseButton from '@/components/BaseButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import examResultsServices from '@/services/exam-results'
 import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { ALERT, SUBMIT_EXAM } from '@/store/action-types'
-import BasePanel from '@/components/BasePanel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import ModalButton from '@/components/ModalButton.vue'
+import ModalButton from '@/components/ui/ModalButton.vue'
 import userMixin from '@/mixins/user'
-import AppModal from '@/components/AppModal.vue'
+import AppModal from '@/components/ui/AppModal.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, BaseButton, Timer, BasePanel, Center, PageHeader, ModalButton, AppModal, Webcam },
+  components: { BaseExamItem, AppButton, Timer, AppPanel, Center, PageHeader, ModalButton, AppModal, Webcam },
   mixins: [userMixin],
   props: {
     courseId: {

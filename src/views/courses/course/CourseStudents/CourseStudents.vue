@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between items-start">
-      <BaseInput
+      <AppInput
         type="text"
         v-model="searchFilter"
         placeholder="Filter students"
@@ -47,14 +47,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { User } from '@/types'
-import BaseInput from '@/components/BaseInput.vue'
+import AppInput from '@/components/ui/AppInput.vue'
 import AddStudentModal from './components/AddStudentModal.vue'
 import StudentRow from '@/components/StudentRow.vue'
 import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'CourseStudents',
-  components: { BaseInput, AddStudentModal, StudentRow },
+  components: { AppInput, AddStudentModal, StudentRow },
   mixins: [userMixin],
   props: {
     courseId: {

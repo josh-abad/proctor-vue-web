@@ -1,6 +1,6 @@
 <template>
   <div v-if="recentActivities.length">
-    <BaseLabel class="pb-2 label-border" emphasis>Recent Activity</BaseLabel>
+    <AppLabel class="pb-2 label-border" emphasis>Recent Activity</AppLabel>
     <div class="mt-4 separator-y rounded-lg overflow-hidden shadow">
       <ActivityRow
         v-for="(event, i) of recentActivities"
@@ -15,13 +15,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ActivityRow from '@/components/ActivityRow.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 import userMixin from '@/mixins/user'
 import { AppEvent } from '@/types'
 
 export default defineComponent({
   name: 'RecentActivites',
-  components: { BaseLabel, ActivityRow },
+  components: { AppLabel, ActivityRow },
   mixins: [userMixin],
   computed: {
     recentActivities (): AppEvent[] {

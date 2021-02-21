@@ -37,6 +37,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .router-link-active {
-  @apply bg-gray-200 dark:bg-dark-06 bg-opacity-30 font-semibold text-green-500 dark:text-white border-green-500;
+  @apply bg-gray-200 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-30 font-semibold text-green-500 dark:text-white border-green-500;
 }
 </style>

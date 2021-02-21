@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-56 pt-4 fixed h-full min-h-full overflow-y-auto ease-in-out transition-transform duration-300 bg-gray-100 dark:bg-dark-01 shadow-lg sidebar__border"
+      class="transform w-full bg-opacity-60 dark:bg-opacity-90 backdrop-blur sm:w-56 pt-4 fixed h-full min-h-full overflow-y-auto ease-in-out transition-transform duration-300 bg-gray-100 dark:bg-gray-900 shadow-lg sidebar__border z-10"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <nav class="flex flex-col">
@@ -101,6 +101,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .sidebar__border {
-  @apply border-r border-gray-100 dark:border-dark-12;
+  @apply border-r border-gray-100 dark:border-gray-800;
 }
 </style>

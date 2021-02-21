@@ -18,6 +18,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'MenuDropdown',
+  props: {
+    toggleId: {
+      type: String,
+      default: 'dropdown-toggle'
+    }
+  },
   emits: ['click-outside'],
   computed: {
     handleClickOutside () {
@@ -32,7 +38,7 @@ export default defineComponent({
       this.$emit('click-outside')
     },
     clickOutsideMiddleware (e: Event): boolean {
-      return (e.target as Element).id !== 'dropdown-toggle'
+      return (e.target as Element).id !== this.toggleId
     }
   }
 })
@@ -40,6 +46,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .dropdown-menu {
-  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-dark-08 bg-opacity-50 dark:bg-opacity-75 backdrop-blur border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10;
+  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10;
 }
 </style>

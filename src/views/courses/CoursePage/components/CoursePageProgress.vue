@@ -1,19 +1,19 @@
 <template>
-  <BasePanel class="px-3 py-4">
-    <BaseLabel emphasis>Course Progress</BaseLabel>
+  <AppPanel class="px-3 py-4">
+    <AppLabel emphasis>Course Progress</AppLabel>
     <ProgressBar class="mt-2" :percentage="percentage" />
-  </BasePanel>
+  </AppPanel>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseLabel from '@/components/BaseLabel.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import ProgressBar from '@/components/ProgressBar.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
+import ProgressBar from '@/components/ui/ProgressBar.vue'
 
 export default defineComponent({
   name: 'CoursePageProgress',
-  components: { BasePanel, BaseLabel, ProgressBar },
+  components: { AppPanel, AppLabel, ProgressBar },
   props: {
     courseId: {
       type: String,

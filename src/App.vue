@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="min-h-screen antialiased bg-gray-200 dark:bg-dark-00 from-green-900 via-green-800 to-green-700 text-gray-900 dark:text-white"
-  >
+  <div class="min-h-screen antialiased text-gray-900 dark:text-white">
     <div id="modals" />
-    <div class="flex flex-col text-gray-900 dark:text-white">
+    <div>
       <TheAppBar
         v-if="isLoggedIn"
         @toggle="handleToggle"
@@ -14,7 +12,7 @@
         <div>
           <router-view
             class="transform ease-in-out duration-300"
-            :class="sidebarOpen ? 'ml-56' : 'ml-0'"
+            :class="sidebarOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
           />
           <div class="mt-4">
             <Snackbar />
@@ -67,6 +65,12 @@ export default defineComponent({
       localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
     },
     initTheme (): void {
+      const body = document.querySelector('body')
+      if (body) {
+        body.classList.add('bg-gray-200')
+        body.classList.add('dark:bg-gray-900')
+      }
+
       const theme = localStorage.getItem('theme')
       this.$store.commit(SET_THEME, theme)
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
@@ -210,7 +214,7 @@ export default defineComponent({
 }
 
 .separator-y {
-  @apply divide-y divide-gray-300 dark:divide-gray-700;
+  @apply divide-y divide-gray-300 dark:divide-gray-600;
 }
 
 .label-border {

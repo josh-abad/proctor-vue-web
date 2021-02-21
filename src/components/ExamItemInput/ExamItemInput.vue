@@ -1,38 +1,34 @@
 <template>
   <div class="flex">
     <div
-      class="flex flex-grow bg-gray-100 dark:bg-dark-04 rounded-lg shadow-md overflow-hidden"
+      class="flex flex-grow bg-gray-100 dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-md overflow-hidden"
     >
       <div class="p-1 bg-gradient-to-b from-green-400 to-green-600" />
       <div class="p-4 flex-grow">
-        <div>
-          <div class="flex items-start">
-            <div class="flex-grow">
-              <BaseInput
-                placeholder="Question"
-                class="w-full"
-                :model-value="question"
-                @update:model-value="
-                  (newValue) => $emit('update:question', newValue)
-                "
-                type="text"
-              />
-            </div>
-            <div class="ml-2">
-              <QuestionTypeInput
-                :model-value="questionType"
-                @update:model-value="
-                  (newValue) => $emit('update:questionType', newValue)
-                "
-              />
-            </div>
-          </div>
+        <div class="w-full">
+          <QuestionTypeInput
+            :model-value="questionType"
+            @update:model-value="
+              (newValue) => $emit('update:questionType', newValue)
+            "
+          />
+        </div>
+        <div class="w-full sm:flex-grow mt-2">
+          <AppInput
+            placeholder="Question"
+            class="w-full"
+            :model-value="question"
+            @update:model-value="
+              (newValue) => $emit('update:question', newValue)
+            "
+            type="text"
+          />
         </div>
         <div class="mt-4"></div>
         <div class="mt-4" v-if="questionType === 'text'">
-          <BaseInput
+          <AppInput
             placeholder="Text answer"
-            class="w-1/2 text-sm"
+            class="w-full sm:w-1/2 text-sm"
             :model-value="answer?.[0] || ''"
             @update:model-value="
               (newValue) => $emit('update:answer', [newValue])
@@ -65,7 +61,7 @@
               />
             </div>
             <div class="ml-2">
-              <BaseInput
+              <AppInput
                 type="text"
                 :model-value="choices[i]"
                 @update:model-value="
@@ -76,7 +72,7 @@
             </div>
           </div>
           <div class="mt-2">
-            <BaseButton @click="$emit('add-choice')">Add choice</BaseButton>
+            <AppButton @click="$emit('add-choice')">Add choice</AppButton>
           </div>
         </div>
       </div>
@@ -91,13 +87,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppInput from '@/components/ui/AppInput.vue'
 import QuestionTypeInput from './components/QuestionTypeInput.vue'
 import SideMenu from './components/SideMenu.vue'
 
 export default defineComponent({
-  components: { BaseInput, BaseButton, QuestionTypeInput, SideMenu },
+  components: { AppInput, AppButton, QuestionTypeInput, SideMenu },
   name: 'ExamItemInput',
   props: {
     question: {

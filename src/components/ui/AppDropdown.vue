@@ -33,7 +33,7 @@
       </button>
       <transition name="dropdown-fade">
         <div
-          class="absolute mt-1 w-full rounded-md bg-gray-100 dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg"
+          class="absolute mt-1 w-full rounded-md bg-gray-100 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
           v-show="open"
         >
           <ul
@@ -51,7 +51,7 @@
             <li
               id="listbox-item-0"
               role="option"
-              class="group text-gray-900 dark:text-white cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-green-600"
+              class="group text-gray-900 dark:text-white cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-40 dark:hover:bg-opacity-40"
               v-for="(option, i) in options"
               :key="i"
               @click="handleChange(i)"
@@ -72,7 +72,7 @@
             Highlighted: "text-white", Not Highlighted: "text-indigo-600"
           -->
               <span
-                class="absolute inset-y-0 right-0 flex items-center pr-4 text-green-600 group-hover:text-white"
+                class="absolute inset-y-0 right-0 flex items-center pr-4 text-green-600"
                 v-show="selectedIndex === i"
               >
                 <!-- Heroicon name: check -->
@@ -104,7 +104,7 @@ import { Option } from '@/types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'BaseDropdown',
+  name: 'AppDropdown',
   props: {
     modelValue: {
       type: String,

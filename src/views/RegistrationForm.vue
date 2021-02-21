@@ -18,22 +18,22 @@
           <div class="flex">
             <div class="mt-4 mr-4">
               <label for="firstName">
-                <BaseLabel>First Name</BaseLabel>
+                <AppLabel>First Name</AppLabel>
               </label>
-              <BaseInput id="firstName" v-model="firstName" type="text" />
+              <AppInput id="firstName" v-model="firstName" type="text" />
             </div>
             <div class="mt-4">
               <label for="lastName">
-                <BaseLabel>Last Name</BaseLabel>
+                <AppLabel>Last Name</AppLabel>
               </label>
-              <BaseInput id="lastName" v-model="lastName" type="text" />
+              <AppInput id="lastName" v-model="lastName" type="text" />
             </div>
           </div>
           <div class="mt-2">
             <label for="email">
-              <BaseLabel>Email</BaseLabel>
+              <AppLabel>Email</AppLabel>
             </label>
-            <BaseInput
+            <AppInput
               id="email"
               class="w-full"
               v-model="email"
@@ -43,9 +43,9 @@
           </div>
           <div class="mt-2">
             <label for="password">
-              <BaseLabel>Password</BaseLabel>
+              <AppLabel>Password</AppLabel>
             </label>
-            <BaseInput
+            <AppInput
               id="password"
               class="w-full"
               v-model="password"
@@ -55,9 +55,9 @@
           </div>
           <div class="mt-2">
             <label for="confirmPassword">
-              <BaseLabel>Confirm Password</BaseLabel>
+              <AppLabel>Confirm Password</AppLabel>
             </label>
-            <BaseInput
+            <AppInput
               id="confirmPassword"
               class="w-full"
               v-model="confirmPassword"
@@ -65,18 +65,16 @@
               :error="!passwordsMatch"
             />
           </div>
-          <div class="mt-4">
-            <BaseButton
+          <div class="flex justify-between mt-4">
+            <AppButton
               @click.prevent="handleRegister"
               :disabled="!allFieldsFilled || !!error"
               type="submit"
               prominent
             >
               Sign Up
-            </BaseButton>
-            <span v-if="error" class="ml-4 text-xs text-red-500">{{
-              error
-            }}</span>
+            </AppButton>
+            <FormError v-show="error">{{ error }}</FormError>
           </div>
           <p class="mt-3 text-xs">
             Already have an account?
@@ -94,18 +92,20 @@
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BaseInput from '@/components/BaseInput.vue'
-import BaseLabel from '@/components/BaseLabel.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 import { ALERT, SIGN_UP } from '@/store/action-types'
 import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
+import FormError from '@/components/FormError.vue'
+import AppLogo from '@/components/AppLogo.vue'
 
 export default defineComponent({
   name: 'RegistrationForm',
-  components: { BaseButton, BaseInput, BaseLabel, ColorBackgroundCard, Redirect },
+  components: { AppButton, AppInput, AppLabel, ColorBackgroundCard, Redirect, FormError, AppLogo },
   data () {
     return {
       firstName: '',

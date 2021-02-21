@@ -2,7 +2,7 @@
   <div class="p-4">
     <teleport to="#modals">
       <div
-        class="mr-8 bg-dark-12 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+        class="mr-8 bg-gray-700 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
       >
         <Webcam
           @no-face-seen="handleNoFaceSeen"
@@ -24,28 +24,28 @@
         </div>
       </div>
     </teleport>
-    <BasePanel>
+    <AppPanel>
       <div class="flex flex-col items-start">
-        <BaseButton @click="warnings = 0">Reset Warnings</BaseButton>
+        <AppButton @click="warnings = 0">Reset Warnings</AppButton>
         <ToggleButton v-model="debug" label="Debug" />
         <ToggleButton v-model="video" label="Show Video" />
       </div>
       <div v-for="i in 25" :key="i">foo</div>
-    </BasePanel>
+    </AppPanel>
   </div>
 </template>
 
 <script lang="ts">
-import BaseButton from '@/components/BaseButton.vue'
-import BasePanel from '@/components/BasePanel.vue'
-import ToggleButton from '@/components/ToggleButton.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
+import ToggleButton from '@/components/ui/AppSwitch.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
 import { ALERT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'WebcamTest',
-  components: { BaseButton, Webcam, BasePanel, ToggleButton },
+  components: { AppButton, Webcam, AppPanel, ToggleButton },
   data () {
     return {
       warnings: 0,
