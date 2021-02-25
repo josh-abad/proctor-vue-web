@@ -69,23 +69,14 @@ export default defineComponent({
       return this.start === 0
     }
   },
-  mounted () {
-    console.log(this.recentCourses.map((course, i) => ({ course: course.name, i })))
-    console.log('start', this.start)
-    console.log('end', this.end)
-  },
   methods: {
     next (): void {
       this.start += 2
       this.end += 2
-      console.log('start', this.start)
-      console.log('end', this.end)
     },
     previous (): void {
       this.start -= 2
       this.end -= 2
-      console.log('start', this.start)
-      console.log('end', this.end)
     }
   }
 })

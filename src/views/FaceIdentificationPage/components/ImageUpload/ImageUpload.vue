@@ -82,6 +82,7 @@ import Feedback from './components/Feedback.vue'
 import Preview from './components/Preview.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import nProgress from 'nprogress'
+import { ALERT } from '@/store/action-types'
 
 const MODELS_URL = '/models'
 
@@ -101,7 +102,7 @@ export default defineComponent({
     try {
       await faceapi.loadTinyFaceDetectorModel(MODELS_URL)
     } catch (error) {
-      console.log(error)
+      this.$store.dispatch(ALERT, 'Could not load face detection.')
     }
   },
   methods: {
@@ -137,7 +138,7 @@ export default defineComponent({
             this.loading = false
             this.validImage = !!detection
           } catch (error) {
-            console.log(error)
+            this.$store.dispatch(ALERT, 'Something went wrong.')
           }
         })
       }
