@@ -79,7 +79,6 @@ import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { DELETE_COURSE } from '@/store/action-types'
-import { ADD_RECENT_COURSE } from '@/store/mutation-types'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
@@ -87,6 +86,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import TabRow from './components/TabRow.vue'
+import usersService from '@/services/users'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -136,12 +136,14 @@ export default defineComponent({
       }
     )
   },
-  mounted () {
+  async mounted () {
     if (!this.hasPermission(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
       this.$router.replace('/')
     }
     document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
-    this.$store.commit(ADD_RECENT_COURSE, this.courseId)
+    try {
+      await usersService.addRecentCourse(this.user?.id ?? '', this.courseId)
+    } catch (error) { }
   },
   methods: {
     deleteCourse (): void {

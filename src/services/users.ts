@@ -1,4 +1,4 @@
-import { User, UserCredentials } from '@/types'
+import { AppEvent, Course, User, UserCredentials } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
 const baseUrl = `${API_URL}/users`
@@ -29,6 +29,26 @@ const getUser = async (id: string): Promise<User> => {
   return response.data
 }
 
+const getCourses = async (id: string): Promise<Course[]> => {
+  const response = await axios.get(`${baseUrl}/${id}/courses`)
+  return response.data
+}
+
+const addRecentCourse = async (id: string, courseId: string): Promise<User> => {
+  const response = await axios.put(`${baseUrl}/${id}/recent-courses`, { courseId })
+  return response.data
+}
+
+const getRecentCourses = async (id: string): Promise<Course[]> => {
+  const response = await axios.get(`${baseUrl}/${id}/recent-courses`)
+  return response.data
+}
+
+const getUpcomingExams = async (id: string): Promise<AppEvent[]> => {
+  const response = await axios.get(`${baseUrl}/${id}/upcoming-exams`)
+  return response.data
+}
+
 const uploadImage = async (id: string, data: FormData): Promise<User> => {
   const config = {
     headers: {
@@ -39,4 +59,13 @@ const uploadImage = async (id: string, data: FormData): Promise<User> => {
   return response.data
 }
 
-export default { create, getAll, getUser, uploadImage }
+export default {
+  create,
+  getAll,
+  getUser,
+  getCourses,
+  addRecentCourse,
+  getRecentCourses,
+  getUpcomingExams,
+  uploadImage
+}

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="recentCourses.length">
+  <div>
     <div class="label-border flex items-center justify-between">
       <AppLabel emphasis>Recent Courses</AppLabel>
       <div class="space-x-3 mb-1">
@@ -33,25 +33,36 @@
         </button>
       </div>
     </div>
-    <div class="mt-4 flex justify-start space-x-4 ease-in-out duration-300">
-      <CoursesPageCard
-        :course="course"
-        :key="course.id"
-        v-for="course in recentCourses.slice(start, end)"
-      />
-    </div>
+    <Suspense>
+      <template #default>
+        <AsyncRecentCourses
+          :start="start"
+          :end="end"
+          :user-id="user?.id ?? ''"
+        />
+      </template>
+      <template #fallback>
+        <SkeletonRecentCourses />
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script lang="ts">
-import CoursesPageCard from '@/components/CoursesPageCard.vue'
-import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
+import SkeletonRecentCourses from '@/components/SkeletonRecentCourses.vue'
+import AsyncRecentCourses from '@/components/AsyncRecentCourses.vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'RecentCourses',
-  components: { CoursesPageCard, AppLabel },
+  components: {
+    AppLabel,
+    SkeletonRecentCourses,
+    AsyncRecentCourses
+  },
+  mixins: [userMixin],
   data () {
     return {
       start: 0,
@@ -59,11 +70,9 @@ export default defineComponent({
     }
   },
   computed: {
-    recentCourses (): Course[] {
-      return this.$store.getters.recentCourses
-    },
     disableNext (): boolean {
-      return this.end >= this.recentCourses.length
+      return false
+      // return this.end >= this.recentCourses?.length
     },
     disablePrevious (): boolean {
       return this.start === 0

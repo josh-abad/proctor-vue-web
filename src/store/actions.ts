@@ -1,7 +1,7 @@
 import { RootState, UserCredentials } from '@/types'
 import { ActionTree } from 'vuex'
 import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VALIDATE_TOKEN, VERIFY } from './action-types'
-import { SET_ATTEMPTS, SET_COURSES, SET_EXAM_RESULTS, SET_RECENT_COURSES, SET_USER, SET_VERIFIED } from './mutation-types'
+import { SET_ATTEMPTS, SET_COURSES, SET_EXAM_RESULTS, SET_USER, SET_VERIFIED } from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import loginService from '@/services/login'
@@ -53,7 +53,6 @@ export default {
     commit(SET_COURSES, [])
     commit(SET_ATTEMPTS, [])
     commit(SET_EXAM_RESULTS, [])
-    commit(SET_RECENT_COURSES, [])
   },
   async [VERIFY] ({ commit, dispatch }, token: string): Promise<void> {
     try {

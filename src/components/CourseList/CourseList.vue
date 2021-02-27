@@ -5,49 +5,35 @@
       <ViewOptions class="mb-2" v-model="viewMode" />
     </div>
     <transition name="fade" mode="out-in">
-      <div v-if="!courses.length" class="course-list--empty">
-        You don't have any courses.
-      </div>
-      <div v-else-if="viewMode === 'card'" class="course-list--card-view">
-        <CoursesPageCard
-          :course="course"
-          :key="course.id"
-          v-for="course in courses"
-        />
-      </div>
-      <div v-else class="separator-y">
-        <CoursesPageListItem
-          :course="course"
-          :key="course.id"
-          v-for="course in courses"
-        />
-      </div>
+      <Suspense>
+        <template #default>
+          <AsyncCourseList :viewMode="viewMode" :user-id="user?.id ?? ''" />
+        </template>
+        <template #fallback>
+          <SkeletonCourseList :viewMode="viewMode" />
+        </template>
+      </Suspense>
     </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Course } from '@/types'
 import AppLabel from '../ui/AppLabel.vue'
-import CoursesPageCard from '../CoursesPageCard.vue'
-import CoursesPageListItem from '@/views/courses/CoursesPage/components/CoursesPageListItem.vue'
 import ViewOptions from './components/ViewOptions.vue'
+import AsyncCourseList from '../AsyncCourseList.vue'
+import SkeletonCourseList from '../SkeletonCourseList.vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'CourseList',
   components: {
     AppLabel,
-    CoursesPageCard,
-    CoursesPageListItem,
-    ViewOptions
+    ViewOptions,
+    AsyncCourseList,
+    SkeletonCourseList
   },
-  props: {
-    courses: {
-      type: Array as () => Course[],
-      required: true
-    }
-  },
+  mixins: [userMixin],
   data () {
     return {
       viewMode: 'list' as 'card' | 'list'
@@ -70,14 +56,6 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .course-list__header {
   @apply flex items-center justify-between -mb-3;
-}
-
-.course-list--empty {
-  @apply flex items-center justify-center h-40 my-3 text-xl font-semibold text-gray-500;
-}
-
-.course-list--card-view {
-  @apply mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2;
 }
 
 .fade-enter-active,
