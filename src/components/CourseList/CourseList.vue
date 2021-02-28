@@ -7,10 +7,10 @@
     <transition name="fade" mode="out-in">
       <Suspense>
         <template #default>
-          <AsyncCourseList :viewMode="viewMode" :user-id="user?.id ?? ''" />
+          <Default :view-mode="viewMode" :user-id="user?.id ?? ''" />
         </template>
         <template #fallback>
-          <SkeletonCourseList :viewMode="viewMode" />
+          <Fallback :viewMode="viewMode" />
         </template>
       </Suspense>
     </transition>
@@ -19,10 +19,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import AppLabel from '../ui/AppLabel.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
 import ViewOptions from './components/ViewOptions.vue'
-import AsyncCourseList from '../AsyncCourseList.vue'
-import SkeletonCourseList from '../SkeletonCourseList.vue'
+import Default from './components/Default.vue'
+import Fallback from './components/fallback/Fallback.vue'
 import userMixin from '@/mixins/user'
 
 export default defineComponent({
@@ -30,8 +30,8 @@ export default defineComponent({
   components: {
     AppLabel,
     ViewOptions,
-    AsyncCourseList,
-    SkeletonCourseList
+    Default,
+    Fallback
   },
   mixins: [userMixin],
   data () {

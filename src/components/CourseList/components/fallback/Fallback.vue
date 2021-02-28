@@ -9,11 +9,11 @@
 
 <script lang="ts">
 import SkeletonCourseListItem from '@/components/SkeletonCourseListItem.vue'
-import SkeletonCourseCard from './SkeletonCourseCard.vue'
+import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'SkeletonCourseList',
+  name: 'Fallback',
   components: { SkeletonCourseListItem, SkeletonCourseCard },
   props: {
     viewMode: {

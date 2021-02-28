@@ -19,15 +19,15 @@
 </template>
 
 <script lang="ts">
+import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import CoursesPageListItem from '@/components/CoursesPageListItem.vue'
 import { defineComponent, ref } from 'vue'
-import CoursesPageCard from './CoursesPageCard.vue'
 import { useStore } from 'vuex'
 import { SET_COURSES } from '@/store/mutation-types'
 import usersService from '@/services/users'
 
 export default defineComponent({
-  name: 'AsyncCourseList',
+  name: 'Default',
   components: { CoursesPageListItem, CoursesPageCard },
   props: {
     viewMode: {
