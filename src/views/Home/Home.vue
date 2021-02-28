@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import RecentCourses from './components/RecentCourses.vue'
+import RecentCourses from './components/RecentCourses/RecentCourses.vue'
 import Timeline from './components/Timeline/Timeline.vue'
 import RecentActivity from './components/RecentActivity.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'

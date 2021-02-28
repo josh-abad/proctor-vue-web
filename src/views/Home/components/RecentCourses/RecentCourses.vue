@@ -35,14 +35,10 @@
     </div>
     <Suspense>
       <template #default>
-        <AsyncRecentCourses
-          :start="start"
-          :end="end"
-          :user-id="user?.id ?? ''"
-        />
+        <Default :start="start" :end="end" :user-id="user?.id ?? ''" />
       </template>
       <template #fallback>
-        <SkeletonRecentCourses />
+        <Fallback />
       </template>
     </Suspense>
   </div>
@@ -51,16 +47,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import SkeletonRecentCourses from '@/components/SkeletonRecentCourses.vue'
-import AsyncRecentCourses from '@/components/AsyncRecentCourses.vue'
+import Fallback from './components/fallback/Fallback.vue'
+import Default from './components/Default.vue'
 import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'RecentCourses',
   components: {
     AppLabel,
-    SkeletonRecentCourses,
-    AsyncRecentCourses
+    Fallback,
+    Default
   },
   mixins: [userMixin],
   data () {

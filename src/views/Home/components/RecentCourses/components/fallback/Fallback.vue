@@ -7,10 +7,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import SkeletonCourseCard from './SkeletonCourseCard.vue'
+import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
 
 export default defineComponent({
-  name: 'SkeletonRecentCourses',
+  name: 'Fallback',
   components: { SkeletonCourseCard }
 })
 </script>

@@ -11,11 +11,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import CoursesPageCard from './CoursesPageCard.vue'
+import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import usersService from '@/services/users'
+import { useStore } from 'vuex'
 
 export default defineComponent({
-  name: 'AsyncRecentCourses',
+  name: 'Default',
   components: { CoursesPageCard },
   props: {
     start: {
@@ -34,8 +35,14 @@ export default defineComponent({
     }
   },
   async setup (props) {
+    const store = useStore()
+
     const recentCourses = ref(await usersService.getRecentCourses(props.userId))
     recentCourses.value.reverse()
+
+    if (store.state.user) {
+      store.state.user.recentCourses = recentCourses.value.map(course => course.id)
+    }
 
     return {
       recentCourses
