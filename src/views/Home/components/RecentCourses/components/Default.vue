@@ -4,7 +4,7 @@
     <CoursesPageCard
       :course="course"
       :key="course.id"
-      v-for="course in recentCourses.slice(start, end)"
+      v-for="course in recentCourses.slice(start, start + 2)"
     />
   </div>
 </template>
@@ -24,16 +24,12 @@ export default defineComponent({
       required: true
     },
 
-    end: {
-      type: Number,
-      required: true
-    },
-
     userId: {
       type: String,
       required: true
     }
   },
+  emits: ['load-value'],
   async setup (props) {
     const store = useStore()
 
@@ -47,6 +43,9 @@ export default defineComponent({
     return {
       recentCourses
     }
+  },
+  mounted () {
+    this.$emit('load-value', this.recentCourses.length)
   }
 })
 </script>

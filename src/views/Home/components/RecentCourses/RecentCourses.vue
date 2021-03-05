@@ -35,7 +35,12 @@
     </div>
     <Suspense>
       <template #default>
-        <Default :start="start" :end="end" :user-id="user?.id ?? ''" />
+        <Default
+          :start="start"
+          :page="page"
+          :user-id="user?.id ?? ''"
+          @load-value="getMaxPage"
+        />
       </template>
       <template #fallback>
         <Fallback />
@@ -62,26 +67,29 @@ export default defineComponent({
   data () {
     return {
       start: 0,
-      end: 2
+      page: 1,
+      maxPage: 0
     }
   },
   computed: {
     disableNext (): boolean {
-      return false
-      // return this.end >= this.recentCourses?.length
+      return this.page === this.maxPage
     },
     disablePrevious (): boolean {
-      return this.start === 0
+      return this.page === 1
     }
   },
   methods: {
     next (): void {
+      this.page++
       this.start += 2
-      this.end += 2
     },
     previous (): void {
+      this.page--
       this.start -= 2
-      this.end -= 2
+    },
+    getMaxPage (length: number): void {
+      this.maxPage = Math.round(length / 2)
     }
   }
 })
