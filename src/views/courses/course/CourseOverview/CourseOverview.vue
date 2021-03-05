@@ -1,31 +1,33 @@
 <template>
-  <div v-if="course" class="flex flex-col space-y-2">
-    <Week
-      v-for="week in course.weeks"
-      :key="week"
-      :courseId="courseId"
-      :week="week"
-    />
+  <div>
+    <Suspense>
+      <template #default>
+        <div>
+          <Default :course-id="courseId" />
+        </div>
+      </template>
+      <template #fallback>
+        <Fallback />
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script lang="ts">
-import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import Week from './components/Week/Week.vue'
+import Default from './components/Default.vue'
+import Fallback from './components/fallback/Fallback.vue'
 
 export default defineComponent({
   name: 'CourseOverview',
-  components: { Week },
+  components: {
+    Fallback,
+    Default
+  },
   props: {
     courseId: {
       type: String,
       required: true
-    }
-  },
-  computed: {
-    course (): Course | undefined {
-      return this.$store.getters.courseByID(this.courseId)
     }
   }
 })
