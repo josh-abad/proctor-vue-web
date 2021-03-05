@@ -7,13 +7,6 @@
       <div class="flex-grow mr-0 sm:mr-4">
         <TabRow :course-id="courseId" />
         <slot />
-        <AppPanel class="overflow-hidden rounded-t-none border-t-0">
-          <router-view v-slot="{ Component, route }">
-            <transition :name="route.meta.transition || 'fade'" mode="out-in">
-              <component :is="Component" />
-            </transition>
-          </router-view>
-        </AppPanel>
       </div>
       <div class="w-full sm:w-72 mt-4 sm:mt-0">
         <About />
@@ -26,7 +19,6 @@
 
 <script lang="ts">
 import About from './components/About.vue'
-import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import Progress from './components/Progress.vue'
 import TabRow from '../TabRow.vue'
@@ -40,7 +32,6 @@ export default defineComponent({
   name: 'Fallback',
   components: {
     About,
-    AppPanel,
     AppSkeleton,
     PageHeader,
     Progress,
