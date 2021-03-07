@@ -1,4 +1,4 @@
-import { Course, NewCourse } from '@/types'
+import { AppEvent, Course, NewCourse } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
 const baseUrl = `${API_URL}/courses`
@@ -67,4 +67,18 @@ const deleteCourse = async (id: string): Promise<void> => {
   await axios.delete(`${baseUrl}/${id}`)
 }
 
-export default { create, getAll, getByUser, getCourse, enrollUser, enrollUsers, deleteCourse }
+const getUpcomingExams = async (id: string): Promise<AppEvent[]> => {
+  const response = await axios.get(`${baseUrl}/${id}/upcoming-exams`)
+  return response.data
+}
+
+export default {
+  create,
+  getAll,
+  getByUser,
+  getCourse,
+  enrollUser,
+  enrollUsers,
+  deleteCourse,
+  getUpcomingExams
+}

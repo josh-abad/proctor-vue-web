@@ -1,17 +1,14 @@
 import { Course, CoursesState, NewCourse, RootState } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, CREATE_COURSE, DELETE_COURSE, ENROLL_STUDENT, ENROLL_STUDENTS, LOAD_COURSES } from '../action-types'
-import { ADD_COURSE, ADD_RECENT_COURSE, REMOVE_COURSE, SET_COURSES, SET_RECENT_COURSES, UPDATE_COURSE } from '../mutation-types'
+import { ADD_COURSE, REMOVE_COURSE, SET_COURSES, UPDATE_COURSE } from '../mutation-types'
 import coursesService from '@/services/courses'
 import { alphabeticalCourses } from '@/utils/sort'
 import nProgress from 'nprogress'
 
-const MAX_RECENT_COURSES = 6
-
 export default {
   state: () => ({
-    courses: [],
-    recentCourses: []
+    courses: []
   }),
   mutations: {
     [SET_COURSES] (state, courses: Course[]): void {
@@ -28,26 +25,6 @@ export default {
     },
     [UPDATE_COURSE] (state, newCourse: Course): void {
       state.courses = state.courses.map(course => course.id === newCourse.id ? newCourse : course)
-    },
-    [SET_RECENT_COURSES] (state, recentCourses: string[]): void {
-      state.recentCourses = recentCourses
-    },
-    [ADD_RECENT_COURSE] (state, courseId: string): void {
-    // Don't add invalid courses
-      if (!state.courses.some(course => course.id === courseId)) {
-        return
-      }
-
-      if (state.recentCourses.includes(courseId)) {
-        state.recentCourses = state.recentCourses.filter(id => id !== courseId)
-      }
-
-      if (state.recentCourses.length >= MAX_RECENT_COURSES) {
-        state.recentCourses.shift()
-      }
-
-      state.recentCourses.push(courseId)
-      localStorage.setItem('recentCourses', JSON.stringify(state.recentCourses))
     }
   },
   actions: {
@@ -116,18 +93,6 @@ export default {
       return (id) => {
         return state.courses.find(course => course.id === id)
       }
-    },
-    recentCourses (state, getters): (Course | undefined)[] {
-      const toCourse = (id: string): Course | undefined => {
-        return state.courses.find(course => course.id === id)
-      }
-      const defined = (course: Course | undefined): boolean => {
-        return course !== undefined
-      }
-      if (!state.recentCourses.length) {
-        return getters.courses.slice(0, MAX_RECENT_COURSES)
-      }
-      return state.recentCourses.map(toCourse).filter(defined).reverse()
     },
     courses (state, getters, rootState): Course[] {
       if (!rootState.user) {

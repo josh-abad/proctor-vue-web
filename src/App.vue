@@ -29,9 +29,11 @@ import Snackbar from './components/Snackbar.vue'
 import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
-import { SUBMIT_EXAM, VALIDATE_TOKEN } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_RECENT_COURSES, SET_THEME, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser, Course, Submission } from './types'
+import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, SUBMIT_EXAM } from './store/action-types'
+import { SET_ACTIVE_EXAM, SET_THEME, SET_USER } from './store/mutation-types'
+import { Attempt, AuthenticatedUser, Submission } from './types'
+import examAttemptsService from '@/services/exam-attempts'
+import examsService from '@/services/exams'
 
 export default defineComponent({
   name: 'App',
@@ -57,7 +59,6 @@ export default defineComponent({
     this.initTheme()
     this.initSidebarState()
     await this.initUser()
-    this.initRecentCourses()
   },
   methods: {
     handleToggle (): void {
@@ -88,7 +89,17 @@ export default defineComponent({
       if (loggedUserJSON) {
         const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
         this.$store.commit(SET_USER, user)
-        await this.$store.dispatch(VALIDATE_TOKEN, user.token)
+        examAttemptsService.setToken(user.token)
+        if (user.role !== 'student') {
+          examsService.setToken(user.token)
+        }
+        await Promise.all([
+          this.$store.dispatch(LOAD_USERS),
+          this.$store.dispatch(LOAD_COURSES),
+          this.$store.dispatch(LOAD_EXAMS),
+          this.$store.dispatch(LOAD_ATTEMPTS),
+          this.$store.dispatch(LOAD_EXAM_RESULTS)
+        ])
 
         const activeExamJSON = localStorage.getItem('activeExam')
         if (activeExamJSON) {
@@ -105,15 +116,6 @@ export default defineComponent({
           localStorage.removeItem('pendingSubmission')
           localStorage.removeItem('activeExam')
         }
-      }
-    },
-    initRecentCourses (): void {
-      const recentCourses = localStorage.getItem('recentCourses')
-      if (recentCourses) {
-        this.$store.commit(SET_RECENT_COURSES, JSON.parse(recentCourses))
-      } else {
-        const courses: Course[] = this.$store.getters.courses
-        this.$store.commit(SET_RECENT_COURSES, courses.map(course => course.id))
       }
     }
   }
