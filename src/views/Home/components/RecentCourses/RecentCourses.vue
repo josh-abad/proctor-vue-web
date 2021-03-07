@@ -1,5 +1,5 @@
 <template>
-  <div v-if="recentCourses.length">
+  <div>
     <div class="label-border flex items-center justify-between">
       <AppLabel emphasis>Recent Courses</AppLabel>
       <div class="space-x-3 mb-1">
@@ -33,59 +33,63 @@
         </button>
       </div>
     </div>
-    <div class="mt-4 flex justify-start space-x-4 ease-in-out duration-300">
-      <CoursesPageCard
-        :course="course"
-        :key="course.id"
-        v-for="course in recentCourses.slice(start, end)"
-      />
-    </div>
+    <Suspense>
+      <template #default>
+        <Default
+          :start="start"
+          :page="page"
+          :user-id="user?.id ?? ''"
+          @load-value="getMaxPage"
+        />
+      </template>
+      <template #fallback>
+        <Fallback />
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script lang="ts">
-import CoursesPageCard from '@/components/CoursesPageCard.vue'
-import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
+import Fallback from './components/fallback/Fallback.vue'
+import Default from './components/Default.vue'
+import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'RecentCourses',
-  components: { CoursesPageCard, AppLabel },
+  components: {
+    AppLabel,
+    Fallback,
+    Default
+  },
+  mixins: [userMixin],
   data () {
     return {
       start: 0,
-      end: 2
+      page: 1,
+      maxPage: 0
     }
   },
   computed: {
-    recentCourses (): Course[] {
-      return this.$store.getters.recentCourses
-    },
     disableNext (): boolean {
-      return this.end >= this.recentCourses.length
+      return this.page === this.maxPage
     },
     disablePrevious (): boolean {
-      return this.start === 0
+      return this.page === 1
     }
-  },
-  mounted () {
-    console.log(this.recentCourses.map((course, i) => ({ course: course.name, i })))
-    console.log('start', this.start)
-    console.log('end', this.end)
   },
   methods: {
     next (): void {
+      this.page++
       this.start += 2
-      this.end += 2
-      console.log('start', this.start)
-      console.log('end', this.end)
     },
     previous (): void {
+      this.page--
       this.start -= 2
-      this.end -= 2
-      console.log('start', this.start)
-      console.log('end', this.end)
+    },
+    getMaxPage (length: number): void {
+      this.maxPage = Math.round(length / 2)
     }
   }
 })

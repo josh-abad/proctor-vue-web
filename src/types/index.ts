@@ -7,6 +7,7 @@ export interface User {
     last: string;
   };
   fullName: string;
+  recentCourses: string[];
   courses: string[];
   email: string;
   verified: boolean;
@@ -140,7 +141,6 @@ export type UsersState = {
 
 export type CoursesState = {
   courses: Course[];
-  recentCourses: string[];
 }
 
 export type ExamsState = {
