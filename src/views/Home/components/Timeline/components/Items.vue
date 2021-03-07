@@ -1,10 +1,15 @@
 <template>
   <div class="mt-4 space-y-2">
-    <div v-for="(events, i) in eventsByDate" :key="i">
-      <div class="item__date">{{ formattedDate(events?.[0]) }}</div>
-      <div class="w-full sm:w-64">
-        <Item :event="examEvent" v-for="(examEvent, i) in events" :key="i" />
+    <div v-if="upcomingExams.length">
+      <div v-for="(events, i) in eventsByDate" :key="i">
+        <div class="item__date">{{ formattedDate(events?.[0]) }}</div>
+        <div class="w-full sm:w-64">
+          <Item :event="examEvent" v-for="(examEvent, i) in events" :key="i" />
+        </div>
       </div>
+    </div>
+    <div class="flex items-center justify-center py-5">
+      <span class="text-gray-500">No upcoming events.</span>
     </div>
   </div>
 </template>
