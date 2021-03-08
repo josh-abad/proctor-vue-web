@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-center py-5">
+    <div v-else class="flex items-center justify-center py-5">
       <span class="text-gray-500">No upcoming events.</span>
     </div>
   </div>

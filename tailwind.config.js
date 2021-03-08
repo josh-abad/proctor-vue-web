@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const colors = require('tailwindcss/colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   purge: [
@@ -36,6 +37,20 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-filters')
+    require('tailwindcss-filters'),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        '.carousel-1': {
+          width: '100%'
+        },
+        '.carousel-2': {
+          width: 'calc(50% - 0.5rem)'
+        }
+      }
+
+      addUtilities(newUtilities, {
+        variants: ['responsive']
+      })
+    })
   ]
 }

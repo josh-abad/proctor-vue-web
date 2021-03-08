@@ -2,9 +2,11 @@
   <!-- <div class="mt-4 flex justify-start space-x-4 ease-in-out duration-300"> -->
   <div class="course-list--card-view">
     <CoursesPageCard
+      class="flex-none card"
       :course="course"
       :key="course.id"
-      v-for="course in recentCourses.slice(start, start + 2)"
+      v-for="course in recentCourses"
+      :style="`transform: translateX(${position})`"
     />
   </div>
 </template>
@@ -19,7 +21,7 @@ export default defineComponent({
   name: 'Default',
   components: { CoursesPageCard },
   props: {
-    start: {
+    current: {
       type: Number,
       required: true
     },
@@ -44,6 +46,11 @@ export default defineComponent({
       recentCourses
     }
   },
+  computed: {
+    position (): string {
+      return `calc(-${this.current * 100}% - ${1 * this.current}rem)`
+    }
+  },
   mounted () {
     this.$emit('load-value', this.recentCourses.length)
   }
@@ -51,7 +58,14 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
+/* TODO: make it scrollable */
 .course-list--card-view {
-  @apply mt-4 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2;
+  @apply mt-4 flex space-x-4 overflow-x-hidden;
+  scroll-snap-type: x mandatory;
+}
+
+.card {
+  @apply carousel-1 sm:carousel-2;
+  scroll-snap-align: start;
 }
 </style>

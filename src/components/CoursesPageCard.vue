@@ -1,12 +1,12 @@
 <template>
   <div
-    class="transition duration-500 ease-in-out transform shadow hover:shadow-lg overflow-hidden bg-white dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 rounded-lg w-45 h-25"
+    class="transition duration-500 ease-in-out transform shadow hover:shadow-lg overflow-hidden bg-white dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 rounded-lg w-72"
   >
     <router-link :to="`/courses/${course.id}`">
       <img
         src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
         alt="Course image"
-        class="w-full h-20 object-cover"
+        class="w-full h-14 object-cover"
       />
     </router-link>
     <div class="px-4 py-3">

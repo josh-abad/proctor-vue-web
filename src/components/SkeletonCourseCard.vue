@@ -1,8 +1,8 @@
 <template>
   <div
-    class="shadow overflow-hidden bg-white dark:bg-gray-700 rounded-lg w-full h-25"
+    class="shadow overflow-hidden bg-white dark:bg-gray-700 rounded-lg w-full"
   >
-    <AppSkeleton class="w-full h-20 rounded-b-none" />
+    <AppSkeleton class="w-full h-14 rounded-b-none" />
     <div class="space-y-2 px-4 py-4">
       <AppSkeleton class="w-32 h-3" />
       <AppSkeleton class="w-40 h-3" />
