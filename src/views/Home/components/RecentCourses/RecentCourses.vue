@@ -36,10 +36,10 @@
     <Suspense>
       <template #default>
         <Default
-          :start="start"
-          :page="page"
+          :current="current"
           :user-id="user?.id ?? ''"
           @load-value="getMaxPage"
+          ref="scrollArea"
         />
       </template>
       <template #fallback>
@@ -66,30 +66,27 @@ export default defineComponent({
   mixins: [userMixin],
   data () {
     return {
-      start: 0,
-      page: 1,
-      maxPage: 0
+      current: 0,
+      max: 0
     }
   },
   computed: {
     disableNext (): boolean {
-      return this.page === this.maxPage
+      return this.current === this.max - 1
     },
     disablePrevious (): boolean {
-      return this.page === 1
+      return this.current === 0
     }
   },
   methods: {
     next (): void {
-      this.page++
-      this.start += 2
+      this.current++
     },
     previous (): void {
-      this.page--
-      this.start -= 2
+      this.current--
     },
     getMaxPage (length: number): void {
-      this.maxPage = Math.round(length / 2)
+      this.max = length
     }
   }
 })

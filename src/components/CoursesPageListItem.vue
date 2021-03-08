@@ -1,12 +1,12 @@
 <template>
   <div class="flex justify-between items-center pt-3 mt-3">
     <div class="flex">
-      <div class="rounded overflow-hidden w-40 h-20 shadow">
+      <div class="rounded overflow-hidden w-16 h-16 sm:w-40 sm:h-20 shadow">
         <router-link :to="`/courses/${course.id}`">
           <img
             src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
             alt="Course image"
-            class="w-full object-cover"
+            class="h-full sm:w-full object-cover"
           />
         </router-link>
       </div>

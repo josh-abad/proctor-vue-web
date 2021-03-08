@@ -4,6 +4,7 @@
   </section>
   <section v-else-if="viewMode === 'card'" class="course-list--card-view">
     <CoursesPageCard
+      class="w-full"
       :course="course"
       :key="course.id"
       v-for="course in courses"
@@ -60,6 +61,6 @@ export default defineComponent({
 } */
 
 .course-list--card-view {
-  @apply mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2;
+  @apply mt-8 grid grid-cols-1 gap-4 md:grid-cols-2;
 }
 </style>
