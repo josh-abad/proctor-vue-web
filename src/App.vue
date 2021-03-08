@@ -216,7 +216,7 @@ export default defineComponent({
 }
 
 .separator-y {
-  @apply divide-y divide-gray-300 dark:divide-gray-600;
+  @apply divide-y divide-gray-300 dark:divide-gray-700;
 }
 
 .label-border {
