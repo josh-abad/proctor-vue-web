@@ -5,7 +5,7 @@
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <nav class="flex flex-col">
-        <NavLink url="/">
+        <NavLink url="/" @mobile-nav="$emit('close-sidebar')">
           <template #label> Home </template>
           <template #icon>
             <!-- Heroicon name: home -->
@@ -23,7 +23,7 @@
             />
           </template>
         </NavLink>
-        <NavLink url="/courses">
+        <NavLink url="/courses" @mobile-nav="$emit('close-sidebar')">
           <template #label> Courses </template>
           <template #icon>
             <!-- Heroicon name: book-open -->
@@ -41,7 +41,11 @@
             />
           </template>
         </NavLink>
-        <NavLink url="/students" v-if="hasPermission(['coordinator', 'admin'])">
+        <NavLink
+          url="/students"
+          v-if="hasPermission(['coordinator', 'admin'])"
+          @mobile-nav="$emit('close-sidebar')"
+        >
           <template #label> Students </template>
           <template #icon>
             <!-- Heroicon name: users -->
@@ -59,7 +63,7 @@
             />
           </template>
         </NavLink>
-        <NavLink url="/calendar">
+        <NavLink url="/calendar" @mobile-nav="$emit('close-sidebar')">
           <template #label> Calendar </template>
           <template #icon>
             <!-- Heroicon name: calendar  -->
@@ -95,7 +99,8 @@ export default defineComponent({
   mixins: [userMixin],
   props: {
     isOpen: Boolean
-  }
+  },
+  emit: ['close-sidebar']
 })
 </script>
 

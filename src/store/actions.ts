@@ -1,6 +1,6 @@
 import { RootState, UserCredentials } from '@/types'
 import { ActionTree } from 'vuex'
-import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VALIDATE_TOKEN, VERIFY } from './action-types'
+import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VERIFY } from './action-types'
 import { SET_ATTEMPTS, SET_COURSES, SET_EXAM_RESULTS, SET_USER, SET_VERIFIED } from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
@@ -9,7 +9,8 @@ import usersService from '@/services/users'
 import verifyService from '@/services/verify'
 import router from '@/router'
 import nProgress from 'nprogress'
-import validateService from '@/services/validate'
+
+import cookie from '@/utils/cookie'
 
 export default {
   async [SIGN_UP] ({ dispatch }, credentials: UserCredentials): Promise<void> {
@@ -30,7 +31,7 @@ export default {
       commit(SET_USER, user)
       router.push((router.currentRoute.value.query.redirect as string) || '/')
       nProgress.done()
-      localStorage.setItem('loggedAppUser', JSON.stringify(user))
+      cookie.set('loggedAppUser', JSON.stringify(user))
       examAttemptsService.setToken(user.token)
       if (user.role !== 'student') {
         examsService.setToken(user.token)
@@ -63,28 +64,6 @@ export default {
     } catch (error) {
       nProgress.done()
       dispatch(ALERT, error.response.data.error)
-    }
-  },
-  async [VALIDATE_TOKEN] ({ commit, dispatch }, token: string): Promise<void> {
-    try {
-      const validatedUser = await validateService.validate(token)
-      commit(SET_USER, validatedUser)
-      localStorage.setItem('loggedAppUser', JSON.stringify(validatedUser))
-      examAttemptsService.setToken(validatedUser.token)
-      if (validatedUser.role !== 'student') {
-        examsService.setToken(validatedUser.token)
-      }
-      await Promise.all([
-        dispatch(LOAD_USERS),
-        dispatch(LOAD_COURSES),
-        dispatch(LOAD_EXAMS),
-        dispatch(LOAD_ATTEMPTS),
-        dispatch(LOAD_EXAM_RESULTS)
-      ])
-    } catch (error) {
-      commit(SET_USER, null)
-      localStorage.removeItem('loggedAppUser')
-      router.push('/login')
     }
   }
 } as ActionTree<RootState, RootState>

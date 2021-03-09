@@ -8,7 +8,7 @@
         :is-open="sidebarOpen"
       />
       <div>
-        <TheSidebar :is-open="sidebarOpen" />
+        <TheSidebar :is-open="sidebarOpen" @close-sidebar="isOpen = false" />
         <div>
           <router-view
             class="transform ease-in-out duration-300"
@@ -34,6 +34,7 @@ import { SET_ACTIVE_EXAM, SET_THEME, SET_USER } from './store/mutation-types'
 import { Attempt, AuthenticatedUser, Submission } from './types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
+import cookie from '@/utils/cookie'
 
 export default defineComponent({
   name: 'App',
@@ -44,7 +45,7 @@ export default defineComponent({
   },
   data () {
     return {
-      isOpen: true
+      isOpen: false
     }
   },
   computed: {
@@ -85,8 +86,9 @@ export default defineComponent({
       }
     },
     async initUser (): Promise<void> {
-      const loggedUserJSON = localStorage.getItem('loggedAppUser')
+      const loggedUserJSON = cookie.get('loggedAppUser')
       if (loggedUserJSON) {
+        cookie.set('loggedAppUser', loggedUserJSON)
         const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
         this.$store.commit(SET_USER, user)
         examAttemptsService.setToken(user.token)
