@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 flex justify-start space-x-4 w-full">
     <SkeletonCourseCard />
-    <SkeletonCourseCard />
+    <SkeletonCourseCard class="hidden sm:block" />
   </div>
 </template>
 
