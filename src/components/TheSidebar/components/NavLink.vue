@@ -50,7 +50,6 @@ export default defineComponent({
   methods: {
     handleMobileNav (): void {
       this.$emit('mobile-nav')
-      console.log('clicked')
     }
   }
 })
