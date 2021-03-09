@@ -1,14 +1,15 @@
 <template>
   <div class="flex justify-between items-center pt-3 mt-3" v-once>
     <div class="flex">
-      <AppSkeleton class="w-40 h-20" />
+      <AppSkeleton class="w-16 h-16 sm:w-40 sm:h-20" />
       <div class="ml-3 space-y-2">
         <AppSkeleton class="w-32 h-3" />
         <AppSkeleton class="w-40 h-3" />
+        <AppSkeleton class="sm:hidden w-52 h-3" />
       </div>
     </div>
-    <div class="space-y-2">
-      <AppSkeleton class="w-24 h-3" />
+    <div class="space-y-2 hidden sm:block">
+      <AppSkeleton class="w-52 h-3" />
     </div>
   </div>
 </template>
