@@ -10,6 +10,8 @@ import verifyService from '@/services/verify'
 import router from '@/router'
 import nProgress from 'nprogress'
 
+import cookie from '@/utils/cookie'
+
 export default {
   async [SIGN_UP] ({ dispatch }, credentials: UserCredentials): Promise<void> {
     try {
@@ -29,7 +31,7 @@ export default {
       commit(SET_USER, user)
       router.push((router.currentRoute.value.query.redirect as string) || '/')
       nProgress.done()
-      localStorage.setItem('loggedAppUser', JSON.stringify(user))
+      cookie.set('loggedAppUser', JSON.stringify(user))
       examAttemptsService.setToken(user.token)
       if (user.role !== 'student') {
         examsService.setToken(user.token)

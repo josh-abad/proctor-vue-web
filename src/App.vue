@@ -34,6 +34,7 @@ import { SET_ACTIVE_EXAM, SET_THEME, SET_USER } from './store/mutation-types'
 import { Attempt, AuthenticatedUser, Submission } from './types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
+import cookie from '@/utils/cookie'
 
 export default defineComponent({
   name: 'App',
@@ -85,7 +86,7 @@ export default defineComponent({
       }
     },
     async initUser (): Promise<void> {
-      const loggedUserJSON = localStorage.getItem('loggedAppUser')
+      const loggedUserJSON = cookie.get('loggedAppUser')
       if (loggedUserJSON) {
         const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
         this.$store.commit(SET_USER, user)
