@@ -60,7 +60,7 @@ export default defineComponent({
 <style lang="postcss" scoped>
 /* TODO: make it scrollable */
 .course-list--card-view {
-  @apply mt-4 flex space-x-4 overflow-x-hidden px-2 pb-5 -mx-2 -mb-5 justify-center;
+  @apply mt-4 flex space-x-4 overflow-x-hidden sm:px-2 pb-5 sm:-mx-2 -mb-5 sm:justify-center;
   scroll-snap-type: x mandatory;
 }
 
