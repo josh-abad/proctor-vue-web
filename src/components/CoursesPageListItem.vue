@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between items-center pt-3 mt-3">
+  <div class="pt-3 mt-3">
     <div class="flex">
       <div class="rounded overflow-hidden w-16 h-16 sm:w-40 sm:h-20 shadow">
         <router-link :to="`/courses/${course.id}`">
@@ -10,15 +10,17 @@
           />
         </router-link>
       </div>
-      <div class="ml-3">
-        <AppLabel emphasis>2023 Online Class</AppLabel>
-        <router-link :to="`/courses/${course.id}`" class="font-semibold">
-          {{ course.name }}
-        </router-link>
+      <div class="ml-3 sm:flex sm:justify-between sm:w-full">
+        <div>
+          <AppLabel emphasis>2023 Online Class</AppLabel>
+          <router-link :to="`/courses/${course.id}`" class="font-semibold">
+            {{ course.name }}
+          </router-link>
+        </div>
+        <div class="w-52 mt-2 sm:mt-0 flex items-center">
+          <ProgressBar class="w-full" :percentage="percentage" />
+        </div>
       </div>
-    </div>
-    <div class="w-52 hidden sm:block">
-      <ProgressBar :percentage="percentage" />
     </div>
   </div>
 </template>

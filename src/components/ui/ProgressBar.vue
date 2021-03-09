@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="flex flex-row-reverse sm:block">
     <div class="progress-bar__bg">
       <div :style="`width: ${percentage}%`" class="progress-bar__progress" />
     </div>
-    <div class="label">
+    <div class="label hidden sm:block">
       <span class="label__percentage">{{ percentage }}%</span> complete
     </div>
   </div>
