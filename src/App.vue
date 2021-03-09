@@ -8,7 +8,7 @@
         :is-open="sidebarOpen"
       />
       <div>
-        <TheSidebar :is-open="sidebarOpen" />
+        <TheSidebar :is-open="sidebarOpen" @close-sidebar="isOpen = false" />
         <div>
           <router-view
             class="transform ease-in-out duration-300"
