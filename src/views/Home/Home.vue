@@ -3,7 +3,7 @@
     <AppPanel class="flex-grow space-y-8 w-full sm:w-96">
       <RecentCourses />
       <CourseList />
-      <RecentActivity />
+      <RecentActivity class="hidden sm:block" />
     </AppPanel>
     <div class="ml-0 mt-4 w-full sm:w-72 sm:ml-4 sm:mt-0">
       <Timeline />
