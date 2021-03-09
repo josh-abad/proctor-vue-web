@@ -45,7 +45,7 @@ export default defineComponent({
   },
   data () {
     return {
-      isOpen: true
+      isOpen: false
     }
   },
   computed: {
