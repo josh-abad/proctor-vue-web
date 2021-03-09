@@ -88,6 +88,7 @@ export default defineComponent({
     async initUser (): Promise<void> {
       const loggedUserJSON = cookie.get('loggedAppUser')
       if (loggedUserJSON) {
+        cookie.set('loggedAppUser', loggedUserJSON)
         const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
         this.$store.commit(SET_USER, user)
         examAttemptsService.setToken(user.token)
