@@ -221,16 +221,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  document.title = to.meta.title
+  document.title = to.meta.title as string
 
-  const { authorize } = to.meta
+  const authorize = to.meta.authorize as Role[]
 
   if (authorize) {
     if (!store.getters.isLoggedIn) {
       return next({ name: 'Login', query: { redirect: to.fullPath } })
     }
 
-    if (authorize.length && !authorize.includes(store.state.user?.role)) {
+    if (authorize.length && store.state.user && !authorize.includes(store.state.user.role)) {
       return next({ path: '/' })
     }
   }
@@ -240,7 +240,9 @@ router.beforeEach((to, _from, next) => {
 
 router.afterEach((to, from) => {
   if (to.meta.tabPosition && from.meta.tabPosition) {
-    to.meta.transition = to.meta.tabPosition < from.meta.tabPosition ? 'slide-right' : 'slide-left'
+    const toTabPosition = to.meta.tabPosition as number
+    const fromTabPosition = from.meta.tabPosition as number
+    to.meta.transition = toTabPosition < fromTabPosition ? 'slide-right' : 'slide-left'
   }
 })
 
