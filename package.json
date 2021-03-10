@@ -42,7 +42,7 @@
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "tailwindcss-filters": "^3.0.0",
-    "typescript": "~3.9.3"
+    "typescript": "^3.9.9"
   },
   "license": "MIT"
 }
