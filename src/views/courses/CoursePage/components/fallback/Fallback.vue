@@ -1,5 +1,6 @@
 <template>
   <div class="p-4">
+    <AppSkeleton class="w-full h-32 rounded-lg" />
     <PageHeader :links="links" hide-menu>
       <template #label><AppSkeleton class="h-5 opacity-50 w-60" /></template>
     </PageHeader>
@@ -19,7 +20,6 @@
 
 <script lang="ts">
 import About from './components/About.vue'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import Progress from './components/Progress.vue'
 import TabRow from '../TabRow.vue'
 import UpcomingExams from './components/UpcomingExams.vue'
@@ -33,7 +33,6 @@ export default defineComponent({
   components: {
     About,
     AppSkeleton,
-    PageHeader,
     Progress,
     TabRow,
     UpcomingExams
