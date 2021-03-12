@@ -42,6 +42,14 @@ export default defineComponent({
       store.state.user.recentCourses = recentCourses.value.map(course => course.id)
     }
 
+    /**
+     * HACK: odd numbered items do not render correctly.
+     * Fix the CSS so the length does not matter.
+     */
+    if (recentCourses.value.length % 2 !== 0) {
+      recentCourses.value.pop()
+    }
+
     return {
       recentCourses
     }
