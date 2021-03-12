@@ -1,8 +1,8 @@
 <template>
   <div class="flex mt-4 space-x-4 overflow-x-auto wrapper" id="recent-courses">
     <CoursesPageCard
-      class="flex-none carousel-1 sm:carousel-2"
-      :class="{ snap: i % 2 === 0 }"
+      class="flex-none carousel-1 sm:carousel-2 snap"
+      :class="i % 2 === 0 ? 'sm:snap' : 'sm:snap-none'"
       :course="course"
       :key="course.id"
       v-for="(course, i) in recentCourses"
@@ -54,10 +54,6 @@ export default defineComponent({
 <style scoped>
 .wrapper {
   scroll-snap-type: x mandatory;
-}
-
-.snap {
-  scroll-snap-align: start;
 }
 
 ::-webkit-scrollbar {
