@@ -1,11 +1,14 @@
 <template>
-  <div class="flex flex-col space-y-2">
+  <div class="flex flex-col space-y-2" v-if="course.exams.length">
     <Week
       v-for="week in course.weeks"
       :key="week"
       :courseId="courseId"
       :week="week"
     />
+  </div>
+  <div class="flex items-center justify-center py-5" v-else>
+    <span class="text-gray-500">No exams found.</span>
   </div>
 </template>
 
