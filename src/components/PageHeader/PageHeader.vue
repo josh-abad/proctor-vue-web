@@ -28,7 +28,7 @@
         <slot name="menu" />
       </button>
     </div>
-    <Breadcrumbs class="mt-2" :links="links" v-if="links" />
+    <Breadcrumbs class="hidden mt-2 sm:flex" :links="links" v-if="links" />
   </div>
 </template>
 
