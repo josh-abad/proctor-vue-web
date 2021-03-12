@@ -1,35 +1,9 @@
 <template>
-  <AppPanel
-    class="px-3 py-4"
-    :class="showMore ? 'h-56' : 'h-36'"
-    v-if="upcomingExams.length"
-  >
-    <div class="flex items-center justify-between">
-      <AppLabel emphasis>Upcoming Exams</AppLabel>
-      <div v-if="moreThanMax">
-        <button
-          class="text-sm focus:outline-none"
-          @click="showMore = !showMore"
-        >
-          <!-- Heroicon name: chevron-down -->
-          <svg
-            class="w-5 h-5 text-gray-500 duration-100 ease-in transform fill-current"
-            :class="showMore ? 'rotate-180' : 'rotate-0'"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
+  <AppPanel class="px-3 py-4" v-if="upcomingExams.length">
+    <AppLabel emphasis>Upcoming Exams</AppLabel>
     <div>
       <div
-        v-for="(event, i) in visibleExams"
+        v-for="(event, i) in upcomingExams"
         :key="i"
         class="flex items-center py-1 text-sm text-gray-700 dark:text-gray-300"
       >
@@ -62,7 +36,6 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(relativeTime)
-const MAX_VISIBLE = 3
 
 export default defineComponent({
   name: 'CoursePageUpcomingEvents',
@@ -73,23 +46,9 @@ export default defineComponent({
       required: true
     }
   },
-  data () {
-    return {
-      showMore: false
-    }
-  },
   computed: {
     upcomingExams (): AppEvent[] {
       return this.$store.getters.upcomingExamsByCourse(this.courseName)
-    },
-    visibleExams (): AppEvent[] {
-      if (this.showMore) {
-        return this.upcomingExams
-      }
-      return this.upcomingExams.slice(0, MAX_VISIBLE)
-    },
-    moreThanMax (): boolean {
-      return this.upcomingExams.length > MAX_VISIBLE
     }
   },
   methods: {
