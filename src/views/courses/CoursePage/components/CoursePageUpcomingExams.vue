@@ -34,6 +34,7 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import coursesService from '@/services/courses'
 
 dayjs.extend(relativeTime)
 
@@ -41,15 +42,18 @@ export default defineComponent({
   name: 'CoursePageUpcomingEvents',
   components: { AppPanel, AppLabel },
   props: {
-    courseName: {
+    courseId: {
       type: String,
       required: true
     }
   },
-  computed: {
-    upcomingExams (): AppEvent[] {
-      return this.$store.getters.upcomingExamsByCourse(this.courseName)
+  data () {
+    return {
+      upcomingExams: [] as AppEvent[]
     }
+  },
+  async created () {
+    this.upcomingExams = await coursesService.getUpcomingExams(this.courseId)
   },
   methods: {
     relativeDate (event: AppEvent): string {

@@ -47,7 +47,7 @@
           :coordinator-name="course.coordinator.fullName"
           :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
-        <CoursePageUpcomingExams class="mt-4" :course-name="course.name" />
+        <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
         <CoursePageProgress class="mt-4" :course-id="courseId" />
       </div>
     </div>
