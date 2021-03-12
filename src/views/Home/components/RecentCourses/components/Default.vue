@@ -1,12 +1,11 @@
 <template>
-  <!-- <div class="flex justify-start mt-4 space-x-4 duration-300 ease-in-out"> -->
-  <div class="course-list--card-view">
+  <div class="flex mt-4 space-x-4 overflow-x-auto wrapper" id="recent-courses">
     <CoursesPageCard
-      class="flex-none card"
+      class="flex-none carousel-1 sm:carousel-2"
+      :class="{ snap: i % 2 === 0 }"
       :course="course"
       :key="course.id"
-      v-for="course in recentCourses"
-      :style="`transform: translateX(${position})`"
+      v-for="(course, i) in recentCourses"
     />
   </div>
 </template>
@@ -42,21 +41,8 @@ export default defineComponent({
       store.state.user.recentCourses = recentCourses.value.map(course => course.id)
     }
 
-    /**
-     * HACK: odd numbered items do not render correctly.
-     * Fix the CSS so the length does not matter.
-     */
-    if (recentCourses.value.length % 2 !== 0) {
-      recentCourses.value.pop()
-    }
-
     return {
       recentCourses
-    }
-  },
-  computed: {
-    position (): string {
-      return `calc(-${this.current * 100}% - ${1 * this.current}rem)`
     }
   },
   mounted () {
@@ -65,15 +51,16 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-/* TODO: make it scrollable */
-.course-list--card-view {
-  @apply mt-4 flex space-x-4 overflow-x-hidden sm:px-2 pb-5 sm:-mx-2 -mb-5 sm:justify-center;
+<style scoped>
+.wrapper {
   scroll-snap-type: x mandatory;
 }
 
-.card {
-  @apply carousel-1 sm:carousel-2;
+.snap {
   scroll-snap-align: start;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

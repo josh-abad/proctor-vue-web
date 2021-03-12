@@ -56,6 +56,16 @@ import Fallback from './components/fallback/Fallback.vue'
 import Default from './components/Default.vue'
 import userMixin from '@/mixins/user'
 
+const scroll = (by: number): void => {
+  const el = document.getElementById('recent-courses')
+  if (el) {
+    el.scrollBy({
+      left: by,
+      behavior: 'smooth'
+    })
+  }
+}
+
 export default defineComponent({
   name: 'RecentCourses',
   components: {
@@ -81,12 +91,14 @@ export default defineComponent({
   methods: {
     next (): void {
       this.current++
+      scroll(10)
     },
     previous (): void {
       this.current--
+      scroll(-10)
     },
     getMaxPage (length: number): void {
-      this.max = length
+      this.max = Math.round(length / 2)
     }
   }
 })
