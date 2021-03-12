@@ -2,7 +2,7 @@
   <div class="p-4">
     <teleport to="#modals">
       <div
-        class="mr-8 bg-gray-700 bg-opacity-75 backdrop-blur px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+        class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg backdrop-blur"
       >
         <Webcam
           @no-face-seen="handleNoFaceSeen"
@@ -23,7 +23,7 @@
           :question-number="i + 1"
           @answer-changed="handleAnswerChange"
         />
-        <div class="mt-4 flex justify-between items-center">
+        <div class="flex items-center justify-between mt-4">
           <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <ModalButton
             header="Submit Answers"
@@ -38,7 +38,7 @@
     </div>
     <Center v-else>
       <div class="flex flex-col items-center">
-        <p class="font-thin text-2xl">
+        <p class="text-2xl font-thin">
           Sorry, you are not allowed to take this exam.
         </p>
         <AppButton

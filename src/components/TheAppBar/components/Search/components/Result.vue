@@ -2,10 +2,10 @@
   <li
     id="listbox-item-0"
     role="option"
-    class="text-gray-900 dark:text-white cursor-pointer select-none relative py-2 pl-3 pr-9"
+    class="relative py-2 pl-3 text-gray-900 cursor-pointer select-none dark:text-white pr-9"
     @click="$emit('result-click')"
   >
-    <span class="ml-3 block truncate">
+    <span class="block ml-3 truncate">
       <slot></slot>
     </span>
   </li>

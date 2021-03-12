@@ -4,16 +4,16 @@
     :class="showMore ? 'h-56' : 'h-36'"
     v-if="upcomingExams.length"
   >
-    <div class="flex justify-between items-center">
+    <div class="flex items-center justify-between">
       <AppLabel emphasis>Upcoming Exams</AppLabel>
       <div v-if="moreThanMax">
         <button
-          class="focus:outline-none text-sm"
+          class="text-sm focus:outline-none"
           @click="showMore = !showMore"
         >
           <!-- Heroicon name: chevron-down -->
           <svg
-            class="fill-current text-gray-500 w-5 h-5 transform ease-in duration-100"
+            class="w-5 h-5 text-gray-500 duration-100 ease-in transform fill-current"
             :class="showMore ? 'rotate-180' : 'rotate-0'"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -31,7 +31,7 @@
       <div
         v-for="(event, i) in visibleExams"
         :key="i"
-        class="flex py-1 items-center text-sm text-gray-700 dark:text-gray-300"
+        class="flex items-center py-1 text-sm text-gray-700 dark:text-gray-300"
       >
         <!-- Heroicon name: document-text -->
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">

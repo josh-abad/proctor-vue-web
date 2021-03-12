@@ -1,6 +1,6 @@
 <template>
   <button
-    class="ease-in-out duration-300 capitalize focus:outline-none appearance-none text-sm font-semibold py-2 px-6 rounded-lg disabled:opacity-50 shadow"
+    class="px-6 py-2 text-sm font-semibold capitalize duration-300 ease-in-out rounded-lg shadow appearance-none focus:outline-none disabled:opacity-50"
     :class="
       prominent
         ? 'text-white bg-gradient-to-t from-green-600 to-green-500 hover:from-green-700 hover:to-green-600'

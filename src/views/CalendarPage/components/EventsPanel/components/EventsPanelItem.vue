@@ -25,7 +25,7 @@
       </div>
       <router-link
         :to="event.locationUrl"
-        class="block text-xs uppercase font-semibold tracking-wider text-gray-500"
+        class="block text-xs font-semibold tracking-wider text-gray-500 uppercase"
       >
         {{ event.location }}
       </router-link>

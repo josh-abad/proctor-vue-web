@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <button
-      class="button-input rounded-t"
+      class="rounded-t button-input"
       :class="maxValueReached ? 'cursor-default' : ''"
       @click="handleIncrement"
     >
@@ -20,12 +20,12 @@
       </svg>
     </button>
     <div
-      class="rounded-lg shadow px-1 border border-gray-300 dark:border-gray-700"
+      class="px-1 border border-gray-300 rounded-lg shadow dark:border-gray-700"
     >
       <transition name="fade">{{ pad ? paddedValue : value }}</transition>
     </div>
     <button
-      class="button-input rounded-b"
+      class="rounded-b button-input"
       :class="minValueReached ? 'cursor-default' : ''"
       @click="handleDecrement"
     >

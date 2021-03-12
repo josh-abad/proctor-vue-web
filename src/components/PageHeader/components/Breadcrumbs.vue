@@ -3,13 +3,13 @@
     <li
       :key="i"
       v-for="(link, i) in linksMinusLast"
-      class="mr-1 flex items-center text-green-200"
+      class="flex items-center mr-1 text-green-200"
     >
       <router-link :to="link.url">
         {{ link.name }}
       </router-link>
       <svg
-        class="ml-1 stroke-current w-4 h-4"
+        class="w-4 h-4 ml-1 stroke-current"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

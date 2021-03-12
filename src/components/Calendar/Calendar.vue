@@ -15,7 +15,7 @@
       />
     </div>
     <Weekdays :compact="compact" />
-    <ol class="grid grid-cols-7 h-full relative">
+    <ol class="relative grid h-full grid-cols-7">
       <DayItem
         v-for="day in days"
         :compact="compact"

@@ -2,15 +2,15 @@
   <div>
     <div
       v-if="event"
-      class="text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700 text-sm"
+      class="text-sm text-gray-600 bg-white dark:text-gray-400 dark:bg-gray-700"
     >
-      <div class="px-3 py-2 flex justify-between">
+      <div class="flex justify-between px-3 py-2">
         <div class="flex items-center space-x-1">
           <img
             v-if="avatarUrl"
             :src="avatarUrl"
             alt="Avatar"
-            class="mr-2 w-5 h-5 object-cover rounded-full"
+            class="object-cover w-5 h-5 mr-2 rounded-full"
           />
           <router-link
             :to="event.subjectUrl"
@@ -26,7 +26,7 @@
           <span class="hidden sm:inline-block">in</span>
           <router-link
             :to="event.locationUrl"
-            class="text-gray-700 dark:text-gray-300 hidden sm:inline-block"
+            class="hidden text-gray-700 dark:text-gray-300 sm:inline-block"
             >{{ event.location }}</router-link
           >
         </div>

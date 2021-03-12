@@ -1,7 +1,7 @@
 <template>
   <Center v-once>
     <div class="flex flex-col items-center">
-      <div class="font-thin text-2xl text-white">
+      <div class="text-2xl font-thin text-white">
         Sorry, that page cannot be found.
       </div>
       <AppButton class="mt-3" @click="$router.push('/')" prominent

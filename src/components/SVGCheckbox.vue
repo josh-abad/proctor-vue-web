@@ -5,12 +5,12 @@
     @click="handleToggle"
   >
     <div
-      class="box-border w-5 h-5 rounded border-2 border-gray-400 dark:border-gray-600"
+      class="box-border w-5 h-5 border-2 border-gray-400 rounded dark:border-gray-600"
       :class="{ 'border-green-500 dark:border-green-500': modelValue }"
     >
       <!-- Heroicon name: check -->
       <svg
-        class="stroke-current stroke-2 text-green-500 w-4 h-4"
+        class="w-4 h-4 text-green-500 stroke-current stroke-2"
         v-show="modelValue"
         fill="none"
         viewBox="0 0 24 24"

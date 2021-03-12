@@ -35,12 +35,12 @@
         </template>
       </AppModal>
     </teleport>
-    <div class="flex flex-col sm:flex-row mt-4">
+    <div class="flex flex-col mt-4 sm:flex-row">
       <div class="flex-grow mr-0 sm:mr-4">
         <TabRow :course-id="courseId" />
         <slot />
       </div>
-      <div class="w-full sm:w-72 mt-4 sm:mt-0">
+      <div class="w-full mt-4 sm:w-72 sm:mt-0">
         <CoursePageAbout
           :student-count="course.studentsEnrolled.length"
           :description="course.description"

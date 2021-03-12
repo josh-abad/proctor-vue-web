@@ -16,7 +16,7 @@
             >
               <!-- Heroicon name: document-text -->
               <svg
-                class="mr-1 fill-current w-5 h-5"
+                class="w-5 h-5 mr-1 fill-current"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -37,7 +37,7 @@
       <tr class="table-footer">
         <td>
           Total
-          <div class="text-gray-500 font-normal text-sm hidden sm:block">
+          <div class="hidden text-sm font-normal text-gray-500 sm:block">
             Weighted mean of grades
           </div>
         </td>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="label-border flex items-center justify-between">
+    <div class="flex items-center justify-between label-border">
       <AppLabel emphasis>Recent Courses</AppLabel>
-      <div class="space-x-3 mb-1">
+      <div class="mb-1 space-x-3">
         <button
           class="btn"
           @click="previous"

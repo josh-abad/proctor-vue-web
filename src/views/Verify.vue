@@ -4,7 +4,7 @@
       <div>
         <AppLogo class="h-10" />
       </div>
-      <div class="mt-4 font-semibold text-xl">
+      <div class="mt-4 text-xl font-semibold">
         {{ message }}
       </div>
       <div class="mt-4">

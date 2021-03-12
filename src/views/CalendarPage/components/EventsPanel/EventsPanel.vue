@@ -1,13 +1,13 @@
 <template>
   <AppPanel>
-    <div class="flex justify-between items-start">
-      <div class="uppercase text-xs tracking-wider font-semibold text-gray-500">
+    <div class="flex items-start justify-between">
+      <div class="text-xs font-semibold tracking-wider text-gray-500 uppercase">
         {{ date }}
       </div>
       <button class="focus:outline-none" @click="$emit('close')">
         <!-- Heroicon name: x -->
         <svg
-          class="fill-current text-gray-500 hover:text-white w-5 h-5"
+          class="w-5 h-5 text-gray-500 fill-current hover:text-white"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -19,7 +19,7 @@
         </svg>
       </button>
     </div>
-    <div class="font-semibold text-lg">Events</div>
+    <div class="text-lg font-semibold">Events</div>
     <div>
       <EventsPanelItem :event="event" v-for="(event, i) in events" :key="i" />
     </div>

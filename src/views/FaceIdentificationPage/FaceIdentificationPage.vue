@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <AppPanel>
-      <div class="font-bold text-xl">Face Identification</div>
-      <div class="text-gray-400 text-sm">
+      <div class="text-xl font-bold">Face Identification</div>
+      <div class="text-sm text-gray-400">
         Please upload a picture of your face. This image will only be used to
         identify you during exams.
       </div>

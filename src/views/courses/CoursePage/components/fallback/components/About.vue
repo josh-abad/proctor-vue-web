@@ -2,16 +2,16 @@
   <AppPanel class="px-4 py-5">
     <AppSkeleton class="w-20 h-3" />
     <div class="mt-4 space-y-1">
-      <AppSkeleton class="w-30 h-2" />
-      <AppSkeleton class="w-30 h-2 mr-5" />
-      <AppSkeleton class="w-30 h-2" />
-      <AppSkeleton class="w-30 h-2 mr-5" />
+      <AppSkeleton class="h-2 w-30" />
+      <AppSkeleton class="h-2 mr-5 w-30" />
+      <AppSkeleton class="h-2 w-30" />
+      <AppSkeleton class="h-2 mr-5 w-30" />
     </div>
     <div class="mt-4 space-y-1">
       <AppSkeleton class="w-20 h-2" />
-      <AppSkeleton class="w-30 h-2" />
+      <AppSkeleton class="h-2 w-30" />
     </div>
-    <div class="mt-4 flex items-center">
+    <div class="flex items-center mt-4">
       <AppSkeleton class="w-10 h-10 rounded-full" />
       <div class="ml-2 space-y-1">
         <AppSkeleton class="w-32 h-3" />

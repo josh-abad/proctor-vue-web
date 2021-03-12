@@ -3,7 +3,7 @@
     <div class="progress-bar__bg">
       <div :style="`width: ${percentage}%`" class="progress-bar__progress" />
     </div>
-    <div class="label hidden sm:block">
+    <div class="hidden label sm:block">
       <span class="label__percentage">{{ percentage }}%</span> complete
     </div>
   </div>

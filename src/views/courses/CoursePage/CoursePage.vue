@@ -3,7 +3,7 @@
     <Suspense>
       <template #default>
         <Default :course-id="courseId">
-          <AppPanel class="overflow-hidden rounded-t-none border-t-0">
+          <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
             <router-view v-slot="{ Component, route }">
               <transition :name="route.meta.transition || 'fade'" mode="out-in">
                 <component :is="Component" />
@@ -14,7 +14,7 @@
       </template>
       <template #fallback>
         <Fallback :course-id="courseId">
-          <AppPanel class="overflow-hidden rounded-t-none border-t-0">
+          <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
             <router-view v-slot="{ Component, route }">
               <transition :name="route.meta.transition || 'fade'" mode="out-in">
                 <component :is="Component" />

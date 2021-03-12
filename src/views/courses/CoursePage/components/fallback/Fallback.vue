@@ -1,14 +1,14 @@
 <template>
   <div class="p-4">
     <PageHeader :links="links" hide-menu>
-      <template #label><AppSkeleton class="opacity-50 w-60 h-5" /></template>
+      <template #label><AppSkeleton class="h-5 opacity-50 w-60" /></template>
     </PageHeader>
-    <div class="flex flex-col sm:flex-row mt-4">
+    <div class="flex flex-col mt-4 sm:flex-row">
       <div class="flex-grow mr-0 sm:mr-4">
         <TabRow :course-id="courseId" />
         <slot />
       </div>
-      <div class="w-full sm:w-72 mt-4 sm:mt-0">
+      <div class="w-full mt-4 sm:w-72 sm:mt-0">
         <About />
         <UpcomingExams class="mt-4" />
         <Progress class="mt-4" />

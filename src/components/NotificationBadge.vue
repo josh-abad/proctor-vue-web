@@ -1,8 +1,8 @@
 <template>
-  <span class="absolute -mr-1 -mt-1 top-0 right-0 flex w-3 h-3" v-once>
+  <span class="absolute top-0 right-0 flex w-3 h-3 -mt-1 -mr-1" v-once>
     <span
-      class="animate-ping absolute inline-flex w-full h-full rounded-full bg-red-400 opacity-75"
+      class="absolute inline-flex w-full h-full bg-red-400 rounded-full opacity-75 animate-ping"
     />
-    <span class="relative inline-flex rounded-full w-3 h-3 bg-red-500" />
+    <span class="relative inline-flex w-3 h-3 bg-red-500 rounded-full" />
   </span>
 </template>

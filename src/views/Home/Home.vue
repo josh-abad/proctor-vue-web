@@ -1,11 +1,11 @@
 <template>
-  <div class="p-4 flex flex-col sm:flex-row">
-    <AppPanel class="flex-grow space-y-8 w-full sm:w-96">
+  <div class="flex flex-col p-4 sm:flex-row">
+    <AppPanel class="flex-grow w-full space-y-8 sm:w-96">
       <RecentCourses />
       <CourseList />
       <RecentActivity class="hidden sm:block" />
     </AppPanel>
-    <div class="ml-0 mt-4 w-full sm:w-72 sm:ml-4 sm:mt-0">
+    <div class="w-full mt-4 ml-0 sm:w-72 sm:ml-4 sm:mt-0">
       <Timeline />
     </div>
   </div>

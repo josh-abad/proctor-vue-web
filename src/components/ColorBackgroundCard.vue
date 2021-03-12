@@ -3,7 +3,7 @@
     <AppPanel class="flex overflow-hidden">
       <div class="-mb-12">
         <img
-          class="w-60 h-full -m-6 object-cover"
+          class="object-cover h-full -m-6 w-60"
           src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
           alt="Panel Background"
         />

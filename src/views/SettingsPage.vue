@@ -3,7 +3,7 @@
     <AppPanel>
       <div class="flex items-center">
         <svg
-          class="fill-current w-6 h-6"
+          class="w-6 h-6 fill-current"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -13,7 +13,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <div class="ml-2 font-semibold text-2xl">Settings</div>
+        <div class="ml-2 text-2xl font-semibold">Settings</div>
       </div>
       <div class="mt-4">
         <AppAccordion label="User">

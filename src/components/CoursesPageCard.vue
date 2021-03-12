@@ -1,18 +1,18 @@
 <template>
   <div
-    class="transition duration-500 ease-in-out transform shadow hover:shadow-lg overflow-hidden bg-white dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 rounded-lg w-72"
+    class="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 w-72"
   >
     <router-link :to="`/courses/${course.id}`">
       <img
         src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
         alt="Course image"
-        class="w-full h-14 object-cover"
+        class="object-cover w-full h-14"
       />
     </router-link>
     <div class="px-4 py-3">
       <AppLabel emphasis>2023 Online Class</AppLabel>
       <router-link :to="`/courses/${course.id}`">
-        <h1 class="text-lg truncate font-semibold">{{ course.name }}</h1>
+        <h1 class="text-lg font-semibold truncate">{{ course.name }}</h1>
       </router-link>
     </div>
   </div>

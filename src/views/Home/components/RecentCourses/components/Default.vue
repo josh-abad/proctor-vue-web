@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="mt-4 flex justify-start space-x-4 ease-in-out duration-300"> -->
+  <!-- <div class="flex justify-start mt-4 space-x-4 duration-300 ease-in-out"> -->
   <div class="course-list--card-view">
     <CoursesPageCard
       class="flex-none card"

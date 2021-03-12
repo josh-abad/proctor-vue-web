@@ -1,7 +1,7 @@
 <template>
   <div v-if="recentActivities.length">
     <AppLabel class="pb-2 label-border" emphasis>Recent Activity</AppLabel>
-    <div class="mt-4 separator-y rounded-lg overflow-hidden shadow">
+    <div class="mt-4 overflow-hidden rounded-lg shadow separator-y">
       <ActivityRow
         v-for="(event, i) of recentActivities"
         :key="i"

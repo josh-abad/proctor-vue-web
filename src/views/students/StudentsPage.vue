@@ -9,7 +9,7 @@
           placeholder="Search student"
         />
       </div>
-      <div class="mt-4 flex flex-col space-y-4">
+      <div class="flex flex-col mt-4 space-y-4">
         <StudentRow
           v-for="student in filteredStudents"
           :key="student.id"

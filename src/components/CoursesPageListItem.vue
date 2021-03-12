@@ -1,12 +1,12 @@
 <template>
   <div class="pt-3 mt-3">
     <div class="flex">
-      <div class="rounded overflow-hidden w-16 h-16 sm:w-40 sm:h-20 shadow">
+      <div class="w-16 h-16 overflow-hidden rounded shadow sm:w-40 sm:h-20">
         <router-link :to="`/courses/${course.id}`">
           <img
             src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
             alt="Course image"
-            class="h-full sm:w-full object-cover"
+            class="object-cover h-full sm:w-full"
           />
         </router-link>
       </div>
@@ -17,7 +17,7 @@
             {{ course.name }}
           </router-link>
         </div>
-        <div class="w-52 mt-2 sm:mt-0 flex items-center">
+        <div class="flex items-center mt-2 w-52 sm:mt-0">
           <ProgressBar class="w-full" :percentage="percentage" />
         </div>
       </div>

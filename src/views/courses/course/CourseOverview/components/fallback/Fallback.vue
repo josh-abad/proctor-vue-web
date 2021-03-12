@@ -2,11 +2,11 @@
   <div class="space-y-2">
     <div v-for="i in 10" :key="i">
       <div class="py-2 label-border">
-        <AppSkeleton class="w-28 h-2" />
+        <AppSkeleton class="h-2 w-28" />
       </div>
-      <div class="py-3 flex items-center justify-between">
+      <div class="flex items-center justify-between py-3">
         <div class="flex">
-          <AppSkeleton class="mr-2 w-5 h-3" />
+          <AppSkeleton class="w-5 h-3 mr-2" />
           <AppSkeleton class="w-32 h-3" />
         </div>
         <SVGCheckbox :model-value="false" static-check />
