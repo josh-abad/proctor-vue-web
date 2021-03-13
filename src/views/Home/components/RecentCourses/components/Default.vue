@@ -20,11 +20,6 @@ export default defineComponent({
   name: 'Default',
   components: { CoursesPageCard },
   props: {
-    current: {
-      type: Number,
-      required: true
-    },
-
     userId: {
       type: String,
       required: true
