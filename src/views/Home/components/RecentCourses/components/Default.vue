@@ -46,7 +46,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.$emit('load-value', this.recentCourses.length)
+    this.$emit('load-value')
   }
 })
 </script>

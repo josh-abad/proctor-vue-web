@@ -77,28 +77,29 @@ export default defineComponent({
   data () {
     return {
       current: 0,
-      max: 0
-    }
-  },
-  computed: {
-    disableNext (): boolean {
-      return this.current === this.max - 1
-    },
-    disablePrevious (): boolean {
-      return this.current === 0
+      disableNext: true,
+      disablePrevious: true
     }
   },
   methods: {
     next (): void {
-      this.current++
       scroll(10)
     },
     previous (): void {
-      this.current--
       scroll(-10)
     },
-    getMaxPage (length: number): void {
-      this.max = Math.round(length / 2)
+    getMaxPage (): void {
+      const el = document.getElementById('recent-courses')
+      if (el) {
+        el.addEventListener('scroll', () => {
+          this.updateScroll(el)
+        })
+        this.updateScroll(el)
+      }
+    },
+    updateScroll (el: HTMLElement): void {
+      this.disablePrevious = el.scrollLeft === 0
+      this.disableNext = el.scrollWidth - el.clientWidth === el.scrollLeft
     }
   }
 })
