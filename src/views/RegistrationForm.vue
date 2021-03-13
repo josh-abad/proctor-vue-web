@@ -4,7 +4,7 @@
       <div class="p-4">
         <AppLogo class="h-7" />
         <form class="mt-4">
-          <h3 class="font-semibold text-lg">Sign up</h3>
+          <h3 class="text-lg font-semibold">Sign up</h3>
           <p class="text-xs text-gray-400">
             By continuing, you agree to our
             <router-link to="#" class="text-green-500"
@@ -80,7 +80,7 @@
             Already have an account?
             <router-link
               to="/login"
-              class="uppercase font-semibold tracking-wide text-green-500"
+              class="font-semibold tracking-wide text-green-500 uppercase"
               >Log In</router-link
             >
           </p>

@@ -1,9 +1,9 @@
 <template>
-  <div class="flex justify-between items-center cursor-pointer">
+  <div class="flex items-center justify-between cursor-pointer">
     <span @click="selectPrevious">
       <!-- Heroicon name: chevron-left -->
       <svg
-        class="stroke-current text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white w-5 h-5"
+        class="w-5 h-5 text-gray-700 stroke-current dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -18,13 +18,13 @@
     </span>
     <span
       @click="selectCurrent"
-      class="rounded-full uppercase font-semibold tracking-wider text-sm"
+      class="text-sm font-semibold tracking-wider uppercase rounded-full"
       >Today</span
     >
     <span @click="selectNext">
       <!-- Heroicon name: chevron-right -->
       <svg
-        class="stroke-current text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white w-5 h-5"
+        class="w-5 h-5 text-gray-700 stroke-current dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

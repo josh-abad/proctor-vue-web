@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 flex justify-start space-x-4 w-full">
+  <div class="flex justify-start w-full mt-4 space-x-4">
     <SkeletonCourseCard />
     <SkeletonCourseCard class="hidden sm:block" />
   </div>

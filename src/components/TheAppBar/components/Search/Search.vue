@@ -10,17 +10,17 @@
           handler: handleClose,
           middleware: clickOutsideMiddleware,
         }"
-        class="w-80 shadow-none text-gray-900 dark:text-white bg-gray-900 dark:bg-white bg-opacity-10 dark:bg-opacity-5 border-0"
+        class="text-gray-900 bg-gray-900 border-0 shadow-none w-80 dark:text-white dark:bg-white bg-opacity-10 dark:bg-opacity-5"
       />
       <button
         type="submit"
-        class="absolute right-0 top-0 mt-3 mr-3 focus:outline-none"
+        class="absolute top-0 right-0 mt-3 mr-3 focus:outline-none"
         @click="searchFilter = ''"
       >
         <svg
           viewBox="0 0 20 20"
           fill="currentColor"
-          class="fill-current text-gray-400 dark:text-gray-600 w-5 h-5"
+          class="w-5 h-5 text-gray-400 fill-current dark:text-gray-600"
         >
           <path
             v-if="searchFilter"
@@ -39,10 +39,10 @@
     </div>
     <transition name="dropdown-fade">
       <div
-        class="absolute mt-2 w-full rounded-lg bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
+        class="absolute w-full mt-2 bg-white bg-opacity-50 border border-gray-800 rounded-lg shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-blur dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
         v-show="open && filteredCourses.length"
       >
-        <ul class="max-h-56 rounded-lg py-1 overflow-auto sm:text-sm">
+        <ul class="py-1 overflow-auto rounded-lg max-h-56 sm:text-sm">
           <Result
             @result-click="$router.push(`/courses/${option.id}`)"
             v-for="(option, i) in filteredCourses"

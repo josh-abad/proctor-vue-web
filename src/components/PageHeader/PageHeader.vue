@@ -3,7 +3,7 @@
     class="p-6 rounded-lg shadow-lg glow bg-gradient-to-t from-green-600 via-green-500 to-green-400"
   >
     <div class="flex justify-between">
-      <div class="text-2xl sm:text-3xl font-bold text-white">
+      <div class="text-2xl font-bold text-white sm:text-3xl">
         <slot name="label" />
       </div>
       <button
@@ -28,7 +28,7 @@
         <slot name="menu" />
       </button>
     </div>
-    <Breadcrumbs class="mt-2" :links="links" v-if="links" />
+    <Breadcrumbs class="hidden mt-2 sm:flex" :links="links" v-if="links" />
   </div>
 </template>
 

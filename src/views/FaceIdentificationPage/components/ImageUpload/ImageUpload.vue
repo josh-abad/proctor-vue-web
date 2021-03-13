@@ -6,7 +6,7 @@
         <Preview :src="previewImage" />
       </div>
       <div
-        class="ease-in-out duration-300 transform"
+        class="duration-300 ease-in-out transform"
         :class="{ 'opacity-50 scale-95': validImage }"
       >
         <AppLabel emphasis>Current</AppLabel>
@@ -17,7 +17,7 @@
         <div v-else>
           <div class="w-56 h-56 bg-gray-700 rounded-lg">
             <div
-              class="flex items-center justify-center h-full text-gray-500 font-semibold uppercase tracking-wider"
+              class="flex items-center justify-center h-full font-semibold tracking-wider text-gray-500 uppercase"
             >
               No image
             </div>
@@ -32,13 +32,13 @@
       :loading="loading"
     />
     <form method="post" enctype="multipart/form-data" class="mt-2">
-      <div class="flex justify-between items-end">
+      <div class="flex items-end justify-between">
         <label
-          class="cursor-pointer border border-green-500 text-green-500 hover:text-white hover:bg-green-500 flex flex-col px-4 py-2 items-center rounded-lg focus:outline-none"
+          class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer hover:text-white hover:bg-green-500 focus:outline-none"
         >
           <!-- Heroicon name: photograph -->
           <svg
-            class="fill-current w-5 h-5"
+            class="w-5 h-5 fill-current"
             viewBox="0 0 20 20"
             fill="currentColor"
           >

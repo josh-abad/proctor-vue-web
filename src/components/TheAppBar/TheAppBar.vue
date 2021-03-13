@@ -1,10 +1,10 @@
 <template>
   <header
-    class="app-bar flex h-20 sticky top-0 w-full items-center justify-between py-4 shadow-lg bg-gray-100 dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 app-bar__border z-20"
+    class="sticky top-0 z-20 flex items-center justify-between w-full h-20 py-4 bg-gray-100 bg-opacity-50 shadow-lg app-bar dark:bg-gray-800 dark:bg-opacity-75 app-bar__border"
   >
     <div class="flex items-center pl-6">
       <button
-        class="block focus:outline-none text-gray-500 focus:ring-0"
+        class="block text-gray-500 focus:outline-none focus:ring-0"
         @click="$emit('toggle')"
       >
         <svg
@@ -26,7 +26,7 @@
       </router-link>
     </div>
     <div class="flex items-center pr-6">
-      <div class="mr-5 hidden sm:block">
+      <div class="hidden mr-5 sm:block">
         <Search />
       </div>
       <UserDropdown />

@@ -1,12 +1,11 @@
 <template>
-  <!-- <div class="mt-4 flex justify-start space-x-4 ease-in-out duration-300"> -->
-  <div class="course-list--card-view">
+  <div class="flex mt-4 space-x-4 overflow-x-auto wrapper" id="recent-courses">
     <CoursesPageCard
-      class="flex-none card"
+      class="flex-none carousel-1 sm:carousel-2 snap"
+      :class="i % 2 === 0 ? 'sm:snap' : 'sm:snap-none'"
       :course="course"
       :key="course.id"
-      v-for="course in recentCourses"
-      :style="`transform: translateX(${position})`"
+      v-for="(course, i) in recentCourses"
     />
   </div>
 </template>
@@ -46,26 +45,18 @@ export default defineComponent({
       recentCourses
     }
   },
-  computed: {
-    position (): string {
-      return `calc(-${this.current * 100}% - ${1 * this.current}rem)`
-    }
-  },
   mounted () {
-    this.$emit('load-value', this.recentCourses.length)
+    this.$emit('load-value')
   }
 })
 </script>
 
-<style lang="postcss" scoped>
-/* TODO: make it scrollable */
-.course-list--card-view {
-  @apply mt-4 flex space-x-4 overflow-x-hidden sm:px-2 pb-5 sm:-mx-2 -mb-5 sm:justify-center;
+<style scoped>
+.wrapper {
   scroll-snap-type: x mandatory;
 }
 
-.card {
-  @apply carousel-1 sm:carousel-2;
-  scroll-snap-align: start;
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

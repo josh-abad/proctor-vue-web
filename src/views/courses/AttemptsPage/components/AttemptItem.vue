@@ -1,5 +1,5 @@
 <template>
-  <div class="flex py-5 justify-between w-full">
+  <div class="flex justify-between w-full py-5">
     <div class="flex">
       <div class="mr-6 font-semibold text-gray-400">
         {{ attemptNumber }}
@@ -17,8 +17,8 @@
       </div>
     </div>
     <div class="flex items-center">
-      <div class="font-thin text-xl mr-6">{{ percentage }}%</div>
-      <div class="font-thin text-xl mr-6">
+      <div class="mr-6 text-xl font-thin">{{ percentage }}%</div>
+      <div class="mr-6 text-xl font-thin">
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
     </div>

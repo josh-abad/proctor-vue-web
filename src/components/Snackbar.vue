@@ -1,6 +1,6 @@
 <template>
   <div
-    class="transform ease-in-out overflow-x-hidden overflow-auto transition-transform duration-300 fixed flex items-center bottom-0 right-0 px-5 py-4 mr-10 mb-10 bg-gray-900 dark:bg-white bg-opacity-50 dark:bg-opacity-50 backdrop-blur rounded-lg shadow"
+    class="fixed bottom-0 right-0 flex items-center px-5 py-4 mb-10 mr-10 overflow-auto overflow-x-hidden transition-transform duration-300 ease-in-out transform bg-gray-900 bg-opacity-50 rounded-lg shadow dark:bg-white dark:bg-opacity-50 backdrop-blur"
     :class="message ? 'translate-y-0' : 'translate-x-52'"
   >
     <div class="mr-12 text-white dark:text-gray-900">
@@ -9,7 +9,7 @@
     <button @click="dismiss" class="focus:outline-none">
       <svg
         viewBox="0 0 20 20"
-        class="fill-current text-gray-200 dark:text-gray-800 h-5 w-5"
+        class="w-5 h-5 text-gray-200 fill-current dark:text-gray-800"
       >
         <path
           fill-rule="evenodd"

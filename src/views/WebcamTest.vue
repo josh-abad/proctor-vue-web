@@ -2,7 +2,7 @@
   <div class="p-4">
     <teleport to="#modals">
       <div
-        class="mr-8 bg-gray-700 px-4 py-2 fixed bottom-0 right-0 z-20 rounded-t-lg shadow-lg flex space-x-2"
+        class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 rounded-t-lg shadow-lg"
       >
         <Webcam
           @no-face-seen="handleNoFaceSeen"
@@ -11,7 +11,7 @@
           :debug="debug"
           :hide-video="!video"
         />
-        <div class="text-red-400 inline-flex items-center">
+        <div class="inline-flex items-center text-red-400">
           <!-- Heroicon name: exclamation -->
           <svg class="w-10 h-10" viewBox="0 0 20 20" fill="currentColor">
             <path

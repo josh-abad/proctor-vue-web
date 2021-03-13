@@ -51,6 +51,20 @@ module.exports = {
       addUtilities(newUtilities, {
         variants: ['responsive']
       })
+    }),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        '.snap': {
+          'scroll-snap-align': 'start'
+        },
+        '.snap-none': {
+          'scroll-snap-align': 'none'
+        }
+      }
+
+      addUtilities(newUtilities, {
+        variants: ['responsive']
+      })
     })
   ]
 }

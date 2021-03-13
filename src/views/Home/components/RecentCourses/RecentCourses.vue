@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="label-border flex items-center justify-between">
+    <div class="flex items-center justify-between label-border">
       <AppLabel emphasis>Recent Courses</AppLabel>
-      <div class="space-x-3 mb-1">
+      <div class="mb-1 space-x-3">
         <button
           class="btn"
           @click="previous"
@@ -56,6 +56,16 @@ import Fallback from './components/fallback/Fallback.vue'
 import Default from './components/Default.vue'
 import userMixin from '@/mixins/user'
 
+const scroll = (by: number): void => {
+  const el = document.getElementById('recent-courses')
+  if (el) {
+    el.scrollBy({
+      left: by,
+      behavior: 'smooth'
+    })
+  }
+}
+
 export default defineComponent({
   name: 'RecentCourses',
   components: {
@@ -67,26 +77,29 @@ export default defineComponent({
   data () {
     return {
       current: 0,
-      max: 0
-    }
-  },
-  computed: {
-    disableNext (): boolean {
-      return this.current === this.max - 1
-    },
-    disablePrevious (): boolean {
-      return this.current === 0
+      disableNext: true,
+      disablePrevious: true
     }
   },
   methods: {
     next (): void {
-      this.current++
+      scroll(10)
     },
     previous (): void {
-      this.current--
+      scroll(-10)
     },
-    getMaxPage (length: number): void {
-      this.max = length
+    getMaxPage (): void {
+      const el = document.getElementById('recent-courses')
+      if (el) {
+        el.addEventListener('scroll', () => {
+          this.updateScroll(el)
+        })
+        this.updateScroll(el)
+      }
+    },
+    updateScroll (el: HTMLElement): void {
+      this.disablePrevious = el.scrollLeft === 0
+      this.disableNext = el.scrollWidth - el.clientWidth === el.scrollLeft
     }
   }
 })

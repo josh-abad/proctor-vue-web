@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div class="mt-1 relative">
+    <div class="relative mt-1">
       <button
         type="button"
         aria-haspopup="listbox"
         aria-expanded="true"
         aria-labelledby="listbox-label"
-        class="relative w-full appearance-none border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-0 focus:ring-green-500 focus:border-green-500 sm:text-sm"
+        class="relative w-full py-2 pl-3 pr-10 text-left bg-gray-100 border border-gray-300 rounded-md shadow-sm appearance-none cursor-default dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-0 focus:ring-green-500 focus:border-green-500 sm:text-sm"
         @click.prevent="open = !open"
       >
         <span class="flex items-center">
-          <span class="ml-3 block truncate">{{ selectedText }}</span>
+          <span class="block ml-3 truncate">{{ selectedText }}</span>
         </span>
         <span
-          class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+          class="absolute inset-y-0 right-0 flex items-center pr-2 ml-3 pointer-events-none"
         >
           <!-- Heroicon name: selector -->
           <svg
-            class="h-5 w-5 text-gray-400"
+            class="w-5 h-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -33,7 +33,7 @@
       </button>
       <transition name="dropdown-fade">
         <div
-          class="absolute mt-1 w-full rounded-md bg-gray-100 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur shadow-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
+          class="absolute w-full mt-1 bg-gray-100 bg-opacity-50 border border-gray-800 rounded-md shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-blur dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
           v-show="open"
         >
           <ul
@@ -41,7 +41,7 @@
             role="listbox"
             aria-labelledby="listbox-label"
             aria-activedescendant="listbox-item-3"
-            class="max-h-56 rounded-md py-1 text-base ring-1 ring-gray-900 ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            class="py-1 overflow-auto text-base rounded-md max-h-56 ring-1 ring-gray-900 ring-opacity-5 focus:outline-none sm:text-sm"
           >
             <!--
           Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
@@ -51,7 +51,7 @@
             <li
               id="listbox-item-0"
               role="option"
-              class="group text-gray-900 dark:text-white cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-40 dark:hover:bg-opacity-40"
+              class="relative py-2 pl-3 text-gray-900 cursor-default select-none group dark:text-white pr-9 hover:bg-gray-300 dark:hover:bg-gray-700 hover:bg-opacity-40 dark:hover:bg-opacity-40"
               v-for="(option, i) in options"
               :key="i"
               @click="handleChange(i)"
@@ -59,7 +59,7 @@
               <div class="flex items-center">
                 <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                 <span
-                  class="ml-3 block truncate"
+                  class="block ml-3 truncate"
                   :class="selectedIndex === i ? 'font-semibold' : 'font-normal'"
                 >
                   {{ option.text || "" }}
@@ -77,7 +77,7 @@
               >
                 <!-- Heroicon name: check -->
                 <svg
-                  class="h-5 w-5 fill-current"
+                  class="w-5 h-5 fill-current"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   aria-hidden="true"

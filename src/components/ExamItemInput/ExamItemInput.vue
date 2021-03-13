@@ -1,10 +1,10 @@
 <template>
   <div class="flex">
     <div
-      class="flex flex-grow bg-gray-100 dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-md overflow-hidden"
+      class="flex flex-grow overflow-hidden bg-gray-100 border rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
     >
       <div class="p-1 bg-gradient-to-b from-green-400 to-green-600" />
-      <div class="p-4 flex-grow">
+      <div class="flex-grow p-4">
         <div class="w-full">
           <QuestionTypeInput
             :model-value="questionType"
@@ -13,7 +13,7 @@
             "
           />
         </div>
-        <div class="w-full sm:flex-grow mt-2">
+        <div class="w-full mt-2 sm:flex-grow">
           <AppInput
             placeholder="Question"
             class="w-full"
@@ -28,7 +28,7 @@
         <div class="mt-4" v-if="questionType === 'text'">
           <AppInput
             placeholder="Text answer"
-            class="w-full sm:w-1/2 text-sm"
+            class="w-full text-sm sm:w-1/2"
             :model-value="answer?.[0] || ''"
             @update:model-value="
               (newValue) => $emit('update:answer', [newValue])

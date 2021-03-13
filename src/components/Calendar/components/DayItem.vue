@@ -8,9 +8,9 @@
       'p-4': !compact,
     }"
   >
-    <div class="flex justify-center items-center">
+    <div class="flex items-center justify-center">
       <div
-        class="box-border p-4 flex justify-center items-center rounded-full cursor-pointer"
+        class="box-border flex items-center justify-center p-4 rounded-full cursor-pointer"
         :class="{
           'font-semibold text-white bg-green-500 bg-opacity-50':
             modelValue === day.date,

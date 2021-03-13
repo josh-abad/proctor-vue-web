@@ -1,10 +1,10 @@
 <template>
-  <div class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+  <div class="p-2 bg-gray-100 rounded-lg shadow-md dark:bg-gray-700">
     <div>
       <button class="button-input" @click="$emit('discard')">
         <!-- Heroicon name: trash -->
         <svg
-          class="stroke-current w-5 h-5"
+          class="w-5 h-5 stroke-current"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -22,7 +22,7 @@
       <button class="button-input" @click="$emit('add-question')">
         <!-- Heroicon name: plus-circle -->
         <svg
-          class="stroke-current w-5 h-5"
+          class="w-5 h-5 stroke-current"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

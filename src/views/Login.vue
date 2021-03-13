@@ -49,7 +49,7 @@
             New to Proctor Vue?
             <router-link
               to="/register"
-              class="uppercase font-semibold tracking-wide text-green-500"
+              class="font-semibold tracking-wide text-green-500 uppercase"
               >Sign Up</router-link
             >
           </p>

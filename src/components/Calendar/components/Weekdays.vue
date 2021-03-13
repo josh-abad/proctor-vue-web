@@ -3,7 +3,7 @@
     <li
       v-for="weekday in weekdays"
       :key="weekday"
-      class="text-center py-2 uppercase tracking-wider text-xs text-gray-400 font-semibold select-none"
+      class="py-2 text-xs font-semibold tracking-wider text-center text-gray-400 uppercase select-none"
     >
       {{ compact ? weekday[0] : weekday }}
     </li>

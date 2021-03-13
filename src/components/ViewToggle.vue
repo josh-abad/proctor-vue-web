@@ -1,7 +1,7 @@
 <template>
   <button
     @click="$emit('update:modelValue', value)"
-    class="focus:outline-none rounded"
+    class="rounded focus:outline-none"
     :class="
       modelValue === value
         ? 'text-green-500'

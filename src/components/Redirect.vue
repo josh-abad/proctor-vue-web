@@ -1,17 +1,17 @@
 <template>
   <teleport to="#modals">
     <div
-      class="fixed z-30 inset-0 overflow-y-auto bg-gradient-to-t from-green-700 to-green-900"
+      class="fixed inset-0 z-30 overflow-y-auto bg-gradient-to-t from-green-700 to-green-900"
     >
       <ColorBackgroundCard>
         <div class="p-4">
           <AppLogo @click="$router.push('/')" class="h-7" />
-          <div class="mt-4 font-semibold text-xl">Welcome back!</div>
+          <div class="mt-4 text-xl font-semibold">Welcome back!</div>
           <div class="mt-4">
             You are already logged in and will be redirected back to Proctor Vue
             shortly.
           </div>
-          <div class="mt-4 text-gray-500 text-sm">
+          <div class="mt-4 text-sm text-gray-500">
             If you are not redirected automatically, follow
             <router-link to="/" class="text-green-500" replace
               >this link</router-link

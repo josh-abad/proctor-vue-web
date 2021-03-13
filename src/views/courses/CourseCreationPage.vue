@@ -1,9 +1,9 @@
 <template>
   <div class="p-4">
     <AppPanel>
-      <div class="font-semibold text-xl">Create New Course</div>
+      <div class="text-xl font-semibold">Create New Course</div>
       <div class="flex flex-col items-start">
-        <div class="mt-4 flex">
+        <div class="flex mt-4">
           <div>
             <label for="courseName">
               <AppLabel>Course name</AppLabel>
@@ -13,7 +13,7 @@
           <div class="ml-4">
             <label for="courseWeeks"><AppLabel>Course Weeks</AppLabel></label>
             <input
-              class="shadow focus:outline-none bg-gray-100 dark:bg-gray-800 appearance-none rounded-lg px-3 py-2 focus:ring-0 border-gray-300 dark:border-gray-700 focus:border-green-500"
+              class="px-3 py-2 bg-gray-100 border-gray-300 rounded-lg shadow appearance-none focus:outline-none dark:bg-gray-800 focus:ring-0 dark:border-gray-700 focus:border-green-500"
               type="number"
               id="courseWeeks"
               min="4"
@@ -33,14 +33,14 @@
             />
           </div>
         </div>
-        <div class="mt-3 w-full">
+        <div class="w-full mt-3">
           <label>
             <AppLabel>Course description</AppLabel>
             <AppTextArea v-model="courseDescription" class="w-full h-20" />
           </label>
         </div>
       </div>
-      <div class="mt-4 flex justify-end">
+      <div class="flex justify-end mt-4">
         <AppButton @click="saveCourse" prominent>Create</AppButton>
       </div>
     </AppPanel>

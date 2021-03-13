@@ -11,7 +11,7 @@
         <TheSidebar :is-open="sidebarOpen" @close-sidebar="isOpen = false" />
         <div>
           <router-view
-            class="transform ease-in-out duration-300"
+            class="duration-300 ease-in-out transform"
             :class="sidebarOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
           />
           <div class="mt-4">

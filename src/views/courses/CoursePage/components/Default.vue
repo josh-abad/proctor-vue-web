@@ -35,19 +35,19 @@
         </template>
       </AppModal>
     </teleport>
-    <div class="flex flex-col sm:flex-row mt-4">
+    <div class="flex flex-col mt-4 sm:flex-row">
       <div class="flex-grow mr-0 sm:mr-4">
         <TabRow :course-id="courseId" />
         <slot />
       </div>
-      <div class="w-full sm:w-72 mt-4 sm:mt-0">
+      <div class="w-full mt-4 sm:w-72 sm:mt-0">
         <CoursePageAbout
           :student-count="course.studentsEnrolled.length"
           :description="course.description"
           :coordinator-name="course.coordinator.fullName"
           :coordinator-avatar-url="course.coordinator.avatarUrl"
         />
-        <CoursePageUpcomingExams class="mt-4" :course-name="course.name" />
+        <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
         <CoursePageProgress class="mt-4" :course-id="courseId" />
       </div>
     </div>

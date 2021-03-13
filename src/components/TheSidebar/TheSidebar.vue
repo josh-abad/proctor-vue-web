@@ -1,7 +1,7 @@
 <template>
   <div>
     <aside
-      class="transform w-full bg-opacity-60 dark:bg-opacity-90 backdrop-blur sm:w-56 pt-4 fixed h-full min-h-full overflow-y-auto ease-in-out transition-transform duration-300 bg-gray-100 dark:bg-gray-900 shadow-lg sidebar__border z-10"
+      class="fixed z-10 w-full h-full min-h-full pt-4 overflow-y-auto transition-transform duration-300 ease-in-out transform bg-gray-100 shadow-lg bg-opacity-60 dark:bg-opacity-90 backdrop-blur sm:w-56 dark:bg-gray-900 sidebar__border"
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <nav class="flex flex-col">
