@@ -67,6 +67,10 @@ const deleteCourse = async (id: string): Promise<void> => {
   await axios.delete(`${baseUrl}/${id}`)
 }
 
+const unenrollUser = async (courseId: string, userId: string): Promise<void> => {
+  await axios.delete(`${baseUrl}/${courseId}/students/${userId}`)
+}
+
 const getUpcomingExams = async (id: string): Promise<AppEvent[]> => {
   const response = await axios.get(`${baseUrl}/${id}/upcoming-exams`)
   return response.data
@@ -80,5 +84,6 @@ export default {
   enrollUser,
   enrollUsers,
   deleteCourse,
+  unenrollUser,
   getUpcomingExams
 }

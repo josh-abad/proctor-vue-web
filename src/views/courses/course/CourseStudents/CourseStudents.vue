@@ -21,6 +21,7 @@
     >
       <StudentRow
         :student="student"
+        :course-id="courseId"
         v-for="student in filteredStudents"
         :key="student.id"
       />
