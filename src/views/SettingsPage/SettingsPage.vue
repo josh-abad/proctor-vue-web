@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <AppPanel>
+    <AppPanel class="w-full md:w-1/2">
       <div class="flex items-center">
         <svg
           class="w-6 h-6 fill-current"
@@ -17,27 +17,29 @@
       </div>
       <div class="mt-4">
         <AppAccordion label="User">
-          <AppButton>Change Password</AppButton>
-          <div class="mt-2">
+          <SettingsItem
+            name="Change Password"
+            description="Password must be at least 6 characters"
+          >
+            <AppButton>Change</AppButton>
+          </SettingsItem>
+          <SettingsItem
+            name="Configure Face ID"
+            description="Set up facial identification for exams"
+            class="mt-2"
+          >
             <router-link :to="`/user/${user?.id}/reference-image`">
-              <AppButton>Configure Face ID</AppButton>
+              <AppButton>Configure</AppButton>
             </router-link>
-          </div>
+          </SettingsItem>
         </AppAccordion>
         <AppAccordion label="Appearance" class="mt-2">
-          <div>
-            <ToggleButton
-              v-model="automatic"
-              label="Automatic (follows system settings)"
-            />
-          </div>
-          <div>
-            <ToggleButton
-              v-model="darkMode"
-              label="Dark Mode"
-              :disabled="automatic"
-            />
-          </div>
+          <SettingsItem name="Automatic" description="Follows system settings">
+            <ToggleButton v-model="automatic" />
+          </SettingsItem>
+          <SettingsItem name="Dark Mode">
+            <ToggleButton v-model="darkMode" :disabled="automatic" />
+          </SettingsItem>
         </AppAccordion>
       </div>
       <div class="mt-4">
@@ -99,10 +101,11 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
 import { ALERT } from '@/store/action-types'
 import AppModal from '@/components/ui/AppModal.vue'
+import SettingsItem from './components/SettingsItem.vue'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { ToggleButton, AppPanel, AppAccordion, AppButton, AppLabel, AppModal },
+  components: { ToggleButton, AppPanel, AppAccordion, AppButton, AppLabel, AppModal, SettingsItem },
   mixins: [userMixin],
   data () {
     return {
