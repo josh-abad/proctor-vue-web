@@ -9,6 +9,26 @@
           @unidentified-face="handleUnidentifiedFace"
           hide-video
         />
+        <div class="flex items-center">
+          <svg
+            class="w-10 h-10 text-gray-500 stroke-current"
+            :class="{
+              'text-white': !warningsExceeded && warnings > 0,
+              'text-red-500': warningsExceeded,
+            }"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <span class="text-3xl">{{ warnings }}</span>
+        </div>
       </div>
     </teleport>
     <div v-if="examCanStart && exam && attempt">
@@ -59,6 +79,12 @@
         </template>
       </AppModal>
     </teleport>
+    <KeepOnPage
+      v-if="examCanStart"
+      :prevent-leave="!submitted"
+      @leave-focus="warn"
+      @leave-timeout="warn"
+    />
   </div>
 </template>
 
@@ -78,10 +104,11 @@ import ModalButton from '@/components/ui/ModalButton.vue'
 import userMixin from '@/mixins/user'
 import AppModal from '@/components/ui/AppModal.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
+import KeepOnPage from '@/components/KeepOnPage.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, AppButton, Timer, AppPanel, Center, PageHeader, ModalButton, AppModal, Webcam },
+  components: { BaseExamItem, AppButton, Timer, AppPanel, Center, PageHeader, ModalButton, AppModal, Webcam, KeepOnPage },
   mixins: [userMixin],
   props: {
     courseId: {
@@ -102,6 +129,7 @@ export default defineComponent({
     return {
       answers,
       hasToken: false,
+      submitted: false,
       warnings: 0,
       maxWarnings: 5,
       warningModalOpen: false
@@ -134,13 +162,6 @@ export default defineComponent({
       }
     }
   },
-  created () {
-    if (this.examCanStart) {
-      window.addEventListener('beforeunload', this.promptBeforeLeaving)
-      window.addEventListener('unload', this.handleUnload)
-      window.addEventListener('blur', this.warn)
-    }
-  },
   mounted () {
     if (this.exam) {
       document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
@@ -148,9 +169,6 @@ export default defineComponent({
     }
   },
   unmount () {
-    window.removeEventListener('beforeunload', this.promptBeforeLeaving)
-    window.removeEventListener('unload', this.handleUnload)
-    window.removeEventListener('blur', this.warn)
     if (this.activeExam) {
       this.handleSubmit()
     }
@@ -174,13 +192,10 @@ export default defineComponent({
       }
     },
     async handleSubmit (): Promise<void> {
+      this.submitted = true
       await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
       this.$store.commit(SET_ACTIVE_EXAM, null)
       this.$router.replace(`/courses/${this.courseId}/exams/${this.examId}`)
-    },
-    promptBeforeLeaving (e: BeforeUnloadEvent): void {
-      e.preventDefault()
-      e.returnValue = ''
     },
     handleUnload () {
       localStorage.setItem('pendingSubmission', JSON.stringify({ answers: this.answers, examId: this.examId, submittedDate: new Date() }))
@@ -190,14 +205,14 @@ export default defineComponent({
     warn () {
       if (!this.warningsExceeded) {
         this.warnings++
-        if (Notification.permission === 'granted') {
-          const notification = new Notification('Return to exam')
-          notification.addEventListener('click', () => {
-            window.focus()
-          })
-        } else {
-          Notification.requestPermission()
-        }
+        // if (Notification.permission === 'granted') {
+        //   const notification = new Notification('Return to exam')
+        //   notification.addEventListener('click', () => {
+        //     window.focus()
+        //   })
+        // } else {
+        //   Notification.requestPermission()
+        // }
         this.warningModalOpen = true
       }
     }
