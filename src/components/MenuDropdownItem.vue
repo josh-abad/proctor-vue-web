@@ -3,9 +3,10 @@
     @click="handleClick"
     class="w-full text-left dropdown-item focus:outline-none"
     :class="{ 'dropdown-item--separator': separator }"
+    id="btn-open"
     role="menuitem"
   >
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2 pointer-events-none">
       <slot name="icon" />
       <span><slot name="label" /></span>
     </div>

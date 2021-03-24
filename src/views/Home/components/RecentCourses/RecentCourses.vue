@@ -36,7 +36,6 @@
     <Suspense>
       <template #default>
         <Default
-          :current="current"
           :user-id="user?.id ?? ''"
           @load-value="getMaxPage"
           ref="scrollArea"
@@ -76,7 +75,6 @@ export default defineComponent({
   mixins: [userMixin],
   data () {
     return {
-      current: 0,
       disableNext: true,
       disablePrevious: true
     }

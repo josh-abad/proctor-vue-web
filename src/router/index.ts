@@ -158,7 +158,7 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Settings'),
       authorize: [] as Role[]
     },
-    component: () => import('../views/SettingsPage.vue')
+    component: () => import('../views/SettingsPage/SettingsPage.vue')
   },
   {
     path: '/verify/:base64Token',

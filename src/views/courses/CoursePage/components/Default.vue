@@ -18,7 +18,7 @@
           <MenuDropdownItem :path="`/courses/${courseId}/edit`">
             <template #label>Edit Course</template>
           </MenuDropdownItem>
-          <MenuDropdownItem id="btn-open" @item-click="deleteModalOpen = true">
+          <MenuDropdownItem @item-click="deleteModalOpen = true">
             <template #label>Delete Course</template>
           </MenuDropdownItem>
         </MenuDropdown>

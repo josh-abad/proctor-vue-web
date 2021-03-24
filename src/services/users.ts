@@ -59,6 +59,10 @@ const uploadImage = async (id: string, data: FormData): Promise<User> => {
   return response.data
 }
 
+const deleteUser = async (id: string): Promise<void> => {
+  await axios.delete(`${baseUrl}/${id}`)
+}
+
 export default {
   create,
   getAll,
@@ -67,5 +71,6 @@ export default {
   addRecentCourse,
   getRecentCourses,
   getUpcomingExams,
-  uploadImage
+  uploadImage,
+  deleteUser
 }

@@ -1,7 +1,7 @@
 import { Course, RootState, User, UsersState } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, LOAD_USERS } from '../action-types'
-import { SET_USERS } from '../mutation-types'
+import { REMOVE_USER, SET_USERS } from '../mutation-types'
 import usersService from '@/services/users'
 import { alphabeticalUsers } from '@/utils/sort'
 
@@ -15,6 +15,9 @@ export default {
         users.sort(alphabeticalUsers)
       }
       state.users = users
+    },
+    [REMOVE_USER] (state, id: string): void {
+      state.users = state.users.filter(user => user.id !== id)
     }
   },
   actions: {

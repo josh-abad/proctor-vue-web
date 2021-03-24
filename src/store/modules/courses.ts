@@ -1,7 +1,7 @@
 import { Course, CoursesState, NewCourse, RootState } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, CREATE_COURSE, DELETE_COURSE, ENROLL_STUDENT, ENROLL_STUDENTS, LOAD_COURSES } from '../action-types'
-import { ADD_COURSE, REMOVE_COURSE, SET_COURSES, UPDATE_COURSE } from '../mutation-types'
+import { ADD_COURSE, REMOVE_COURSE, REMOVE_STUDENT, SET_COURSES, UPDATE_COURSE } from '../mutation-types'
 import coursesService from '@/services/courses'
 import { alphabeticalCourses } from '@/utils/sort'
 import nProgress from 'nprogress'
@@ -25,6 +25,14 @@ export default {
     },
     [UPDATE_COURSE] (state, newCourse: Course): void {
       state.courses = state.courses.map(course => course.id === newCourse.id ? newCourse : course)
+    },
+    [REMOVE_STUDENT] (state, payload: { courseId: string; userId: string }): void {
+      const { courseId, userId } = payload
+      state.courses = state.courses.map(course => {
+        return course.id === courseId
+          ? { ...course, studentsEnrolled: course.studentsEnrolled.filter(user => user !== userId) }
+          : course
+      })
     }
   },
   actions: {
