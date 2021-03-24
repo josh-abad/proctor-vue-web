@@ -82,6 +82,7 @@
     <KeepOnPage
       v-if="examCanStart"
       :prevent-leave="!submitted"
+      @leave-attempt="handleLeaveAttempt"
       @leave-focus="warn"
       @leave-timeout="warn"
     />
@@ -190,6 +191,9 @@ export default defineComponent({
       } else {
         this.answers.push({ question, answer })
       }
+    },
+    handleLeaveAttempt (): void {
+      this.$store.dispatch(ALERT, `You cannot leave until you have ${this.maxWarnings} warnings`)
     },
     async handleSubmit (): Promise<void> {
       this.submitted = true
