@@ -35,10 +35,10 @@
         </AppAccordion>
         <AppAccordion label="Appearance" class="mt-2">
           <SettingsItem name="Automatic" description="Follows system settings">
-            <ToggleButton v-model="automatic" />
+            <AppSwitch v-model="automatic" />
           </SettingsItem>
           <SettingsItem name="Dark Mode">
-            <ToggleButton v-model="darkMode" :disabled="automatic" />
+            <AppSwitch v-model="darkMode" :disabled="automatic" />
           </SettingsItem>
         </AppAccordion>
       </div>
@@ -92,7 +92,7 @@
 import AppAccordion from '@/components/ui/AppAccordion.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
-import ToggleButton from '@/components/ui/AppSwitch.vue'
+import AppSwitch from '@/components/ui/AppSwitch.vue'
 import { SET_THEME } from '@/store/mutation-types'
 import { Theme } from '@/types'
 import { defineComponent } from 'vue'
@@ -105,7 +105,7 @@ import SettingsItem from './components/SettingsItem.vue'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { ToggleButton, AppPanel, AppAccordion, AppButton, AppLabel, AppModal, SettingsItem },
+  components: { AppSwitch, AppPanel, AppAccordion, AppButton, AppLabel, AppModal, SettingsItem },
   mixins: [userMixin],
   data () {
     return {
