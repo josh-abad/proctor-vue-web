@@ -1,22 +1,27 @@
 <template>
-  <label :for="label" class="switch" :class="{ 'switch--disabled': disabled }">
+  <label
+    class="inline-flex items-center mt-3 space-x-3 opacity-100 cursor-pointer"
+    :class="{ 'opacity-50 cursor-default': disabled }"
+  >
     <span class="relative">
       <span
-        class="switch__track"
-        :class="{ 'switch__track--on': modelValue }"
+        class="block w-10 h-6 bg-gray-400 rounded-full shadow-inner dark:bg-gray-600"
+        :class="{ 'bg-green-500 dark:bg-green-500': modelValue }"
       />
-      <span class="switch__thumb" :class="{ 'switch__thumb--on': modelValue }">
+      <span
+        class="absolute inset-y-0 left-0 block w-4 h-4 mt-1 ml-1 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg"
+        :class="{ 'transform translate-x-full': modelValue }"
+      >
         <input
           :value="modelValue"
           @change="$emit('update:modelValue', $event.target.checked)"
-          :id="label"
           :disabled="disabled"
           type="checkbox"
-          class="switch__input"
+          class="absolute w-0 h-0 opacity-0"
         />
       </span>
     </span>
-    <span class="switch__label">{{ label }}</span>
+    <span class="text-sm"><slot /></span>
   </label>
 </template>
 
@@ -32,12 +37,6 @@ export default defineComponent({
       default: false
     },
 
-    label: {
-      type: String,
-      required: false,
-      default: ''
-    },
-
     disabled: {
       type: Boolean,
       required: false,
@@ -47,40 +46,3 @@ export default defineComponent({
   emits: ['update:modelValue']
 })
 </script>
-
-<style lang="postcss" scoped>
-.switch {
-  @apply mt-3 inline-flex items-center opacity-100 cursor-pointer;
-}
-
-.switch--disabled {
-  @apply opacity-50 cursor-default;
-}
-
-.switch--on {
-}
-
-.switch__track {
-  @apply block w-10 h-6 rounded-full shadow-inner bg-gray-400 dark:bg-gray-600;
-}
-
-.switch__track--on {
-  @apply bg-green-500 dark:bg-green-500;
-}
-
-.switch__thumb {
-  @apply absolute block w-4 h-4 mt-1 ml-1 bg-white rounded-full shadow-lg inset-y-0 left-0 transition-transform duration-300 ease-in-out;
-}
-
-.switch__thumb--on {
-  @apply transform translate-x-full;
-}
-
-.switch__input {
-  @apply absolute opacity-0 w-0 h-0;
-}
-
-.switch__label {
-  @apply ml-3 text-sm;
-}
-</style>
