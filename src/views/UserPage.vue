@@ -35,11 +35,12 @@
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
 import { AppEvent, User } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ActivityRow from '@/components/ActivityRow.vue'
 import UserPageStat from '@/components/UserPageStat.vue'
+import usersService from '@/services/users'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -51,12 +52,20 @@ export default defineComponent({
       required: true
     }
   },
+  setup (props) {
+    const userEvents = ref([] as AppEvent[])
+    const getUserEvents = async () => {
+      userEvents.value = await usersService.getRecentActivity(props.userId)
+    }
+
+    return {
+      userEvents,
+      getUserEvents
+    }
+  },
   computed: {
     user (): User | undefined {
       return this.$store.getters.userByID(this.userId)
-    },
-    userEvents (): AppEvent[] {
-      return this.$store.getters.orderedAttemptEvents(this.userId)
     },
     completedCourses (): number {
       const reducer = (a: number, courseId: string): number => {
@@ -66,6 +75,9 @@ export default defineComponent({
         ? this.user.courses.reduce(reducer, 0)
         : 0
     }
+  },
+  async created () {
+    await this.getUserEvents()
   }
 })
 </script>

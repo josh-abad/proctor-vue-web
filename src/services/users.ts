@@ -63,12 +63,18 @@ const deleteUser = async (id: string): Promise<void> => {
   await axios.delete(`${baseUrl}/${id}`)
 }
 
+const getRecentActivity = async (id: string): Promise<AppEvent[]> => {
+  const response = await axios.get(`${baseUrl}/${id}/recent-activity`)
+  return response.data
+}
+
 export default {
   create,
   getAll,
   getUser,
   getCourses,
   addRecentCourse,
+  getRecentActivity,
   getRecentCourses,
   getUpcomingExams,
   uploadImage,

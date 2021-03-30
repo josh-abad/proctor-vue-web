@@ -1,4 +1,4 @@
-import { AppEvent, Course, User } from '@/types'
+import { Course, User } from '@/types'
 
 export const alphabeticalUsers = (a: User | undefined, b: User | undefined) => {
   if (!a || !b) {
@@ -19,8 +19,4 @@ export const alphabeticalCourses = (a: Course, b: Course) => {
     return 1
   }
   return 0
-}
-
-export const eventDate = (a: AppEvent, b: AppEvent) => {
-  return new Date(b.date).valueOf() - new Date(a.date).valueOf()
 }

@@ -1,4 +1,4 @@
-import { AppEvent, Attempt, Exam, ExamResult, ExamsState, RootState, Submission, User } from '@/types'
+import { Attempt, Exam, ExamResult, ExamsState, RootState, Submission } from '@/types'
 import { Module } from 'vuex'
 import { ALERT, DELETE_EXAM, LOAD_ATTEMPTS, LOAD_EXAMS, LOAD_EXAM_RESULTS, START_ATTEMPT, SUBMIT_EXAM } from '../action-types'
 import { ADD_ATTEMPT, ADD_EXAM, ADD_EXAM_RESULT, REMOVE_ATTEMPTS_BY_EXAM, REMOVE_EXAM, SET_ACTIVE_EXAM, SET_ATTEMPTS, SET_EXAMS, SET_EXAM_RESULTS, REMOVE_EXAM_RESULTS_BY_EXAM, UPDATE_ATTEMPT } from '../mutation-types'
@@ -6,7 +6,6 @@ import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import nProgress from 'nprogress'
-import { eventDate } from '@/utils/sort'
 
 export default {
   state: () => ({
@@ -135,81 +134,6 @@ export default {
       return state.exams.filter(exam => {
         return rootState.user?.courses.includes(exam.course.id)
       })
-    },
-    examEvents (state, getters): AppEvent[] {
-      const examsForUser: Exam[] = getters.examsForUser
-      const events: AppEvent[] = []
-      examsForUser.forEach(exam => {
-        if (exam.startDate && exam.endDate) {
-          const sharedEventInfo = {
-            location: exam.course.name,
-            locationUrl: `/courses/${exam.course.id}`,
-            subject: exam.label,
-            subjectId: exam.id,
-            subjectUrl: `/courses/${exam.course.id}/exams/${exam.id}`
-          }
-          const openEvent: AppEvent = {
-            ...sharedEventInfo,
-            action: 'opens',
-            date: exam.startDate
-          }
-          const closeEvent: AppEvent = {
-            ...sharedEventInfo,
-            action: 'closes',
-            date: exam.endDate
-          }
-          events.push(openEvent, closeEvent)
-        }
-      })
-      return events
-    },
-    attemptEvents (state, getters, rootState): (userId?: string) => AppEvent[] {
-      return userId => {
-        const attempts: Attempt[] = userId ? getters.attemptsByUser(userId) : state.attempts
-        const events: AppEvent[] = []
-        attempts.forEach(attempt => {
-          const user: User = getters.userByID(attempt.user)
-          if (user && attempt.exam) {
-            const sharedEventInfo = {
-              location: attempt.exam.course.name,
-              locationUrl: `/courses/${attempt.exam.course.id}`,
-              subject: rootState.user && rootState.user.id === user.id ? 'You' : user.name.first,
-              subjectId: user.id,
-              subjectUrl: `/user/${user.id}`,
-              predicate: attempt.exam.label,
-              predicateUrl: `/courses/${attempt.exam.course.id}/exams/${attempt.exam.id}`
-            }
-            const startAttemptEvent: AppEvent = {
-              ...sharedEventInfo,
-              action: 'started',
-              date: attempt.startDate
-            }
-            events.push(startAttemptEvent)
-            if (attempt.status === 'completed') {
-              const submitAttemptEvent: AppEvent = {
-                ...sharedEventInfo,
-                action: 'completed',
-                date: attempt.submittedDate
-              }
-              events.push(submitAttemptEvent)
-            }
-          }
-        })
-        return events
-      }
-    },
-    orderedAttemptEvents (state, getters): (userId?: string) => AppEvent[] {
-      return userId => {
-        const attemptEvents: AppEvent[] = getters.attemptEvents(userId)
-        const orderedAttemptEvents = [...attemptEvents].sort(eventDate)
-        return orderedAttemptEvents
-      }
-    },
-    recentAttemptEvents (state, getters): (userId?: string) => AppEvent[] {
-      return userId => {
-        const orderedAttemptEvents: AppEvent[] = getters.orderedAttemptEvents(userId)
-        return orderedAttemptEvents.slice(0, 5)
-      }
     },
     attemptsByUser (state): (userId: string) => Attempt[] {
       return userId => state.attempts ? state.attempts.filter(attempt => attempt.user === userId) : []
