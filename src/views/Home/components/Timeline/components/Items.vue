@@ -32,6 +32,7 @@ export default defineComponent({
   },
   async setup (props) {
     const upcomingExams = ref(await usersService.getUpcomingExams(props.userId))
+    upcomingExams.value = upcomingExams.value.slice(0, 5)
 
     return {
       upcomingExams
