@@ -20,15 +20,10 @@ module.exports = {
       fontFamily: {
         sans: ['Open Sans', ...defaultTheme.fontFamily.sans]
       }
-    },
-    backdropFilter: {
-      none: 'none',
-      blur: 'blur(15px)'
     }
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-filters'),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.carousel-1': {
@@ -42,6 +37,10 @@ module.exports = {
         },
         '.snap-none': {
           'scroll-snap-align': 'none'
+        },
+        '.backdrop-blur': {
+          'backdrop-filter': 'blur(15px)',
+          '-webkit-backdrop-filter': 'blur(15px)'
         }
       }
 
