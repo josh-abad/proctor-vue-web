@@ -36,15 +36,7 @@ module.exports = {
         },
         '.carousel-2': {
           width: 'calc(50% - 0.5rem)'
-        }
-      }
-
-      addUtilities(newUtilities, {
-        variants: ['responsive']
-      })
-    }),
-    plugin(function ({ addUtilities }) {
-      const newUtilities = {
+        },
         '.snap': {
           'scroll-snap-align': 'start'
         },
