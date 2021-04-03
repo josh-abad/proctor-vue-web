@@ -26,15 +26,6 @@ module.exports = {
       blur: 'blur(15px)'
     }
   },
-  variants: {
-    extend: {
-      backgroundColor: ['active'],
-      backgroundOpacity: ['dark'],
-      borderOpacity: ['dark'],
-      outline: ['focus'],
-      opacity: ['disabled']
-    }
-  },
   plugins: [
     require('@tailwindcss/forms'),
     require('tailwindcss-filters'),
