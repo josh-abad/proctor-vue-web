@@ -1,6 +1,6 @@
 <template>
   <img
-    :src="require(`@/assets/${logoFilename}`)"
+    :src="require(`@/assets/${logoFilename}`).default"
     alt="Proctor Vue logo"
     class="h-7"
   />
