@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 w-72"
+    class="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600"
   >
     <router-link :to="`/courses/${course.id}`">
       <img
