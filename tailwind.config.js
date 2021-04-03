@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const colors = require('tailwindcss/colors')
-const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
@@ -15,11 +14,6 @@ module.exports = {
       green: colors.emerald,
       red: colors.rose,
       white: colors.white
-    },
-    extend: {
-      fontFamily: {
-        sans: ['Open Sans', ...defaultTheme.fontFamily.sans]
-      }
     }
   },
   plugins: [
