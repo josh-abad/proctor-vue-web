@@ -32,10 +32,6 @@ module.exports = {
         },
         '.snap-none': {
           'scroll-snap-align': 'none'
-        },
-        '.backdrop-blur': {
-          'backdrop-filter': 'blur(15px)',
-          '-webkit-backdrop-filter': 'blur(15px)'
         }
       }
 
