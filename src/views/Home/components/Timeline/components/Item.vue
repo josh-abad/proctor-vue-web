@@ -1,23 +1,10 @@
 <template>
   <div class="item">
-    <svg class="item__icon" viewBox="0 0 20 20" fill="currentColor">
-      <!-- Heroicon name: document-text -->
-      <path
-        v-if="event.action === 'opens'"
-        class="item__icon--opening"
-        fill-rule="evenodd"
-        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-        clip-rule="evenodd"
-      />
-      <!-- Heroicon name: lock-closed -->
-      <path
-        v-else
-        class="item__icon--closing"
-        fill-rule="evenodd"
-        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-        clip-rule="evenodd"
-      />
-    </svg>
+    <DocumentTextIcon
+      class="item__icon item__icon--opening"
+      v-if="event.action === 'opens'"
+    />
+    <LockClosedIcon class="item__icon item__icon--closing" v-else />
     <div>
       <div>
         <router-link :to="event.subjectUrl" class="item__course">
@@ -44,9 +31,11 @@
 <script lang="ts">
 import { AppEvent } from '@/types'
 import { defineComponent } from 'vue'
+import { DocumentTextIcon, LockClosedIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'Item',
+  components: { DocumentTextIcon, LockClosedIcon },
   props: {
     event: {
       type: Object as () => AppEvent,

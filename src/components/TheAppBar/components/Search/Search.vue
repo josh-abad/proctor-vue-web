@@ -17,24 +17,14 @@
         class="absolute top-0 right-0 mt-3 mr-3 focus:outline-none"
         @click="searchFilter = ''"
       >
-        <svg
-          viewBox="0 0 20 20"
-          fill="currentColor"
+        <XIcon
           class="w-5 h-5 text-gray-400 fill-current dark:text-gray-600"
-        >
-          <path
-            v-if="searchFilter"
-            fill-rule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-          <path
-            v-else
-            fill-rule="evenodd"
-            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-            clip-rule="evenodd"
-          />
-        </svg>
+          v-if="searchFilter"
+        />
+        <SearchIcon
+          class="w-5 h-5 text-gray-400 fill-current dark:text-gray-600"
+          v-else
+        />
       </button>
     </div>
     <transition name="dropdown-fade">
@@ -61,10 +51,11 @@ import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import Result from './components/Result.vue'
+import { SearchIcon, XIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'Search',
-  components: { AppInput, Result },
+  components: { AppInput, Result, SearchIcon, XIcon },
   data () {
     return {
       open: false,

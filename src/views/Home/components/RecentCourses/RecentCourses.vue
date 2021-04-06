@@ -8,28 +8,14 @@
           @click="previous"
           :class="{ 'btn--disabled': disablePrevious }"
         >
-          <!-- Heroicon name: chevron-left -->
-          <svg class="btn__icon" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fill-rule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <ChevronLeftIcon class="btn__icon" />
         </button>
-        <!-- Heroicon name: chevron-right -->
         <button
           class="btn"
           @click="next"
           :class="{ 'btn--disabled': disableNext }"
         >
-          <svg class="btn__icon" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <ChevronRightIcon class="btn__icon" />
         </button>
       </div>
     </div>
@@ -54,6 +40,7 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import Fallback from './components/fallback/Fallback.vue'
 import Default from './components/Default.vue'
 import userMixin from '@/mixins/user'
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/vue/solid'
 
 const scroll = (by: number): void => {
   const el = document.getElementById('recent-courses')
@@ -70,7 +57,9 @@ export default defineComponent({
   components: {
     AppLabel,
     Fallback,
-    Default
+    Default,
+    ChevronLeftIcon,
+    ChevronRightIcon
   },
   mixins: [userMixin],
   data () {

@@ -7,19 +7,7 @@
         class="block text-gray-500 focus:outline-none focus:ring-0"
         @click="$emit('toggle')"
       >
-        <svg
-          class="w-5 h-5 fill-current"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
+        <MenuIcon class="w-5 h-5 fill-current" />
       </button>
       <router-link to="/">
         <AppLogo class="ml-6 h-7" @click="$router.push('/')" />
@@ -39,10 +27,11 @@ import { defineComponent } from 'vue'
 import UserDropdown from './components/UserDropdown.vue'
 import Search from './components/Search/Search.vue'
 import AppLogo from '../AppLogo.vue'
+import { MenuIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'TheAppBar',
-  components: { UserDropdown, Search, AppLogo },
+  components: { UserDropdown, Search, AppLogo, MenuIcon },
   props: {
     isOpen: Boolean
   },

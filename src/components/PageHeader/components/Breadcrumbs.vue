@@ -8,19 +8,7 @@
       <router-link :to="link.url">
         {{ link.name }}
       </router-link>
-      <svg
-        class="w-4 h-4 ml-1 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
+      <ChevronRightIcon class="w-4 h-4 ml-1 stroke-current" />
     </li>
     <li>
       <router-link :to="lastLink.url" class="text-white">
@@ -33,9 +21,11 @@
 <script lang="ts">
 import { Link } from '@/types'
 import { defineComponent } from 'vue'
+import { ChevronRightIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'Breadcrumbs',
+  components: { ChevronRightIcon },
   props: {
     links: {
       type: Array,

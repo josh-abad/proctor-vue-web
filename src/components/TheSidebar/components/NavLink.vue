@@ -1,10 +1,10 @@
 <template>
   <router-link
     :to="url"
-    class="transition-colors ease-in-out duration-200 text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-white border-l-2 border-gray-800 border-opacity-0"
+    class="text-gray-600 transition-colors duration-200 ease-in-out border-l-2 border-gray-800 border-opacity-0 dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
     v-slot="{ isActive }"
   >
-    <div class="wrapper flex sm:hidden" @click="handleMobileNav">
+    <div class="flex wrapper sm:hidden" @click="handleMobileNav">
       <svg
         class="w-5 h-5"
         :class="isActive ? 'fill-current' : 'stroke-current'"
@@ -18,7 +18,7 @@
         <slot name="label"></slot>
       </div>
     </div>
-    <div class="wrapper hidden sm:flex">
+    <div class="hidden wrapper sm:flex">
       <svg
         class="w-5 h-5"
         :class="isActive ? 'fill-current' : 'stroke-current'"

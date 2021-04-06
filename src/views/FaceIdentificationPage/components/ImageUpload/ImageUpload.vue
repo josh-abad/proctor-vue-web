@@ -36,18 +36,7 @@
         <label
           class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer hover:text-white hover:bg-green-500 focus:outline-none"
         >
-          <!-- Heroicon name: photograph -->
-          <svg
-            class="w-5 h-5 fill-current"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <PhotographIcon class="w-5 h-5 fill-current" />
           <span class="text-sm">Select Image</span>
           <input
             type="file"
@@ -83,12 +72,13 @@ import Preview from './components/Preview.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import nProgress from 'nprogress'
 import { ALERT } from '@/store/action-types'
+import { PhotographIcon } from '@heroicons/vue/solid'
 
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'ImageUpload',
-  components: { AppButton, Feedback, Preview, AppLabel },
+  components: { AppButton, Feedback, Preview, AppLabel, PhotographIcon },
   mixins: [userMixin],
   data () {
     return {

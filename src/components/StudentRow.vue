@@ -23,19 +23,7 @@
       @click="menuOpen = !menuOpen"
       id="dropdown-toggle"
     >
-      <svg
-        class="w-6 h-6 pointer-events-none fill-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-        />
-      </svg>
+      <DotsVerticalIcon class="w-6 h-6 pointer-events-none fill-current" />
       <MenuDropdown
         class="mr-8 -mt-6"
         v-show="menuOpen"
@@ -99,6 +87,7 @@ import AppButton from './ui/AppButton.vue'
 import AppModal from './ui/AppModal.vue'
 import userMixin from '@/mixins/user'
 import courses from '@/services/courses'
+import { DotsVerticalIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -106,7 +95,8 @@ export default defineComponent({
     AppButton,
     AppModal,
     MenuDropdown,
-    MenuDropdownItem
+    MenuDropdownItem,
+    DotsVerticalIcon
   },
   mixins: [userMixin],
   props: {
