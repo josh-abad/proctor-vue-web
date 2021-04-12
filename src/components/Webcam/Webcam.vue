@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex items-center">
-      <EyeIcon
+      <DetectionIndicator
         :on="cameraOn"
         :detected="faceSeen"
         :identified="faceIdentified"
@@ -53,7 +53,7 @@ import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
 import userMixin from '@/mixins/user'
-import EyeIcon from './components/EyeIcon.vue'
+import DetectionIndicator from './components/DetectionIndicator.vue'
 import { WebcamTimer } from '@/types'
 
 const USE_TINY_MODEL = true
@@ -61,7 +61,7 @@ const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'Webcam',
-  components: { EyeIcon },
+  components: { DetectionIndicator },
   mixins: [userMixin],
   props: {
     hideVideo: {

@@ -16,7 +16,7 @@ import { defineComponent } from 'vue'
 import { EyeIcon, EyeOffIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
-  name: 'EyeIcon',
+  name: 'DetectionIndicator',
   components: { EyeIcon, EyeOffIcon },
   props: {
     on: {
