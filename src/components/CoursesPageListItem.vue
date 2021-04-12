@@ -12,7 +12,6 @@
       </div>
       <div class="ml-3 sm:flex sm:justify-between sm:w-full">
         <div>
-          <AppLabel emphasis>2023 Online Class</AppLabel>
           <router-link :to="`/courses/${course.id}`" class="font-semibold">
             {{ course.name }}
           </router-link>
@@ -28,12 +27,11 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import AppLabel from '@/components/ui/AppLabel.vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 
 export default defineComponent({
   name: 'CourseListItem',
-  components: { ProgressBar, AppLabel },
+  components: { ProgressBar },
   props: {
     course: {
       type: Object as () => Course,
