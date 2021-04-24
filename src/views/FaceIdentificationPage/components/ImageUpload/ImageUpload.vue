@@ -70,7 +70,6 @@ import { TinyFaceDetectorOptions } from 'face-api.js'
 import Feedback from './components/Feedback.vue'
 import Preview from './components/Preview.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import nProgress from 'nprogress'
 import { ALERT } from '@/store/action-types'
 import { PhotographIcon } from '@heroicons/vue/solid'
 
@@ -104,9 +103,7 @@ export default defineComponent({
       const data = new FormData()
       data.append('image', this.image)
 
-      nProgress.start()
       const updatedUser = await usersService.uploadImage(id, data)
-      nProgress.done()
       this.$store.commit(SET_USER, { token, ...updatedUser })
       this.previewImage = null
       this.image = null

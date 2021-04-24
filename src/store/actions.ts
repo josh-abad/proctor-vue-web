@@ -8,29 +8,22 @@ import loginService from '@/services/login'
 import usersService from '@/services/users'
 import verifyService from '@/services/verify'
 import router from '@/router'
-import nProgress from 'nprogress'
-
 import cookie from '@/utils/cookie'
 
 export default {
   async [SIGN_UP] ({ dispatch }, credentials: UserCredentials): Promise<void> {
     try {
-      nProgress.start()
       await usersService.create(credentials)
       router.push('/')
-      nProgress.done()
     } catch (error) {
-      nProgress.done()
       dispatch(ALERT, error.response.data.error)
     }
   },
   async [LOG_IN] ({ commit, dispatch }, { email, password }): Promise<void> {
     try {
-      nProgress.start()
       const user = await loginService.login({ email, password })
       commit(SET_USER, user)
       router.push((router.currentRoute.value.query.redirect as string) || '/')
-      nProgress.done()
       cookie.set('loggedAppUser', JSON.stringify(user))
       examAttemptsService.setToken(user.token)
       if (user.role !== 'student') {
@@ -44,7 +37,6 @@ export default {
         dispatch(LOAD_EXAM_RESULTS)
       ])
     } catch (error) {
-      nProgress.done()
       dispatch(ALERT, 'Incorrect email or password')
     }
   },
@@ -57,12 +49,9 @@ export default {
   },
   async [VERIFY] ({ commit, dispatch }, token: string): Promise<void> {
     try {
-      nProgress.start()
       const verifiedUser = await verifyService.verify(token)
-      nProgress.done()
       commit(SET_VERIFIED, verifiedUser.id)
     } catch (error) {
-      nProgress.done()
       dispatch(ALERT, error.response.data.error)
     }
   }

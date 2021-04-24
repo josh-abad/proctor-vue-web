@@ -141,46 +141,6 @@ export default defineComponent({
   @apply bg-gray-400 dark:bg-gray-600;
 }
 
-#nprogress {
-  @apply pointer-events-none;
-}
-
-#nprogress .bar {
-  @apply bg-gradient-to-r from-green-700 to-green-500 fixed z-50 top-0 left-0 w-full h-1;
-}
-
-#nprogress .peg {
-  @apply block absolute right-0 h-full;
-  width: 100px;
-  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
-  opacity: 1;
-
-  -webkit-transform: rotate(3deg) translate(0px, -4px);
-  -ms-transform: rotate(3deg) translate(0px, -4px);
-  transform: rotate(3deg) translate(0px, -4px);
-}
-
-#nprogress .spinner {
-  @apply block fixed z-50 top-4 right-4;
-}
-
-#nprogress .spinner-icon {
-  @apply w-5 h-5 box-border animate-spin;
-  border: solid 2px transparent;
-  border-top-color: #29d;
-  border-left-color: #29d;
-  border-radius: 50%;
-}
-
-.nprogress-custom-parent {
-  @apply overflow-hidden relative;
-}
-
-.nprogress-custom-parent #nprogress .spinner,
-.nprogress-custom-parent #nprogress .bar {
-  @apply absolute;
-}
-
 .dropdown-fade-enter-active {
   @apply transition ease-out duration-100 transform;
 }
