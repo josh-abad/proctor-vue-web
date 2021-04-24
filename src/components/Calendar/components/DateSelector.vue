@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import dayjs, { Dayjs } from 'dayjs'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
@@ -33,7 +33,7 @@ export default defineComponent({
     },
 
     selectedDate: {
-      type: Object as () => Dayjs,
+      type: Object as PropType<Dayjs>,
       required: true
     }
   },

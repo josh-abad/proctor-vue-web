@@ -80,7 +80,7 @@ import usersService from '@/services/users'
 import { ALERT } from '@/store/action-types'
 import { REMOVE_STUDENT, REMOVE_USER } from '@/store/mutation-types'
 import { User } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
 import MenuDropdownItem from './MenuDropdownItem.vue'
 import AppButton from './ui/AppButton.vue'
@@ -101,7 +101,7 @@ export default defineComponent({
   mixins: [userMixin],
   props: {
     student: {
-      type: Object as () => User,
+      type: Object as PropType<User>,
       required: true
     },
 

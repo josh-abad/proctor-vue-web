@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Course } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
   components: { ProgressBar },
   props: {
     course: {
-      type: Object as () => Course,
+      type: Object as PropType<Course>,
       required: true
     }
   },

@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Attempt } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import userMixin from '@/mixins/user'
@@ -38,7 +38,7 @@ export default defineComponent({
   mixins: [userMixin],
   props: {
     attempt: {
-      type: Object as () => Attempt,
+      type: Object as PropType<Attempt>,
       required: true
     },
 

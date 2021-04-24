@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import DateSelector from './components/DateSelector.vue'
 import DateIndicator from './components/DateIndicator.vue'
 import Weekdays from './components/Weekdays.vue'
@@ -58,7 +58,7 @@ export default defineComponent({
     },
 
     events: {
-      type: Array as () => AppEvent[],
+      type: Array as PropType<AppEvent[]>,
       default: () => {
         return []
       }

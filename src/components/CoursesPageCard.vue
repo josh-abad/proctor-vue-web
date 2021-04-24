@@ -19,13 +19,13 @@
 
 <script lang="ts">
 import { Course } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'CourseCard',
   props: {
     course: {
-      type: Object as () => Course,
+      type: Object as PropType<Course>,
       required: true
     }
   }

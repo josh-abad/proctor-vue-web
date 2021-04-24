@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { AppEvent } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import EventsPanelItem from './components/EventsPanelItem.vue'
 import { XIcon } from '@heroicons/vue/solid'
@@ -32,7 +32,7 @@ export default defineComponent({
     },
 
     events: {
-      type: Array as () => AppEvent[],
+      type: Array as PropType<AppEvent[]>,
       required: true
     }
   },

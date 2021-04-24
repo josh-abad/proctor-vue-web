@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { AppEvent } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { DocumentTextIcon, LockClosedIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
@@ -38,7 +38,7 @@ export default defineComponent({
   components: { DocumentTextIcon, LockClosedIcon },
   props: {
     event: {
-      type: Object as () => AppEvent,
+      type: Object as PropType<AppEvent>,
       required: true
     }
   }

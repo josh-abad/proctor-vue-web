@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Exam } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import examMixin from '@/mixins/exam'
 import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import { DocumentTextIcon, LockClosedIcon } from '@heroicons/vue/solid'
@@ -28,7 +28,7 @@ export default defineComponent({
   mixins: [examMixin],
   props: {
     exam: {
-      type: Object as () => Exam,
+      type: Object as PropType<Exam>,
       required: true
     }
   },

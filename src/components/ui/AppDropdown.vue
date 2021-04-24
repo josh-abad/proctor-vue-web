@@ -76,7 +76,7 @@
 
 <script lang="ts">
 import { Option } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
@@ -89,7 +89,7 @@ export default defineComponent({
     },
 
     options: {
-      type: Array as () => Option[],
+      type: Array as PropType<Option[]>,
       required: true
     }
   },

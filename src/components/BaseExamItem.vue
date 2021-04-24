@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import { ExamItem } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import AppInput from './ui/AppInput.vue'
 
 export default defineComponent({
@@ -63,7 +63,7 @@ export default defineComponent({
   components: { AppInput },
   props: {
     examItem: {
-      type: Object as () => ExamItem,
+      type: Object as PropType<ExamItem>,
       required: true
     },
 

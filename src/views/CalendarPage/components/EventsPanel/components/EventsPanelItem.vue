@@ -24,7 +24,7 @@
 <script lang="ts">
 import { AppEvent } from '@/types'
 import dayjs from 'dayjs'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { LockOpenIcon, LockClosedIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
@@ -32,7 +32,7 @@ export default defineComponent({
   components: { LockOpenIcon, LockClosedIcon },
   props: {
     event: {
-      type: Object as () => AppEvent,
+      type: Object as PropType<AppEvent>,
       required: true
     }
   },
