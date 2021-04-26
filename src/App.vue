@@ -35,6 +35,7 @@ import { Attempt, AuthenticatedUser, Submission } from './types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import cookie from '@/utils/cookie'
+import useLocalStorage from '@/composables/use-local-storage'
 
 export default defineComponent({
   name: 'App',
@@ -43,9 +44,16 @@ export default defineComponent({
     TheSidebar,
     Snackbar
   },
-  data () {
+  setup () {
+    const isOpen = useLocalStorage('sidebarState', false)
+
+    const handleToggle = () => {
+      isOpen.value = !isOpen.value
+    }
+
     return {
-      isOpen: false
+      isOpen,
+      handleToggle
     }
   },
   computed: {
@@ -58,14 +66,9 @@ export default defineComponent({
   },
   async created () {
     this.initTheme()
-    this.initSidebarState()
     await this.initUser()
   },
   methods: {
-    handleToggle (): void {
-      this.isOpen = !this.isOpen
-      localStorage.setItem('sidebarState', JSON.stringify(this.isOpen))
-    },
     initTheme (): void {
       const body = document.querySelector('body')
       if (body) {
@@ -78,12 +81,6 @@ export default defineComponent({
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
         this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
       })
-    },
-    initSidebarState (): void {
-      const sidebarState = localStorage.getItem('sidebarState')
-      if (sidebarState) {
-        this.isOpen = JSON.parse(sidebarState)
-      }
     },
     async initUser (): Promise<void> {
       const loggedUserJSON = cookie.get('loggedAppUser')

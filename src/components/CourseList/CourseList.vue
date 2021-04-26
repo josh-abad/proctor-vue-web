@@ -24,6 +24,7 @@ import ViewOptions from './components/ViewOptions.vue'
 import Default from './components/Default.vue'
 import Fallback from './components/fallback/Fallback.vue'
 import userMixin from '@/mixins/user'
+import useLocalStorage from '@/composables/use-local-storage'
 
 export default defineComponent({
   name: 'CourseList',
@@ -34,20 +35,11 @@ export default defineComponent({
     Fallback
   },
   mixins: [userMixin],
-  data () {
+  setup () {
+    const viewMode = useLocalStorage<'card' | 'list'>('coursesPageViewState', 'list')
+
     return {
-      viewMode: 'list' as 'card' | 'list'
-    }
-  },
-  watch: {
-    viewMode (mode: 'card' | 'list') {
-      localStorage.setItem('coursesPageViewState', JSON.stringify(mode))
-    }
-  },
-  created () {
-    const coursesPageViewState = localStorage.getItem('coursesPageViewState')
-    if (coursesPageViewState) {
-      this.viewMode = JSON.parse(coursesPageViewState)
+      viewMode
     }
   }
 })
