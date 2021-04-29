@@ -5,14 +5,35 @@
       <ViewOptions class="mb-2" v-model="viewMode" />
     </div>
     <transition name="fade" mode="out-in">
-      <Suspense>
-        <template #default>
-          <Default :view-mode="viewMode" :user-id="user?.id ?? ''" />
-        </template>
-        <template #fallback>
-          <Fallback :viewMode="viewMode" />
-        </template>
-      </Suspense>
+      <div v-if="error">Uh oh, we couldn't load the course list.</div>
+      <div v-else-if="loading">
+        <section v-if="viewMode === 'card'" class="course-list--card-view">
+          <SkeletonCourseCard :key="i" v-for="i in 10" />
+        </section>
+        <section v-else-if="viewMode === 'list'" class="separator-y">
+          <SkeletonCourseListItem :key="i" v-for="i in 10" />
+        </section>
+      </div>
+      <div v-else>
+        <section v-if="!courses.length" class="course-list--empty">
+          You don't have any courses.
+        </section>
+        <section v-else-if="viewMode === 'card'" class="course-list--card-view">
+          <CoursesPageCard
+            class="w-full"
+            :course="course"
+            :key="course.id"
+            v-for="course in courses"
+          />
+        </section>
+        <section v-else-if="viewMode === 'list'" class="separator-y">
+          <CoursesPageListItem
+            :course="course"
+            :key="course.id"
+            v-for="course in courses"
+          />
+        </section>
+      </div>
     </transition>
   </div>
 </template>
@@ -21,25 +42,49 @@
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import ViewOptions from './components/ViewOptions.vue'
-import Default from './components/Default.vue'
-import Fallback from './components/fallback/Fallback.vue'
 import userMixin from '@/mixins/user'
+import usersService from '@/services/users'
 import useLocalStorage from '@/composables/use-local-storage'
+import useFetch from '@/composables/use-fetch'
+import { useStore } from 'vuex'
+import { SET_COURSES } from '@/store/mutation-types'
+import CoursesPageCard from '../CoursesPageCard.vue'
+import SkeletonCourseListItem from '../SkeletonCourseListItem.vue'
+import SkeletonCourseCard from '../SkeletonCourseCard.vue'
+import CoursesPageListItem from '../CoursesPageListItem.vue'
 
 export default defineComponent({
   name: 'CourseList',
   components: {
     AppLabel,
     ViewOptions,
-    Default,
-    Fallback
+    CoursesPageCard,
+    CoursesPageListItem,
+    SkeletonCourseCard,
+    SkeletonCourseListItem
   },
   mixins: [userMixin],
   setup () {
+    const store = useStore()
+
     const viewMode = useLocalStorage<'card' | 'list'>('coursesPageViewState', 'list')
 
+    const [
+      courses,
+      fetchRecentCourses,
+      loading,
+      error
+    ] = useFetch(() => usersService.getCourses(store.state.user?.id ?? ''), [])
+
+    fetchRecentCourses().then(() => {
+      store.commit(SET_COURSES, courses.value)
+    })
+
     return {
-      viewMode
+      viewMode,
+      courses,
+      loading,
+      error
     }
   }
 })
@@ -58,5 +103,13 @@ export default defineComponent({
 .fade-enter-from,
 .fade-leave-to {
   @apply opacity-0;
+}
+
+/* .course-list--empty {
+  @apply flex items-center justify-center h-40 my-3 text-xl font-semibold text-gray-500;
+} */
+
+.course-list--card-view {
+  @apply mt-8 grid grid-cols-1 gap-4 md:grid-cols-2;
 }
 </style>
