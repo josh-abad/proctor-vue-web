@@ -27,18 +27,36 @@ const store = createStore({
   }
 } as StoreOptions<RootState>)
 
-if (module.hot) {
-  module.hot.accept(['./mutations', './actions', './getters', './modules/alert', './modules/courses', './modules/exams', './modules/theme', './modules/users'], () => {
+if (import.meta.hot) {
+  import.meta.hot?.accept([
+    './mutations',
+    './actions',
+    './getters',
+    './modules/alert',
+    './modules/courses',
+    './modules/exams',
+    './modules/theme',
+    './modules/users'
+  ], ([
+    newMutations,
+    newActions,
+    newGetters,
+    newAlert,
+    newCourses,
+    newExams,
+    newTheme,
+    newUsers
+  ]) => {
     store.hotUpdate({
-      mutations: require('./mutations'),
-      actions: require('./actions'),
-      getters: require('./getters'),
+      mutations: newMutations,
+      actions: newActions,
+      getters: newGetters,
       modules: {
-        alert: require('./modules/alert'),
-        courses: require('./modules/courses'),
-        exams: require('./modules/exams'),
-        theme: require('./modules/theme'),
-        users: require('./modules/users')
+        alert: newAlert,
+        courses: newCourses,
+        exams: newExams,
+        theme: newTheme,
+        users: newUsers
       }
     })
   })
