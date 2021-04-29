@@ -1,7 +1,7 @@
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop" v-show="open">
-      <div class="modal" v-click-outside="{ handler: closeModal, middleware }">
+      <div class="modal" v-click-outside="handleClickOutside">
         <header class="modal-header">
           <slot name="header">Dialog Header</slot>
         </header>
@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts">
+import useClickOutside from '@/composables/use-click-outside'
 import { defineComponent } from 'vue'
 import AppButton from './AppButton.vue'
 
@@ -31,6 +32,22 @@ export default defineComponent({
     }
   },
   emits: ['close'],
+  setup (props, { emit }) {
+    const closeModal = () => {
+      emit('close')
+      const body = document.querySelector('body')
+      if (body) {
+        body.classList.remove('overflow-hidden')
+      }
+    }
+
+    const handleClickOutside = useClickOutside(closeModal, 'btn-open')
+
+    return {
+      closeModal,
+      handleClickOutside
+    }
+  },
   watch: {
     open (isOpen: boolean): void {
       if (isOpen) {
@@ -39,18 +56,6 @@ export default defineComponent({
           body.classList.add('overflow-hidden')
         }
       }
-    }
-  },
-  methods: {
-    closeModal (): void {
-      this.$emit('close')
-      const body = document.querySelector('body')
-      if (body) {
-        body.classList.remove('overflow-hidden')
-      }
-    },
-    middleware (e: Event): boolean {
-      return (e.target as Element).id !== 'btn-open'
     }
   }
 })

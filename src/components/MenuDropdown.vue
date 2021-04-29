@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import useClickOutside from '@/composables/use-click-outside'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -25,20 +26,13 @@ export default defineComponent({
     }
   },
   emits: ['click-outside'],
-  computed: {
-    handleClickOutside () {
-      return {
-        handler: () => this.clickOutsideHandler(),
-        middleware: (e: Event) => this.clickOutsideMiddleware(e)
-      }
-    }
-  },
-  methods: {
-    clickOutsideHandler (): void {
-      this.$emit('click-outside')
-    },
-    clickOutsideMiddleware (e: Event): boolean {
-      return (e.target as Element).id !== this.toggleId
+  setup (props, { emit }) {
+    const handleClickOutside = useClickOutside(() => {
+      emit('click-outside')
+    }, props.toggleId)
+
+    return {
+      handleClickOutside
     }
   }
 })

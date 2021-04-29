@@ -6,10 +6,7 @@
         placeholder="Search courses"
         v-model="searchFilter"
         @focus="open = true"
-        v-click-outside="{
-          handler: handleClose,
-          middleware: clickOutsideMiddleware,
-        }"
+        v-click-outside="handleClickOutside"
         class="text-gray-900 bg-gray-900 border-0 shadow-none w-80 dark:text-white dark:bg-white bg-opacity-10 dark:bg-opacity-5"
       />
       <button
@@ -48,18 +45,30 @@
 
 <script lang="ts">
 import { Course } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import Result from './components/Result.vue'
 import { SearchIcon, XIcon } from '@heroicons/vue/solid'
+import useClickOutside from '@/composables/use-click-outside'
 
 export default defineComponent({
   name: 'Search',
   components: { AppInput, Result, SearchIcon, XIcon },
   data () {
     return {
-      open: false,
       searchFilter: ''
+    }
+  },
+  setup () {
+    const open = ref(false)
+
+    const handleClickOutside = useClickOutside(() => {
+      open.value = false
+    }, 'results')
+
+    return {
+      open,
+      handleClickOutside
     }
   },
   computed: {
@@ -68,14 +77,6 @@ export default defineComponent({
     },
     filteredCourses (): Course[] {
       return this.searchFilter ? this.courses.filter(course => course.name.toLowerCase().includes(this.searchFilter.toLowerCase())) : []
-    }
-  },
-  methods: {
-    handleClose (): void {
-      this.open = false
-    },
-    clickOutsideMiddleware (e: Event): boolean {
-      return (e.target as Element).id !== 'results'
     }
   }
 })
