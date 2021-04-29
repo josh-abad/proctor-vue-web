@@ -2,34 +2,17 @@
   <router-link
     :to="url"
     class="text-gray-600 transition-colors duration-200 ease-in-out border-l-2 border-gray-800 border-opacity-0 dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
-    v-slot="{ isActive }"
   >
     <div class="flex wrapper sm:hidden" @click="handleMobileNav">
-      <svg
-        class="w-5 h-5"
-        :class="isActive ? 'fill-current' : 'stroke-current'"
-        :fill="isActive ? 'currentColor' : 'none'"
-        :viewBox="`0 0 ${isActive ? '20 20' : '24 24'}`"
-      >
-        <slot v-if="isActive" name="icon-selected"></slot>
-        <slot v-else name="icon"></slot>
-      </svg>
+      <slot name="icon" />
       <div class="ml-6">
-        <slot name="label"></slot>
+        <slot name="label" />
       </div>
     </div>
     <div class="hidden wrapper sm:flex">
-      <svg
-        class="w-5 h-5"
-        :class="isActive ? 'fill-current' : 'stroke-current'"
-        :fill="isActive ? 'currentColor' : 'none'"
-        :viewBox="`0 0 ${isActive ? '20 20' : '24 24'}`"
-      >
-        <slot v-if="isActive" name="icon-selected"></slot>
-        <slot v-else name="icon"></slot>
-      </svg>
+      <slot name="icon" />
       <div class="ml-6">
-        <slot name="label"></slot>
+        <slot name="label" />
       </div>
     </div>
   </router-link>
