@@ -28,20 +28,16 @@
       <div class="timer">
         <h3 class="timer-header">Detection Timer</h3>
         <div class="timer-remaining">
-          Remaining: {{ detectionTimer?.remaining ?? 0 }} seconds
+          Remaining: {{ remainingDetectionTime }} seconds
         </div>
-        <div class="timer-status">
-          Status: {{ detectionTimer?.status ?? "stopped" }}
-        </div>
+        <div class="timer-status">Status: {{ detectionTimerStatus }}</div>
       </div>
       <div class="timer">
         <h3 class="timer-header">Identification Timer</h3>
         <div class="timer-remaining">
-          Remaining: {{ identificationTimer?.remaining ?? 0 }} seconds
+          Remaining: {{ remainingIdentificationTime }} seconds
         </div>
-        <div class="timer-status">
-          Status: {{ identificationTimer?.status ?? "stopped" }}
-        </div>
+        <div class="timer-status">Status: {{ identificationTimerStatus }}</div>
       </div>
     </div>
   </div>
@@ -54,7 +50,7 @@ import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
 import userMixin from '@/mixins/user'
 import DetectionIndicator from './components/DetectionIndicator.vue'
-import { WebcamTimer } from '@/types'
+import useTimer from '@/composables/use-timer'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
@@ -69,7 +65,7 @@ export default defineComponent({
       default: false
     },
 
-    detectionDuration: {
+    duration: {
       type: Number,
       default: 5
     },
@@ -80,15 +76,47 @@ export default defineComponent({
     }
   },
   emits: ['no-face-seen', 'unidentified-face'],
+  setup (props, { emit }) {
+    const {
+      status: detectionTimerStatus,
+      startTimer: startDetectionTimer,
+      stopTimer: stopDetectionTimer,
+      remainingTime: remainingDetectionTime
+    } = useTimer(() => {
+      emit('no-face-seen')
+      startDetectionTimer()
+    }, props.duration * 1000)
+
+    const {
+      status: identificationTimerStatus,
+      startTimer: startIdentificationTimer,
+      stopTimer: stopIdentificationTimer,
+      remainingTime: remainingIdentificationTime,
+      pauseTimer: pauseIdentificationTimer
+    } = useTimer(() => {
+      emit('unidentified-face')
+      startIdentificationTimer()
+    }, props.duration * 1000)
+
+    return {
+      detectionTimerStatus,
+      startDetectionTimer,
+      stopDetectionTimer,
+      remainingDetectionTime,
+      remainingIdentificationTime,
+      identificationTimerStatus,
+      startIdentificationTimer,
+      stopIdentificationTimer,
+      pauseIdentificationTimer
+    }
+  },
   data () {
     return {
       faceSeen: false,
       multipleFacesSeen: 0,
       usersSeen: [] as string[],
       video: {} as HTMLMediaElement,
-      cameraOn: false,
-      detectionTimer: null as WebcamTimer | null,
-      identificationTimer: null as WebcamTimer | null
+      cameraOn: false
     }
   },
   computed: {
@@ -98,40 +126,29 @@ export default defineComponent({
 
     faceIdentified (): boolean {
       return this.usersSeen.length === 1 && this.usersSeen[0].includes(this.userName)
-    },
-
-    duration (): number {
-      return this.detectionDuration * 1000
     }
   },
   watch: {
     faceSeen (isFaceSeen: boolean): void {
-      if (this.detectionTimer) {
-        if (isFaceSeen) {
-          this.detectionTimer.stop()
-          if (this.identificationTimer?.status === 'paused') {
-            this.identificationTimer && this.identificationTimer.resume()
-          }
-        } else if (['stopped', 'paused'].includes(this.detectionTimer.status)) {
-          this.detectionTimer.start()
-          this.identificationTimer && this.identificationTimer.pause()
+      if (isFaceSeen) {
+        this.stopDetectionTimer()
+        if (this.identificationTimerStatus === 'paused') {
+          this.startIdentificationTimer()
         }
+      } else if (['stopped', 'paused'].includes(this.detectionTimerStatus)) {
+        this.startDetectionTimer()
+        this.pauseIdentificationTimer()
       }
     },
     faceIdentified (isFaceIdentified: boolean): void {
-      if (this.identificationTimer) {
-        if (isFaceIdentified) {
-          this.identificationTimer.stop()
-        } else if (['stopped', 'paused'].includes(this.identificationTimer.status) && this.detectionTimer?.status === 'stopped') {
-          this.identificationTimer.start()
-        }
+      if (isFaceIdentified) {
+        this.stopIdentificationTimer()
+      } else if (['stopped', 'paused'].includes(this.identificationTimerStatus) && this.detectionTimerStatus === 'stopped') {
+        this.startIdentificationTimer()
       }
     }
   },
   async mounted () {
-    this.detectionTimer = new WebcamTimer(this.detectionTimeout, this.duration)
-    this.identificationTimer = new WebcamTimer(this.identificationTimeout, this.duration)
-
     this.video = this.$refs.video as HTMLMediaElement
 
     await this.loadModels()
@@ -142,22 +159,14 @@ export default defineComponent({
     this.video.addEventListener('play', this.startDetection(faceMatcher))
 
     await this.startVideo()
-    this.detectionTimer.start()
+    this.startDetectionTimer()
   },
   unmounted () {
     this.stopVideo()
-    this.detectionTimer && this.detectionTimer.stop()
-    this.identificationTimer && this.identificationTimer.stop()
+    this.stopDetectionTimer()
+    this.stopIdentificationTimer()
   },
   methods: {
-    detectionTimeout (): void {
-      this.$emit('no-face-seen')
-      this.detectionTimer && this.detectionTimer.start()
-    },
-    identificationTimeout (): void {
-      this.$emit('unidentified-face')
-      this.identificationTimer && this.identificationTimer.start()
-    },
     async loadModels (): Promise<void> {
       await Promise.all([
         faceapi.loadTinyFaceDetectorModel(MODELS_URL),

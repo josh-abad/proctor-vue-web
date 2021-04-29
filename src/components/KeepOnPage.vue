@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { WebcamTimer } from '@/types'
+import useTimer from '@/composables/use-timer'
 
 export default defineComponent({
   name: 'KeepOnPage',
@@ -16,14 +16,15 @@ export default defineComponent({
     'leave-timeout',
     'unload'
   ],
-  data () {
-    const timer = new WebcamTimer(() => {
-      this.$emit('leave-timeout')
-      timer.start()
+  setup (_props, { emit }) {
+    const { startTimer, stopTimer } = useTimer(() => {
+      emit('leave-attempt')
+      startTimer()
     }, 5000)
 
     return {
-      timer
+      startTimer,
+      stopTimer
     }
   },
   beforeRouteLeave (to, from, next): void {
@@ -53,10 +54,10 @@ export default defineComponent({
     },
     handleBlur (): void {
       this.$emit('leave-focus')
-      this.timer.start()
+      this.startTimer()
     },
     handleFocus (): void {
-      this.timer.stop()
+      this.stopTimer()
     },
     clearListeners (): void {
       window.removeEventListener('beforeunload', this.handleBeforeUnload)

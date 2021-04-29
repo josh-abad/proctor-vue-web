@@ -7,7 +7,7 @@
         <Webcam
           @no-face-seen="handleNoFaceSeen"
           @unidentified-face="handleUnidentifiedFace"
-          :detection-duration="10"
+          :duration="10"
           :debug="debug"
           :hide-video="!video"
         />
