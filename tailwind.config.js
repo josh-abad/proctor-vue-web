@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const colors = require('tailwindcss/colors')
 const plugin = require('tailwindcss/plugin')
 const defaultTheme = require('tailwindcss/defaultTheme')
@@ -6,7 +5,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   mode: 'jit',
   purge: [
-    './public/index.html',
+    './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}'
   ],
   darkMode: 'class', // or 'media' or 'class'
