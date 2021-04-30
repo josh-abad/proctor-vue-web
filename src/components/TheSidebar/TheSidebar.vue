@@ -8,13 +8,19 @@
         <NavLink url="/" @mobile-nav="$emit('close-sidebar')">
           <template #label> Home </template>
           <template #icon>
-            <HomeIcon class="w-5 h-5" />
+            <HomeIconOutline class="w-5 h-5" />
+          </template>
+          <template #icon-selected>
+            <HomeIconSolid class="w-5 h-5" />
           </template>
         </NavLink>
         <NavLink url="/courses" @mobile-nav="$emit('close-sidebar')">
           <template #label> Courses </template>
           <template #icon>
-            <BookOpenIcon class="w-5 h-5" />
+            <BookOpenIconOutline class="w-5 h-5" />
+          </template>
+          <template #icon-selected>
+            <BookOpenIconSolid class="w-5 h-5" />
           </template>
         </NavLink>
         <NavLink
@@ -24,13 +30,19 @@
         >
           <template #label> Students </template>
           <template #icon>
-            <UsersIcon class="w-5 h-5" />
+            <UsersIconOutline class="w-5 h-5" />
+          </template>
+          <template #icon-selected>
+            <UsersIconSolid class="w-5 h-5" />
           </template>
         </NavLink>
         <NavLink url="/calendar" @mobile-nav="$emit('close-sidebar')">
           <template #label> Calendar </template>
           <template #icon>
-            <CalendarIcon class="w-5 h-5" />
+            <CalendarIconOutline class="w-5 h-5" />
+          </template>
+          <template #icon-selected>
+            <CalendarIconSolid class="w-5 h-5" />
           </template>
         </NavLink>
       </nav>
@@ -43,20 +55,30 @@ import { defineComponent } from 'vue'
 import userMixin from '@/mixins/user'
 import NavLink from './components/NavLink.vue'
 import {
-  CalendarIcon,
-  UsersIcon,
-  BookOpenIcon,
-  HomeIcon
+  CalendarIcon as CalendarIconOutline,
+  UsersIcon as UsersIconOutline,
+  BookOpenIcon as BookOpenIconOutline,
+  HomeIcon as HomeIconOutline
 } from '@heroicons/vue/outline'
+import {
+  CalendarIcon as CalendarIconSolid,
+  UsersIcon as UsersIconSolid,
+  BookOpenIcon as BookOpenIconSolid,
+  HomeIcon as HomeIconSolid
+} from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'TheSidebar',
   components: {
     NavLink,
-    CalendarIcon,
-    UsersIcon,
-    BookOpenIcon,
-    HomeIcon
+    CalendarIconOutline,
+    UsersIconOutline,
+    BookOpenIconOutline,
+    HomeIconOutline,
+    CalendarIconSolid,
+    UsersIconSolid,
+    BookOpenIconSolid,
+    HomeIconSolid
   },
   mixins: [userMixin],
   props: {
