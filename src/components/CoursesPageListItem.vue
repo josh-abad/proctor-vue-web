@@ -40,7 +40,10 @@ export default defineComponent({
   },
   computed: {
     percentage (): number {
-      return this.$store.getters.courseCompletedPercentage(this.course.id, this.$store.state.user?.id)
+      if (!this.$store.state.user) {
+        return 0
+      }
+      return this.$store.getters.courseCompletedPercentage(this.course.id, this.$store.state.user.id)
     }
   }
 })

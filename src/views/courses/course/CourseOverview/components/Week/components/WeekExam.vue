@@ -37,6 +37,9 @@ export default defineComponent({
       return this.examLocked(this.exam) !== 0
     },
     taken (): boolean {
+      if (!this.$store.state.user) {
+        return false
+      }
       return this.$store.getters.examTaken(this.exam.id, this.$store.state.user.id)
     }
   }

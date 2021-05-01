@@ -22,7 +22,7 @@ export default defineComponent({
   components: { XIcon },
   computed: {
     message (): string {
-      return this.$store.state.alert.message
+      return this.$store.state.message
     }
   },
   methods: {

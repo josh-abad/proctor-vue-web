@@ -130,30 +130,3 @@ export interface AppEvent {
 }
 
 export type Theme = 'dark' | 'light' | null
-
-export type RootState = {
-  user: AuthenticatedUser | null;
-}
-
-export type UsersState = {
-  users: User[];
-}
-
-export type CoursesState = {
-  courses: Course[];
-}
-
-export type ExamsState = {
-  exams: Exam[];
-  attempts: Attempt[];
-  examResults: ExamResult[];
-  activeExam: string | null;
-}
-
-export type ThemeState = {
-  theme: Theme;
-}
-
-export type AlertState = {
-  message: string;
-}

@@ -31,7 +31,7 @@ import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, SUBMIT_EXAM } from './store/action-types'
 import { SET_ACTIVE_EXAM, SET_THEME, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser, Submission } from './types'
+import { Attempt, AuthenticatedUser, Submission, Theme } from './types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import cookie from '@/utils/cookie'
@@ -77,7 +77,9 @@ export default defineComponent({
       }
 
       const theme = localStorage.getItem('theme')
-      this.$store.commit(SET_THEME, theme)
+      if (theme && ['dark', 'light', 'system-dark', 'system-light'].includes(theme)) {
+        this.$store.commit(SET_THEME, theme as Theme)
+      }
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
         this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
       })

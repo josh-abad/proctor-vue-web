@@ -29,7 +29,7 @@ import useFetch from '@/composables/use-fetch'
 import users from '@/services/users'
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'RecentCourses',

@@ -107,7 +107,7 @@ export default defineComponent({
   },
   computed: {
     theme (): Theme {
-      return this.$store.state.theme.theme
+      return this.$store.state.theme
     }
   },
   watch: {

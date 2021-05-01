@@ -150,7 +150,7 @@ export default defineComponent({
       return this.$store.getters.attemptByID(this.attemptId)
     },
     activeExam (): string | null {
-      return this.$store.state.exams.activeExam
+      return this.$store.state.activeExam
     },
     warningsExceeded (): boolean {
       return this.warnings === this.maxWarnings
