@@ -114,7 +114,6 @@ import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
-import examMixin from '@/mixins/exam'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -123,6 +122,7 @@ import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import { ClockIcon, ExclamationCircleIcon } from '@heroicons/vue/solid'
+import { isExamLocked } from '@/utils/helper'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -142,7 +142,6 @@ export default defineComponent({
     ClockIcon,
     ExclamationCircleIcon
   },
-  mixins: [examMixin],
   props: {
     courseId: {
       type: String,
@@ -185,7 +184,7 @@ export default defineComponent({
       return this.$store.getters.examByID(this.examId)
     },
     locked (): number {
-      return this.exam ? this.examLocked(this.exam) : 0
+      return this.exam ? isExamLocked(this.exam) : 0
     },
     attemptsByUser (): Attempt[] {
       if (!this.$store.state.user) {

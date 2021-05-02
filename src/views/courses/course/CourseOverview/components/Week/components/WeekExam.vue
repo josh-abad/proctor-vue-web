@@ -18,14 +18,13 @@
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
-import examMixin from '@/mixins/exam'
 import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import { DocumentTextIcon, LockClosedIcon } from '@heroicons/vue/solid'
+import { isExamLocked } from '@/utils/helper'
 
 export default defineComponent({
   name: 'WeekExam',
   components: { SVGCheckbox, DocumentTextIcon, LockClosedIcon },
-  mixins: [examMixin],
   props: {
     exam: {
       type: Object as PropType<Exam>,
@@ -34,7 +33,7 @@ export default defineComponent({
   },
   computed: {
     locked (): boolean {
-      return this.examLocked(this.exam) !== 0
+      return isExamLocked(this.exam) !== 0
     },
     taken (): boolean {
       if (!this.$store.state.user) {
