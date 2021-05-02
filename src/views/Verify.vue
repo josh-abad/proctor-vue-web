@@ -46,7 +46,7 @@ export default defineComponent({
       required: true
     }
   },
-  async mounted (): Promise<void> {
+  async mounted () {
     const token = Buffer.from(this.base64Token, 'base64').toString('binary')
     try {
       const verifiedUser = await verifyService.verify(token)

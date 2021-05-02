@@ -49,7 +49,7 @@ export default defineComponent({
     }
   },
   watch: {
-    open (isOpen: boolean): void {
+    open (isOpen: boolean) {
       if (isOpen) {
         const body = document.querySelector('body')
         if (body) {

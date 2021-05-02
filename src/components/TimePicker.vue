@@ -34,11 +34,11 @@ export default defineComponent({
     }
   },
   watch: {
-    seconds (newValue: number): void {
+    seconds (newValue: number) {
       this.$emit('update:modelValue', newValue)
     }
   },
-  created (): void {
+  created () {
     if (this.modelValue !== 0) {
       this.hour = Math.floor(this.modelValue / 3600)
       this.minute = Math.floor(this.modelValue % 3600 / 60)

@@ -123,7 +123,7 @@ export default defineComponent({
   },
   emits: ['update:question', 'update:answer', 'update:questionType', 'update:choices', 'discard', 'add-choice', 'add-question'],
   watch: {
-    questionType (newValue: string): void {
+    questionType (newValue: string) {
       if (newValue === 'multiple answers') {
         this.$emit('update:answer', [])
       } else {

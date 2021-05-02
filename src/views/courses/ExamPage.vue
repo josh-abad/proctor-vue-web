@@ -180,7 +180,7 @@ export default defineComponent({
       this.warnings++
       this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
     },
-    handleUnidentifiedFace (): void {
+    handleUnidentifiedFace () {
       this.warnings++
       this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
     },
@@ -196,7 +196,7 @@ export default defineComponent({
     handleLeaveAttempt () {
       this.$store.dispatch(ALERT, `You cannot leave until you have ${this.maxWarnings} warnings`)
     },
-    async handleSubmit (): Promise<void> {
+    async handleSubmit () {
       this.submitted = true
       await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
       this.$store.commit(SET_ACTIVE_EXAM, null)

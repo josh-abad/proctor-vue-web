@@ -27,7 +27,7 @@ export default defineComponent({
       stopTimer
     }
   },
-  beforeRouteLeave (to, from, next): void {
+  beforeRouteLeave (to, from, next) {
     if (this.preventLeave) {
       this.$emit('leave-attempt')
     } else {

@@ -127,7 +127,7 @@ export default defineComponent({
     }
   },
   watch: {
-    faceSeen (isFaceSeen: boolean): void {
+    faceSeen (isFaceSeen: boolean) {
       if (isFaceSeen) {
         this.stopDetectionTimer()
         if (this.identificationTimerStatus === 'paused') {
@@ -138,7 +138,7 @@ export default defineComponent({
         this.pauseIdentificationTimer()
       }
     },
-    faceIdentified (isFaceIdentified: boolean): void {
+    faceIdentified (isFaceIdentified: boolean) {
       if (isFaceIdentified) {
         this.stopIdentificationTimer()
       } else if (['stopped', 'paused'].includes(this.identificationTimerStatus) && this.detectionTimerStatus === 'stopped') {

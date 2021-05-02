@@ -207,7 +207,7 @@ export default defineComponent({
     removeExamItem (index: number) {
       this.examItems = this.examItems.filter((item, i) => i !== index)
     },
-    async saveExam (): Promise<void> {
+    async saveExam () {
       try {
         const newExam: NewExam = {
           label: this.examName,
