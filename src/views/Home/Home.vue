@@ -18,7 +18,6 @@ import Timeline from './components/Timeline/Timeline.vue'
 import RecentActivity from './components/RecentActivity.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
-import userMixin from '@/mixins/user'
 
 export default defineComponent({
   name: 'Home',
