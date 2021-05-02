@@ -5,7 +5,6 @@
       <TheAppBar
         v-if="isLoggedIn"
         @toggle="handleToggle"
-        :is-open="sidebarOpen"
       />
       <div>
         <TheSidebar :is-open="sidebarOpen" @close-sidebar="isOpen = false" />
