@@ -110,7 +110,7 @@ export default defineComponent({
     this.$emit('update:modelValue', (this.options[this.selectedIndex] as Option).value)
   },
   methods: {
-    handleChange (i: number): void {
+    handleChange (i: number) {
       this.selectedIndex = i
       this.$emit('update:modelValue', (this.options[this.selectedIndex] as Option).value)
     }

@@ -36,7 +36,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleToggle (): void {
+    handleToggle () {
       if (!this.staticCheck) {
         this.$emit('update:modelValue', !this.modelValue)
       }

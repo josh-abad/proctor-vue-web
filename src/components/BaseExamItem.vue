@@ -83,7 +83,7 @@ export default defineComponent({
     }
   },
   methods: {
-    getNextAlphabetLetter (n: number): string {
+    getNextAlphabetLetter (n: number) {
       return String.fromCharCode(this.alphabetStart.charCodeAt(0) + n)
     }
   }

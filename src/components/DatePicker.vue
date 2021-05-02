@@ -50,10 +50,10 @@ export default defineComponent({
     }
   },
   methods: {
-    closeModal (): void {
+    closeModal () {
       this.isOpen = false
     },
-    handleUpdate (date: string): void {
+    handleUpdate (date: string) {
       this.$emit('update:modelValue', date)
     }
   }

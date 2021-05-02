@@ -45,7 +45,7 @@ export default defineComponent({
     this.events = await usersService.getUpcomingExams(id)
   },
   methods: {
-    dateSame (d: Date): boolean {
+    dateSame (d: Date) {
       return this.value === dayjs(d).format('YYYY-MM-DD')
     }
   }

@@ -48,11 +48,11 @@ export default defineComponent({
     }
   },
   methods: {
-    handleNoFaceSeen (): void {
+    handleNoFaceSeen () {
       this.warnings++
       this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
     },
-    handleUnidentifiedFace (): void {
+    handleUnidentifiedFace () {
       this.warnings++
       this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
     }

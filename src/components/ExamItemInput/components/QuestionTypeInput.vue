@@ -42,7 +42,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleUpdate (newValue: string): void {
+    handleUpdate (newValue: string) {
       this.$emit('update:modelValue', newValue)
     }
   }

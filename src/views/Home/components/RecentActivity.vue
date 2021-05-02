@@ -43,7 +43,7 @@ export default defineComponent({
     this.getRecentActivity()
   },
   methods: {
-    getAvatarUrl (userId: string): string | undefined {
+    getAvatarUrl (userId: string) {
       return this.$store.getters.avatarUrlByUser(userId)
     }
   }

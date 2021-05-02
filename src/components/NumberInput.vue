@@ -77,12 +77,12 @@ export default defineComponent({
     this.value = this.modelValue
   },
   methods: {
-    handleIncrement (): void {
+    handleIncrement () {
       if (!this.maxValueReached) {
         this.$emit('update:modelValue', ++this.value)
       }
     },
-    handleDecrement (): void {
+    handleDecrement () {
       if (!this.minValueReached) {
         this.$emit('update:modelValue', --this.value)
       }

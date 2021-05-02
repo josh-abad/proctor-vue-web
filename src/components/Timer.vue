@@ -49,7 +49,7 @@ export default defineComponent({
     this.countdown()
   },
   methods: {
-    format (n: number): string {
+    format (n: number) {
       return n.toString().padStart(2, '0')
     },
     countdown () {

@@ -59,7 +59,7 @@ export default defineComponent({
     }
   },
   methods: {
-    formattedDate (d: string | Date): string | undefined {
+    formattedDate (d: string | Date) {
       return dayjs(d).fromNow()
     }
   }

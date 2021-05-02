@@ -34,7 +34,7 @@ export default defineComponent({
   },
   emits: ['mobile-nav'],
   methods: {
-    handleMobileNav (): void {
+    handleMobileNav () {
       this.$emit('mobile-nav')
     }
   }

@@ -69,7 +69,7 @@ export default defineComponent({
     await this.initUser()
   },
   methods: {
-    initTheme (): void {
+    initTheme () {
       const body = document.querySelector('body')
       if (body) {
         body.classList.add('bg-gray-200')
@@ -84,7 +84,7 @@ export default defineComponent({
         this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
       })
     },
-    async initUser (): Promise<void> {
+    async initUser () {
       const loggedUserJSON = cookie.get('loggedAppUser')
       if (loggedUserJSON) {
         cookie.set('loggedAppUser', loggedUserJSON)

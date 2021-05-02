@@ -33,7 +33,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleSelect (viewMode: 'card' | 'list'): void {
+    handleSelect (viewMode: 'card' | 'list') {
       this.$emit('update:modelValue', viewMode)
     }
   }

@@ -129,10 +129,10 @@ export default defineComponent({
     }
   },
   methods: {
-    selectDate (newSelectedDate: Dayjs): void {
+    selectDate (newSelectedDate: Dayjs) {
       this.selectedDate = newSelectedDate
     },
-    getWeekday (date: string): number {
+    getWeekday (date: string) {
       return dayjs(date).weekday()
     }
   }

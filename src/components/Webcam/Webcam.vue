@@ -165,14 +165,14 @@ export default defineComponent({
     this.stopIdentificationTimer()
   },
   methods: {
-    async loadModels (): Promise<void> {
+    async loadModels () {
       await Promise.all([
         faceapi.loadTinyFaceDetectorModel(MODELS_URL),
         faceapi.loadFaceLandmarkTinyModel(MODELS_URL),
         faceapi.loadFaceRecognitionModel(MODELS_URL)
       ])
     },
-    startDetection (faceMatcher: faceapi.FaceMatcher): () => void {
+    startDetection (faceMatcher: faceapi.FaceMatcher) {
       return () => {
         setInterval(async () => {
           const detections = await faceapi
@@ -188,7 +188,7 @@ export default defineComponent({
         }, 300)
       }
     },
-    async startVideo (): Promise<void> {
+    async startVideo () {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
         this.video.srcObject = stream
@@ -198,14 +198,14 @@ export default defineComponent({
         this.$store.dispatch(ALERT, error)
       }
     },
-    stopVideo (): void {
+    stopVideo () {
       const stream = this.video?.srcObject as MediaStream
       if (stream) {
         stream.getTracks().forEach(track => track.stop())
         this.cameraOn = false
       }
     },
-    async createFaceMatcher (): Promise<faceapi.FaceMatcher | null> {
+    async createFaceMatcher () {
       const imgUrl = this.$store.state.user?.referenceImageUrl
 
       if (!imgUrl) return null

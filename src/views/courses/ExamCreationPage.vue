@@ -191,7 +191,7 @@ export default defineComponent({
     }
   },
   methods: {
-    addExamItem (i?: number): void {
+    addExamItem (i?: number) {
       const newExamItem: ExamItem = {
         question: '',
         answer: [''],
@@ -204,7 +204,7 @@ export default defineComponent({
         this.examItems.push(newExamItem)
       }
     },
-    removeExamItem (index: number): void {
+    removeExamItem (index: number) {
       this.examItems = this.examItems.filter((item, i) => i !== index)
     },
     async saveExam (): Promise<void> {

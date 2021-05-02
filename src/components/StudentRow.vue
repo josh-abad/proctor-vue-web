@@ -121,7 +121,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async deleteStudent (): Promise<void> {
+    async deleteStudent () {
       this.deleteModalOpen = false
       try {
         await usersService.deleteUser(this.student.id)
@@ -131,7 +131,7 @@ export default defineComponent({
         await this.$store.dispatch(ALERT, 'Could not delete student.')
       }
     },
-    async unenrollStudent (): Promise<void> {
+    async unenrollStudent () {
       this.unenrollModalOpen = false
       if (this.courseId) {
         try {

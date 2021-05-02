@@ -85,7 +85,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleSubmit (): Promise<void> {
+    async handleSubmit () {
       const payload = {
         userIds: this.checkedNames,
         courseId: this.courseId

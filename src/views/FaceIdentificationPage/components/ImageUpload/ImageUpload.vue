@@ -85,7 +85,7 @@ export default defineComponent({
       loading: false
     }
   },
-  async mounted (): Promise<void> {
+  async mounted () {
     try {
       await faceapi.loadTinyFaceDetectorModel(MODELS_URL)
     } catch (error) {
@@ -93,7 +93,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleSubmit (): Promise<void> {
+    async handleSubmit () {
       if (!this.$store.state.user) return
       const { token, id } = this.$store.state.user
 
@@ -107,7 +107,7 @@ export default defineComponent({
       this.image = null
       this.validImage = false
     },
-    async handleChange (event: Event): Promise<void> {
+    async handleChange (event: Event) {
       this.loading = true
       this.image = (event.target as HTMLInputElement).files?.[0] || null
       if (this.image) {

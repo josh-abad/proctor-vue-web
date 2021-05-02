@@ -197,11 +197,11 @@ export default defineComponent({
     }
   },
   methods: {
-    deleteCourse (): void {
+    deleteCourse () {
       this.$store.dispatch(DELETE_COURSE, this.courseId)
       this.$router.push('/courses')
     },
-    editCourse (): void {
+    editCourse () {
       // TODO: implement editing courses
     }
   }

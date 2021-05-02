@@ -77,7 +77,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async saveCourse (): Promise<void> {
+    async saveCourse () {
       const newCourse: NewCourse = {
         name: this.courseName,
         description: this.courseDescription,

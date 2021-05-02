@@ -45,21 +45,21 @@ export default defineComponent({
     this.clearListeners()
   },
   methods: {
-    handleBeforeUnload (e: BeforeUnloadEvent): void {
+    handleBeforeUnload (e: BeforeUnloadEvent) {
       e.preventDefault()
       e.returnValue = ''
     },
-    handleUnload (): void {
+    handleUnload () {
       this.$emit('unload')
     },
-    handleBlur (): void {
+    handleBlur () {
       this.$emit('leave-focus')
       this.startTimer()
     },
-    handleFocus (): void {
+    handleFocus () {
       this.stopTimer()
     },
-    clearListeners (): void {
+    clearListeners () {
       window.removeEventListener('beforeunload', this.handleBeforeUnload)
       window.removeEventListener('unload', this.handleUnload)
       window.removeEventListener('blur', this.handleBlur)

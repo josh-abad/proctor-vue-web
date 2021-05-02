@@ -39,15 +39,15 @@ export default defineComponent({
   },
   emits: ['date-selected'],
   methods: {
-    selectPrevious (): void {
+    selectPrevious () {
       const newSelectedDate = dayjs(this.selectedDate).subtract(1, 'month')
       this.$emit('date-selected', newSelectedDate)
     },
-    selectCurrent (): void {
+    selectCurrent () {
       const newSelectedDate = dayjs(this.currentDate)
       this.$emit('date-selected', newSelectedDate)
     },
-    selectNext (): void {
+    selectNext () {
       const newSelectedDate = dayjs(this.selectedDate).add(1, 'month')
       this.$emit('date-selected', newSelectedDate)
     }

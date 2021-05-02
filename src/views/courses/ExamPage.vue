@@ -176,7 +176,7 @@ export default defineComponent({
     }
   },
   methods: {
-    handleNoFaceSeen (): void {
+    handleNoFaceSeen () {
       this.warnings++
       this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
     },
@@ -184,7 +184,7 @@ export default defineComponent({
       this.warnings++
       this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
     },
-    handleAnswerChange ({ question, answer }: Answer): void {
+    handleAnswerChange ({ question, answer }: Answer) {
       // FIXME: duplicate questions don't get counted
       if (this.answers.some((a: Answer) => a.question === question)) {
         const index = this.answers.findIndex(a => a.question === question)
@@ -193,7 +193,7 @@ export default defineComponent({
         this.answers.push({ question, answer })
       }
     },
-    handleLeaveAttempt (): void {
+    handleLeaveAttempt () {
       this.$store.dispatch(ALERT, `You cannot leave until you have ${this.maxWarnings} warnings`)
     },
     async handleSubmit (): Promise<void> {

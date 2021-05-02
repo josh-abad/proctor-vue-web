@@ -229,7 +229,7 @@ export default defineComponent({
         this.$store.dispatch(ALERT, 'Attempt could not be started')
       }
     },
-    async deleteExam (): Promise<void> {
+    async deleteExam () {
       await this.$store.dispatch(DELETE_EXAM, this.examId)
       this.$router.push(`/courses/${this.courseId}`)
     }
