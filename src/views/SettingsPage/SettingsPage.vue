@@ -18,7 +18,7 @@
             description="Set up facial identification for exams"
             class="mt-2"
           >
-            <router-link :to="`/user/${user?.id}/reference-image`">
+            <router-link :to="`/user/${$store.state.user?.id}/reference-image`">
               <AppButton>Configure</AppButton>
             </router-link>
           </SettingsItem>
@@ -76,7 +76,6 @@ import AppSwitch from '@/components/ui/AppSwitch.vue'
 import { SET_THEME } from '@/store/mutation-types'
 import { Theme } from '@/types'
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
 import { ALERT } from '@/store/action-types'
@@ -97,7 +96,6 @@ export default defineComponent({
     CogIcon,
     TrashIcon
   },
-  mixins: [userMixin],
   data () {
     return {
       automatic: false,
@@ -135,9 +133,9 @@ export default defineComponent({
     },
     async deactivateAccount () {
       this.deleteModalOpen = false
-      if (this.user) {
+      if (this.$store.state.user) {
         try {
-          await usersService.deleteUser(this.user.id)
+          await usersService.deleteUser(this.$store.state.user.id)
           this.$router.push('/login')
           await this.$store.dispatch(ALERT, 'Student removed.')
         } catch (error) {

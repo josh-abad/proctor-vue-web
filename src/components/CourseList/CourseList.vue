@@ -42,7 +42,6 @@
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import ViewOptions from './components/ViewOptions.vue'
-import userMixin from '@/mixins/user'
 import usersService from '@/services/users'
 import useLocalStorage from '@/composables/use-local-storage'
 import useFetch from '@/composables/use-fetch'
@@ -63,7 +62,6 @@ export default defineComponent({
     SkeletonCourseCard,
     SkeletonCourseListItem
   },
-  mixins: [userMixin],
   setup () {
     const store = useStore()
 

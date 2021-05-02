@@ -10,7 +10,7 @@
         aria-expanded="true"
       >
         <img
-          :src="user?.avatarUrl || ''"
+          :src="$store.state.user?.avatarUrl || ''"
           alt="Avatar"
           class="object-cover w-8 h-8 ml-2 rounded-full pointer-events-none"
         />
@@ -24,7 +24,7 @@
       toggle-id="user-dropdown-toggle"
     >
       <MenuDropdownItem
-        :path="`/user/${user?.id || ''}`"
+        :path="`/user/${$store.state.user?.id || ''}`"
         @item-click="isOpen = false"
       >
         <template #icon>
@@ -51,7 +51,6 @@
 <script lang="ts">
 import { LOG_OUT } from '@/store/action-types'
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import { ChevronDownIcon, UserCircleIcon, CogIcon, LogoutIcon } from '@heroicons/vue/outline'
@@ -66,7 +65,6 @@ export default defineComponent({
     CogIcon,
     LogoutIcon
   },
-  mixins: [userMixin],
   data () {
     return {
       isOpen: false

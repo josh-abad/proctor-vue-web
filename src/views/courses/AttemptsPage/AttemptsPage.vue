@@ -4,7 +4,7 @@
       <PageHeader
         :links="links"
         @menu-clicked="menuOpen = !menuOpen"
-        :hide-menu="!hasPermission(['coordinator', 'admin'])"
+        :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
       >
         <template #label>{{ exam.label }}</template>
         <template #menu>
@@ -48,12 +48,12 @@
           </div>
           <div v-else>The exam was closed {{ formattedEndDate }} ago.</div>
         </div>
-        <div v-if="!user?.referenceImageUrl" class="inline-flex items-center">
+        <div v-if="!$store.state.user?.referenceImageUrl" class="inline-flex items-center">
           <ExclamationCircleIcon class="w-5 h-5 mr-2" />
           <div>
             Please set up
             <router-link
-              :to="`/user/${user?.id}/reference-image`"
+              :to="`/user/${$store.state.user?.id}/reference-image`"
               class="text-green-400"
             >
               Face Identification
@@ -80,7 +80,7 @@
         <div v-else>You have made no attempts so far.</div>
         <div class="flex flex-row-reverse justify-between mt-4">
           <ModalButton
-            v-if="locked === 0 && attemptsLeft > 0 && user?.referenceImageUrl"
+            v-if="locked === 0 && attemptsLeft > 0 && $store.state.user?.referenceImageUrl"
             header="Attempt Quiz"
             message="Are you sure you want to start the quiz?"
             action-label="Start Quiz"
@@ -114,7 +114,6 @@ import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Attempt, Exam, Link } from '@/types'
 import { defineComponent } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
-import userMixin from '@/mixins/user'
 import examMixin from '@/mixins/exam'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -143,7 +142,7 @@ export default defineComponent({
     ClockIcon,
     ExclamationCircleIcon
   },
-  mixins: [userMixin, examMixin],
+  mixins: [examMixin],
   props: {
     courseId: {
       type: String,
@@ -189,6 +188,9 @@ export default defineComponent({
       return this.exam ? this.examLocked(this.exam) : 0
     },
     attemptsByUser (): Attempt[] {
+      if (!this.$store.state.user) {
+        return []
+      }
       return this.$store.getters.attemptsByUser(this.$store.state.user.id)
     },
     attemptsByExam (): Attempt[] {

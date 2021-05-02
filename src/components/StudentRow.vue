@@ -35,7 +35,7 @@
         <MenuDropdownItem
           @item-click="unenrollModalOpen = true"
           separator
-          v-if="courseId && hasPermission(['admin', 'coordinator'])"
+          v-if="courseId && $store.getters.permissions(['admin', 'coordinator'])"
         >
           <template #label>
             <span class="text-red-500">Un-Enroll From Course</span>
@@ -44,7 +44,7 @@
         <MenuDropdownItem
           @item-click="deleteModalOpen = true"
           separator
-          v-if="!courseId && hasPermission(['admin'])"
+          v-if="!courseId && $store.getters.permissions(['admin'])"
         >
           <template #label>
             <span class="text-red-500">Delete Student</span>
@@ -85,7 +85,6 @@ import MenuDropdown from './MenuDropdown.vue'
 import MenuDropdownItem from './MenuDropdownItem.vue'
 import AppButton from './ui/AppButton.vue'
 import AppModal from './ui/AppModal.vue'
-import userMixin from '@/mixins/user'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
 
@@ -98,7 +97,6 @@ export default defineComponent({
     MenuDropdownItem,
     DotsVerticalIcon
   },
-  mixins: [userMixin],
   props: {
     student: {
       type: Object as PropType<User>,

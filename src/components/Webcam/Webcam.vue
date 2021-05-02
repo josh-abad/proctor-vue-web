@@ -48,7 +48,6 @@ import { defineComponent } from 'vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
 import { ALERT } from '@/store/action-types'
-import userMixin from '@/mixins/user'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
 
@@ -58,7 +57,6 @@ const MODELS_URL = '/models'
 export default defineComponent({
   name: 'Webcam',
   components: { DetectionIndicator },
-  mixins: [userMixin],
   props: {
     hideVideo: {
       type: Boolean,
@@ -121,7 +119,7 @@ export default defineComponent({
   },
   computed: {
     userName (): string {
-      return this.user?.fullName || ''
+      return this.$store.state.user?.fullName || ''
     },
 
     faceIdentified (): boolean {
@@ -208,7 +206,7 @@ export default defineComponent({
       }
     },
     async createFaceMatcher (): Promise<faceapi.FaceMatcher | null> {
-      const imgUrl = this.user?.referenceImageUrl
+      const imgUrl = this.$store.state.user?.referenceImageUrl
 
       if (!imgUrl) return null
 

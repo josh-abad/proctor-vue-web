@@ -7,7 +7,7 @@
         placeholder="Filter students"
       />
       <AddStudentModal
-        v-if="hasPermission(['coordinator', 'admin'])"
+        v-if="$store.getters.permissions(['coordinator', 'admin'])"
         :course-id="courseId"
       />
     </div>
@@ -23,7 +23,7 @@
         :student="student"
         :course-id="courseId"
         v-for="student in filteredStudents"
-        :key="student.id"
+        :key="student?.id"
       />
     </div>
     <div
@@ -44,13 +44,11 @@ import { User } from '@/types'
 import AppInput from '@/components/ui/AppInput.vue'
 import AddStudentModal from './components/AddStudentModal.vue'
 import StudentRow from '@/components/StudentRow.vue'
-import userMixin from '@/mixins/user'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'CourseStudents',
   components: { AppInput, AddStudentModal, StudentRow, ExclamationCircleIcon },
-  mixins: [userMixin],
   props: {
     courseId: {
       type: String,
@@ -63,12 +61,12 @@ export default defineComponent({
     }
   },
   computed: {
-    students (): User[] {
+    students (): (User | undefined)[] {
       return this.$store.getters.studentsByCourse(this.courseId)
     },
-    filteredStudents (): User[] {
+    filteredStudents (): (User | undefined)[] {
       return this.students.filter(student => {
-        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student?.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })
     }
   }

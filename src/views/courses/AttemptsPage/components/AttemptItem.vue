@@ -30,12 +30,10 @@ import { Attempt } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import userMixin from '@/mixins/user'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptItem',
-  mixins: [userMixin],
   props: {
     attempt: {
       type: Object as PropType<Attempt>,

@@ -3,7 +3,7 @@
     <AppPanel class="flex-grow w-full space-y-8 sm:w-96">
       <RecentCourses />
       <CourseList />
-      <RecentActivity class="hidden sm:block" :user-id="user?.id ?? ''" />
+      <RecentActivity class="hidden sm:block" />
     </AppPanel>
     <div class="w-full mt-4 ml-0 sm:w-72 sm:ml-4 sm:mt-0">
       <Timeline />
@@ -28,7 +28,6 @@ export default defineComponent({
     RecentActivity,
     CourseList,
     AppPanel
-  },
-  mixins: [userMixin]
+  }
 })
 </script>

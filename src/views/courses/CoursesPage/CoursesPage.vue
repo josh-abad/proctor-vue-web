@@ -6,7 +6,7 @@
         { name: 'Courses', url: '/courses' },
       ]"
       @menu-clicked="isOpen = !isOpen"
-      :hide-menu="!hasPermission(['admin'])"
+      :hide-menu="!$store.getters.permissions(['admin'])"
     >
       <template #label>Courses</template>
       <template #menu>
@@ -32,7 +32,6 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import { Course } from '@/types'
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
@@ -40,7 +39,6 @@ import CourseList from '@/components/CourseList/CourseList.vue'
 export default defineComponent({
   name: 'CoursesPage',
   components: { AppPanel, PageHeader, MenuDropdown, MenuDropdownItem, CourseList },
-  mixins: [userMixin],
   data () {
     return {
       isOpen: false

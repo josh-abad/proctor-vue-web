@@ -16,7 +16,7 @@
             :to="event.subjectUrl"
             class="text-gray-700 dark:text-gray-300"
             >{{
-              event.subjectId === user?.id ? "You" : event.subject
+              event.subjectId === $store.state.user?.id ? "You" : event.subject
             }}</router-link
           >
           <span>{{ event.action }}</span>
@@ -43,12 +43,10 @@ import { AppEvent } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import userMixin from '@/mixins/user'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'ActivityRow',
-  mixins: [userMixin],
   props: {
     event: {
       type: Object as PropType<AppEvent>,

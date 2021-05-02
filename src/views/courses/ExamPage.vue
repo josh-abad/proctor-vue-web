@@ -92,7 +92,6 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
-import userMixin from '@/mixins/user'
 import AppModal from '@/components/ui/AppModal.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
 import KeepOnPage from '@/components/KeepOnPage.vue'
@@ -113,7 +112,6 @@ export default defineComponent({
     KeepOnPage,
     ExclamationIcon
   },
-  mixins: [userMixin],
   props: {
     courseId: {
       type: String,

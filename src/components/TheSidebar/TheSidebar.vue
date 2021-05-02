@@ -25,7 +25,7 @@
         </NavLink>
         <NavLink
           url="/students"
-          v-if="hasPermission(['coordinator', 'admin'])"
+          v-if="$store.getters.permissions(['coordinator', 'admin'])"
           @mobile-nav="$emit('close-sidebar')"
         >
           <template #label> Students </template>
@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import NavLink from './components/NavLink.vue'
 import {
   CalendarIcon as CalendarIconOutline,
@@ -80,7 +79,6 @@ export default defineComponent({
     BookOpenIconSolid,
     HomeIconSolid
   },
-  mixins: [userMixin],
   props: {
     isOpen: Boolean
   },

@@ -16,24 +16,22 @@
 import { defineComponent, ref } from 'vue'
 import ActivityRow from '@/components/ActivityRow.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import userMixin from '@/mixins/user'
 import usersService from '@/services/users'
 import { AppEvent } from '@/types'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'RecentActivites',
   components: { AppLabel, ActivityRow },
-  mixins: [userMixin],
-  props: {
-    userId: {
-      type: String,
-      required: true
-    }
-  },
-  setup (props) {
+  setup () {
+    const store = useStore()
+
     const recentActivities = ref([] as AppEvent[])
     const getRecentActivity = async () => {
-      recentActivities.value = await usersService.getRecentActivity(props.userId)
+      if (!store.state.user) {
+        return
+      }
+      recentActivities.value = await usersService.getRecentActivity(store.state.user.id)
     }
 
     return {

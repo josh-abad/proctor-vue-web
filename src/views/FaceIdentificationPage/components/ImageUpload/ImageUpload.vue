@@ -11,8 +11,8 @@
       >
         <AppLabel emphasis>Current</AppLabel>
         <Preview
-          v-if="user?.referenceImageUrl"
-          :src="user?.referenceImageUrl"
+          v-if="$store.state.user?.referenceImageUrl"
+          :src="$store.state.user.referenceImageUrl"
         />
         <div v-else>
           <div class="w-56 h-56 bg-gray-700 rounded-lg">
@@ -63,7 +63,6 @@
 import usersService from '@/services/users'
 import { SET_USER } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import AppButton from '@/components/ui/AppButton.vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions } from 'face-api.js'
@@ -78,7 +77,6 @@ const MODELS_URL = '/models'
 export default defineComponent({
   name: 'ImageUpload',
   components: { AppButton, Feedback, Preview, AppLabel, PhotographIcon },
-  mixins: [userMixin],
   data () {
     return {
       image: null as File | null,
@@ -96,8 +94,8 @@ export default defineComponent({
   },
   methods: {
     async handleSubmit (): Promise<void> {
-      if (!this.user) return
-      const { token, id } = this.user
+      if (!this.$store.state.user) return
+      const { token, id } = this.$store.state.user
 
       if (!this.image) return
       const data = new FormData()

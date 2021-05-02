@@ -27,7 +27,7 @@
       <PageHeader
         :links="links"
         @menu-clicked="menuOpen = !menuOpen"
-        :hide-menu="!hasPermission(['coordinator', 'admin'])"
+        :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
       >
         <template #label>{{ course.name }}</template>
         <template #menu>
@@ -90,9 +90,8 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import { Course, Link } from '@/types'
 import { defineComponent } from 'vue'
 import coursesService from '@/services/courses'
-import userMixin from '@/mixins/user'
 import useFetch from '@/composables/use-fetch'
-import { DELETE_COURSE } from '@/store/action-types'
+import { ALERT, DELETE_COURSE } from '@/store/action-types'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
 import CoursePageAbout from './components/CoursePageAbout.vue'
@@ -126,7 +125,6 @@ export default defineComponent({
     AppModal,
     AppButton
   },
-  mixins: [userMixin],
   props: {
     courseId: {
       type: String,
@@ -185,15 +183,17 @@ export default defineComponent({
     )
   },
   async mounted () {
-    if (!this.hasPermission(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
+    if (!this.$store.getters.permissions(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
       this.$router.replace('/')
     }
     document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
 
-    if (this.user?.recentCourses[0] !== this.courseId) {
+    if (this.$store.state.user?.recentCourses[0] !== this.courseId && this.$store.state.user) {
       try {
-        await usersService.addRecentCourse(this.user?.id ?? '', this.courseId)
-      } catch (error) { }
+        await usersService.addRecentCourse(this.$store.state.user.id, this.courseId)
+      } catch (error) {
+        this.$store.dispatch(ALERT, error.message)
+      }
     }
   },
   methods: {

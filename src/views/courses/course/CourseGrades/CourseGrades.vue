@@ -42,14 +42,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import { Exam } from '@/types'
 import { DocumentTextIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'CourseGrades',
   components: { DocumentTextIcon },
-  mixins: [userMixin],
   props: {
     courseId: {
       type: String,
@@ -58,10 +56,10 @@ export default defineComponent({
   },
   computed: {
     courseGrades (): number[] {
-      return this.user ? this.$store.getters.courseGrades(this.courseId, this.user.id) : []
+      return this.$store.state.user ? this.$store.getters.courseGrades(this.courseId, this.$store.state.user.id) : []
     },
     courseTotal (): number {
-      return this.user ? this.$store.getters.courseTotal(this.courseId, this.user.id) : 0
+      return this.$store.state.user ? this.$store.getters.courseTotal(this.courseId, this.$store.state.user.id) : 0
     },
     exams (): Exam[] {
       return this.$store.getters.examsByCourse(this.courseId)
