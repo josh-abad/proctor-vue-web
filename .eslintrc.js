@@ -41,6 +41,7 @@ module.exports = {
     'space-before-function-paren': [
       'error',
       'always'
-    ]
+    ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off'
   }
 }

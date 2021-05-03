@@ -22,7 +22,7 @@
       </template>
     </PageHeader>
     <AppPanel class="mt-4 mb-0">
-      <CourseList :courses="courses" />
+      <CourseList />
     </AppPanel>
   </div>
 </template>
@@ -30,7 +30,6 @@
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import { Course } from '@/types'
 import { defineComponent } from 'vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
@@ -42,11 +41,6 @@ export default defineComponent({
   data () {
     return {
       isOpen: false
-    }
-  },
-  computed: {
-    courses (): Course[] {
-      return this.$store.getters.courses
     }
   }
 })

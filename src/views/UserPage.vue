@@ -16,7 +16,6 @@
         <UserPageStat :count="user?.courses.length ?? 0">
           {{ user?.courses.length !== 1 ? "Courses" : "Course" }}
         </UserPageStat>
-        <UserPageStat :count="completedCourses"> Completed </UserPageStat>
       </div>
     </AppPanel>
     <AppPanel class="user-page__content">
@@ -34,13 +33,14 @@
 
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
-import { AppEvent, User } from '@/types'
-import { defineComponent, ref } from 'vue'
+import { User } from '@/types'
+import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import ActivityRow from '@/components/ActivityRow.vue'
 import UserPageStat from '@/components/UserPageStat.vue'
 import usersService from '@/services/users'
+import useFetch from '@/composables/use-fetch'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -53,31 +53,31 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const userEvents = ref([] as AppEvent[])
-    const getUserEvents = async () => {
-      userEvents.value = await usersService.getRecentActivity(props.userId)
-    }
+    const [
+      user,
+      fetchUser,
+      loadingUser,
+      errorUser
+    ] = useFetch<User | null>(() => usersService.getUser(props.userId))
+    const [
+      userEvents,
+      fetchUserEvents,
+      loadingUserEvents,
+      errorUserEvents
+    ] = useFetch(() => usersService.getRecentActivity(props.userId), [])
+
+    fetchUser().then(() => {
+      fetchUserEvents()
+    })
 
     return {
+      user,
       userEvents,
-      getUserEvents
+      loadingUser,
+      loadingUserEvents,
+      errorUser,
+      errorUserEvents
     }
-  },
-  computed: {
-    user (): User | undefined {
-      return this.$store.getters.userByID(this.userId)
-    },
-    completedCourses (): number {
-      const reducer = (a: number, courseId: string): number => {
-        return a + (this.$store.getters.courseCompletedPercentage(courseId, this.userId) === 100 ? 1 : 0)
-      }
-      return this.user
-        ? this.user.courses.reduce(reducer, 0)
-        : 0
-    }
-  },
-  async created () {
-    await this.getUserEvents()
   }
 })
 </script>

@@ -8,7 +8,7 @@
         <div class="flex items-center space-x-1">
           <img
             v-if="avatarUrl"
-            :src="avatarUrl"
+            :src="avatarUrl.avatarUrl"
             alt="Avatar"
             class="object-cover w-5 h-5 mr-2 rounded-full"
           />
@@ -39,10 +39,12 @@
 </template>
 
 <script lang="ts">
-import { AppEvent } from '@/types'
+import { AppEvent, User } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import useFetch from '@/composables/use-fetch'
+import usersService from '@/services/users'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -51,11 +53,22 @@ export default defineComponent({
     event: {
       type: Object as PropType<AppEvent>,
       required: true
-    },
+    }
+  },
+  setup (props) {
+    const [
+      avatarUrl,
+      fetchAvatarUrl
+    ] = useFetch<
+      Pick<User, 'avatarUrl'> | null
+    >(() => (
+      usersService.getUserAvatar(props.event.subjectId)
+    ))
 
-    avatarUrl: {
-      type: String,
-      default: ''
+    fetchAvatarUrl()
+
+    return {
+      avatarUrl
     }
   },
   methods: {

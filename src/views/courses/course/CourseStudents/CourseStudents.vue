@@ -45,6 +45,8 @@ import AppInput from '@/components/ui/AppInput.vue'
 import AddStudentModal from './components/AddStudentModal.vue'
 import StudentRow from '@/components/StudentRow.vue'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import useFetch from '@/composables/use-fetch'
+import coursesService from '@/services/courses'
 
 export default defineComponent({
   name: 'CourseStudents',
@@ -60,11 +62,24 @@ export default defineComponent({
       searchFilter: ''
     }
   },
+  setup (props) {
+    const [
+      students,
+      fetchStudents,
+      loading,
+      error
+    ] = useFetch(() => coursesService.getStudents(props.courseId), [])
+
+    fetchStudents()
+
+    return {
+      students,
+      loading,
+      error
+    }
+  },
   computed: {
-    students (): (User | undefined)[] {
-      return this.$store.getters.studentsByCourse(this.courseId)
-    },
-    filteredStudents (): (User | undefined)[] {
+    filteredStudents (): User[] {
       return this.students.filter(student => {
         return student?.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })

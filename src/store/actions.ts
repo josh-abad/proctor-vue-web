@@ -31,23 +31,14 @@ export default {
       if (user.role !== 'student') {
         examsService.setToken(user.token)
       }
-      await Promise.all([
-        dispatch(ActionTypes.LOAD_USERS),
-        dispatch(ActionTypes.LOAD_COURSES),
-        dispatch(ActionTypes.LOAD_EXAMS),
-        dispatch(ActionTypes.LOAD_ATTEMPTS),
-        dispatch(ActionTypes.LOAD_EXAM_RESULTS)
-      ])
     } catch (error) {
       dispatch(ActionTypes.ALERT, 'Incorrect email or password')
     }
   },
   async [ActionTypes.LOG_OUT] ({ commit }) {
     localStorage.clear()
+    cookie.remove('loggedAppUser')
     commit(MutationTypes.SET_USER, null)
-    commit(MutationTypes.SET_COURSES, [])
-    commit(MutationTypes.SET_ATTEMPTS, [])
-    commit(MutationTypes.SET_EXAM_RESULTS, [])
   },
   async [ActionTypes.VERIFY] ({ commit, dispatch }, token) {
     try {
@@ -63,104 +54,49 @@ export default {
       commit(MutationTypes.SET_MESSAGE, '')
     }, 5000)
   },
-  async [ActionTypes.LOAD_USERS] ({ commit, dispatch }) {
+  async [ActionTypes.ENROLL_STUDENT] ({ dispatch }, { studentId, courseId }) {
     try {
-      commit(MutationTypes.SET_USERS, await usersService.getAll())
-    } catch (error) {
-      dispatch(ActionTypes.ALERT, 'Could not load users from server')
-    }
-  },
-  async [ActionTypes.LOAD_COURSES] ({ commit, dispatch }, userId) {
-    try {
-      if (userId) {
-        commit(MutationTypes.SET_COURSES, await coursesService.getByUser(userId))
-      } else {
-        commit(MutationTypes.SET_COURSES, await coursesService.getAll())
-      }
-    } catch (error) {
-      dispatch(ActionTypes.ALERT, error.response.data.error)
-    }
-  },
-  async [ActionTypes.ENROLL_STUDENT] ({ commit, dispatch }, { studentId, courseId }) {
-    try {
-      const updatedCourse = await coursesService.enrollUser(studentId, courseId)
-      commit(MutationTypes.UPDATE_COURSE, updatedCourse)
+      await coursesService.enrollUser(studentId, courseId)
       dispatch(ActionTypes.ALERT, 'Student successfully enrolled.')
     } catch (error) {
       dispatch(ActionTypes.ALERT, error.response.data.error)
     }
   },
-  async [ActionTypes.ENROLL_STUDENTS] ({ commit, dispatch }, { userIds, courseId }) {
+  async [ActionTypes.ENROLL_STUDENTS] ({ dispatch }, { userIds, courseId }) {
     try {
-      const updatedCourse = await coursesService.enrollUsers(userIds, courseId)
-      commit(MutationTypes.UPDATE_COURSE, updatedCourse)
+      await coursesService.enrollUsers(userIds, courseId)
       dispatch(ActionTypes.ALERT, 'Students successfully added to course.')
     } catch (error) {
       dispatch(ActionTypes.ALERT, error.response.data.error)
     }
   },
-  async [ActionTypes.CREATE_COURSE] ({ commit, dispatch }, newCourse) {
+  async [ActionTypes.CREATE_COURSE] ({ dispatch }, newCourse) {
     try {
-      const createdCourse = await coursesService.create(newCourse)
-      commit(MutationTypes.ADD_COURSE, createdCourse)
+      await coursesService.create(newCourse)
       dispatch(ActionTypes.ALERT, 'Course successfully created')
     } catch (error) {
       dispatch(ActionTypes.ALERT, error.response.data.error)
     }
   },
-  async [ActionTypes.DELETE_COURSE] ({ commit, dispatch }, courseId) {
+  async [ActionTypes.DELETE_COURSE] ({ dispatch }, courseId) {
     try {
       await coursesService.deleteCourse(courseId)
-      commit(MutationTypes.REMOVE_COURSE, courseId)
       dispatch(ActionTypes.ALERT, 'Course successfully deleted')
     } catch (error) {
       dispatch(ActionTypes.ALERT, 'Could not delete course')
     }
   },
-  async [ActionTypes.LOAD_EXAMS] ({ commit, dispatch }) {
-    try {
-      commit(MutationTypes.SET_EXAMS, await examsService.getAll())
-    } catch (error) {
-      dispatch(ActionTypes.ALERT, error.response.data.error)
-    }
-  },
-  async [ActionTypes.DELETE_EXAM] ({ commit, dispatch }, examId) {
+  async [ActionTypes.DELETE_EXAM] ({ dispatch }, examId) {
     try {
       await examsService.deleteExam(examId)
-      commit(MutationTypes.REMOVE_EXAM, examId)
-      commit(MutationTypes.REMOVE_ATTEMPTS_BY_EXAM, examId)
-      commit(MutationTypes.REMOVE_EXAM_RESULTS_BY_EXAM, examId)
       dispatch(ActionTypes.ALERT, 'Exam successfully deleted')
     } catch (error) {
       dispatch(ActionTypes.ALERT, 'Could not delete exam')
     }
   },
-  async [ActionTypes.LOAD_EXAM_RESULTS] ({ commit, dispatch }, userId) {
-    try {
-      if (userId) {
-        commit(MutationTypes.SET_EXAM_RESULTS, await examResultsService.getByUser(userId))
-      } else {
-        commit(MutationTypes.SET_EXAM_RESULTS, await examResultsService.getAll())
-      }
-    } catch (error) {
-      dispatch(ActionTypes.ALERT, error.response.data.error)
-    }
-  },
-  async [ActionTypes.LOAD_ATTEMPTS] ({ commit, dispatch }, userId) {
-    try {
-      if (userId) {
-        commit(MutationTypes.SET_ATTEMPTS, await examAttemptsService.getByUser(userId))
-      } else {
-        commit(MutationTypes.SET_ATTEMPTS, await examAttemptsService.getAll())
-      }
-    } catch (error) {
-      dispatch(ActionTypes.ALERT, error.response.data.error)
-    }
-  },
   async [ActionTypes.START_ATTEMPT] ({ commit, dispatch }, examId) {
     try {
       const response = await examAttemptsService.start(examId)
-      commit(MutationTypes.ADD_ATTEMPT, response.attempt)
       localStorage.setItem('activeExam', JSON.stringify(response))
       examResultsService.setToken(response.token)
       commit(MutationTypes.SET_ACTIVE_EXAM, response.attempt.exam.id)
@@ -168,9 +104,7 @@ export default {
       dispatch(ActionTypes.ALERT, 'Attempt could not be started')
     }
   },
-  async [ActionTypes.SUBMIT_EXAM] ({ commit }, payload) {
-    const response = await examResultsService.submit(payload)
-    commit(MutationTypes.ADD_EXAM_RESULT, response.examResult)
-    commit(MutationTypes.UPDATE_ATTEMPT, response.attempt)
+  async [ActionTypes.SUBMIT_EXAM] (_, payload) {
+    await examResultsService.submit(payload)
   }
 } as ActionTree<State, State> & Actions

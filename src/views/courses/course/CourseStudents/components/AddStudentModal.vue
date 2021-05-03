@@ -47,6 +47,9 @@ import AppButton from '@/components/ui/AppButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import useFetch from '@/composables/use-fetch'
+import usersService from '@/services/users'
+import coursesService from '@/services/courses'
 
 export default defineComponent({
   name: 'AddStudentModal',
@@ -58,6 +61,34 @@ export default defineComponent({
     }
   },
   emits: ['close-modal'],
+  setup (props) {
+    const [
+      students,
+      fetchStudents,
+      loadingStudents,
+      errorStudents
+    ] = useFetch(() => usersService.getStudents(), [])
+
+    const [
+      course,
+      fetchCourse,
+      loadingCourse,
+      errorCourse
+    ] = useFetch<Course | null>(() => coursesService.getCourse(props.courseId))
+
+    fetchStudents()
+
+    fetchCourse()
+
+    return {
+      students,
+      loadingStudents,
+      errorStudents,
+      course,
+      loadingCourse,
+      errorCourse
+    }
+  },
   data () {
     return {
       checkedNames: [],
@@ -66,12 +97,6 @@ export default defineComponent({
     }
   },
   computed: {
-    course (): Course | undefined {
-      return this.$store.getters.courseByID(this.courseId)
-    },
-    students (): User[] {
-      return this.$store.getters.students
-    },
     unenrolledStudents (): User[] {
       const unenrolledStudents = (student: User): boolean => {
         return !!this.course && !this.course.studentsEnrolled.includes(student.id)

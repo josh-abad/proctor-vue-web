@@ -130,3 +130,16 @@ export interface AppEvent {
 }
 
 export type Theme = 'dark' | 'light' | null
+
+export interface CourseGrades {
+  courseName: string;
+  courseId: string;
+  exams: {
+    label: string;
+    id: string;
+    weight: number;
+    weightPercentage: string;
+    grade: number;
+  }[];
+  courseTotal: number;
+}

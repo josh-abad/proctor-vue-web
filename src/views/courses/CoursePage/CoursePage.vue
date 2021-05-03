@@ -171,17 +171,6 @@ export default defineComponent({
       ]
     }
   },
-  created () {
-    this.$watch(
-      () => this.$route.params,
-      (toParams: { courseId?: string }) => {
-        if (toParams.courseId) {
-          const course: Course | undefined = this.$store.getters.courseByID(toParams.courseId)
-          document.title = `${course?.name || 'Course Not Found'} - Proctor Vue`
-        }
-      }
-    )
-  },
   async mounted () {
     if (!this.$store.getters.permissions(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
       this.$router.replace('/')

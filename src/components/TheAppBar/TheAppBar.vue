@@ -32,12 +32,7 @@ import { MenuIcon } from '@heroicons/vue/outline'
 export default defineComponent({
   name: 'TheAppBar',
   components: { UserDropdown, Search, AppLogo, MenuIcon },
-  emits: ['toggle'],
-  computed: {
-    isLoggedIn (): boolean {
-      return this.$store.getters.isLoggedIn
-    }
-  }
+  emits: ['toggle']
 })
 </script>
 

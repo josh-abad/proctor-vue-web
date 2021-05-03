@@ -9,7 +9,7 @@ let token: string | null = null
  * Sets the token containing the user's authenticated information
  * @param newToken the token to be set
  */
-const setToken = (newToken: string): void => {
+const setToken = (newToken: string) => {
   token = `bearer ${newToken}`
 }
 
@@ -17,20 +17,25 @@ const setToken = (newToken: string): void => {
  * Starts an exam attempt with the set user token. Returns a token containing the attempt information and the attempt itself.
  * @param examId the id of the exam to be started
  */
-const start = async (examId: string): Promise<{ token: string; attempt: Attempt }> => {
+const start = async (examId: string) => {
   const config = {
     headers: { Authorization: token }
   }
 
-  const response = await axios.post(baseUrl, { examId }, config)
+  const response = await axios.post<{ token: string; attempt: Attempt }>(baseUrl, { examId }, config)
+  return response.data
+}
+
+const getAttempt = async (id: string) => {
+  const response = await axios.get<Attempt>(`${baseUrl}/${id}`)
   return response.data
 }
 
 /**
  * Gets all attempts from every user in the server
  */
-const getAll = async (): Promise<Attempt[]> => {
-  const response = await axios.get(baseUrl)
+const getAll = async () => {
+  const response = await axios.get<Attempt[]>(baseUrl)
   return response.data
 }
 
@@ -38,10 +43,10 @@ const getAll = async (): Promise<Attempt[]> => {
  * Gets all attempts from a single user
  * @param userId the id of the user
  */
-const getByUser = async (userId: string): Promise<Attempt[]> => {
+const getByUser = async (userId: string) => {
   const params = new URLSearchParams({ userId })
-  const response = await axios.get(baseUrl, { params })
+  const response = await axios.get<Attempt[]>(baseUrl, { params })
   return response.data
 }
 
-export default { start, setToken, getAll, getByUser }
+export default { start, getAttempt, setToken, getAll, getByUser }

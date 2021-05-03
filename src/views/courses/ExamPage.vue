@@ -96,6 +96,9 @@ import AppModal from '@/components/ui/AppModal.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
 import KeepOnPage from '@/components/KeepOnPage.vue'
 import { ExclamationIcon } from '@heroicons/vue/outline'
+import useFetch from '@/composables/use-fetch'
+import examsService from '@/services/exams'
+import examAttemptsService from '@/services/exam-attempts'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -126,6 +129,35 @@ export default defineComponent({
       required: true
     }
   },
+  setup (props) {
+    const [
+      exam,
+      fetchExam,
+      loadingExam,
+      errorLoadingExam
+    ] = useFetch<Exam | null>(() => examsService.getExam(props.examId))
+
+    const [
+      attempt,
+      fetchAttempt,
+      loadingAttempt,
+      errorLoadingAttempt
+    ] = useFetch<Attempt | null>(() => examAttemptsService.getAttempt(props.attemptId))
+
+    Promise.all([
+      fetchExam(),
+      fetchAttempt()
+    ])
+
+    return {
+      exam,
+      attempt,
+      loadingExam,
+      errorLoadingExam,
+      loadingAttempt,
+      errorLoadingAttempt
+    }
+  },
   data () {
     const answers: Answer[] = []
     return {
@@ -140,12 +172,6 @@ export default defineComponent({
   computed: {
     examCanStart (): boolean {
       return !!this.exam && !!this.attempt && this.hasToken && (this.activeExam === this.exam.id)
-    },
-    exam (): Exam | undefined {
-      return this.$store.getters.examByID(this.examId)
-    },
-    attempt (): Attempt | undefined {
-      return this.$store.getters.attemptByID(this.attemptId)
     },
     activeExam (): string | null {
       return this.$store.state.activeExam

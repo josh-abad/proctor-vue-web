@@ -9,32 +9,35 @@ let token: string | null = null
  * Sets the token containing the active attempt information
  * @param newToken the attempt token to be set
  */
-const setToken = (newToken: string): void => {
+const setToken = (newToken: string) => {
   token = `bearer ${newToken}`
 }
 
 /**
  * Checks if an attempt token has been set
  */
-const hasToken = (): boolean => !!token
+const hasToken = () => !!token
 
 /**
  * Submits the user's answers to an exam. Returns both the result and the corresponding updated attempt.
  * @param submission the user's answers to the exam
  */
-const submit = async (submission: Submission): Promise<{ examResult: ExamResult; attempt: Attempt }> => {
+const submit = async (submission: Submission) => {
   const config = {
     headers: { Authorization: token }
   }
-  const response = await axios.post(baseUrl, submission, config)
+  const response = await axios.post<{
+    examResult: ExamResult;
+    attempt: Attempt
+  }>(baseUrl, submission, config)
   return response.data
 }
 
 /**
  * Gets all exam results from every user in the server
  */
-const getAll = async (): Promise<ExamResult[]> => {
-  const response = await axios.get(baseUrl)
+const getAll = async () => {
+  const response = await axios.get<ExamResult[]>(baseUrl)
   return response.data
 }
 
@@ -42,9 +45,9 @@ const getAll = async (): Promise<ExamResult[]> => {
  * Gets all exam results from a single user
  * @param userId the id of the user
  */
-const getByUser = async (userId: string): Promise<ExamResult[]> => {
+const getByUser = async (userId: string) => {
   const params = new URLSearchParams({ userId })
-  const response = await axios.get(baseUrl, { params })
+  const response = await axios.get<ExamResult[]>(baseUrl, { params })
   return response.data
 }
 

@@ -50,6 +50,8 @@ import AppInput from '@/components/ui/AppInput.vue'
 import Result from './components/Result.vue'
 import { SearchIcon, XIcon } from '@heroicons/vue/solid'
 import useClickOutside from '@/composables/use-click-outside'
+import usersService from '@/services/users'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'Search',
@@ -60,21 +62,28 @@ export default defineComponent({
     }
   },
   setup () {
+    const store = useStore()
+
     const open = ref(false)
 
     const handleClickOutside = useClickOutside(() => {
       open.value = false
     }, 'results')
 
+    const courses = ref<Course[]>([])
+    usersService
+      .getCourses(store.state.user?.id ?? '')
+      .then(fetchedCourses => {
+        courses.value = fetchedCourses
+      })
+
     return {
       open,
-      handleClickOutside
+      handleClickOutside,
+      courses
     }
   },
   computed: {
-    courses (): Course[] {
-      return this.$store.getters.courses
-    },
     filteredCourses (): Course[] {
       return this.searchFilter ? this.courses.filter(course => course.name.toLowerCase().includes(this.searchFilter.toLowerCase())) : []
     }

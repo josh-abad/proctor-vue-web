@@ -73,8 +73,6 @@ import AppAccordion from '@/components/ui/AppAccordion.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppSwitch from '@/components/ui/AppSwitch.vue'
-import { SET_THEME } from '@/store/mutation-types'
-import { Theme } from '@/types'
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
@@ -82,6 +80,7 @@ import { ALERT } from '@/store/action-types'
 import AppModal from '@/components/ui/AppModal.vue'
 import SettingsItem from './components/SettingsItem.vue'
 import { TrashIcon, CogIcon } from '@heroicons/vue/solid'
+import useTheme from '@/composables/use-theme'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -96,6 +95,14 @@ export default defineComponent({
     CogIcon,
     TrashIcon
   },
+  setup () {
+    const { theme, setTheme } = useTheme()
+
+    return {
+      theme,
+      setTheme
+    }
+  },
   data () {
     return {
       automatic: false,
@@ -103,21 +110,16 @@ export default defineComponent({
       deleteModalOpen: false
     }
   },
-  computed: {
-    theme (): Theme {
-      return this.$store.state.theme
-    }
-  },
   watch: {
     automatic (enabled: boolean) {
       if (enabled) {
-        this.handleChangeTheme(null)
+        this.setTheme(null)
       } else {
-        this.handleChangeTheme(this.darkMode ? 'dark' : 'light')
+        this.setTheme(this.darkMode ? 'dark' : 'light')
       }
     },
     darkMode (enabled: boolean) {
-      this.handleChangeTheme(enabled ? 'dark' : 'light')
+      this.setTheme(enabled ? 'dark' : 'light')
     }
   },
   mounted () {
@@ -128,9 +130,6 @@ export default defineComponent({
     }
   },
   methods: {
-    handleChangeTheme (theme: Theme) {
-      this.$store.commit(SET_THEME, theme)
-    },
     async deactivateAccount () {
       this.deleteModalOpen = false
       if (this.$store.state.user) {

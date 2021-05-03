@@ -42,7 +42,6 @@ export default defineComponent({
 
     attemptNumber: Number
   },
-  emits: ['review-clicked'],
   computed: {
     percentage (): number {
       return Math.floor(this.attempt.score / this.attempt.examTotal * 100)

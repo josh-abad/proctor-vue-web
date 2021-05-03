@@ -7,10 +7,11 @@
 </template>
 
 <script lang="ts">
-import { Exam } from '@/types'
 import { defineComponent } from 'vue'
 import AppAccordion from '@/components/ui/AppAccordion.vue'
 import WeekExam from './components/WeekExam.vue'
+import useFetch from '@/composables/use-fetch'
+import courses from '@/services/courses'
 
 export default defineComponent({
   name: 'Week',
@@ -26,9 +27,20 @@ export default defineComponent({
       required: true
     }
   },
-  computed: {
-    exams (): Exam[] {
-      return this.$store.getters.examsByWeek(this.courseId, this.week)
+  setup (props) {
+    const [
+      exams,
+      fetchExams,
+      loading,
+      error
+    ] = useFetch(() => courses.getExamsByWeek(props.courseId, props.week), [])
+
+    fetchExams()
+
+    return {
+      exams,
+      loading,
+      error
     }
   }
 })

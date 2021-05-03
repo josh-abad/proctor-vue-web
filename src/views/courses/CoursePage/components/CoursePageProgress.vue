@@ -6,10 +6,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
+import coursesService from '@/services/courses'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'CoursePageProgress',
@@ -20,12 +22,22 @@ export default defineComponent({
       required: true
     }
   },
-  computed: {
-    percentage (): number {
-      if (!this.$store.state.user) {
-        return 0
+  setup (props) {
+    const store = useStore()
+
+    const coursePercentage = ref(0)
+    const fetchCourseProgress = async () => { 
+      if (!store.state.user) {
+        return
       }
-      return this.$store.getters.courseCompletedPercentage(this.courseId, this.$store.state.user.id)
+      const { percentage } = await coursesService.getCourseProgressByUser(props.courseId, store.state.user.id)
+      coursePercentage.value = percentage
+    }
+
+    fetchCourseProgress()
+
+    return {
+      percentage: coursePercentage
     }
   }
 })

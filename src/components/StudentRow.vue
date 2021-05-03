@@ -78,7 +78,6 @@
 <script lang="ts">
 import usersService from '@/services/users'
 import { ALERT } from '@/store/action-types'
-import { REMOVE_STUDENT, REMOVE_USER } from '@/store/mutation-types'
 import { User } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
@@ -125,7 +124,6 @@ export default defineComponent({
       this.deleteModalOpen = false
       try {
         await usersService.deleteUser(this.student.id)
-        this.$store.commit(REMOVE_USER, this.student.id)
         await this.$store.dispatch(ALERT, 'Student removed.')
       } catch (error) {
         await this.$store.dispatch(ALERT, 'Could not delete student.')
@@ -136,10 +134,6 @@ export default defineComponent({
       if (this.courseId) {
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
-          this.$store.commit(REMOVE_STUDENT, {
-            courseId: this.courseId,
-            userId: this.student.id
-          })
           await this.$store.dispatch(ALERT, 'Student un-enrolled from course.')
         } catch (error) {
           await this.$store.dispatch(ALERT, 'Could not un-enroll student.')

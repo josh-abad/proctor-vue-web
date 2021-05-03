@@ -46,7 +46,6 @@ import usersService from '@/services/users'
 import useLocalStorage from '@/composables/use-local-storage'
 import useFetch from '@/composables/use-fetch'
 import { useStore } from '@/store'
-import { SET_COURSES } from '@/store/mutation-types'
 import CoursesPageCard from '../CoursesPageCard.vue'
 import SkeletonCourseListItem from '../SkeletonCourseListItem.vue'
 import SkeletonCourseCard from '../SkeletonCourseCard.vue'
@@ -74,9 +73,7 @@ export default defineComponent({
       error
     ] = useFetch(() => usersService.getCourses(store.state.user?.id ?? ''), [])
 
-    fetchRecentCourses().then(() => {
-      store.commit(SET_COURSES, courses.value)
-    })
+    fetchRecentCourses()
 
     return {
       viewMode,

@@ -3,15 +3,15 @@
     <div id="modals" />
     <div>
       <TheAppBar
-        v-if="isLoggedIn"
+        v-if="$store.state.user"
         @toggle="handleToggle"
       />
       <div>
-        <TheSidebar :is-open="sidebarOpen" @close-sidebar="isOpen = false" />
+        <TheSidebar v-if="$store.state.user" :is-open="isOpen" @close-sidebar="isOpen = false" />
         <div>
           <router-view
             class="duration-300 ease-in-out transform"
-            :class="sidebarOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
+            :class="isOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
           />
           <div class="mt-4">
             <Snackbar />
@@ -28,13 +28,14 @@ import Snackbar from './components/Snackbar.vue'
 import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
-import { LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, SUBMIT_EXAM } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_THEME, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser, Submission, Theme } from './types'
+import { SUBMIT_EXAM } from './store/action-types'
+import { SET_ACTIVE_EXAM, SET_USER } from './store/mutation-types'
+import { Attempt, AuthenticatedUser, Submission } from './types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import cookie from '@/utils/cookie'
 import useLocalStorage from '@/composables/use-local-storage'
+import useTheme from '@/composables/use-theme'
 
 export default defineComponent({
   name: 'App',
@@ -50,39 +51,18 @@ export default defineComponent({
       isOpen.value = !isOpen.value
     }
 
+    const { initTheme } = useTheme()
+    initTheme()
+
     return {
       isOpen,
       handleToggle
     }
   },
-  computed: {
-    sidebarOpen (): boolean {
-      return this.isOpen && this.isLoggedIn
-    },
-    isLoggedIn () {
-      return this.$store.getters.isLoggedIn
-    }
-  },
   async created () {
-    this.initTheme()
     await this.initUser()
   },
   methods: {
-    initTheme () {
-      const body = document.querySelector('body')
-      if (body) {
-        body.classList.add('bg-gray-200')
-        body.classList.add('dark:bg-gray-900')
-      }
-
-      const theme = localStorage.getItem('theme')
-      if (theme && ['dark', 'light', 'system-dark', 'system-light'].includes(theme)) {
-        this.$store.commit(SET_THEME, theme as Theme)
-      }
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        this.$store.commit(SET_THEME, e.matches ? 'system-dark' : 'system-light')
-      })
-    },
     async initUser () {
       const loggedUserJSON = cookie.get('loggedAppUser')
       if (loggedUserJSON) {
@@ -93,13 +73,6 @@ export default defineComponent({
         if (user.role !== 'student') {
           examsService.setToken(user.token)
         }
-        await Promise.all([
-          this.$store.dispatch(LOAD_USERS),
-          this.$store.dispatch(LOAD_COURSES),
-          this.$store.dispatch(LOAD_EXAMS),
-          this.$store.dispatch(LOAD_ATTEMPTS),
-          this.$store.dispatch(LOAD_EXAM_RESULTS)
-        ])
 
         const activeExamJSON = localStorage.getItem('activeExam')
         if (activeExamJSON) {

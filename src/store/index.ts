@@ -7,12 +7,6 @@ import { State, Mutations, Actions, Getters } from './interfaces'
 const state: State = {
   user: null,
   message: '',
-  theme: 'dark',
-  users: [],
-  courses: [],
-  exams: [],
-  attempts: [],
-  examResults: [],
   activeExam: null
 }
 
@@ -44,7 +38,7 @@ export type Store = Omit<
   }
 }
 
-export function useStore (): Store {
+export function useStore () {
   return baseUseStore() as Store
 }
 

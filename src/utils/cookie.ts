@@ -21,7 +21,12 @@ const set = (name: string, value: string, days = 7): void => {
   document.cookie = `${name}=${value};${expires};path=/`
 }
 
+function remove (name: string) {
+  document.cookie = `${name}=`
+}
+
 export default {
   get,
-  set
+  set,
+  remove
 }

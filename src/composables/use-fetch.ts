@@ -1,4 +1,4 @@
-import { Ref, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 
 export default function useFetch<T> (fetchFn: () => Promise<T>, defaultValue: T | null = null) {
   const data = ref(defaultValue) as Ref<T>
@@ -16,5 +16,10 @@ export default function useFetch<T> (fetchFn: () => Promise<T>, defaultValue: T 
     }
   }
 
-  return [data, fetch, loading, error] as const
+  return [
+    data,
+    fetch,
+    computed(() => loading.value),
+    computed(() => error.value)
+  ] as const
 }

@@ -2,8 +2,8 @@
   <div v-if="course" class="form">
     <AppPanel class="form__panel">
       <header class="form__header">New exam for {{ course.name }}</header>
-      <FormError class="form__error" v-show="error">
-        {{ error }}
+      <FormError class="form__error" v-show="formError">
+        {{ formError }}
       </FormError>
       <div class="form__details">
         <div class="form__detail">
@@ -95,11 +95,12 @@ import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
 import { ALERT } from '@/store/action-types'
-import { ADD_EXAM } from '@/store/mutation-types'
 import { Course, ExamItem, NewExam, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
+import useFetch from '@/composables/use-fetch'
+import coursesService from '@/services/courses'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -108,6 +109,22 @@ export default defineComponent({
     courseId: {
       type: String,
       required: true
+    }
+  },
+  setup (props) {
+    const [
+      course,
+      fetchCourse,
+      loading,
+      error
+    ] = useFetch<Course | null>(() => coursesService.getCourse(props.courseId))
+
+    fetchCourse()
+
+    return {
+      course,
+      loading,
+      error
     }
   },
   data () {
@@ -128,9 +145,6 @@ export default defineComponent({
     }
   },
   computed: {
-    course (): Course | undefined {
-      return this.$store.getters.courseByID(this.courseId)
-    },
     questionsInvalid (): string {
       if (!this.examItems.length) {
         return 'Please create an exam item.'
@@ -171,7 +185,7 @@ export default defineComponent({
       }
       return ''
     },
-    error (): string {
+    formError (): string {
       if (!this.examName) {
         return 'Please enter a name for the exam.'
       }
@@ -187,7 +201,7 @@ export default defineComponent({
       return ''
     },
     valid (): boolean {
-      return !this.error
+      return !this.formError
     }
   },
   methods: {

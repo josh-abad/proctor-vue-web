@@ -6,7 +6,6 @@
         v-for="(event, i) of recentActivities.slice(0, 5)"
         :key="i"
         :event="event"
-        :avatarUrl="getAvatarUrl(event.subjectId)"
       />
     </div>
   </div>
@@ -41,11 +40,6 @@ export default defineComponent({
   },
   async created () {
     this.getRecentActivity()
-  },
-  methods: {
-    getAvatarUrl (userId: string) {
-      return this.$store.getters.avatarUrlByUser(userId)
-    }
   }
 })
 </script>

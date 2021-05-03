@@ -61,19 +61,14 @@
             in order to proceed with the exam.
           </div>
         </div>
-        <div v-else-if="attemptsByExam.length > 0" class="mt-4">
+        <div v-else-if="!loadingAttempts && !errorLoadingAttempts && attempts.length > 0" class="mt-4">
           <AppLabel emphasis>Previous Attempts</AppLabel>
           <div class="mt-2 overflow-hidden rounded-xl separator-y">
             <AttemptItem
-              v-for="(attempt, i) in attemptsByExam"
+              v-for="(attempt, i) in attempts"
               :key="attempt.id"
               :attempt-number="i + 1"
               :attempt="attempt"
-              @review-clicked="
-                $router.push(
-                  `/courses/${courseId}/exams/${examId}/${attempt.id}`
-                )
-              "
             />
           </div>
         </div>
@@ -87,7 +82,7 @@
             @confirm="startAttempt"
             prominent
           >
-            {{ attemptsByExam.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
+            {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
           </ModalButton>
           <AppButton
             v-if="locked !== 0"
@@ -111,7 +106,7 @@ import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { ALERT, DELETE_EXAM } from '@/store/action-types'
 import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
-import { Attempt, Exam, Link } from '@/types'
+import { Link } from '@/types'
 import { defineComponent } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
 import dayjs from 'dayjs'
@@ -123,6 +118,9 @@ import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import { ClockIcon, ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { isExamLocked } from '@/utils/helper'
+import useFetch from '@/composables/use-fetch'
+import examsService from '@/services/exams'
+import { useStore } from '@/store'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -153,6 +151,38 @@ export default defineComponent({
       required: true
     }
   },
+  setup (props) {
+    const store = useStore()
+    const [
+      attempts,
+      fetchAttempts,
+      loadingAttempts,
+      errorLoadingAttempts
+    ] = useFetch(() => (
+      examsService.getAttemptsByUser(props.examId, store.state.user?.id ?? '')
+    ), [])
+
+    const [
+      exam,
+      fetchExam,
+      loadingExam,
+      errorLoadingExam
+    ] = useFetch(() => examsService.getExam(props.examId))
+
+    Promise.all([
+      fetchAttempts(),
+      fetchExam()
+    ])
+
+    return {
+      exam,
+      attempts,
+      loadingAttempts,
+      errorLoadingAttempts,
+      loadingExam,
+      errorLoadingExam
+    }
+  },
   data () {
     return {
       menuOpen: false,
@@ -180,29 +210,17 @@ export default defineComponent({
         }
       ]
     },
-    exam (): Exam | undefined {
-      return this.$store.getters.examByID(this.examId)
-    },
     locked (): number {
       return this.exam ? isExamLocked(this.exam) : 0
     },
-    attemptsByUser (): Attempt[] {
-      if (!this.$store.state.user) {
-        return []
-      }
-      return this.$store.getters.attemptsByUser(this.$store.state.user.id)
-    },
-    attemptsByExam (): Attempt[] {
-      return this.attemptsByUser.filter(attempt => !!attempt.exam && attempt.exam.id === this.examId)
-    },
     attemptsLeft (): number {
-      return this.exam ? this.exam.maxAttempts - this.attemptsByExam.length : 0
+      return this.exam ? this.exam.maxAttempts - this.attempts.length : 0
     },
     displayAttemptsLeft (): string {
       return `You have ${this.attemptsLeft} ${this.attemptsLeft === 1 ? 'attempt' : 'attempts'} left.`
     },
     highestGrade (): number {
-      return this.attemptsByExam.reduce((a, b) => Math.max(a, b.score), 0)
+      return this.attempts.reduce((a, b) => Math.max(a, b.score), 0)
     },
     duration (): string {
       return this.exam ? dayjs.duration({ seconds: this.exam.duration }).humanize(true) : ''
