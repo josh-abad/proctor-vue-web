@@ -1,10 +1,9 @@
-import { computed, onUnmounted, ref, watchEffect } from 'vue'
+import { computed, onUnmounted, readonly, ref, watchEffect } from 'vue'
 
 /**
  * A reactive timer that can be paused and resumed.
  * @param callback The function that will be executed when the timer finishes
  * @param duration How long the timer will run (in milliseconds)
- * @param start Optional: start the timer as soon as it's created
  * @returns the remaining duration and status of the timer, as well as methods to control it
  */
 export default function useTimer (callback: () => void, duration: number) {
@@ -59,7 +58,7 @@ export default function useTimer (callback: () => void, duration: number) {
     pauseTimer,
     stopTimer,
     startTimer,
-    status,
-    remainingTime
+    status: readonly(status),
+    remainingTime: readonly(remainingTime)
   }
-};
+}
