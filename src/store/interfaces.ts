@@ -1,4 +1,4 @@
-import { AuthenticatedUser, NewCourse, Role, Submission, Theme, UserCredentials } from '@/types'
+import { AuthenticatedUser, NewCourse, Role, Submission, UserCredentials } from '@/types'
 import { ActionContext } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'

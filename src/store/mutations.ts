@@ -11,9 +11,6 @@ export default {
       state.user.verified = true
     }
   },
-  [MutationTypes.SET_MESSAGE] (state, message) {
-    state.message = message
-  },
   [MutationTypes.SET_ACTIVE_EXAM] (state, examId) {
     state.activeExam = examId
   }
