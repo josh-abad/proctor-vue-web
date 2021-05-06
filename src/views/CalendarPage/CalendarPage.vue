@@ -18,7 +18,7 @@
 <script lang="ts">
 import EventsPanel from './components/EventsPanel/EventsPanel.vue'
 import CalendarMonth from '@/components/Calendar/Calendar.vue'
-import { AppEvent } from '@/types'
+import { Exam } from '@/types'
 import dayjs from 'dayjs'
 import usersService from '@/services/users'
 import { defineComponent } from 'vue'
@@ -29,12 +29,12 @@ export default defineComponent({
   data () {
     return {
       value: '',
-      events: [] as AppEvent[]
+      events: [] as Exam[]
     }
   },
   computed: {
-    eventsOnDate (): AppEvent[] {
-      return this.events.filter(event => this.dateSame(event.date))
+    eventsOnDate (): Exam[] {
+      return this.events.filter(event => this.dateSame(event.startDate))
     },
     date (): string {
       return dayjs(this.value).format('MMMM D, YYYY')

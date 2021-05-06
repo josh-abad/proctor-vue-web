@@ -42,7 +42,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import compactMixin from '@/mixins/compact'
-import { AppEvent } from '@/types'
+import { Exam } from '@/types'
 
 dayjs.extend(weekday)
 dayjs.extend(weekOfYear)
@@ -58,7 +58,7 @@ export default defineComponent({
     },
 
     events: {
-      type: Array as PropType<AppEvent[]>,
+      type: Array as PropType<Exam[]>,
       default: () => {
         return []
       }
@@ -125,7 +125,7 @@ export default defineComponent({
       })
     },
     formattedEventDates (): string[] {
-      return this.events.map(event => dayjs(event.date).format('YYYY-MM-DD'))
+      return this.events.map(event => dayjs(event.startDate).format('YYYY-MM-DD'))
     }
   },
   methods: {

@@ -10,13 +10,13 @@
     </div>
     <div class="text-lg font-semibold">Events</div>
     <div>
-      <EventsPanelItem :event="event" v-for="(event, i) in events" :key="i" />
+      <EventsPanelItem :event="event" v-for="event in events" :key="event.id" />
     </div>
   </AppPanel>
 </template>
 
 <script lang="ts">
-import { AppEvent } from '@/types'
+import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import EventsPanelItem from './components/EventsPanelItem.vue'
@@ -32,7 +32,7 @@ export default defineComponent({
     },
 
     events: {
-      type: Array as PropType<AppEvent[]>,
+      type: Array as PropType<Exam[]>,
       required: true
     }
   },

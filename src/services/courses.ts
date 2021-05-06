@@ -1,4 +1,4 @@
-import { AppEvent, Course, CourseGrades, Exam, NewCourse, User } from '@/types'
+import { Course, CourseGrades, Exam, NewCourse, User } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
 const baseUrl = `${API_URL}/courses`
@@ -77,7 +77,7 @@ const getAllExams = async (id: string) => {
 }
 
 const getUpcomingExams = async (id: string) => {
-  const response = await axios.get<AppEvent[]>(`${baseUrl}/${id}/upcoming-exams`)
+  const response = await axios.get<Exam[]>(`${baseUrl}/v2/${id}/upcoming-exams`)
   return response.data
 }
 

@@ -1,4 +1,4 @@
-import { AppEvent, Course, User, UserCredentials } from '@/types'
+import { AppEvent, Course, Exam, User, UserCredentials } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
 const baseUrl = `${API_URL}/users`
@@ -64,8 +64,13 @@ const getRecentCourses = async (id: string) => {
   return response.data
 }
 
+const getOpenExams = async (id: string) => {
+  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/open-exams`)
+  return response.data
+}
+
 const getUpcomingExams = async (id: string) => {
-  const response = await axios.get<AppEvent[]>(`${baseUrl}/${id}/upcoming-exams`)
+  const response = await axios.get<Exam[]>(`${baseUrl}/v2/${id}/upcoming-exams`)
   return response.data
 }
 
@@ -100,6 +105,7 @@ export default {
   addRecentCourse,
   getRecentActivity,
   getRecentCourses,
+  getOpenExams,
   getUpcomingExams,
   uploadImage,
   deleteUser

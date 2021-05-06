@@ -3,16 +3,16 @@
     <AppLabel emphasis>Upcoming Exams</AppLabel>
     <div>
       <div
-        v-for="(event, i) in upcomingExams"
-        :key="i"
+        v-for="event in upcomingExams"
+        :key="event.id"
         class="flex items-center py-1 text-sm text-gray-700 dark:text-gray-300"
       >
         <DocumentTextIcon class="w-4 h-4" />
         <div>
           <span class="ml-1 font-semibold text-gray-900 dark:text-white">
-            {{ event.subject }}
+            {{ event.label }}
           </span>
-          {{ event.action }}
+          opens
           {{ relativeDate(event) }}
         </div>
       </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { AppEvent } from '@/types'
+import { Exam } from '@/types'
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
@@ -43,15 +43,15 @@ export default defineComponent({
   },
   data () {
     return {
-      upcomingExams: [] as AppEvent[]
+      upcomingExams: [] as Exam[]
     }
   },
   async created () {
     this.upcomingExams = await coursesService.getUpcomingExams(this.courseId)
   },
   methods: {
-    relativeDate (event: AppEvent): string {
-      return dayjs(event.date).fromNow()
+    relativeDate (event: Exam): string {
+      return dayjs(event.startDate).fromNow()
     }
   }
 })

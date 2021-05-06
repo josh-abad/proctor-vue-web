@@ -1,16 +1,16 @@
 <template>
   <AppPanel>
-    <AppLabel class="pb-2 label-border" emphasis>Upcoming Exams</AppLabel>
-    <div v-if="error">Could not load upcoming events.</div>
+    <AppLabel class="pb-2 label-border" emphasis>Open Exams</AppLabel>
+    <div v-if="error">Could not load open exams.</div>
     <div v-else-if="loading" class="mt-4 space-y-2">
       <SkeletonItem v-for="i in 5" :key="i" />
     </div>
     <div v-else class="mt-4 space-y-2">
       <div v-if="isEmpty" class="flex items-center justify-center py-5">
-        <span class="text-gray-500">No upcoming events.</span>
+        <span class="text-gray-500">No open exams.</span>
       </div>
       <div v-else>
-        <div v-for="(events, i) in upcomingExams" :key="i">
+        <div v-for="(events, i) in openExams" :key="i">
           <div class="item__date">{{ getFormattedDate(events?.[0]) }}</div>
           <div class="w-full sm:w-64">
             <Item
@@ -38,38 +38,38 @@ import SkeletonItem from './components/SkeletonItem.vue'
 import Item from './components/Item.vue'
 
 export default defineComponent({
-  name: 'Timeline',
+  name: 'OpenExams',
   components: { AppPanel, AppLabel, SkeletonItem, Item },
   setup () {
     const store = useStore()
 
     const [
-      upcomingExams,
-      fetchUpcomingExams,
+      openExams,
+      fetchOpenExams,
       loading,
       error
-    ] = useFetch(() => usersService.getUpcomingExams(store.state.user?.id ?? ''), [])
+    ] = useFetch(() => usersService.getOpenExams(store.state.user?.id ?? ''), [])
 
-    fetchUpcomingExams().then(() => {
-      upcomingExams.value = upcomingExams.value.slice(0, 5)
+    fetchOpenExams().then(() => {
+      openExams.value = openExams.value.slice(0, 5)
     })
 
     const eventsByDate = computed(() => {
-      const map = new Map(Array.from(upcomingExams.value, event => [event.startDate, [] as Exam[]]))
-      upcomingExams.value.forEach(event => map.get(event.startDate)?.push(event))
+      const map = new Map(Array.from(openExams.value, event => [event.endDate, [] as Exam[]]))
+      openExams.value.forEach(event => map.get(event.endDate)?.push(event))
       return Array.from(map.values())
     })
 
     const getFormattedDate = (event?: Exam) => {
-      return event ? dayjs(event.startDate).format('dddd, DD MMMM YYYY') : ''
+      return event ? dayjs(event.endDate).format('dddd, DD MMMM YYYY') : ''
     }
 
     const isEmpty = computed(() => {
-      return upcomingExams.value.length === 0
+      return openExams.value.length === 0
     })
 
     return {
-      upcomingExams: eventsByDate,
+      openExams: eventsByDate,
       getFormattedDate,
       isEmpty,
       loading,

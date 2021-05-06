@@ -1,15 +1,15 @@
 <template>
   <div class="item">
     <DocumentTextIcon
-      class="item__icon item__icon--opening"
+      class="item__icon item__icon--closing"
     />
     <div>
       <div class="flex">
         <router-link :to="`/courses/${event.course.id}/exams/${event.id}`" class="item__course">
           {{ event.label }}
         </router-link>
-        <span class="item__action item__action--opening">
-          opens
+        <span class="item__action item__action--closing">
+          closes
         </span>
       </div>
       <router-link :to="`/courses/${event.course.id}`" class="item__location">

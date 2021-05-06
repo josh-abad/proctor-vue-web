@@ -1,48 +1,37 @@
 <template>
   <div class="flex items-center">
-    <LockOpenIcon class="w-5 h-5" v-if="event.action === 'opens'" />
-    <LockClosedIcon class="w-5 h-5" v-else />
+    <LockClosedIcon class="w-5 h-5" />
     <div class="ml-2">
       <div class="text-gray-700 dark:text-gray-300">
         <router-link
-          :to="event.subjectUrl"
+          :to="`/courses/${event.course.id}/exams/${event.id}`"
           class="font-semibold text-gray-900 dark:text-white"
-          >{{ event.subject }}</router-link
+          >{{ event.label }}</router-link
         >
-        {{ action }}
+        opens
       </div>
       <router-link
-        :to="event.locationUrl"
+        :to="`/courses/${event.course.id}`"
         class="block text-xs font-semibold tracking-wider text-gray-500 uppercase"
       >
-        {{ event.location }}
+        {{ event.course.name }}
       </router-link>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { AppEvent } from '@/types'
-import dayjs from 'dayjs'
+import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
-import { LockOpenIcon, LockClosedIcon } from '@heroicons/vue/solid'
+import { LockClosedIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'EventsPanelItem',
-  components: { LockOpenIcon, LockClosedIcon },
+  components: { LockClosedIcon },
   props: {
     event: {
-      type: Object as PropType<AppEvent>,
+      type: Object as PropType<Exam>,
       required: true
-    }
-  },
-  computed: {
-    action (): string {
-      const today = dayjs()
-      if (dayjs(this.event.date).isAfter(today)) {
-        return this.event.action
-      }
-      return this.event.action === 'opens' ? 'opened' : 'closed'
     }
   }
 })
