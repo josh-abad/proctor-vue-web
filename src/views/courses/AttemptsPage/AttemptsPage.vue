@@ -104,8 +104,7 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
-import { ALERT, DELETE_EXAM } from '@/store/action-types'
-import { ADD_ATTEMPT, SET_ACTIVE_EXAM } from '@/store/mutation-types'
+import { DELETE_EXAM } from '@/store/action-types'
 import { Link } from '@/types'
 import { defineComponent } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
@@ -121,6 +120,7 @@ import { isExamLocked } from '@/utils/helper'
 import useFetch from '@/composables/use-fetch'
 import examsService from '@/services/exams'
 import { useStore } from '@/store'
+import useSnackbar from '@/composables/use-snackbar'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -153,6 +153,8 @@ export default defineComponent({
   },
   setup (props) {
     const store = useStore()
+    const { setSnackbarMessage } = useSnackbar()
+
     const [
       attempts,
       fetchAttempts,
@@ -180,13 +182,8 @@ export default defineComponent({
       loadingAttempts,
       errorLoadingAttempts,
       loadingExam,
-      errorLoadingExam
-    }
-  },
-  data () {
-    return {
-      menuOpen: false,
-      modalOpen: false
+      errorLoadingExam,
+      setSnackbarMessage
     }
   },
   computed: {
@@ -236,7 +233,6 @@ export default defineComponent({
     async startAttempt () {
       try {
         const response = await examAttemptsService.start(this.examId)
-        this.$store.commit(ADD_ATTEMPT, response.attempt)
         localStorage.setItem('activeExam', JSON.stringify(response))
         examResultsService.setToken(response.token)
         this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam.id)
@@ -244,7 +240,7 @@ export default defineComponent({
           `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
         )
       } catch (error) {
-        this.$store.dispatch(ALERT, 'Attempt could not be started')
+        this.setSnackbarMessage('Attempt could not be started')
       }
     },
     async deleteExam () {

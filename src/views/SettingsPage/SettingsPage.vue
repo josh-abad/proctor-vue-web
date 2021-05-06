@@ -76,11 +76,11 @@ import AppSwitch from '@/components/ui/AppSwitch.vue'
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
-import { ALERT } from '@/store/action-types'
 import AppModal from '@/components/ui/AppModal.vue'
 import SettingsItem from './components/SettingsItem.vue'
 import { TrashIcon, CogIcon } from '@heroicons/vue/solid'
 import useTheme from '@/composables/use-theme'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -97,10 +97,12 @@ export default defineComponent({
   },
   setup () {
     const { theme, setTheme } = useTheme()
+    const { setSnackbarMessage } = useSnackbar()
+
 
     return {
       theme,
-      setTheme
+      setSnackbarMessage
     }
   },
   data () {
@@ -136,9 +138,9 @@ export default defineComponent({
         try {
           await usersService.deleteUser(this.$store.state.user.id)
           this.$router.push('/login')
-          await this.$store.dispatch(ALERT, 'Student removed.')
+          this.setSnackbarMessage('Student removed')
         } catch (error) {
-          await this.$store.dispatch(ALERT, 'Could not delete student.')
+          this.setSnackbarMessage('Could not delete student.')
         }
       }
     }

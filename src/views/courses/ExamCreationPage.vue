@@ -94,13 +94,13 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { ALERT } from '@/store/action-types'
 import { Course, ExamItem, NewExam, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -112,6 +112,8 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const { setSnackbarMessage } = useSnackbar()
+
     const [
       course,
       fetchCourse,
@@ -124,7 +126,8 @@ export default defineComponent({
     return {
       course,
       loading,
-      error
+      error,
+      setSnackbarMessage
     }
   },
   data () {
@@ -235,12 +238,11 @@ export default defineComponent({
           startDate: new Date(this.startDate),
           endDate: new Date(this.endDate)
         }
-        const createdExam = await examsService.create(newExam)
-        this.$store.commit(ADD_EXAM, createdExam)
-        this.$store.dispatch(ALERT, 'Exam successfully created')
+        await examsService.create(newExam)
+        this.setSnackbarMessage('Exam successfully created')
         this.$router.push(`/courses/${this.courseId}`)
       } catch (error) {
-        this.$store.dispatch(ALERT, error.response.data.error)
+        this.setSnackbarMessage(error.response.data.error)
       }
     }
   }

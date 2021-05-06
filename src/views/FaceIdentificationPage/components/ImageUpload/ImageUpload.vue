@@ -69,14 +69,21 @@ import { TinyFaceDetectorOptions } from 'face-api.js'
 import Feedback from './components/Feedback.vue'
 import Preview from './components/Preview.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import { ALERT } from '@/store/action-types'
 import { PhotographIcon } from '@heroicons/vue/solid'
+import useSnackbar from '@/composables/use-snackbar'
 
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'ImageUpload',
   components: { AppButton, Feedback, Preview, AppLabel, PhotographIcon },
+  setup () {
+    const { setSnackbarMessage } = useSnackbar()
+
+    return {
+      setSnackbarMessage
+    }
+  },
   data () {
     return {
       image: null as File | null,
@@ -89,7 +96,7 @@ export default defineComponent({
     try {
       await faceapi.loadTinyFaceDetectorModel(MODELS_URL)
     } catch (error) {
-      this.$store.dispatch(ALERT, 'Could not load face detection.')
+      this.setSnackbarMessage('Could not load face detection.')
     }
   },
   methods: {
@@ -123,7 +130,7 @@ export default defineComponent({
             this.loading = false
             this.validImage = !!detection
           } catch (error) {
-            this.$store.dispatch(ALERT, 'Something went wrong.')
+            this.setSnackbarMessage('Something went wrong.')
           }
         })
       }

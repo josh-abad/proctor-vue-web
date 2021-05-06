@@ -77,7 +77,6 @@
 
 <script lang="ts">
 import usersService from '@/services/users'
-import { ALERT } from '@/store/action-types'
 import { User } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
@@ -86,6 +85,7 @@ import AppButton from './ui/AppButton.vue'
 import AppModal from './ui/AppModal.vue'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -112,11 +112,11 @@ export default defineComponent({
       required: false
     }
   },
-  data () {
+  setup () {
+    const { setSnackbarMessage } = useSnackbar()
+
     return {
-      menuOpen: false,
-      deleteModalOpen: false,
-      unenrollModalOpen: false
+      setSnackbarMessage
     }
   },
   methods: {
@@ -124,9 +124,9 @@ export default defineComponent({
       this.deleteModalOpen = false
       try {
         await usersService.deleteUser(this.student.id)
-        await this.$store.dispatch(ALERT, 'Student removed.')
+        this.setSnackbarMessage('Student removed')
       } catch (error) {
-        await this.$store.dispatch(ALERT, 'Could not delete student.')
+        this.setSnackbarMessage('Could not delete student.')
       }
     },
     async unenrollStudent () {
@@ -134,9 +134,9 @@ export default defineComponent({
       if (this.courseId) {
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
-          await this.$store.dispatch(ALERT, 'Student un-enrolled from course.')
+          this.setSnackbarMessage('Student un-enrolled from course.')
         } catch (error) {
-          await this.$store.dispatch(ALERT, 'Could not un-enroll student.')
+          this.setSnackbarMessage('Could not un-enroll student.')
         }
       }
     }

@@ -33,13 +33,20 @@ import AppButton from '@/components/ui/AppButton.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppSwitch from '@/components/ui/AppSwitch.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
-import { ALERT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 import { ExclamationIcon } from '@heroicons/vue/solid'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'WebcamTest',
   components: { AppButton, Webcam, AppPanel, AppSwitch, ExclamationIcon },
+  setup () {
+    const { setSnackbarMessage } = useSnackbar()
+
+    return {
+      setSnackbarMessage
+    }
+  },
   data () {
     return {
       warnings: 0,
@@ -50,11 +57,11 @@ export default defineComponent({
   methods: {
     handleNoFaceSeen () {
       this.warnings++
-      this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
+      this.setSnackbarMessage('No face seen for 10 seconds.')
     },
     handleUnidentifiedFace () {
       this.warnings++
-      this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
+      this.setSnackbarMessage('Face unidentified for 10 seconds')
     }
   }
 })

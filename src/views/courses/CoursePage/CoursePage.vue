@@ -87,11 +87,11 @@
 
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
-import { Course, Link } from '@/types'
+import { Link } from '@/types'
 import { defineComponent } from 'vue'
 import coursesService from '@/services/courses'
 import useFetch from '@/composables/use-fetch'
-import { ALERT, DELETE_COURSE } from '@/store/action-types'
+import { DELETE_COURSE } from '@/store/action-types'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
 import CoursePageAbout from './components/CoursePageAbout.vue'
@@ -106,6 +106,7 @@ import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import usersService from '@/services/users'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -132,6 +133,8 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const { setSnackbarMessage } = useSnackbar()
+
     const [
       course,
       fetchCourse,
@@ -144,13 +147,8 @@ export default defineComponent({
     return {
       course,
       loading,
-      error
-    }
-  },
-  data () {
-    return {
-      menuOpen: false,
-      deleteModalOpen: false
+      error,
+      setSnackbarMessage
     }
   },
   computed: {
@@ -181,7 +179,7 @@ export default defineComponent({
       try {
         await usersService.addRecentCourse(this.$store.state.user.id, this.courseId)
       } catch (error) {
-        this.$store.dispatch(ALERT, error.message)
+        this.setSnackbarMessage(error.message)
       }
     }
   },

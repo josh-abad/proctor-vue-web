@@ -6,28 +6,26 @@
     <div class="mr-12 text-white dark:text-gray-900">
       {{ message }}
     </div>
-    <button @click="dismiss" class="focus:outline-none">
+    <button @click="clearSnackbarMessage" class="focus:outline-none">
       <XIcon class="w-5 h-5 text-gray-200 fill-current dark:text-gray-800" />
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { SET_MESSAGE } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
 import { XIcon } from '@heroicons/vue/solid'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'Snackbar',
   components: { XIcon },
-  computed: {
-    message (): string {
-      return this.$store.state.message
-    }
-  },
-  methods: {
-    dismiss () {
-      this.$store.commit(SET_MESSAGE, '')
+  setup () {
+    const { message, clearSnackbarMessage } = useSnackbar()
+
+    return {
+      message,
+      clearSnackbarMessage
     }
   }
 })

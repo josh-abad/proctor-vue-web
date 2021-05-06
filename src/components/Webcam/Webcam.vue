@@ -47,9 +47,9 @@
 import { defineComponent } from 'vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
-import { ALERT } from '@/store/action-types'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
+import useSnackbar from '@/composables/use-snackbar'
 
 const USE_TINY_MODEL = true
 const MODELS_URL = '/models'
@@ -75,6 +75,8 @@ export default defineComponent({
   },
   emits: ['no-face-seen', 'unidentified-face'],
   setup (props, { emit }) {
+    const { setSnackbarMessage } = useSnackbar()
+
     const {
       status: detectionTimerStatus,
       startTimer: startDetectionTimer,
@@ -105,7 +107,8 @@ export default defineComponent({
       identificationTimerStatus,
       startIdentificationTimer,
       stopIdentificationTimer,
-      pauseIdentificationTimer
+      pauseIdentificationTimer,
+      setSnackbarMessage
     }
   },
   data () {
@@ -195,7 +198,7 @@ export default defineComponent({
         this.video.play()
         this.cameraOn = true
       } catch (error) {
-        this.$store.dispatch(ALERT, error)
+        this.setSnackbarMessage(error)
       }
     },
     stopVideo () {

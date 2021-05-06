@@ -87,7 +87,7 @@ import examResultsServices from '@/services/exam-results'
 import { Answer, Attempt, Exam } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
-import { ALERT, SUBMIT_EXAM } from '@/store/action-types'
+import { SUBMIT_EXAM } from '@/store/action-types'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
@@ -130,6 +130,7 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const { setSnackbarMessage } = useSnackbar()
     const [
       exam,
       fetchExam,
@@ -155,7 +156,8 @@ export default defineComponent({
       loadingExam,
       errorLoadingExam,
       loadingAttempt,
-      errorLoadingAttempt
+      errorLoadingAttempt,
+      setSnackbarMessage
     }
   },
   data () {
@@ -204,11 +206,11 @@ export default defineComponent({
   methods: {
     handleNoFaceSeen () {
       this.warnings++
-      this.$store.dispatch(ALERT, 'No face seen for 10 seconds.')
+      this.setSnackbarMessage('No face seen for 10 seconds.')
     },
     handleUnidentifiedFace () {
       this.warnings++
-      this.$store.dispatch(ALERT, 'Face unidentified for 10 seconds')
+      this.setSnackbarMessage('Face unidentified for 10 seconds')
     },
     handleAnswerChange ({ question, answer }: Answer) {
       // FIXME: duplicate questions don't get counted
@@ -220,7 +222,7 @@ export default defineComponent({
       }
     },
     handleLeaveAttempt () {
-      this.$store.dispatch(ALERT, `You cannot leave until you have ${this.maxWarnings} warnings`)
+      this.setSnackbarMessage(`You cannot leave until you have ${this.maxWarnings} warnings`)
     },
     async handleSubmit () {
       this.submitted = true
