@@ -5,14 +5,12 @@ import * as MutationTypes from './mutation-types'
 
 export type State = {
   user: AuthenticatedUser | null;
-  message: string;
   activeExam: string | null;
 }
 
 export interface Mutations<S = State> {
   [MutationTypes.SET_USER] (state: S, payload: AuthenticatedUser | null): void
   [MutationTypes.SET_VERIFIED] (state: S, payload: string): void
-  [MutationTypes.SET_MESSAGE] (state: S, payload: string): void
   [MutationTypes.SET_ACTIVE_EXAM] (state: S, examId: string | null): void
 }
 
@@ -42,10 +40,6 @@ export interface Actions {
   [ActionTypes.VERIFY] (
     { commit, dispatch }: AugmentedActionContext,
     token: string
-  ): Promise<void>
-  [ActionTypes.ALERT] (
-    { commit, dispatch }: AugmentedActionContext,
-    message: string
   ): Promise<void>
   [ActionTypes.ENROLL_STUDENT] (
     { commit, dispatch }: AugmentedActionContext,

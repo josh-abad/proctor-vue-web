@@ -51,12 +51,6 @@ export default {
       setSnackbarMessage(error.response.data.error)
     }
   },
-  async [ActionTypes.ALERT] ({ commit }, message) {
-    commit(MutationTypes.SET_MESSAGE, message)
-    setTimeout(() => {
-      commit(MutationTypes.SET_MESSAGE, '')
-    }, 5000)
-  },
   async [ActionTypes.ENROLL_STUDENT] (_, { studentId, courseId }) {
     try {
       await coursesService.enrollUser(studentId, courseId)
