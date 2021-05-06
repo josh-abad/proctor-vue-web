@@ -102,6 +102,7 @@ export default defineComponent({
 
     return {
       theme,
+      setTheme,
       setSnackbarMessage
     }
   },
@@ -115,7 +116,7 @@ export default defineComponent({
   watch: {
     automatic (enabled: boolean) {
       if (enabled) {
-        this.setTheme(null)
+        this.setTheme('system')
       } else {
         this.setTheme(this.darkMode ? 'dark' : 'light')
       }
