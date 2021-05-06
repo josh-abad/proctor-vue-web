@@ -129,7 +129,7 @@ export interface AppEvent {
   date: Date;
 }
 
-export type Theme = 'dark' | 'light' | null
+export type Theme = 'dark' | 'light' | 'system'
 
 export interface CourseGrades {
   courseName: string;
