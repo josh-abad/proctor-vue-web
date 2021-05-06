@@ -1,5 +1,4 @@
-import { Ref, ref } from '@vue/reactivity'
-import { watchEffect } from '@vue/runtime-core'
+import { Ref, ref, watchEffect } from 'vue'
 
 export default function useLocalStorage<T> (key: string, initialValue: T) {
   const data = ref(initialValue) as Ref<T>
