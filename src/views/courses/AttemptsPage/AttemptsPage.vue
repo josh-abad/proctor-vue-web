@@ -3,24 +3,24 @@
     <div v-if="exam">
       <PageHeader
         :links="links"
-        @menu-clicked="menuOpen = !menuOpen"
+        @menu-clicked="menuDropdown.toggle"
         :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
       >
         <template #label>{{ exam.label }}</template>
         <template #menu>
           <MenuDropdown
             class="mt-2 mr-2"
-            v-show="menuOpen"
-            @click-outside="menuOpen = false"
+            v-show="menuDropdown.isOpen"
+            @click-outside="menuDropdown.close"
           >
-            <MenuDropdownItem id="btn-open" @item-click="modalOpen = true">
+            <MenuDropdownItem id="btn-open" @item-click="deleteExamModal.open">
               <template #label>Delete Exam</template>
             </MenuDropdownItem>
           </MenuDropdown>
         </template>
       </PageHeader>
       <teleport to="#modals">
-        <AppModal :open="modalOpen" @close="modalOpen = false">
+        <AppModal :open="deleteExamModal.isOpen" @close="deleteExamModal.close">
           <template #header>Delete Quiz</template>
           <template #body>Are you sure you want to delete this quiz?</template>
           <template #action>
@@ -105,6 +105,7 @@ import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import examResultsService from '@/services/exam-results'
 import { DELETE_EXAM } from '@/store/action-types'
+import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Link } from '@/types'
 import { defineComponent } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
@@ -121,6 +122,7 @@ import useFetch from '@/composables/use-fetch'
 import examsService from '@/services/exams'
 import { useStore } from '@/store'
 import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -155,6 +157,10 @@ export default defineComponent({
     const store = useStore()
     const { setSnackbarMessage } = useSnackbar()
 
+    const deleteExamModal = useModal()
+
+    const menuDropdown = useModal()
+
     const [
       attempts,
       fetchAttempts,
@@ -183,7 +189,9 @@ export default defineComponent({
       errorLoadingAttempts,
       loadingExam,
       errorLoadingExam,
-      setSnackbarMessage
+      setSnackbarMessage,
+      deleteExamModal,
+      menuDropdown
     }
   },
   computed: {

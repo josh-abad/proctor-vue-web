@@ -26,15 +26,15 @@
     <div v-if="course" class="p-4">
       <PageHeader
         :links="links"
-        @menu-clicked="menuOpen = !menuOpen"
+        @menu-clicked="menuDropdown.toggle"
         :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
       >
         <template #label>{{ course.name }}</template>
         <template #menu>
           <MenuDropdown
             class="mt-2 mr-2"
-            v-show="menuOpen"
-            @click-outside="menuOpen = false"
+            v-show="menuDropdown.isOpen"
+            @click-outside="menuDropdown.close"
           >
             <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
               <template #label>Create Exam</template>
@@ -42,14 +42,14 @@
             <MenuDropdownItem :path="`/courses/${courseId}/edit`">
               <template #label>Edit Course</template>
             </MenuDropdownItem>
-            <MenuDropdownItem @item-click="deleteModalOpen = true">
+            <MenuDropdownItem @item-click="deleteCourseModal.open">
               <template #label>Delete Course</template>
             </MenuDropdownItem>
           </MenuDropdown>
         </template>
       </PageHeader>
       <teleport to="#modals">
-        <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+        <AppModal :open="deleteCourseModal.isOpen" @close="deleteCourseModal.close">
           <template #header> Delete Course </template>
           <template #body>
             Are you sure you want to delete this course?
@@ -107,6 +107,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import usersService from '@/services/users'
 import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -135,6 +136,10 @@ export default defineComponent({
   setup (props) {
     const { setSnackbarMessage } = useSnackbar()
 
+    const deleteCourseModal = useModal()
+
+    const menuDropdown = useModal()
+
     const [
       course,
       fetchCourse,
@@ -148,7 +153,9 @@ export default defineComponent({
       course,
       loading,
       error,
-      setSnackbarMessage
+      setSnackbarMessage,
+      deleteCourseModal,
+      menuDropdown
     }
   },
   computed: {

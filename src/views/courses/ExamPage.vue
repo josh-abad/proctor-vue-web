@@ -60,7 +60,7 @@
       </div>
     </Center>
     <teleport to="#modals">
-      <AppModal :open="warningModalOpen" @close="warningModalOpen = false">
+      <AppModal :open="warningModal.isOpen" @close="warningModal.close">
         <template #header> Warning </template>
         <template #body>
           Please refrain from leaving this page during the exam. You have
@@ -99,6 +99,8 @@ import { ExclamationIcon } from '@heroicons/vue/outline'
 import useFetch from '@/composables/use-fetch'
 import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
+import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -145,6 +147,8 @@ export default defineComponent({
       errorLoadingAttempt
     ] = useFetch<Attempt | null>(() => examAttemptsService.getAttempt(props.attemptId))
 
+    const warningModal = useModal()
+
     Promise.all([
       fetchExam(),
       fetchAttempt()
@@ -157,7 +161,8 @@ export default defineComponent({
       errorLoadingExam,
       loadingAttempt,
       errorLoadingAttempt,
-      setSnackbarMessage
+      setSnackbarMessage,
+      warningModal
     }
   },
   data () {
@@ -168,7 +173,6 @@ export default defineComponent({
       submitted: false,
       warnings: 0,
       maxWarnings: 5,
-      warningModalOpen: false
     }
   },
   computed: {
@@ -246,7 +250,7 @@ export default defineComponent({
         // } else {
         //   Notification.requestPermission()
         // }
-        this.warningModalOpen = true
+        this.warningModal.open()
       }
     }
   }

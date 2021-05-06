@@ -40,7 +40,7 @@
           <button
             id="btn-open"
             class="flex items-center text-red-500 focus:outline-none"
-            @click="deleteModalOpen = true"
+            @click="deleteAccountModal.open"
           >
             <TrashIcon class="w-5 h-5 pointer-events-none fill-current" />
             <span
@@ -50,7 +50,7 @@
             </span>
           </button>
           <teleport to="#modals">
-            <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+            <AppModal :open="deleteAccountModal.isOpen" @close="deleteAccountModal.close">
               <template #header> Deactivate Account </template>
               <template #body>
                 Are you sure you want to deactivate your account?
@@ -81,6 +81,7 @@ import SettingsItem from './components/SettingsItem.vue'
 import { TrashIcon, CogIcon } from '@heroicons/vue/solid'
 import useTheme from '@/composables/use-theme'
 import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -99,18 +100,19 @@ export default defineComponent({
     const { theme, setTheme } = useTheme()
     const { setSnackbarMessage } = useSnackbar()
 
+    const deleteAccountModal = useModal()
 
     return {
       theme,
       setTheme,
-      setSnackbarMessage
+      setSnackbarMessage,
+      deleteAccountModal
     }
   },
   data () {
     return {
       automatic: false,
-      darkMode: false,
-      deleteModalOpen: false
+      darkMode: false
     }
   },
   watch: {
@@ -134,7 +136,7 @@ export default defineComponent({
   },
   methods: {
     async deactivateAccount () {
-      this.deleteModalOpen = false
+      this.deleteAccountModal.close()
       if (this.$store.state.user) {
         try {
           await usersService.deleteUser(this.$store.state.user.id)

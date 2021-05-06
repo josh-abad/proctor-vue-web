@@ -5,15 +5,15 @@
         { name: 'Home', url: '/' },
         { name: 'Courses', url: '/courses' },
       ]"
-      @menu-clicked="isOpen = !isOpen"
+      @menu-clicked="menuDropdown.toggle"
       :hide-menu="!$store.getters.permissions(['admin'])"
     >
       <template #label>Courses</template>
       <template #menu>
         <MenuDropdown
           class="mt-2 mr-2"
-          v-show="isOpen"
-          @click-outside="isOpen = false"
+          v-show="menuDropdown.isOpen"
+          @click-outside="menuDropdown.close"
         >
           <MenuDropdownItem path="/courses/new">
             <template #label>Create Course</template>
@@ -34,13 +34,16 @@ import { defineComponent } from 'vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'CoursesPage',
   components: { AppPanel, PageHeader, MenuDropdown, MenuDropdownItem, CourseList },
-  data () {
+  setup () {
+    const menuDropdown = useModal()
+
     return {
-      isOpen: false
+      menuDropdown
     }
   }
 })

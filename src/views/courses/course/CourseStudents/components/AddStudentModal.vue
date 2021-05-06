@@ -1,7 +1,7 @@
 <template>
-  <AppButton id="btn-open" @click="isOpen = true">Add Student</AppButton>
+  <AppButton id="btn-open" @click="modal.open">Add Student</AppButton>
   <teleport to="#modals">
-    <AppModal :open="isOpen" @close="isOpen = false">
+    <AppModal :open="modal.isOpen" @close="modal.close">
       <template #header>Choose Students</template>
       <template #body>
         <div class="mt-4">
@@ -50,6 +50,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
 import coursesService from '@/services/courses'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'AddStudentModal',
@@ -62,6 +63,8 @@ export default defineComponent({
   },
   emits: ['close-modal'],
   setup (props) {
+    const modal = useModal()
+
     const [
       students,
       fetchStudents,
@@ -86,14 +89,14 @@ export default defineComponent({
       errorStudents,
       course,
       loadingCourse,
-      errorCourse
+      errorCourse,
+      modal
     }
   },
   data () {
     return {
       checkedNames: [],
-      searchFilter: '',
-      isOpen: false
+      searchFilter: ''
     }
   },
   computed: {

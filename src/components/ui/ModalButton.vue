@@ -1,10 +1,10 @@
 <template>
   <div>
-    <AppButton id="btn-open" @click="modalOpen = true" :prominent="prominent">
+    <AppButton id="btn-open" @click="modal.open" :prominent="prominent">
       <slot></slot>
     </AppButton>
     <teleport to="#modals">
-      <AppModal :open="modalOpen" @close="modalOpen = false">
+      <AppModal :open="modal.isOpen" @close="modal.close">
         <template #header>{{ header }}</template>
         <template #body>{{ message }}</template>
         <template #action>
@@ -21,6 +21,7 @@
 import { defineComponent } from 'vue'
 import AppModal from './AppModal.vue'
 import AppButton from './AppButton.vue'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'ModalButton',
@@ -47,9 +48,11 @@ export default defineComponent({
     }
   },
   emits: ['confirm'],
-  data () {
+  setup () {
+    const modal = useModal()
+
     return {
-      modalOpen: false
+      modal
     }
   }
 })

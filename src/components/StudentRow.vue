@@ -20,20 +20,20 @@
     </div>
     <button
       class="relative focus:outline-none"
-      @click="menuOpen = !menuOpen"
+      @click="menuDropdown.toggle"
       id="dropdown-toggle"
     >
       <DotsVerticalIcon class="w-6 h-6 pointer-events-none fill-current" />
       <MenuDropdown
         class="mr-8 -mt-6"
-        v-show="menuOpen"
-        @click-outside="menuOpen = false"
+        v-show="menuDropdown.isOpen"
+        @click-outside="menuDropdown.close"
       >
         <MenuDropdownItem :path="`/user/${student.id}`">
           <template #label> View Student </template>
         </MenuDropdownItem>
         <MenuDropdownItem
-          @item-click="unenrollModalOpen = true"
+          @item-click="unenrollStudentModal.open"
           separator
           v-if="courseId && $store.getters.permissions(['admin', 'coordinator'])"
         >
@@ -42,7 +42,7 @@
           </template>
         </MenuDropdownItem>
         <MenuDropdownItem
-          @item-click="deleteModalOpen = true"
+          @item-click="deleteStudentModal.open"
           separator
           v-if="!courseId && $store.getters.permissions(['admin'])"
         >
@@ -53,7 +53,7 @@
       </MenuDropdown>
     </button>
     <teleport to="#modals">
-      <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+      <AppModal :open="deleteStudentModal.isOpen" @close="deleteStudentModal.close">
         <template #header> Delete Account </template>
         <template #body>
           Are you sure you want to delete this account?
@@ -62,7 +62,7 @@
           <AppButton @click="deleteStudent" prominent> Delete </AppButton>
         </template>
       </AppModal>
-      <AppModal :open="unenrollModalOpen" @close="unenrollModalOpen = false">
+      <AppModal :open="unenrollStudentModal.isOpen" @close="unenrollStudentModal.close">
         <template #header> Un-Enroll Student </template>
         <template #body>
           Are you sure you want to unenroll this student from this course?
@@ -86,6 +86,7 @@ import AppModal from './ui/AppModal.vue'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
 import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -115,13 +116,20 @@ export default defineComponent({
   setup () {
     const { setSnackbarMessage } = useSnackbar()
 
+    const deleteStudentModal = useModal()
+    const unenrollStudentModal = useModal()
+    const menuDropdown = useModal()
+
     return {
-      setSnackbarMessage
+      setSnackbarMessage,
+      deleteStudentModal,
+      unenrollStudentModal,
+      menuDropdown
     }
   },
   methods: {
     async deleteStudent () {
-      this.deleteModalOpen = false
+      this.deleteStudentModal.close()
       try {
         await usersService.deleteUser(this.student.id)
         this.setSnackbarMessage('Student removed')
@@ -130,7 +138,7 @@ export default defineComponent({
       }
     },
     async unenrollStudent () {
-      this.unenrollModalOpen = false
+      this.unenrollStudentModal.close()
       if (this.courseId) {
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
