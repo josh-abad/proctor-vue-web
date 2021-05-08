@@ -65,7 +65,7 @@ const getOpenExams = async (id: string) => {
 }
 
 const getUpcomingExams = async (id: string) => {
-  const response = await axios.get<Exam[]>(`${baseUrl}/v2/${id}/upcoming-exams`)
+  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/upcoming-exams`)
   return response.data
 }
 
