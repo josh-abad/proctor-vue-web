@@ -127,6 +127,7 @@ export interface AppEvent {
   location: string;
   locationUrl: string;
   date: Date;
+  avatarUrl: string;
 }
 
 export type Theme = 'dark' | 'light' | 'system'

@@ -34,11 +34,6 @@ const getUser = async (id: string) => {
   return response.data
 }
 
-const getUserAvatar = async (id: string) => {
-  const response = await axios.get<Pick<User, 'avatarUrl'>>(`${baseUrl}/${id}/avatar`)
-  return response.data
-}
-
 const getCoordinators = async () => {
   const response = await axios.get<User[]>(`${baseUrl}/coordinators`)
   return response.data
@@ -98,7 +93,6 @@ export default {
   getAll,
   getStudents,
   getUser,
-  getUserAvatar,
   getStudent,
   getCoordinators,
   getCourses,
