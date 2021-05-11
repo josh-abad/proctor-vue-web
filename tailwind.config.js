@@ -37,6 +37,9 @@ module.exports = {
         },
         '.snap-none': {
           'scroll-snap-align': 'none'
+        },
+        '.glow': {
+          'box-shadow': '0px 0px 20px 0px rgb(16, 185, 129, 0.75)'
         }
       }
 
