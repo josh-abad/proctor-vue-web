@@ -1,4 +1,4 @@
-import { computed, onUnmounted, readonly, ref, watchEffect } from 'vue'
+import { computed, onUnmounted, reactive, readonly, ref, watchEffect } from 'vue'
 
 /**
  * A reactive timer that can be paused and resumed.
@@ -54,11 +54,11 @@ export default function useTimer (callback: () => void, duration: number) {
     return Math.floor(remaining.value / 1000)
   })
 
-  return {
-    pauseTimer,
-    stopTimer,
-    startTimer,
+  return reactive({
+    pause: pauseTimer,
+    stop: stopTimer,
+    start: startTimer,
     status: readonly(status),
     remainingTime: readonly(remainingTime)
-  }
+  })
 }

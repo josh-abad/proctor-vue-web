@@ -17,14 +17,13 @@ export default defineComponent({
     'unload'
   ],
   setup (_props, { emit }) {
-    const { startTimer, stopTimer } = useTimer(() => {
+    const timer = useTimer(() => {
       emit('leave-attempt')
-      startTimer()
+      timer.start()
     }, 5000)
 
     return {
-      startTimer,
-      stopTimer
+      timer
     }
   },
   beforeRouteLeave (to, from, next) {
@@ -54,10 +53,10 @@ export default defineComponent({
     },
     handleBlur () {
       this.$emit('leave-focus')
-      this.startTimer()
+      this.timer.start()
     },
     handleFocus () {
-      this.stopTimer()
+      this.timer.stop()
     },
     clearListeners () {
       window.removeEventListener('beforeunload', this.handleBeforeUnload)

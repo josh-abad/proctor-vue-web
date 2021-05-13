@@ -28,16 +28,16 @@
       <div class="timer">
         <h3 class="timer-header">Detection Timer</h3>
         <div class="timer-remaining">
-          Remaining: {{ remainingDetectionTime }} seconds
+          Remaining: {{ detectionTimer.remainingTime }} seconds
         </div>
-        <div class="timer-status">Status: {{ detectionTimerStatus }}</div>
+        <div class="timer-status">Status: {{ detectionTimer.status }}</div>
       </div>
       <div class="timer">
         <h3 class="timer-header">Identification Timer</h3>
         <div class="timer-remaining">
-          Remaining: {{ remainingIdentificationTime }} seconds
+          Remaining: {{ identificationTimer.remainingTime }} seconds
         </div>
-        <div class="timer-status">Status: {{ identificationTimerStatus }}</div>
+        <div class="timer-status">Status: {{ identificationTimer.status }}</div>
       </div>
     </div>
   </div>
@@ -77,38 +77,20 @@ export default defineComponent({
   setup (props, { emit }) {
     const { setSnackbarMessage } = useSnackbar()
 
-    const {
-      status: detectionTimerStatus,
-      startTimer: startDetectionTimer,
-      stopTimer: stopDetectionTimer,
-      remainingTime: remainingDetectionTime
-    } = useTimer(() => {
+    const detectionTimer = useTimer(() => {
       emit('no-face-seen')
-      startDetectionTimer()
+      detectionTimer.start()
     }, props.duration * 1000)
 
-    const {
-      status: identificationTimerStatus,
-      startTimer: startIdentificationTimer,
-      stopTimer: stopIdentificationTimer,
-      remainingTime: remainingIdentificationTime,
-      pauseTimer: pauseIdentificationTimer
-    } = useTimer(() => {
+    const identificationTimer = useTimer(() => {
       emit('unidentified-face')
-      startIdentificationTimer()
+      identificationTimer.start()
     }, props.duration * 1000)
 
     return {
-      detectionTimerStatus,
-      startDetectionTimer,
-      stopDetectionTimer,
-      remainingDetectionTime,
-      remainingIdentificationTime,
-      identificationTimerStatus,
-      startIdentificationTimer,
-      stopIdentificationTimer,
-      pauseIdentificationTimer,
-      setSnackbarMessage
+      detectionTimer,
+      identificationTimer,
+      setSnackbarMessage,
     }
   },
   data () {
@@ -130,22 +112,20 @@ export default defineComponent({
     }
   },
   watch: {
-    faceSeen (isFaceSeen: boolean) {
-      if (isFaceSeen) {
-        this.stopDetectionTimer()
-        if (this.identificationTimerStatus === 'paused') {
-          this.startIdentificationTimer()
+        this.detectionTimer.stop()
+        if (this.identificationTimer.status === 'paused') {
+          this.identificationTimer.start()
         }
-      } else if (['stopped', 'paused'].includes(this.detectionTimerStatus)) {
-        this.startDetectionTimer()
-        this.pauseIdentificationTimer()
+      } else if (['stopped', 'paused'].includes(this.detectionTimer.status)) {
+        this.detectionTimer.start()
+        this.identificationTimer.pause()
       }
     },
     faceIdentified (isFaceIdentified: boolean) {
       if (isFaceIdentified) {
-        this.stopIdentificationTimer()
-      } else if (['stopped', 'paused'].includes(this.identificationTimerStatus) && this.detectionTimerStatus === 'stopped') {
-        this.startIdentificationTimer()
+        this.identificationTimer.stop()
+      } else if (['stopped', 'paused'].includes(this.identificationTimer.status) && this.detectionTimer.status === 'stopped') {
+        this.identificationTimer.start()
       }
     }
   },
@@ -160,12 +140,12 @@ export default defineComponent({
     this.video.addEventListener('play', this.startDetection(faceMatcher))
 
     await this.startVideo()
-    this.startDetectionTimer()
+    this.detectionTimer.start()
   },
   unmounted () {
     this.stopVideo()
-    this.stopDetectionTimer()
-    this.stopIdentificationTimer()
+    this.detectionTimer.stop()
+    this.identificationTimer.stop()
   },
   methods: {
     async loadModels () {
