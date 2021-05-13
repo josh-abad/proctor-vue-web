@@ -4,7 +4,9 @@
       <AppLabel emphasis>Recent Courses</AppLabel>
     </div>
     <div>
-      <div v-if="error">Error! Could not load recent courses.</div>
+      <div v-if="error">
+        <ErrorLoading />
+      </div>
       <div v-else-if="loading" class="flex justify-start w-full mt-4 space-x-4">
         <SkeletonCourseCard />
         <SkeletonCourseCard class="hidden sm:block" />
@@ -30,13 +32,15 @@ import users from '@/services/users'
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
 import { useStore } from '@/store'
+import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 
 export default defineComponent({
   name: 'RecentCourses',
   components: {
     AppLabel,
     CoursesPageCard,
-    SkeletonCourseCard
+    SkeletonCourseCard,
+    ErrorLoading
   },
   setup () {
     const store = useStore()

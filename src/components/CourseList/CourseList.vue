@@ -5,7 +5,7 @@
       <ViewOptions class="mb-2" v-model="viewMode" />
     </div>
     <transition name="fade" mode="out-in">
-      <div v-if="error">Uh oh, we couldn't load the course list.</div>
+      <div v-if="error" class="mt-8"><ErrorLoading /></div>
       <div v-else-if="loading">
         <section v-if="viewMode === 'card'" class="course-list--card-view">
           <SkeletonCourseCard :key="i" v-for="i in 10" />
@@ -50,6 +50,7 @@ import CoursesPageCard from '../CoursesPageCard.vue'
 import SkeletonCourseListItem from '../SkeletonCourseListItem.vue'
 import SkeletonCourseCard from '../SkeletonCourseCard.vue'
 import CoursesPageListItem from '../CoursesPageListItem.vue'
+import ErrorLoading from '../ui/ErrorLoading.vue'
 
 export default defineComponent({
   name: 'CourseList',
@@ -59,7 +60,8 @@ export default defineComponent({
     CoursesPageCard,
     CoursesPageListItem,
     SkeletonCourseCard,
-    SkeletonCourseListItem
+    SkeletonCourseListItem,
+    ErrorLoading
   },
   setup () {
     const store = useStore()

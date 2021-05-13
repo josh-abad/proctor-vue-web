@@ -1,7 +1,7 @@
 <template>
   <AppPanel>
     <AppLabel class="pb-2 label-border" emphasis>Open Exams</AppLabel>
-    <div v-if="error">Could not load open exams.</div>
+    <div v-if="error"><ErrorLoading /></div>
     <div v-else-if="loading" class="mt-4 space-y-2">
       <SkeletonItem v-for="i in 5" :key="i" />
     </div>
@@ -36,10 +36,11 @@ import { Exam } from '@/types'
 import dayjs from 'dayjs'
 import SkeletonItem from './components/SkeletonItem.vue'
 import Item from './components/Item.vue'
+import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 
 export default defineComponent({
   name: 'OpenExams',
-  components: { AppPanel, AppLabel, SkeletonItem, Item },
+  components: { AppPanel, AppLabel, SkeletonItem, Item, ErrorLoading },
   setup () {
     const store = useStore()
 
