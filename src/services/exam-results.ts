@@ -41,14 +41,4 @@ const getAll = async () => {
   return response.data
 }
 
-/**
- * Gets all exam results from a single user
- * @param userId the id of the user
- */
-const getByUser = async (userId: string) => {
-  const params = new URLSearchParams({ userId })
-  const response = await axios.get<ExamResult[]>(baseUrl, { params })
-  return response.data
-}
-
-export default { submit, setToken, getAll, getByUser, hasToken }
+export default { submit, setToken, getAll, hasToken }

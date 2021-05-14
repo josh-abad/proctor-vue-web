@@ -39,14 +39,4 @@ const getAll = async () => {
   return response.data
 }
 
-/**
- * Gets all attempts from a single user
- * @param userId the id of the user
- */
-const getByUser = async (userId: string) => {
-  const params = new URLSearchParams({ userId })
-  const response = await axios.get<Attempt[]>(baseUrl, { params })
-  return response.data
-}
-
-export default { start, getAttempt, setToken, getAll, getByUser }
+export default { start, getAttempt, setToken, getAll }
