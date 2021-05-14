@@ -97,13 +97,14 @@ export default defineComponent({
     TrashIcon
   },
   setup () {
-    const { theme, setTheme } = useTheme()
+    const { theme, isSystemTheme, setTheme } = useTheme()
     const { setSnackbarMessage } = useSnackbar()
 
     const deleteAccountModal = useModal()
 
     return {
       theme,
+      isSystemTheme,
       setTheme,
       setSnackbarMessage,
       deleteAccountModal
@@ -128,10 +129,10 @@ export default defineComponent({
     }
   },
   mounted () {
-    if (this.theme) {
-      this.darkMode = this.theme === 'dark'
-    } else {
+    if (this.isSystemTheme) {
       this.automatic = true
+    } else {
+      this.darkMode = this.theme === 'dark'
     }
   },
   methods: {

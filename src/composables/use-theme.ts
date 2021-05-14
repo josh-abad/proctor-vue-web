@@ -1,5 +1,5 @@
 import { Theme } from '@/types'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 
 type SystemTheme = Exclude<Theme, 'system'>
 
@@ -18,16 +18,15 @@ export default function useTheme () {
 
   const isDarkTheme = computed(() => getTheme.value === 'dark')
 
+  const isSystemTheme = computed(() => theme.value === 'system')
+
   /**
    * Sets the theme to saved theme setting in localStorage.
    * If no theme is saved, it defaults to the system theme.
    * Call this method only once, at the start of the application.
    */
   function initTheme () { 
-    const body = document.querySelector('body')
-    if (body) {
-      body.classList.add('bg-gray-200', 'dark:bg-gray-900')
-    }
+    document.body.classList.add('bg-gray-200', 'dark:bg-gray-900')
 
     if (matchMedia(QUERY).matches) {
       systemTheme.value = 'dark'
@@ -45,8 +44,8 @@ export default function useTheme () {
       })
   }
 
-  watchEffect(() => {
-    localStorage.setItem('theme', theme.value)
+  watch(theme, value => {
+    localStorage.setItem('theme', value)
   })
 
   watchEffect(() => {
@@ -57,7 +56,7 @@ export default function useTheme () {
       } else {
         html.classList.remove('dark')
       }
-    }   
+    }
   })
 
   /**
@@ -68,18 +67,11 @@ export default function useTheme () {
     theme.value = value
   }
 
-  function foo<T> (bar: T | string) {
-    if (typeof bar === 'string') {
-      bar as string
-    } else {
-      bar
-    }
-  }
-
   return {
     theme: getTheme,
     setTheme,
     isDarkTheme,
+    isSystemTheme,
     initTheme
   }
 }
