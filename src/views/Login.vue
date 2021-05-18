@@ -3,7 +3,7 @@
     <ColorBackgroundCard v-if="!$store.state.user">
       <div class="p-4">
         <AppLogo class="h-7" />
-        <form class="mt-4">
+        <form class="mt-4" @submit.prevent="handleLogin">
           <h3 class="font-medium">Login</h3>
           <p class="text-xs text-gray-400">
             By continuing, you agree to our
@@ -34,7 +34,6 @@
           </div>
           <div class="mt-4">
             <AppButton
-              @click.prevent="handleLogin"
               :disabled="!fieldsFilled"
               type="submit"
               prominent

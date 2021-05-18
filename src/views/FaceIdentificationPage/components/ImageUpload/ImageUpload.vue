@@ -31,7 +31,7 @@
       :valid="validImage"
       :loading="loading"
     />
-    <form method="post" enctype="multipart/form-data" class="mt-2">
+    <form method="post" enctype="multipart/form-data" class="mt-2" @submit.prevent="handleSubmit">
       <div class="flex items-end justify-between">
         <label
           class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer hover:text-white hover:bg-green-500 focus:outline-none"
@@ -48,7 +48,6 @@
         </label>
         <AppButton
           class="mt-2"
-          @click.prevent="handleSubmit"
           :disabled="!(image && validImage)"
           type="submit"
           prominent
