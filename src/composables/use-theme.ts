@@ -20,6 +20,10 @@ export default function useTheme () {
 
   const isSystemTheme = computed(() => theme.value === 'system')
 
+  function isTheme (x: unknown): x is Theme {
+    return typeof x === 'string' && ['dark', 'light', 'system'].includes(x)
+  }
+
   /**
    * Sets the theme to saved theme setting in localStorage.
    * If no theme is saved, it defaults to the system theme.
@@ -33,8 +37,8 @@ export default function useTheme () {
     }
 
     const savedTheme = localStorage.getItem('theme')
-    if (savedTheme && ['dark', 'light', 'system'].includes(savedTheme)) {
-      setTheme(savedTheme as Theme)
+    if (isTheme(savedTheme)) {
+      setTheme(savedTheme)
     }
 
     window
