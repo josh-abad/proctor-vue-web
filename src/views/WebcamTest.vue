@@ -9,7 +9,7 @@
           @unidentified-face="handleUnidentifiedFace"
           :duration="10"
           :debug="debug"
-          :hide-video="!video"
+          :show-video="video"
         />
         <div class="inline-flex items-center text-red-400">
           <ExclamationIcon class="w-10 h-10" />

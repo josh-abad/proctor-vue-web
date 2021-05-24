@@ -58,7 +58,7 @@ export default defineComponent({
   name: 'Webcam',
   components: { DetectionIndicator },
   props: {
-    hideVideo: {
+    showVideo: {
       type: Boolean,
       default: false
     },
