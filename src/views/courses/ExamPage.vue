@@ -34,7 +34,6 @@
           @answer-changed="handleAnswerChange"
         />
         <div class="flex items-center justify-between mt-4">
-          <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <ModalButton
             header="Submit Answers"
             message="Are you sure you want to submit your answers?"
