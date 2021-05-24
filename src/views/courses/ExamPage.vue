@@ -1,27 +1,27 @@
 <template>
   <div class="p-4">
-    <teleport to="#modals">
-      <div
-        class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg backdrop-filter backdrop-blur"
-      >
-        <Webcam
-          @no-face-seen="handleNoFaceSeen"
-          @unidentified-face="handleUnidentifiedFace"
-          hide-video
-        />
-        <div class="flex items-center">
-          <ExclamationIcon
-            class="w-10 h-10 text-gray-500 stroke-current"
-            :class="{
-              'text-white': !warningsExceeded && warnings > 0,
-              'text-red-500': warningsExceeded,
-            }"
-          />
-          <span class="text-3xl">{{ warnings }}</span>
-        </div>
-      </div>
-    </teleport>
     <div v-if="examCanStart && exam && attempt">
+      <teleport to="#modals">
+        <div
+          class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg backdrop-filter backdrop-blur-lg"
+        >
+          <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
+          <Webcam
+            @no-face-seen="handleNoFaceSeen"
+            @unidentified-face="handleUnidentifiedFace"
+          />
+          <div class="flex items-center">
+            <ExclamationIcon
+              class="w-10 h-10 text-gray-500 stroke-current"
+              :class="{
+                'text-white': !warningsExceeded && warnings > 0,
+                'text-red-500': warningsExceeded,
+              }"
+            />
+            <span class="text-3xl">{{ warnings }}</span>
+          </div>
+        </div>
+      </teleport>
       <PageHeader hide-menu>
         <template #label>{{ exam.label }}</template>
       </PageHeader>
