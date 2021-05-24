@@ -11,13 +11,11 @@
         <SkeletonCourseCard />
         <SkeletonCourseCard class="hidden sm:block" />
       </div>
-      <div v-else class="flex mt-4 space-x-4 overflow-x-auto wrapper">
+      <div v-else class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
         <CoursesPageCard
-          class="flex-none carousel-1 sm:carousel-2 snap"
-          :class="i % 2 === 0 ? 'sm:snap' : 'sm:snap-none'"
           :course="course"
           :key="course.id"
-          v-for="(course, i) in recentCourses"
+          v-for="course in recentCourses"
         />
       </div>
     </div>
@@ -50,11 +48,9 @@ export default defineComponent({
       fetchRecentCourses,
       loading,
       error
-    ] = useFetch(() => users.getRecentCourses(store.state.user?.id ?? ''), [])
+    ] = useFetch(() => users.getRecentCourses(store.state.user?.id ?? '', 2), [])
 
-    fetchRecentCourses().then(() => {
-      recentCourses.value.reverse()
-    })
+    fetchRecentCourses()
 
     return {
       recentCourses,
@@ -64,13 +60,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.wrapper {
-  scroll-snap-type: x mandatory;
-}
-
-::-webkit-scrollbar {
-  display: none;
-}
-</style>

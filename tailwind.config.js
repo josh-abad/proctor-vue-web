@@ -32,12 +32,6 @@ module.exports = {
         '.carousel-2': {
           width: 'calc(50% - 0.5rem)'
         },
-        '.snap': {
-          'scroll-snap-align': 'start'
-        },
-        '.snap-none': {
-          'scroll-snap-align': 'none'
-        },
         '.glow': {
           'box-shadow': '0px 0px 20px 0px rgb(16, 185, 129, 0.75)'
         }

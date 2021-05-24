@@ -54,8 +54,10 @@ const addRecentCourse = async (id: string, courseId: string) => {
   return response.data
 }
 
-const getRecentCourses = async (id: string) => {
-  const response = await axios.get<Course[]>(`${baseUrl}/${id}/recent-courses`)
+const getRecentCourses = async (id: string, limit = 5) => {
+  const response = await axios.get<Course[]>(`${baseUrl}/${id}/recent-courses`, {
+    params: { limit }
+  })
   return response.data
 }
 
