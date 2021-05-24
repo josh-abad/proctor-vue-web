@@ -4,37 +4,35 @@
       <AppLabel emphasis>Your Courses</AppLabel>
       <ViewOptions class="mb-2" v-model="viewMode" />
     </div>
-    <transition name="fade" mode="out-in">
-      <div v-if="error" class="mt-8"><ErrorLoading /></div>
-      <div v-else-if="loading">
-        <section v-if="viewMode === 'card'" class="course-list--card-view">
-          <SkeletonCourseCard :key="i" v-for="i in 10" />
-        </section>
-        <section v-else-if="viewMode === 'list'" class="separator-y">
-          <SkeletonCourseListItem :key="i" v-for="i in 10" />
-        </section>
-      </div>
-      <div v-else>
-        <section v-if="!courses.length" class="course-list--empty">
-          You don't have any courses.
-        </section>
-        <section v-else-if="viewMode === 'card'" class="course-list--card-view">
-          <CoursesPageCard
-            class="w-full"
-            :course="course"
-            :key="course.id"
-            v-for="course in courses"
-          />
-        </section>
-        <section v-else-if="viewMode === 'list'" class="separator-y">
-          <CoursesPageListItem
-            :course="course"
-            :key="course.id"
-            v-for="course in courses"
-          />
-        </section>
-      </div>
-    </transition>
+    <div v-if="error" class="mt-8"><ErrorLoading /></div>
+    <div v-else-if="loading">
+      <section v-if="viewMode === 'card'" class="course-list--card-view">
+        <SkeletonCourseCard :key="i" v-for="i in 10" />
+      </section>
+      <section v-else-if="viewMode === 'list'" class="separator-y">
+        <SkeletonCourseListItem :key="i" v-for="i in 10" />
+      </section>
+    </div>
+    <div v-else>
+      <section v-if="!courses.length" class="course-list--empty">
+        You don't have any courses.
+      </section>
+      <section v-else-if="viewMode === 'card'" class="course-list--card-view">
+        <CoursesPageCard
+          class="w-full"
+          :course="course"
+          :key="course.id"
+          v-for="course in courses"
+        />
+      </section>
+      <section v-else-if="viewMode === 'list'" class="separator-y">
+        <CoursesPageListItem
+          :course="course"
+          :key="course.id"
+          v-for="course in courses"
+        />
+      </section>
+    </div>
   </div>
 </template>
 
@@ -91,20 +89,6 @@ export default defineComponent({
 .course-list__header {
   @apply flex items-center justify-between -mb-3;
 }
-
-.fade-enter-active,
-.fade-leave-active {
-  @apply opacity-100 duration-200 ease-in-out transition-opacity;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-}
-
-/* .course-list--empty {
-  @apply flex items-center justify-center h-40 my-3 text-xl font-semibold text-gray-500;
-} */
 
 .course-list--card-view {
   @apply mt-8 grid grid-cols-1 gap-4 md:grid-cols-2;
