@@ -197,9 +197,9 @@ export default defineComponent({
     }
   },
   mounted () {
+    this.hasToken = examResultsServices.hasToken()
     if (this.exam) {
       document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
-      this.hasToken = examResultsServices.hasToken()
     }
   },
   unmount () {
