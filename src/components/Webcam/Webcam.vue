@@ -2,57 +2,29 @@
   <div>
     <div class="flex items-center">
       <DetectionIndicator
-        :on="cameraOn"
-        :detected="faceSeen"
-        :identified="faceIdentified"
+        :on="isEnabled"
+        :detected="isFaceSeen"
+        :identified="isFaceIdentified"
       />
-      <div class="ml-2" v-if="debug">
-        {{
-          faceIdentified
-            ? "Face Identified"
-            : faceSeen
-            ? "Face Detected"
-            : "No Face detected"
-        }}
-      </div>
     </div>
     <video
-      v-show="cameraOn && !hideVideo"
+      v-show="isEnabled && showVideo"
       ref="video"
       width="100"
       height="60"
       autoplay
       muted
     />
-    <div class="webcam-timer-display" v-if="debug">
-      <div class="timer">
-        <h3 class="timer-header">Detection Timer</h3>
-        <div class="timer-remaining">
-          Remaining: {{ detectionTimer.remainingTime }} seconds
-        </div>
-        <div class="timer-status">Status: {{ detectionTimer.status }}</div>
-      </div>
-      <div class="timer">
-        <h3 class="timer-header">Identification Timer</h3>
-        <div class="timer-remaining">
-          Remaining: {{ identificationTimer.remainingTime }} seconds
-        </div>
-        <div class="timer-status">Status: {{ identificationTimer.status }}</div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import * as faceapi from 'face-api.js'
-import { TinyFaceDetectorOptions, TNetInput } from 'face-api.js'
+import { defineComponent, onMounted, onUnmounted, watch } from 'vue'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
-import useSnackbar from '@/composables/use-snackbar'
-
-const USE_TINY_MODEL = true
-const MODELS_URL = '/models'
+import useFaceDetection from '@/composables/use-face-detection'
+import useVideo from '@/composables/use-video'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'Webcam',
@@ -66,16 +38,11 @@ export default defineComponent({
     duration: {
       type: Number,
       default: 5
-    },
-
-    debug: {
-      type: Boolean,
-      default: false
     }
   },
   emits: ['no-face-seen', 'unidentified-face'],
   setup (props, { emit }) {
-    const { setSnackbarMessage } = useSnackbar()
+    const store = useStore()
 
     const detectionTimer = useTimer(() => {
       emit('no-face-seen')
@@ -87,131 +54,67 @@ export default defineComponent({
       identificationTimer.start()
     }, props.duration * 1000)
 
+    const { video, startVideo, stopVideo, isEnabled } = useVideo()
+
+    onUnmounted(() => {
+      stopVideo()
+      detectionTimer.stop()
+      identificationTimer.stop()
+    })
+
+    if (!store.state.user) {
+      throw new Error('User not logged in')
+    }
+
+    const {
+      isFaceSeen,
+      isFaceIdentified,
+      startDetection
+    } = useFaceDetection({
+      faceRecognition: store.state.user.referenceImageUrl
+        ? {
+          name: store.state.user.fullName,
+          referenceImageUrl: store.state.user.referenceImageUrl
+        }
+        : undefined
+    })
+
+    watch(isFaceSeen, isSeen => {
+      if (isSeen) {
+        detectionTimer.stop()
+        if (identificationTimer.status === 'paused') {
+          identificationTimer.start()
+        }
+      } else if (detectionTimer.status !== 'active') {
+        detectionTimer.start()
+        identificationTimer.pause()
+      }
+    })
+
+    watch(isFaceIdentified, isIdentified => {
+      if (isIdentified) {
+        identificationTimer.stop()
+      } else if (identificationTimer.status !== 'active' && detectionTimer.status === 'stopped') {
+        identificationTimer.start()
+      }
+    })
+
+    onMounted(async () => {
+      if (video.value) {
+        video.value.addEventListener('play', startDetection(video.value))
+      }
+
+      await startVideo()
+      detectionTimer.start()
+    })
+
     return {
       detectionTimer,
       identificationTimer,
-      setSnackbarMessage,
-    }
-  },
-  data () {
-    return {
-      faceSeen: false,
-      multipleFacesSeen: 0,
-      usersSeen: [] as string[],
-      video: {} as HTMLMediaElement,
-      cameraOn: false
-    }
-  },
-  computed: {
-    userName (): string {
-      return this.$store.state.user?.fullName || ''
-    },
-
-    faceIdentified (): boolean {
-      return this.usersSeen.length === 1 && this.usersSeen[0].includes(this.userName)
-    }
-  },
-  watch: {
-        this.detectionTimer.stop()
-        if (this.identificationTimer.status === 'paused') {
-          this.identificationTimer.start()
-        }
-      } else if (['stopped', 'paused'].includes(this.detectionTimer.status)) {
-        this.detectionTimer.start()
-        this.identificationTimer.pause()
-      }
-    },
-    faceIdentified (isFaceIdentified: boolean) {
-      if (isFaceIdentified) {
-        this.identificationTimer.stop()
-      } else if (['stopped', 'paused'].includes(this.identificationTimer.status) && this.detectionTimer.status === 'stopped') {
-        this.identificationTimer.start()
-      }
-    }
-  },
-  async mounted () {
-    this.video = this.$refs.video as HTMLMediaElement
-
-    await this.loadModels()
-
-    const faceMatcher = await this.createFaceMatcher()
-    if (!faceMatcher) return
-
-    this.video.addEventListener('play', this.startDetection(faceMatcher))
-
-    await this.startVideo()
-    this.detectionTimer.start()
-  },
-  unmounted () {
-    this.stopVideo()
-    this.detectionTimer.stop()
-    this.identificationTimer.stop()
-  },
-  methods: {
-    async loadModels () {
-      await Promise.all([
-        faceapi.loadTinyFaceDetectorModel(MODELS_URL),
-        faceapi.loadFaceLandmarkTinyModel(MODELS_URL),
-        faceapi.loadFaceRecognitionModel(MODELS_URL)
-      ])
-    },
-    startDetection (faceMatcher: faceapi.FaceMatcher) {
-      return () => {
-        setInterval(async () => {
-          const detections = await faceapi
-            .detectAllFaces(this.video as TNetInput, new TinyFaceDetectorOptions({ inputSize: 128 }))
-            .withFaceLandmarks(USE_TINY_MODEL)
-            .withFaceDescriptors()
-
-          const results = detections.map(fd => faceMatcher.findBestMatch(fd.descriptor))
-
-          this.faceSeen = !!detections.length
-          this.usersSeen = results.map(match => match.toString())
-          this.multipleFacesSeen = detections.length
-        }, 300)
-      }
-    },
-    async startVideo () {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
-        this.video.srcObject = stream
-        this.video.play()
-        this.cameraOn = true
-      } catch (error) {
-        this.setSnackbarMessage(error)
-      }
-    },
-    stopVideo () {
-      const stream = this.video?.srcObject as MediaStream
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop())
-        this.cameraOn = false
-      }
-    },
-    async createFaceMatcher () {
-      const imgUrl = this.$store.state.user?.referenceImageUrl
-
-      if (!imgUrl) return null
-
-      try {
-        const img = await faceapi.fetchImage(encodeURI(imgUrl))
-        const detection = await faceapi
-          .detectSingleFace(img, new TinyFaceDetectorOptions())
-          .withFaceLandmarks(USE_TINY_MODEL)
-          .withFaceDescriptor()
-
-        if (!detection) {
-          throw new Error(`No face detected for ${this.userName}.`)
-        }
-
-        const descriptor = [detection.descriptor]
-        const labeledDescriptor = new faceapi.LabeledFaceDescriptors(this.userName || 'unknown', descriptor)
-
-        const maxDescriptorDistance = 0.6
-        return new faceapi.FaceMatcher(labeledDescriptor, maxDescriptorDistance)
-      } catch (error) {
-        return null
-      }
+      video,
+      isFaceSeen,
+      isFaceIdentified,
+      isEnabled
     }
   }
 })
