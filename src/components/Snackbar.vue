@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 right-0 flex items-center px-5 py-4 mb-10 mr-10 overflow-auto overflow-x-hidden transition-transform duration-300 ease-in-out transform bg-gray-900 bg-opacity-50 rounded-lg shadow dark:bg-white dark:bg-opacity-50 backdrop-filter backdrop-blur"
+    class="fixed bottom-0 right-0 flex items-center px-5 py-4 mb-10 mr-10 overflow-auto overflow-x-hidden transition-transform duration-300 ease-in-out transform bg-gray-900 bg-opacity-50 rounded-lg shadow dark:bg-white dark:bg-opacity-50 backdrop-filter backdrop-blur-lg-lg"
     :class="message ? 'translate-y-0' : 'translate-x-52'"
   >
     <div class="mr-12 text-white dark:text-gray-900">

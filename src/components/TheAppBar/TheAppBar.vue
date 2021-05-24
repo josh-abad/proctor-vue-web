@@ -41,7 +41,7 @@ export default defineComponent({
 .app-bar::before {
   content: "";
   z-index: -1;
-  @apply absolute w-full h-full backdrop-filter backdrop-blur;
+  @apply absolute w-full h-full backdrop-filter backdrop-blur-lg;
 }
 
 .app-bar__border {

@@ -20,7 +20,7 @@
       </button>
       <transition name="dropdown-fade">
         <div
-          class="absolute w-full mt-1 bg-gray-100 bg-opacity-50 border border-gray-800 rounded-md shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-filter backdrop-blur dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
+          class="absolute w-full mt-1 bg-gray-100 bg-opacity-50 border border-gray-800 rounded-md shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
           v-show="open"
         >
           <ul

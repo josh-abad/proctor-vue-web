@@ -145,7 +145,7 @@ export default defineComponent({
 }
 
 .calendar--compact {
-  @apply dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur;
+  @apply dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg;
 }
 
 .calendar__border {
