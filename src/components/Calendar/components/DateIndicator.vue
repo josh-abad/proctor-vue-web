@@ -7,15 +7,18 @@
 <script lang="ts">
 import { Dayjs } from 'dayjs'
 import { defineComponent, PropType } from 'vue'
-import compactMixin from '@/mixins/compact'
 
 export default defineComponent({
   name: 'DateIndicator',
-  mixins: [compactMixin],
   props: {
     selectedDate: {
       type: Object as PropType<Dayjs>,
       required: true
+    },
+
+    compact: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
