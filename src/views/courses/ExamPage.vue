@@ -1,6 +1,12 @@
 <template>
   <div class="p-4">
-    <div v-if="examCanStart && exam && attempt">
+    <div v-if="error">
+      Invalid attempt
+    </div>
+    <div v-else-if="isLoading">
+      Loading exam...
+    </div>
+    <div v-else-if="attempt && isActive">
       <teleport to="#modals">
         <div
           class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg backdrop-filter backdrop-blur-lg"
@@ -13,21 +19,18 @@
           <div class="flex items-center">
             <ExclamationIcon
               class="w-10 h-10 text-gray-500 stroke-current"
-              :class="{
-                'text-white': !warningsExceeded && warnings > 0,
-                'text-red-500': warningsExceeded,
-              }"
+              :class="{ 'text-white': warnings > 0 }"
             />
             <span class="text-3xl">{{ warnings }}</span>
           </div>
         </div>
       </teleport>
       <PageHeader hide-menu>
-        <template #label>{{ exam.label }}</template>
+        <template #label>{{ attempt.exam.label }}</template>
       </PageHeader>
       <AppPanel class="mt-4">
         <BaseExamItem
-          v-for="(item, i) in exam.examItems"
+          v-for="(item, i) in attempt.exam.examItems"
           :key="i"
           :exam-item="item"
           :question-number="i + 1"
@@ -68,22 +71,15 @@
         </template>
       </AppModal>
     </teleport>
-    <KeepOnPage
-      v-if="examCanStart"
-      :prevent-leave="!submitted"
-      @leave-attempt="handleLeaveAttempt"
-      @leave-focus="warn"
-      @leave-timeout="warn"
-    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
-import examResultsServices from '@/services/exam-results'
-import { Answer, Attempt, Exam } from '@/types'
+import examResultsService from '@/services/exam-results'
+import { Answer, Attempt } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
@@ -93,13 +89,15 @@ import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
-import KeepOnPage from '@/components/KeepOnPage.vue'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import useFetch from '@/composables/use-fetch'
-import examsService from '@/services/exams'
 import examAttemptsService from '@/services/exam-attempts'
 import useSnackbar from '@/composables/use-snackbar'
 import useModal from '@/composables/use-modal'
+import useKeepOnPage from '@/composables/use-keep-on-page'
+import useWarning from '@/composables/use-warning'
+import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -113,7 +111,6 @@ export default defineComponent({
     ModalButton,
     AppModal,
     Webcam,
-    KeepOnPage,
     ExclamationIcon
   },
   props: {
@@ -131,126 +128,105 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const store = useStore()
+    const router = useRouter()
+
     const { setSnackbarMessage } = useSnackbar()
-    const [
-      exam,
-      fetchExam,
-      loadingExam,
-      errorLoadingExam
-    ] = useFetch<Exam | null>(() => examsService.getExam(props.examId))
 
     const [
       attempt,
       fetchAttempt,
-      loadingAttempt,
-      errorLoadingAttempt
+      isLoading,
+      error
     ] = useFetch<Attempt | null>(() => examAttemptsService.getAttempt(props.attemptId))
 
     const warningModal = useModal()
 
-    Promise.all([
-      fetchExam(),
-      fetchAttempt()
-    ])
+    const isActive = ref(false)
+
+    const answers = ref<Answer[]>([])
+
+    const handleSubmit = async () => {
+      isActive.value = false
+      await store.dispatch(SUBMIT_EXAM, { answers: answers.value, examId: props.examId })
+      store.commit(SET_ACTIVE_EXAM, null)
+      router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
+    }
+
+    // const handleUnload = async () => {
+    //   localStorage.setItem('pendingSubmission', JSON.stringify({
+    //     answers: answers.value,
+    //     examId: props.examId,
+    //     submittedDate: new Date()
+    //   }))
+    //   store.commit(SET_ACTIVE_EXAM, null)
+    //   await store.dispatch(SUBMIT_EXAM, {
+    //     answers: answers.value,
+    //     examId: props.examId
+    //   })
+    // }
+
+    const {
+      warn,
+      warnings,
+      warningsLeft,
+    } = useWarning({
+      maximum: 5,
+      onWarn: warningModal.open,
+      onExceed: handleSubmit
+    })
+
+    fetchAttempt().then(() => {
+      if (examResultsService.hasToken() && (store.state.activeExam === attempt.value?.exam.id)) {
+        isActive.value = true
+        useKeepOnPage({
+          preventLeave: isActive,
+          onLeaveAttempt: () => {
+            setSnackbarMessage('You cannot leave until you have finished the exam')
+          },
+          onLeaveFocus: warn,
+          onLeaveTimeout: warn
+        })
+      }
+    })
+
+    const handleNoFaceSeen = () => {
+      warn(false)
+      setSnackbarMessage('No face seen for 10 seconds.')
+    }
+
+    const handleUnidentifiedFace = () => {
+      warn(false)
+      setSnackbarMessage('Face unidentified for 10 seconds')
+    }
+
+    onMounted(() => {
+      if (attempt.value) {
+        document.title = `${attempt.value.exam.label} in ${attempt.value.exam.course.name} - Proctor Vue`
+      } else {
+        document.title = 'Invalid Exam - Proctor Vue'
+      }
+    })
+
+    onUnmounted(() => {
+      if (isActive.value) {
+        handleSubmit()
+      }
+    })
 
     return {
-      exam,
       attempt,
-      loadingExam,
-      errorLoadingExam,
-      loadingAttempt,
-      errorLoadingAttempt,
+      isLoading,
+      error,
       setSnackbarMessage,
-      warningModal
-    }
-  },
-  data () {
-    const answers: Answer[] = []
-    return {
+      warningModal,
+      warnings,
+      warningsLeft,
+      handleSubmit,
       answers,
-      hasToken: false,
-      submitted: false,
-      warnings: 0,
-      maxWarnings: 5,
-    }
-  },
-  computed: {
-    examCanStart (): boolean {
-      return !!this.exam && !!this.attempt && this.hasToken && (this.activeExam === this.exam.id)
-    },
-    activeExam (): string | null {
-      return this.$store.state.activeExam
-    },
-    warningsExceeded (): boolean {
-      return this.warnings === this.maxWarnings
-    },
-    warningsLeft (): number {
-      return this.maxWarnings - this.warnings
-    }
-  },
-  watch: {
-    warningsExceeded (exceeded: boolean) {
-      if (exceeded) {
-        this.handleSubmit()
-      }
-    }
-  },
-  mounted () {
-    this.hasToken = examResultsServices.hasToken()
-    if (this.exam) {
-      document.title = `${this.exam.label} in ${this.exam.course.name} | Proctor Vue`
-    }
-  },
-  unmount () {
-    if (this.activeExam) {
-      this.handleSubmit()
-    }
-  },
-  methods: {
-    handleNoFaceSeen () {
-      this.warnings++
-      this.setSnackbarMessage('No face seen for 10 seconds.')
-    },
-    handleUnidentifiedFace () {
-      this.warnings++
-      this.setSnackbarMessage('Face unidentified for 10 seconds')
-    },
-    handleAnswerChange ({ question, answer }: Answer) {
-      // FIXME: duplicate questions don't get counted
-      if (this.answers.some((a: Answer) => a.question === question)) {
-        const index = this.answers.findIndex(a => a.question === question)
-        this.answers[index] = { question, answer }
-      } else {
-        this.answers.push({ question, answer })
-      }
-    },
-    handleLeaveAttempt () {
-      this.setSnackbarMessage(`You cannot leave until you have ${this.maxWarnings} warnings`)
-    },
-    async handleSubmit () {
-      this.submitted = true
-      await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
-      this.$store.commit(SET_ACTIVE_EXAM, null)
-      this.$router.replace(`/courses/${this.courseId}/exams/${this.examId}`)
-    },
-    handleUnload () {
-      localStorage.setItem('pendingSubmission', JSON.stringify({ answers: this.answers, examId: this.examId, submittedDate: new Date() }))
-      this.$store.commit(SET_ACTIVE_EXAM, null)
-      // await this.$store.dispatch(SUBMIT_EXAM, { answers: this.answers, examId: this.examId })
-    },
-    warn () {
-      if (!this.warningsExceeded) {
-        this.warnings++
-        // if (Notification.permission === 'granted') {
-        //   const notification = new Notification('Return to exam')
-        //   notification.addEventListener('click', () => {
-        //     window.focus()
-        //   })
-        // } else {
-        //   Notification.requestPermission()
-        // }
-        this.warningModal.open()
-      }
+      isActive,
+      handleNoFaceSeen,
+      handleUnidentifiedFace
     }
   }
 })
