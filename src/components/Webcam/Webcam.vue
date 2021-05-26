@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, watch } from 'vue'
+import { defineComponent, onBeforeUnmount, onMounted, watch } from 'vue'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
 import useFaceDetection from '@/composables/use-face-detection'
@@ -56,7 +56,7 @@ export default defineComponent({
 
     const { video, startVideo, stopVideo, isEnabled } = useVideo()
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       stopVideo()
       detectionTimer.stop()
       identificationTimer.stop()
