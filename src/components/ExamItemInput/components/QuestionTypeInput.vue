@@ -3,7 +3,7 @@
     <ViewToggle
       value="text"
       :model-value="modelValue"
-      @update:model-value="handleUpdate"
+      @update:modelValue="handleUpdate"
       class="toggle"
       :class="{ 'toggle-selected': modelValue === 'text' }"
       >Text</ViewToggle
@@ -11,7 +11,7 @@
     <ViewToggle
       value="multiple choice"
       :model-value="modelValue"
-      @update:model-value="handleUpdate"
+      @update:modelValue="handleUpdate"
       class="toggle"
       :class="{ 'toggle-selected': modelValue === 'multiple choice' }"
       >Multiple Choice</ViewToggle
@@ -19,7 +19,7 @@
     <ViewToggle
       value="multiple answers"
       :model-value="modelValue"
-      @update:model-value="handleUpdate"
+      @update:modelValue="handleUpdate"
       class="toggle"
       :class="{ 'toggle-selected': modelValue === 'multiple answers' }"
       >Checkbox</ViewToggle

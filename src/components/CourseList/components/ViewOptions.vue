@@ -2,14 +2,14 @@
   <div class="options">
     <ViewToggle
       :model-value="modelValue"
-      @update:model-value="handleSelect"
+      @update:modelValue="handleSelect"
       value="card"
     >
       <ViewGridIcon class="options__icon" />
     </ViewToggle>
     <ViewToggle
       :model-value="modelValue"
-      @update:model-value="handleSelect"
+      @update:modelValue="handleSelect"
       value="list"
     >
       <ViewListIcon class="options__icon" />

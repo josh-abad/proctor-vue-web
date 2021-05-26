@@ -26,7 +26,7 @@
         :model-value="modelValue"
         :has-event="formattedEventDates.includes(day.date)"
         @click="$emit('date-pick')"
-        @update:model-value="(newDate) => $emit('update:modelValue', newDate)"
+        @update:modelValue="(newDate) => $emit('update:modelValue', newDate)"
       />
     </ol>
   </div>

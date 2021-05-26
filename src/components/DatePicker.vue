@@ -9,7 +9,7 @@
     <transition name="dropdown-fade">
       <Calendar
         :model-value="modelValue"
-        @update:model-value="handleUpdate"
+        @update:modelValue="handleUpdate"
         @date-pick="closeModal"
         class="date-picker__dropdown"
         v-show="isOpen"

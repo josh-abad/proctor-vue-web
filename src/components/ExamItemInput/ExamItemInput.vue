@@ -8,7 +8,7 @@
         <div class="w-full">
           <QuestionTypeInput
             :model-value="questionType"
-            @update:model-value="
+            @update:modelValue="
               (newValue) => $emit('update:questionType', newValue)
             "
           />
@@ -18,7 +18,7 @@
             placeholder="Question"
             class="w-full"
             :model-value="question"
-            @update:model-value="
+            @update:modelValue="
               (newValue) => $emit('update:question', newValue)
             "
             type="text"
@@ -30,7 +30,7 @@
             placeholder="Text answer"
             class="w-full text-sm sm:w-1/2"
             :model-value="answer?.[0] || ''"
-            @update:model-value="
+            @update:modelValue="
               (newValue) => $emit('update:answer', [newValue])
             "
             type="text"
@@ -64,7 +64,7 @@
               <AppInput
                 type="text"
                 :model-value="choices[i]"
-                @update:model-value="
+                @update:modelValue="
                   (newChoice) => handleUpdateChoices(newChoice, i)
                 "
                 class="text-sm"
