@@ -24,7 +24,6 @@
           v-show="open"
         >
           <ul
-            tabindex="-1"
             role="listbox"
             aria-labelledby="listbox-label"
             aria-activedescendant="listbox-item-3"

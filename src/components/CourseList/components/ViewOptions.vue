@@ -33,8 +33,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleSelect (viewMode: 'card' | 'list') {
-      this.$emit('update:modelValue', viewMode)
+    handleSelect ($event: string | undefined) {
+      if ($event !== undefined) {
+        this.$emit('update:modelValue', $event)
+      }
     }
   }
 })

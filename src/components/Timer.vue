@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'Timer',
   props: {
     end: {
-      type: [Date, String],
+      type: [Object, String] as PropType<Date | string>,
       required: true
     }
   },

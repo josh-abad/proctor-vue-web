@@ -8,7 +8,7 @@
         class="w-full sm:w-80"
         :date="date"
         :events="eventsOnDate"
-        @close="value = null"
+        @close="value = ''"
         v-show="value"
       />
     </div>

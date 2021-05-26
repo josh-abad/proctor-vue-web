@@ -53,8 +53,10 @@ export default defineComponent({
     closeModal () {
       this.isOpen = false
     },
-    handleUpdate (date: string) {
-      this.$emit('update:modelValue', date)
+    handleUpdate ($event: string | undefined) {
+      if ($event !== undefined) {
+        this.$emit('update:modelValue', $event)
+      }
     }
   }
 })

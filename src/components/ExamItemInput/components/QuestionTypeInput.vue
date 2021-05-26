@@ -42,8 +42,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleUpdate (newValue: string) {
-      this.$emit('update:modelValue', newValue)
+    handleUpdate ($event: string | undefined) {
+      if ($event !== undefined) {
+        this.$emit('update:modelValue', $event)
+      }
     }
   }
 })
