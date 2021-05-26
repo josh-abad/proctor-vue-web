@@ -9,7 +9,7 @@
     <transition name="dropdown-fade">
       <Calendar
         :model-value="modelValue"
-        @update:model-value="handleUpdate"
+        @update:modelValue="handleUpdate"
         @date-pick="closeModal"
         class="date-picker__dropdown"
         v-show="isOpen"
@@ -53,8 +53,10 @@ export default defineComponent({
     closeModal () {
       this.isOpen = false
     },
-    handleUpdate (date: string) {
-      this.$emit('update:modelValue', date)
+    handleUpdate ($event: string | undefined) {
+      if ($event !== undefined) {
+        this.$emit('update:modelValue', $event)
+      }
     }
   }
 })

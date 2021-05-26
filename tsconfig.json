@@ -13,14 +13,16 @@
       "dom"
     ],
     "types": [
-      "vite/client"
+      "vite/client",
+      "node"
     ],
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",

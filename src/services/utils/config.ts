@@ -1,1 +1,1 @@
-export default process.env.NODE_ENV === 'production' ? 'https://api.proctorvue.live' : 'http://localhost:3001'
+export default import.meta.env.PROD ? 'https://api.proctorvue.live' : 'http://localhost:3001'

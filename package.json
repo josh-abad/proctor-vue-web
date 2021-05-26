@@ -1,6 +1,6 @@
 {
   "name": "@proctor-vue/web",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.3.2",
+    "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "@vitejs/plugin-vue": "^1.2.2",

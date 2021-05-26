@@ -6,7 +6,6 @@ import { State, Mutations, Actions, Getters } from './interfaces'
 
 const state: State = {
   user: null,
-  message: '',
   activeExam: null
 }
 

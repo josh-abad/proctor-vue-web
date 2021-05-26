@@ -30,15 +30,18 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import { defineComponent, PropType } from 'vue'
-import compactMixin from '@/mixins/compact'
 
 export default defineComponent({
   name: 'DayItem',
-  mixins: [compactMixin],
   props: {
     modelValue: {
       type: String,
       default: ''
+    },
+
+    compact: {
+      type: Boolean,
+      default: false
     },
 
     day: {

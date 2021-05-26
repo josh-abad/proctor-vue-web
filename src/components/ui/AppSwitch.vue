@@ -13,8 +13,7 @@
         :class="{ 'transform translate-x-full': modelValue }"
       >
         <input
-          :value="modelValue"
-          @change="$emit('update:modelValue', $event.target.checked)"
+          @change="handleChange"
           :disabled="disabled"
           type="checkbox"
           class="absolute w-0 h-0 opacity-0"
@@ -43,6 +42,13 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['update:modelValue']
+  emits: ['update:modelValue'],
+  methods: {
+    handleChange ($event: Event) {
+      if ($event.target instanceof HTMLInputElement) {
+        this.$emit('update:modelValue', $event.target.checked)
+      }
+    }
+  }
 })
 </script>
