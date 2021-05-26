@@ -8,7 +8,7 @@
         <div class="w-full">
           <QuestionTypeInput
             :model-value="questionType"
-            @update:model-value="
+            @update:modelValue="
               (newValue) => $emit('update:questionType', newValue)
             "
           />
@@ -18,7 +18,7 @@
             placeholder="Question"
             class="w-full"
             :model-value="question"
-            @update:model-value="
+            @update:modelValue="
               (newValue) => $emit('update:question', newValue)
             "
             type="text"
@@ -30,7 +30,7 @@
             placeholder="Text answer"
             class="w-full text-sm sm:w-1/2"
             :model-value="answer?.[0] || ''"
-            @update:model-value="
+            @update:modelValue="
               (newValue) => $emit('update:answer', [newValue])
             "
             type="text"
@@ -54,9 +54,7 @@
                 type="checkbox"
                 :value="choice"
                 :model-value="answer"
-                @change="
-                  (event) => handleRadioChange(event.target.checked, choice)
-                "
+                @change="handleRadioChange($event, choice)"
                 v-else-if="questionType === 'multiple answers'"
               />
             </div>
@@ -64,9 +62,7 @@
               <AppInput
                 type="text"
                 :model-value="choices[i]"
-                @update:model-value="
-                  (newChoice) => handleUpdateChoices(newChoice, i)
-                "
+                @update:modelValue="handleUpdateChoices($event, i)"
                 class="text-sm"
               />
             </div>
@@ -132,18 +128,22 @@ export default defineComponent({
     }
   },
   methods: {
-    handleRadioChange (checked: boolean, choice: string) {
+    handleRadioChange ($event: Event, choice: string) {
       const byIndex = (_value: string, index: number): boolean => {
         return this.answer.indexOf(choice) !== index
       }
 
-      this.$emit('update:answer', checked ? [...this.answer, choice] : this.answer.filter(byIndex))
-    },
-    handleUpdateChoices (newChoice: string, oldChoiceIndex: number) {
-      const toNewChoice = (choice: string, index: number): string => {
-        return index === oldChoiceIndex ? newChoice : choice
+      if ($event.target instanceof HTMLInputElement) {
+        this.$emit('update:answer', $event.target.checked ? [...this.answer, choice] : this.answer.filter(byIndex))
       }
-      this.$emit('update:choices', this.choices.map(toNewChoice))
+    },
+    handleUpdateChoices ($event: string | number | undefined, oldChoiceIndex: number) {
+      if (typeof $event === 'string') {
+        const toNewChoice = (choice: string, index: number): string => {
+          return index === oldChoiceIndex ? $event : choice
+        }
+        this.$emit('update:choices', this.choices.map(toNewChoice))
+      }
     }
   }
 })

@@ -8,18 +8,20 @@
     >
       {{ examItem.question }}
       <div class="mt-4">
-        <AppInput
-          v-if="examItem.questionType === 'text'"
-          v-model="answer"
-          type="text"
-        />
-        <div v-else-if="examItem.questionType === 'multiple choice'" class="space-y-2">
-          <RadioButton
-            v-for="(choice, i) in examItem.choices"
-            :key="i"
-            :value="choice"
+        <div v-if="typeof answer === 'string'">
+          <AppInput
+            v-if="examItem.questionType === 'text'"
             v-model="answer"
+            type="text"
           />
+          <div v-else-if="examItem.questionType === 'multiple choice'" class="space-y-2">
+            <RadioButton
+              v-for="(choice, i) in examItem.choices"
+              :key="i"
+              :value="choice"
+              v-model="answer"
+            />
+          </div>
         </div>
         <div v-else class="space-y-2">
           <AppCheckbox

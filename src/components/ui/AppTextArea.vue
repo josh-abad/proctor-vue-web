@@ -4,7 +4,7 @@
     name=""
     id=""
     :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="handleInput"
   ></textarea>
 </template>
 
@@ -20,6 +20,13 @@ export default defineComponent({
       default: ''
     }
   },
-  emits: ['update:modelValue']
+  emits: ['update:modelValue'],
+  methods: {
+    handleInput ($event: Event) {
+      if ($event.target instanceof HTMLInputElement) {
+        this.$emit('update:modelValue', $event.target.value)
+      }
+    }
+  }
 })
 </script>

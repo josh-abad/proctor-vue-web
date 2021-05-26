@@ -26,7 +26,7 @@
         :model-value="modelValue"
         :has-event="formattedEventDates.includes(day.date)"
         @click="$emit('date-pick')"
-        @update:model-value="(newDate) => $emit('update:modelValue', newDate)"
+        @update:modelValue="(newDate) => $emit('update:modelValue', newDate)"
       />
     </ol>
   </div>
@@ -41,7 +41,6 @@ import DayItem from './components/DayItem.vue'
 import dayjs, { Dayjs } from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
-import compactMixin from '@/mixins/compact'
 import { Exam } from '@/types'
 
 dayjs.extend(weekday)
@@ -50,11 +49,15 @@ dayjs.extend(weekOfYear)
 export default defineComponent({
   name: 'Calendar',
   components: { DateSelector, DateIndicator, Weekdays, DayItem },
-  mixins: [compactMixin],
   props: {
     modelValue: {
       type: String,
       default: ''
+    },
+
+    compact: {
+      type: Boolean,
+      default: false
     },
 
     events: {
