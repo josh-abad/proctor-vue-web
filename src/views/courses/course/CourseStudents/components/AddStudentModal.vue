@@ -1,7 +1,7 @@
 <template>
-  <AppButton id="btn-open" @click="isOpen = true">Add Student</AppButton>
+  <AppButton id="btn-open" @click="modal.open">Add Student</AppButton>
   <teleport to="#modals">
-    <AppModal :open="isOpen" @close="isOpen = false">
+    <AppModal :open="modal.isOpen" @close="modal.close">
       <template #header>Choose Students</template>
       <template #body>
         <div class="mt-4">
@@ -47,6 +47,10 @@ import AppButton from '@/components/ui/AppButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import useFetch from '@/composables/use-fetch'
+import usersService from '@/services/users'
+import coursesService from '@/services/courses'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'AddStudentModal',
@@ -58,20 +62,44 @@ export default defineComponent({
     }
   },
   emits: ['close-modal'],
+  setup (props) {
+    const modal = useModal()
+
+    const [
+      students,
+      fetchStudents,
+      loadingStudents,
+      errorStudents
+    ] = useFetch(() => usersService.getStudents(), [])
+
+    const [
+      course,
+      fetchCourse,
+      loadingCourse,
+      errorCourse
+    ] = useFetch<Course | null>(() => coursesService.getCourse(props.courseId))
+
+    fetchStudents()
+
+    fetchCourse()
+
+    return {
+      students,
+      loadingStudents,
+      errorStudents,
+      course,
+      loadingCourse,
+      errorCourse,
+      modal
+    }
+  },
   data () {
     return {
       checkedNames: [],
-      searchFilter: '',
-      isOpen: false
+      searchFilter: ''
     }
   },
   computed: {
-    course (): Course | undefined {
-      return this.$store.getters.courseByID(this.courseId)
-    },
-    students (): User[] {
-      return this.$store.getters.students
-    },
     unenrolledStudents (): User[] {
       const unenrolledStudents = (student: User): boolean => {
         return !!this.course && !this.course.studentsEnrolled.includes(student.id)
@@ -85,7 +113,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleSubmit (): Promise<void> {
+    async handleSubmit () {
       const payload = {
         userIds: this.checkedNames,
         courseId: this.courseId

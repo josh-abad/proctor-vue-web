@@ -55,12 +55,36 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppTextArea from '@/components/ui/AppTextArea.vue'
 import { CREATE_COURSE } from '@/store/action-types'
-import { NewCourse, Option, User } from '@/types'
-import { defineComponent } from 'vue'
+import { NewCourse } from '@/types'
+import { computed, defineComponent } from 'vue'
+import useFetch from '@/composables/use-fetch'
+import usersService from '@/services/users'
 
 export default defineComponent({
   name: 'CourseCreationPage',
   components: { AppInput, AppButton, AppTextArea, AppDropdown, AppLabel, AppPanel },
+  setup () {
+    const [
+      coordinators,
+      fetchCoordinators,
+      loading,
+      error
+    ] = useFetch(() => usersService.getCoordinators(), [])
+
+    fetchCoordinators()
+
+    const options = computed(() => (
+      coordinators.value.map(({ fullName, id }) => {
+        return { text: fullName, value: id }
+      })
+    ))
+
+    return {
+      coordinators: options,
+      loading,
+      error
+    }
+  },
   data () {
     return {
       courseName: '',
@@ -69,15 +93,8 @@ export default defineComponent({
       courseWeeks: 8
     }
   },
-  computed: {
-    coordinators (): Option[] {
-      return this.$store.getters.coordinators.map((c: User) => {
-        return { text: c.fullName, value: c.id }
-      })
-    }
-  },
   methods: {
-    async saveCourse (): Promise<void> {
+    async saveCourse () {
       const newCourse: NewCourse = {
         name: this.courseName,
         description: this.courseDescription,

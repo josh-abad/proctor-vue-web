@@ -7,8 +7,8 @@ const baseUrl = `${API_URL}/login`
  * Attempts to log in to the app with the specified credentials
  * @param credentials the email and password of the user
  */
-const login = async (credentials: Omit<UserCredentials, 'name'>): Promise<AuthenticatedUser> => {
-  const response = await axios.post(baseUrl, credentials)
+const login = async (credentials: Omit<UserCredentials, 'name'>) => {
+  const response = await axios.post<AuthenticatedUser>(baseUrl, credentials)
   return response.data
 }
 

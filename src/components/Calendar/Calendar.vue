@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import DateSelector from './components/DateSelector.vue'
 import DateIndicator from './components/DateIndicator.vue'
 import Weekdays from './components/Weekdays.vue'
@@ -42,7 +42,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import compactMixin from '@/mixins/compact'
-import { AppEvent } from '@/types'
+import { Exam } from '@/types'
 
 dayjs.extend(weekday)
 dayjs.extend(weekOfYear)
@@ -58,7 +58,7 @@ export default defineComponent({
     },
 
     events: {
-      type: Array as () => AppEvent[],
+      type: Array as PropType<Exam[]>,
       default: () => {
         return []
       }
@@ -125,14 +125,14 @@ export default defineComponent({
       })
     },
     formattedEventDates (): string[] {
-      return this.events.map(event => dayjs(event.date).format('YYYY-MM-DD'))
+      return this.events.map(event => dayjs(event.startDate).format('YYYY-MM-DD'))
     }
   },
   methods: {
-    selectDate (newSelectedDate: Dayjs): void {
+    selectDate (newSelectedDate: Dayjs) {
       this.selectedDate = newSelectedDate
     },
-    getWeekday (date: string): number {
+    getWeekday (date: string) {
       return dayjs(date).weekday()
     }
   }
@@ -145,7 +145,7 @@ export default defineComponent({
 }
 
 .calendar--compact {
-  @apply dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur;
+  @apply dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg;
 }
 
 .calendar__border {

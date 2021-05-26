@@ -1,14 +1,17 @@
-import { AuthenticatedUser, RootState } from '@/types'
 import { MutationTree } from 'vuex'
-import { SET_USER, SET_VERIFIED } from './mutation-types'
+import * as MutationTypes from './mutation-types'
+import { State, Mutations } from '@/store/interfaces'
 
 export default {
-  [SET_USER] (state, user: AuthenticatedUser): void {
+  [MutationTypes.SET_USER] (state, user) {
     state.user = user
   },
-  [SET_VERIFIED] (state, userId: string): void {
+  [MutationTypes.SET_VERIFIED] (state, userId) {
     if (state.user && state.user.id === userId) {
       state.user.verified = true
     }
+  },
+  [MutationTypes.SET_ACTIVE_EXAM] (state, examId) {
+    state.activeExam = examId
   }
-} as MutationTree<RootState>
+} as MutationTree<State> & Mutations

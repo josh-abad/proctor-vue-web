@@ -5,19 +5,10 @@
       :class="maxValueReached ? 'cursor-default' : ''"
       @click="handleIncrement"
     >
-      <!-- Heroicon name: chevron-up -->
-      <svg
+      <ChevronUpIcon
         class="button-icon"
         :class="maxValueReached ? 'button-disabled' : ''"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      />
     </button>
     <div
       class="px-1 border border-gray-300 rounded-lg shadow dark:border-gray-700"
@@ -29,28 +20,21 @@
       :class="minValueReached ? 'cursor-default' : ''"
       @click="handleDecrement"
     >
-      <!-- Heroicon name: chevron-down -->
-      <svg
+      <ChevronDownIcon
         class="button-icon"
         :class="minValueReached ? 'button-disabled' : ''"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      />
     </button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'NumberInput',
+  components: { ChevronUpIcon, ChevronDownIcon },
   props: {
     modelValue: {
       type: Number,
@@ -93,12 +77,12 @@ export default defineComponent({
     this.value = this.modelValue
   },
   methods: {
-    handleIncrement (): void {
+    handleIncrement () {
       if (!this.maxValueReached) {
         this.$emit('update:modelValue', ++this.value)
       }
     },
-    handleDecrement (): void {
+    handleDecrement () {
       if (!this.minValueReached) {
         this.$emit('update:modelValue', --this.value)
       }

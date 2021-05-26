@@ -123,7 +123,7 @@ export default defineComponent({
   },
   emits: ['update:question', 'update:answer', 'update:questionType', 'update:choices', 'discard', 'add-choice', 'add-question'],
   watch: {
-    questionType (newValue: string): void {
+    questionType (newValue: string) {
       if (newValue === 'multiple answers') {
         this.$emit('update:answer', [])
       } else {
@@ -132,14 +132,14 @@ export default defineComponent({
     }
   },
   methods: {
-    handleRadioChange (checked: boolean, choice: string): void {
+    handleRadioChange (checked: boolean, choice: string) {
       const byIndex = (_value: string, index: number): boolean => {
         return this.answer.indexOf(choice) !== index
       }
 
       this.$emit('update:answer', checked ? [...this.answer, choice] : this.answer.filter(byIndex))
     },
-    handleUpdateChoices (newChoice: string, oldChoiceIndex: number): void {
+    handleUpdateChoices (newChoice: string, oldChoiceIndex: number) {
       const toNewChoice = (choice: string, index: number): string => {
         return index === oldChoiceIndex ? newChoice : choice
       }

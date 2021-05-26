@@ -1,7 +1,6 @@
 <template>
-  <div class="flex items-center h-10 overflow-hidden rounded shadow-md">
-    <div class="w-2 h-full bg-green-500" />
-    <div class="p-3 text-lg font-semibold bg-gray-100 dark:bg-gray-700">
+  <div class="flex items-center h-10 pr-3 overflow-hidden border-r border-gray-300 dark:border-gray-700">
+    <div class="text-lg font-semibold">
       <span v-if="displayHours !== '00'"
         >{{ displayHours }}<span class="font-thin">h</span></span
       >
@@ -49,7 +48,7 @@ export default defineComponent({
     this.countdown()
   },
   methods: {
-    format (n: number): string {
+    format (n: number) {
       return n.toString().padStart(2, '0')
     },
     countdown () {

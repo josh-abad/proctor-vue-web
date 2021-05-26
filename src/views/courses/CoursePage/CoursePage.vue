@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <Suspense>
-      <template #default>
-        <Default :course-id="courseId">
+  <div v-if="error">Could not load course.</div>
+  <div v-else-if="loading">
+    <div class="p-4">
+      <AppSkeleton class="w-full h-32 rounded-lg" />
+      <div class="flex flex-col mt-4 sm:flex-row">
+        <div class="flex-grow mr-0 sm:mr-4">
+          <TabRow :course-id="courseId" />
           <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
             <router-view v-slot="{ Component, route }">
               <transition :name="route.meta.transition || 'fade'" mode="out-in">
@@ -10,10 +13,55 @@
               </transition>
             </router-view>
           </AppPanel>
-        </Default>
-      </template>
-      <template #fallback>
-        <Fallback :course-id="courseId">
+        </div>
+        <div class="w-full mt-4 sm:w-72 sm:mt-0">
+          <About />
+          <UpcomingExams class="mt-4" />
+          <Progress class="mt-4" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div v-if="course" class="p-4">
+      <PageHeader
+        :links="links"
+        @menu-clicked="menuDropdown.toggle"
+        :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
+      >
+        <template #label>{{ course.name }}</template>
+        <template #menu>
+          <MenuDropdown
+            class="mt-2 mr-2"
+            v-show="menuDropdown.isOpen"
+            @click-outside="menuDropdown.close"
+          >
+            <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
+              <template #label>Create Exam</template>
+            </MenuDropdownItem>
+            <MenuDropdownItem :path="`/courses/${courseId}/edit`">
+              <template #label>Edit Course</template>
+            </MenuDropdownItem>
+            <MenuDropdownItem @item-click="deleteCourseModal.open">
+              <template #label>Delete Course</template>
+            </MenuDropdownItem>
+          </MenuDropdown>
+        </template>
+      </PageHeader>
+      <teleport to="#modals">
+        <AppModal :open="deleteCourseModal.isOpen" @close="deleteCourseModal.close">
+          <template #header> Delete Course </template>
+          <template #body>
+            Are you sure you want to delete this course?
+          </template>
+          <template #action>
+            <AppButton @click="deleteCourse" prominent> Delete </AppButton>
+          </template>
+        </AppModal>
+      </teleport>
+      <div class="flex flex-col mt-4 sm:flex-row">
+        <div class="flex-grow mr-0 sm:mr-4">
+          <TabRow :course-id="courseId" />
           <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
             <router-view v-slot="{ Component, route }">
               <transition :name="route.meta.transition || 'fade'" mode="out-in">
@@ -21,9 +69,19 @@
               </transition>
             </router-view>
           </AppPanel>
-        </Fallback>
-      </template>
-    </Suspense>
+        </div>
+        <div class="w-full mt-4 sm:w-72 sm:mt-0">
+          <CoursePageAbout
+            :student-count="course.studentsEnrolled.length"
+            :description="course.description"
+            :coordinator-name="course.coordinator.fullName"
+            :coordinator-avatar-url="course.coordinator.avatarUrl"
+          />
+          <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
+          <CoursePageProgress class="mt-4" :course-id="courseId" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,20 +89,73 @@
 import AppPanel from '@/components/ui/AppPanel.vue'
 import { Link } from '@/types'
 import { defineComponent } from 'vue'
-import Default from './components/Default.vue'
-import Fallback from './components/fallback/Fallback.vue'
+import coursesService from '@/services/courses'
+import useFetch from '@/composables/use-fetch'
+import { DELETE_COURSE } from '@/store/action-types'
+import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
+import CoursePageProgress from './components/CoursePageProgress.vue'
+import CoursePageAbout from './components/CoursePageAbout.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import TabRow from './components/TabRow.vue'
+import AppSkeleton from '@/components/ui/AppSkeleton.vue'
+import About from './components/fallback/components/About.vue'
+import UpcomingExams from './components/fallback/components/UpcomingExams.vue'
+import Progress from './components/fallback/components/Progress.vue'
+import MenuDropdown from '@/components/MenuDropdown.vue'
+import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
+import AppModal from '@/components/ui/AppModal.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import usersService from '@/services/users'
+import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'CoursePage',
   components: {
-    Default,
-    Fallback,
-    AppPanel
+    AppPanel,
+    CoursePageProgress,
+    CoursePageAbout,
+    CoursePageUpcomingExams,
+    PageHeader,
+    TabRow,
+    AppSkeleton,
+    About,
+    UpcomingExams,
+    Progress,
+    MenuDropdown,
+    MenuDropdownItem,
+    AppModal,
+    AppButton
   },
   props: {
     courseId: {
       type: String,
       required: true
+    }
+  },
+  setup (props) {
+    const { setSnackbarMessage } = useSnackbar()
+
+    const deleteCourseModal = useModal()
+
+    const menuDropdown = useModal()
+
+    const [
+      course,
+      fetchCourse,
+      loading,
+      error
+    ] = useFetch(() => coursesService.getCourse(props.courseId))
+
+    fetchCourse()
+
+    return {
+      course,
+      loading,
+      error,
+      setSnackbarMessage,
+      deleteCourseModal,
+      menuDropdown
     }
   },
   computed: {
@@ -57,8 +168,35 @@ export default defineComponent({
         {
           name: 'Courses',
           url: '/courses'
+        },
+        {
+          name: this.course?.name,
+          url: `/courses/${this.courseId}`
         }
       ]
+    }
+  },
+  async mounted () {
+    if (!this.$store.getters.permissions(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
+      this.$router.replace('/')
+    }
+    document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+
+    if (this.$store.state.user?.recentCourses[0] !== this.courseId && this.$store.state.user) {
+      try {
+        await usersService.addRecentCourse(this.$store.state.user.id, this.courseId)
+      } catch (error) {
+        this.setSnackbarMessage(error.message)
+      }
+    }
+  },
+  methods: {
+    deleteCourse () {
+      this.$store.dispatch(DELETE_COURSE, this.courseId)
+      this.$router.push('/courses')
+    },
+    editCourse () {
+      // TODO: implement editing courses
     }
   }
 })

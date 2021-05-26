@@ -7,15 +7,16 @@
       <div class="flex justify-between px-3 py-2">
         <div class="flex items-center space-x-1">
           <img
-            v-if="avatarUrl"
-            :src="avatarUrl"
+            :src="event.avatarUrl"
             alt="Avatar"
             class="object-cover w-5 h-5 mr-2 rounded-full"
           />
           <router-link
             :to="event.subjectUrl"
             class="text-gray-700 dark:text-gray-300"
-            >{{ event.subject }}</router-link
+            >{{
+              event.subjectId === $store.state.user?.id ? "You" : event.subject
+            }}</router-link
           >
           <span>{{ event.action }}</span>
           <router-link
@@ -38,7 +39,7 @@
 
 <script lang="ts">
 import { AppEvent } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
@@ -47,17 +48,12 @@ export default defineComponent({
   name: 'ActivityRow',
   props: {
     event: {
-      type: Object as () => AppEvent,
+      type: Object as PropType<AppEvent>,
       required: true
-    },
-
-    avatarUrl: {
-      type: String,
-      default: ''
     }
   },
   methods: {
-    formattedDate (d: string | Date): string | undefined {
+    formattedDate (d: string | Date) {
       return dayjs(d).fromNow()
     }
   }

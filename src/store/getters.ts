@@ -1,18 +1,15 @@
-import { Role, RootState } from '@/types'
 import { GetterTree } from 'vuex'
+import { State, Getters } from '@/store/interfaces'
 
 export default {
-  isLoggedIn (state): boolean {
-    return state.user !== null
-  },
-  permissions (state): (roles: Role[]) => boolean {
+  permissions (state) {
     return (roles) => {
       return state.user ? roles.includes(state.user.role) : false
     }
   },
-  hasCourse (state): (courseId: string) => boolean {
+  hasCourse (state) {
     return courseId => {
       return !!state.user && state.user.courses.includes(courseId)
     }
   }
-} as GetterTree<RootState, RootState>
+} as GetterTree<State, State> & Getters

@@ -7,22 +7,8 @@
         'week-exam__link--locked': locked && !taken,
       }"
     >
-      <svg class="week-exam__icon" viewBox="0 0 20 20" fill="currentColor">
-        <!-- Heroicon name: document-text -->
-        <path
-          v-if="!locked"
-          fill-rule="evenodd"
-          d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-          clip-rule="evenodd"
-        />
-        <!-- Heroicon name: lock-closed -->
-        <path
-          v-else
-          fill-rule="evenodd"
-          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <DocumentTextIcon class="week-exam__icon" v-if="!locked" />
+      <LockClosedIcon class="week-exam__icon" v-else />
       {{ exam.label }}
     </router-link>
     <SVGCheckbox v-model="taken" static-check />
@@ -31,26 +17,44 @@
 
 <script lang="ts">
 import { Exam } from '@/types'
-import { defineComponent } from 'vue'
-import examMixin from '@/mixins/exam'
+import { defineComponent, PropType, ref } from 'vue'
 import SVGCheckbox from '@/components/SVGCheckbox.vue'
+import { DocumentTextIcon, LockClosedIcon } from '@heroicons/vue/solid'
+import { isExamLocked } from '@/utils/helper'
+import examsService from '@/services/exams'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'WeekExam',
-  components: { SVGCheckbox },
-  mixins: [examMixin],
+  components: { SVGCheckbox, DocumentTextIcon, LockClosedIcon },
   props: {
     exam: {
-      type: Object as () => Exam,
+      type: Object as PropType<Exam>,
       required: true
+    }
+  },
+  setup (props) {
+    const store = useStore()
+
+    const taken = ref(false)
+
+    const isExamTaken = async () => {
+      if (!store.state.user) {
+        return
+      }
+      const { isTaken } = await examsService.isExamTaken(props.exam.id, store.state.user.id)
+      taken.value = isTaken
+    }
+
+    isExamTaken()
+
+    return {
+      taken
     }
   },
   computed: {
     locked (): boolean {
-      return this.examLocked(this.exam) !== 0
-    },
-    taken (): boolean {
-      return this.$store.getters.examTaken(this.exam.id, this.$store.state.user.id)
+      return isExamLocked(this.exam) !== 0
     }
   }
 })

@@ -3,7 +3,7 @@
     <ColorBackgroundCard v-if="!$store.state.user">
       <div class="p-4">
         <AppLogo class="h-7" />
-        <form class="mt-4">
+        <form class="mt-4" @submit.prevent="handleRegister">
           <h3 class="text-lg font-semibold">Sign up</h3>
           <p class="text-xs text-gray-400">
             By continuing, you agree to our
@@ -67,7 +67,6 @@
           </div>
           <div class="flex justify-between mt-4">
             <AppButton
-              @click.prevent="handleRegister"
               :disabled="!allFieldsFilled || !!error"
               type="submit"
               prominent
@@ -95,13 +94,14 @@
 import AppButton from '@/components/ui/AppButton.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import { ALERT, SIGN_UP } from '@/store/action-types'
+import { SIGN_UP } from '@/store/action-types'
 import { UserCredentials } from '@/types'
 import { defineComponent } from 'vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import Redirect from '@/components/Redirect.vue'
 import FormError from '@/components/FormError.vue'
 import AppLogo from '@/components/AppLogo.vue'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'RegistrationForm',
@@ -113,6 +113,13 @@ export default defineComponent({
       email: '',
       password: '',
       confirmPassword: ''
+    }
+  },
+  setup () {
+    const { setSnackbarMessage } = useSnackbar()
+
+    return {
+      setSnackbarMessage
     }
   },
   computed: {
@@ -154,7 +161,7 @@ export default defineComponent({
         this.password = ''
         this.confirmPassword = ''
       } catch (error) {
-        this.$store.dispatch(ALERT, credentials)
+        this.setSnackbarMessage('Invalid credentials')
       }
     }
   }

@@ -2,8 +2,8 @@
   <div v-if="course" class="form">
     <AppPanel class="form__panel">
       <header class="form__header">New exam for {{ course.name }}</header>
-      <FormError class="form__error" v-show="error">
-        {{ error }}
+      <FormError class="form__error" v-show="formError">
+        {{ formError }}
       </FormError>
       <div class="form__details">
         <div class="form__detail">
@@ -94,12 +94,13 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { ALERT } from '@/store/action-types'
-import { ADD_EXAM } from '@/store/mutation-types'
 import { Course, ExamItem, NewExam, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
+import useFetch from '@/composables/use-fetch'
+import coursesService from '@/services/courses'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -108,6 +109,25 @@ export default defineComponent({
     courseId: {
       type: String,
       required: true
+    }
+  },
+  setup (props) {
+    const { setSnackbarMessage } = useSnackbar()
+
+    const [
+      course,
+      fetchCourse,
+      loading,
+      error
+    ] = useFetch<Course | null>(() => coursesService.getCourse(props.courseId))
+
+    fetchCourse()
+
+    return {
+      course,
+      loading,
+      error,
+      setSnackbarMessage
     }
   },
   data () {
@@ -128,9 +148,6 @@ export default defineComponent({
     }
   },
   computed: {
-    course (): Course | undefined {
-      return this.$store.getters.courseByID(this.courseId)
-    },
     questionsInvalid (): string {
       if (!this.examItems.length) {
         return 'Please create an exam item.'
@@ -171,7 +188,7 @@ export default defineComponent({
       }
       return ''
     },
-    error (): string {
+    formError (): string {
       if (!this.examName) {
         return 'Please enter a name for the exam.'
       }
@@ -187,11 +204,11 @@ export default defineComponent({
       return ''
     },
     valid (): boolean {
-      return !this.error
+      return !this.formError
     }
   },
   methods: {
-    addExamItem (i?: number): void {
+    addExamItem (i?: number) {
       const newExamItem: ExamItem = {
         question: '',
         answer: [''],
@@ -204,10 +221,10 @@ export default defineComponent({
         this.examItems.push(newExamItem)
       }
     },
-    removeExamItem (index: number): void {
+    removeExamItem (index: number) {
       this.examItems = this.examItems.filter((item, i) => i !== index)
     },
-    async saveExam (): Promise<void> {
+    async saveExam () {
       try {
         const newExam: NewExam = {
           label: this.examName,
@@ -221,12 +238,11 @@ export default defineComponent({
           startDate: new Date(this.startDate),
           endDate: new Date(this.endDate)
         }
-        const createdExam = await examsService.create(newExam)
-        this.$store.commit(ADD_EXAM, createdExam)
-        this.$store.dispatch(ALERT, 'Exam successfully created')
+        await examsService.create(newExam)
+        this.setSnackbarMessage('Exam successfully created')
         this.$router.push(`/courses/${this.courseId}`)
       } catch (error) {
-        this.$store.dispatch(ALERT, error.response.data.error)
+        this.setSnackbarMessage(error.response.data.error)
       }
     }
   }

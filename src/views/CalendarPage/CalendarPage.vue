@@ -18,8 +18,9 @@
 <script lang="ts">
 import EventsPanel from './components/EventsPanel/EventsPanel.vue'
 import CalendarMonth from '@/components/Calendar/Calendar.vue'
-import { AppEvent } from '@/types'
+import { Exam } from '@/types'
 import dayjs from 'dayjs'
+import usersService from '@/services/users'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -27,22 +28,24 @@ export default defineComponent({
   components: { CalendarMonth, EventsPanel },
   data () {
     return {
-      value: ''
+      value: '',
+      events: [] as Exam[]
     }
   },
   computed: {
-    events (): AppEvent[] {
-      return this.$store.getters.examEvents
-    },
-    eventsOnDate (): AppEvent[] {
-      return this.events.filter(event => this.dateSame(event.date))
+    eventsOnDate (): Exam[] {
+      return this.events.filter(event => this.dateSame(event.startDate))
     },
     date (): string {
       return dayjs(this.value).format('MMMM D, YYYY')
     }
   },
+  async created () {
+    const id = this.$store.state.user?.id ?? ''
+    this.events = await usersService.getUpcomingExams(id)
+  },
   methods: {
-    dateSame (d: Date): boolean {
+    dateSame (d: Date) {
       return this.value === dayjs(d).format('YYYY-MM-DD')
     }
   }

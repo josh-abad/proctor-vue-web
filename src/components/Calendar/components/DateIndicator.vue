@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Dayjs } from 'dayjs'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import compactMixin from '@/mixins/compact'
 
 export default defineComponent({
@@ -14,7 +14,7 @@ export default defineComponent({
   mixins: [compactMixin],
   props: {
     selectedDate: {
-      type: Object as () => Dayjs,
+      type: Object as PropType<Dayjs>,
       required: true
     }
   },

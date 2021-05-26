@@ -15,25 +15,12 @@
         <span
           class="absolute inset-y-0 right-0 flex items-center pr-2 ml-3 pointer-events-none"
         >
-          <!-- Heroicon name: selector -->
-          <svg
-            class="w-5 h-5 text-gray-400"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <SelectorIcon class="w-5 h-5 text-gray-400" />
         </span>
       </button>
       <transition name="dropdown-fade">
         <div
-          class="absolute w-full mt-1 bg-gray-100 bg-opacity-50 border border-gray-800 rounded-md shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-blur dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
+          class="absolute w-full mt-1 bg-gray-100 bg-opacity-50 border border-gray-800 rounded-md shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
           v-show="open"
         >
           <ul
@@ -75,19 +62,7 @@
                 class="absolute inset-y-0 right-0 flex items-center pr-4 text-green-600"
                 v-show="selectedIndex === i"
               >
-                <!-- Heroicon name: check -->
-                <svg
-                  class="w-5 h-5 fill-current"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <CheckIcon class="w-5 h-5 fill-current" />
               </span>
             </li>
 
@@ -101,10 +76,12 @@
 
 <script lang="ts">
 import { Option } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'AppDropdown',
+  components: { SelectorIcon, CheckIcon },
   props: {
     modelValue: {
       type: String,
@@ -112,7 +89,7 @@ export default defineComponent({
     },
 
     options: {
-      type: Array as () => Option[],
+      type: Array as PropType<Option[]>,
       required: true
     }
   },
@@ -133,7 +110,7 @@ export default defineComponent({
     this.$emit('update:modelValue', (this.options[this.selectedIndex] as Option).value)
   },
   methods: {
-    handleChange (i: number): void {
+    handleChange (i: number) {
       this.selectedIndex = i
       this.$emit('update:modelValue', (this.options[this.selectedIndex] as Option).value)
     }

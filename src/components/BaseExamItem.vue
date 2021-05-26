@@ -1,10 +1,10 @@
 <template>
-  <div class="flex mt-3 overflow-hidden rounded-lg shadow-md">
+  <div class="flex mt-3 overflow-hidden border border-gray-700 rounded-lg shadow-md">
     <div class="px-3 py-3 text-gray-400 bg-gray-100 dark:bg-gray-700">
       {{ questionNumber }}
     </div>
     <div
-      class="w-full py-3 pl-4 pr-12 bg-gray-100 select-none dark:bg-gray-800"
+      class="py-3 pl-4 bg-gray-100 select-none dark:bg-gray-800"
     >
       {{ examItem.question }}
       <div class="mt-4">
@@ -12,41 +12,22 @@
           v-if="examItem.questionType === 'text'"
           v-model="answer"
           type="text"
-          @input="
-            $emit('answer-changed', { question: examItem.question, answer })
-          "
         />
-        <div v-else-if="examItem.questionType === 'multiple choice'">
-          <div v-for="(choice, i) in examItem.choices" :key="i">
-            <input
-              type="radio"
-              :value="choice"
-              :name="`Question ${questionNumber}`"
-              :id="choice"
-              v-model="answer"
-              @change="
-                $emit('answer-changed', { question: examItem.question, answer })
-              "
-            />
-            <label :for="choice" class="ml-2">{{
-              `${getNextAlphabetLetter(i)}. ${choice}`
-            }}</label>
-          </div>
+        <div v-else-if="examItem.questionType === 'multiple choice'" class="space-y-2">
+          <RadioButton
+            v-for="(choice, i) in examItem.choices"
+            :key="i"
+            :value="choice"
+            v-model="answer"
+          />
         </div>
-        <div v-else>
-          <div v-for="(choice, i) in examItem.choices" :key="i">
-            <input
-              type="checkbox"
-              :name="choice"
-              :id="choice"
-              :value="choice"
-              v-model="answer"
-              @change="
-                $emit('answer-changed', { question: examItem.question, answer })
-              "
-            />
-            <label :for="choice" class="ml-2">{{ choice }}</label>
-          </div>
+        <div v-else class="space-y-2">
+          <AppCheckbox
+            v-for="(choice, i) in examItem.choices"
+            :key="i"
+            :value="choice"
+            v-model="answer"
+          />
         </div>
       </div>
     </div>
@@ -54,37 +35,59 @@
 </template>
 
 <script lang="ts">
-import { ExamItem } from '@/types'
-import { defineComponent } from 'vue'
+import { Answer, ExamItem } from '@/types'
+import { defineComponent, PropType } from 'vue'
+import AppCheckbox from './ui/AppCheckbox.vue'
 import AppInput from './ui/AppInput.vue'
+import RadioButton from './ui/RadioButton.vue'
 
 export default defineComponent({
   name: 'BaseExamItem',
-  components: { AppInput },
+  components: { AppInput, RadioButton, AppCheckbox },
   props: {
     examItem: {
-      type: Object as () => ExamItem,
+      type: Object as PropType<ExamItem>,
       required: true
+    },
+
+    modelValue: {
+      type: Array as PropType<Answer[]>,
+      default: () => []
     },
 
     questionNumber: Number
   },
-  emits: ['answer-changed'],
+  emits: ['update:modelValue'],
   data () {
     let answer: string | string[]
-    if (this.examItem.questionType === 'text' || this.examItem.questionType === 'multiple choice') {
+    if (this.examItem.questionType !== 'multiple answers') {
       answer = ''
     } else {
       answer = []
     }
     return {
-      alphabetStart: 'a',
       answer
     }
   },
-  methods: {
-    getNextAlphabetLetter (n: number): string {
-      return String.fromCharCode(this.alphabetStart.charCodeAt(0) + n)
+  watch: {
+    answer (newAnswer: string | string[]) {
+      // FIXME: duplicate questions don't get counted
+      if (this.modelValue.some(({ question }) => question === this.examItem.question)) {
+        this.$emit('update:modelValue', this.modelValue
+          .map(item => item.question === this.examItem.question
+            ? {
+              question: item.question,
+              answer: newAnswer
+            }
+            : item
+          )
+        )
+      } else {
+        this.$emit('update:modelValue', [...this.modelValue, {
+          question: this.examItem.question,
+          answer: newAnswer
+        }])
+      }
     }
   }
 })

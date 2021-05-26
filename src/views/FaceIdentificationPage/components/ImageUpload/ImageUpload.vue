@@ -11,8 +11,8 @@
       >
         <AppLabel emphasis>Current</AppLabel>
         <Preview
-          v-if="user?.referenceImageUrl"
-          :src="user?.referenceImageUrl"
+          v-if="$store.state.user?.referenceImageUrl"
+          :src="$store.state.user.referenceImageUrl"
         />
         <div v-else>
           <div class="w-56 h-56 bg-gray-700 rounded-lg">
@@ -31,23 +31,12 @@
       :valid="validImage"
       :loading="loading"
     />
-    <form method="post" enctype="multipart/form-data" class="mt-2">
+    <form method="post" enctype="multipart/form-data" class="mt-2" @submit.prevent="handleSubmit">
       <div class="flex items-end justify-between">
         <label
           class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer hover:text-white hover:bg-green-500 focus:outline-none"
         >
-          <!-- Heroicon name: photograph -->
-          <svg
-            class="w-5 h-5 fill-current"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <PhotographIcon class="w-5 h-5 fill-current" />
           <span class="text-sm">Select Image</span>
           <input
             type="file"
@@ -59,7 +48,6 @@
         </label>
         <AppButton
           class="mt-2"
-          @click.prevent="handleSubmit"
           :disabled="!(image && validImage)"
           type="submit"
           prominent
@@ -74,22 +62,27 @@
 import usersService from '@/services/users'
 import { SET_USER } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import AppButton from '@/components/ui/AppButton.vue'
 import * as faceapi from 'face-api.js'
 import { TinyFaceDetectorOptions } from 'face-api.js'
 import Feedback from './components/Feedback.vue'
 import Preview from './components/Preview.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import nProgress from 'nprogress'
-import { ALERT } from '@/store/action-types'
+import { PhotographIcon } from '@heroicons/vue/solid'
+import useSnackbar from '@/composables/use-snackbar'
 
 const MODELS_URL = '/models'
 
 export default defineComponent({
   name: 'ImageUpload',
-  components: { AppButton, Feedback, Preview, AppLabel },
-  mixins: [userMixin],
+  components: { AppButton, Feedback, Preview, AppLabel, PhotographIcon },
+  setup () {
+    const { setSnackbarMessage } = useSnackbar()
+
+    return {
+      setSnackbarMessage
+    }
+  },
   data () {
     return {
       image: null as File | null,
@@ -98,31 +91,29 @@ export default defineComponent({
       loading: false
     }
   },
-  async mounted (): Promise<void> {
+  async mounted () {
     try {
       await faceapi.loadTinyFaceDetectorModel(MODELS_URL)
     } catch (error) {
-      this.$store.dispatch(ALERT, 'Could not load face detection.')
+      this.setSnackbarMessage('Could not load face detection.')
     }
   },
   methods: {
-    async handleSubmit (): Promise<void> {
-      if (!this.user) return
-      const { token, id } = this.user
+    async handleSubmit () {
+      if (!this.$store.state.user) return
+      const { token, id } = this.$store.state.user
 
       if (!this.image) return
       const data = new FormData()
       data.append('image', this.image)
 
-      nProgress.start()
       const updatedUser = await usersService.uploadImage(id, data)
-      nProgress.done()
       this.$store.commit(SET_USER, { token, ...updatedUser })
       this.previewImage = null
       this.image = null
       this.validImage = false
     },
-    async handleChange (event: Event): Promise<void> {
+    async handleChange (event: Event) {
       this.loading = true
       this.image = (event.target as HTMLInputElement).files?.[0] || null
       if (this.image) {
@@ -138,7 +129,7 @@ export default defineComponent({
             this.loading = false
             this.validImage = !!detection
           } catch (error) {
-            this.$store.dispatch(ALERT, 'Something went wrong.')
+            this.setSnackbarMessage('Something went wrong.')
           }
         })
       }

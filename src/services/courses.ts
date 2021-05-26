@@ -1,4 +1,4 @@
-import { AppEvent, Course, NewCourse } from '@/types'
+import { Course, CourseGrades, Exam, NewCourse, User } from '@/types'
 import axios from 'axios'
 import API_URL from './utils/config'
 const baseUrl = `${API_URL}/courses`
@@ -7,16 +7,16 @@ const baseUrl = `${API_URL}/courses`
  * Creates a new course in the server and returns it
  * @param newCourse the information for the new course
  */
-const create = async (newCourse: NewCourse): Promise<Course> => {
-  const response = await axios.post(baseUrl, newCourse)
+const create = async (newCourse: NewCourse) => {
+  const response = await axios.post<Course>(baseUrl, newCourse)
   return response.data
 }
 
 /**
  * Gets all courses from the server
  */
-const getAll = async (): Promise<Course[]> => {
-  const response = await axios.get(baseUrl)
+const getAll = async () => {
+  const response = await axios.get<Course[]>(baseUrl)
   return response.data
 }
 
@@ -24,8 +24,8 @@ const getAll = async (): Promise<Course[]> => {
  * Gets a course from the server by its ID
  * @param id the id of the course
  */
-const getCourse = async (id: string): Promise<Course> => {
-  const response = await axios.get(`${baseUrl}/${id}`)
+const getCourse = async (id: string) => {
+  const response = await axios.get<Course>(`${baseUrl}/${id}`)
   return response.data
 }
 
@@ -33,9 +33,9 @@ const getCourse = async (id: string): Promise<Course> => {
  * Gets all courses a specified user is enrolled in
  * @param userId the id of the user
  */
-const getByUser = async (userId: string): Promise<Course[]> => {
+const getByUser = async (userId: string) => {
   const params = new URLSearchParams({ userId })
-  const response = await axios.get(baseUrl, { params })
+  const response = await axios.get<Course[]>(baseUrl, { params })
   return response.data
 }
 
@@ -44,8 +44,8 @@ const getByUser = async (userId: string): Promise<Course[]> => {
  * @param userId the id of the user
  * @param courseId the id of the course
  */
-const enrollUser = async (userId: string, courseId: string): Promise<Course> => {
-  const response = await axios.put(`${baseUrl}/${courseId}`, { userId })
+const enrollUser = async (userId: string, courseId: string) => {
+  const response = await axios.put<Course>(`${baseUrl}/${courseId}`, { userId })
   return response.data
 }
 
@@ -54,8 +54,8 @@ const enrollUser = async (userId: string, courseId: string): Promise<Course> => 
  * @param userIds an array of each user's id
  * @param courseId the id of the course
  */
-const enrollUsers = async (userIds: string[], courseId: string): Promise<Course> => {
-  const response = await axios.put(`${baseUrl}/${courseId}`, { userIds })
+const enrollUsers = async (userIds: string[], courseId: string) => {
+  const response = await axios.put<Course>(`${baseUrl}/${courseId}`, { userIds })
   return response.data
 }
 
@@ -63,16 +63,41 @@ const enrollUsers = async (userIds: string[], courseId: string): Promise<Course>
  * Deletes a course from the server
  * @param id the id of the course to be deleted
  */
-const deleteCourse = async (id: string): Promise<void> => {
+const deleteCourse = async (id: string) => {
   await axios.delete(`${baseUrl}/${id}`)
 }
 
-const unenrollUser = async (courseId: string, userId: string): Promise<void> => {
+const unenrollUser = async (courseId: string, userId: string) => {
   await axios.delete(`${baseUrl}/${courseId}/students/${userId}`)
 }
 
-const getUpcomingExams = async (id: string): Promise<AppEvent[]> => {
-  const response = await axios.get(`${baseUrl}/${id}/upcoming-exams`)
+const getAllExams = async (id: string) => {
+  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/exams`)
+  return response.data
+}
+
+const getUpcomingExams = async (id: string) => {
+  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/upcoming-exams`)
+  return response.data
+}
+
+const getStudents = async (id: string) => {
+  const response = await axios.get<User[]>(`${baseUrl}/${id}/students`)
+  return response.data
+}
+
+const getCourseProgressByUser = async (id: string, userId: string) => {
+  const response = await axios.get<{ percentage: number }>(`${baseUrl}/${id}/progress/${userId}`)
+  return response.data
+}
+
+const getExamsByWeek = async (id: string, week: number) => {
+  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/exams/week/${week}`)
+  return response.data
+}
+
+const getUserGrades = async (id: string, userId: string) => {
+  const response = await axios.get<CourseGrades>(`${baseUrl}/${id}/grades/${userId}`)
   return response.data
 }
 
@@ -85,5 +110,10 @@ export default {
   enrollUsers,
   deleteCourse,
   unenrollUser,
-  getUpcomingExams
+  getAllExams,
+  getUpcomingExams,
+  getStudents,
+  getCourseProgressByUser,
+  getExamsByWeek,
+  getUserGrades
 }

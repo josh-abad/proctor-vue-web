@@ -12,19 +12,9 @@
         @click="$emit('menu-clicked')"
         id="dropdown-toggle"
       >
-        <svg
+        <DotsVerticalIcon
           class="w-6 h-6 text-white pointer-events-none fill-current"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-          />
-        </svg>
+        />
         <slot name="menu" />
       </button>
     </div>
@@ -35,10 +25,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Breadcrumbs from './components/Breadcrumbs.vue'
+import { DotsVerticalIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'PageHeader',
-  components: { Breadcrumbs },
+  components: { Breadcrumbs, DotsVerticalIcon },
   props: {
     links: {
       type: Array,
@@ -52,9 +43,3 @@ export default defineComponent({
   emits: ['menu-clicked']
 })
 </script>
-
-<style scoped>
-.glow {
-  box-shadow: 0px 0px 20px 0px rgb(16, 185, 129, 0.75);
-}
-</style>

@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import useClickOutside from '@/composables/use-click-outside'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -25,20 +26,13 @@ export default defineComponent({
     }
   },
   emits: ['click-outside'],
-  computed: {
-    handleClickOutside () {
-      return {
-        handler: () => this.clickOutsideHandler(),
-        middleware: (e: Event) => this.clickOutsideMiddleware(e)
-      }
-    }
-  },
-  methods: {
-    clickOutsideHandler (): void {
-      this.$emit('click-outside')
-    },
-    clickOutsideMiddleware (e: Event): boolean {
-      return (e.target as Element).id !== this.toggleId
+  setup (props, { emit }) {
+    const handleClickOutside = useClickOutside(() => {
+      emit('click-outside')
+    }, props.toggleId)
+
+    return {
+      handleClickOutside
     }
   }
 })
@@ -46,6 +40,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .dropdown-menu {
-  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-blur border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10;
+  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10;
 }
 </style>

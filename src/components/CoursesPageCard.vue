@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 w-72"
+    class="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600"
   >
     <router-link :to="`/courses/${course.id}`">
       <img
@@ -10,7 +10,6 @@
       />
     </router-link>
     <div class="px-4 py-3">
-      <AppLabel emphasis>2023 Online Class</AppLabel>
       <router-link :to="`/courses/${course.id}`">
         <h1 class="text-lg font-semibold truncate">{{ course.name }}</h1>
       </router-link>
@@ -20,15 +19,13 @@
 
 <script lang="ts">
 import { Course } from '@/types'
-import { defineComponent } from 'vue'
-import AppLabel from '@/components/ui/AppLabel.vue'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'CourseCard',
-  components: { AppLabel },
   props: {
     course: {
-      type: Object as () => Course,
+      type: Object as PropType<Course>,
       required: true
     }
   }

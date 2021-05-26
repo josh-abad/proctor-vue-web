@@ -2,17 +2,7 @@
   <div class="p-4">
     <AppPanel class="w-full md:w-1/2">
       <div class="flex items-center">
-        <svg
-          class="w-6 h-6 fill-current"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <CogIcon class="w-6 h-6 fill-current" />
         <div class="ml-2 text-2xl font-semibold">Settings</div>
       </div>
       <div class="mt-4">
@@ -28,7 +18,7 @@
             description="Set up facial identification for exams"
             class="mt-2"
           >
-            <router-link :to="`/user/${user?.id}/reference-image`">
+            <router-link :to="`/user/${$store.state.user?.id}/reference-image`">
               <AppButton>Configure</AppButton>
             </router-link>
           </SettingsItem>
@@ -50,19 +40,9 @@
           <button
             id="btn-open"
             class="flex items-center text-red-500 focus:outline-none"
-            @click="deleteModalOpen = true"
+            @click="deleteAccountModal.open"
           >
-            <svg
-              class="w-5 h-5 pointer-events-none fill-current"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <TrashIcon class="w-5 h-5 pointer-events-none fill-current" />
             <span
               class="ml-1 text-sm font-bold tracking-wide uppercase pointer-events-none"
             >
@@ -70,7 +50,7 @@
             </span>
           </button>
           <teleport to="#modals">
-            <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+            <AppModal :open="deleteAccountModal.isOpen" @close="deleteAccountModal.close">
               <template #header> Deactivate Account </template>
               <template #body>
                 Are you sure you want to deactivate your account?
@@ -93,64 +73,78 @@ import AppAccordion from '@/components/ui/AppAccordion.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppSwitch from '@/components/ui/AppSwitch.vue'
-import { SET_THEME } from '@/store/mutation-types'
-import { Theme } from '@/types'
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
-import { ALERT } from '@/store/action-types'
 import AppModal from '@/components/ui/AppModal.vue'
 import SettingsItem from './components/SettingsItem.vue'
+import { TrashIcon, CogIcon } from '@heroicons/vue/solid'
+import useTheme from '@/composables/use-theme'
+import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'SettingsPage',
-  components: { AppSwitch, AppPanel, AppAccordion, AppButton, AppLabel, AppModal, SettingsItem },
-  mixins: [userMixin],
+  components: {
+    AppSwitch,
+    AppPanel,
+    AppAccordion,
+    AppButton,
+    AppLabel,
+    AppModal,
+    SettingsItem,
+    CogIcon,
+    TrashIcon
+  },
+  setup () {
+    const { theme, isSystemTheme, setTheme } = useTheme()
+    const { setSnackbarMessage } = useSnackbar()
+
+    const deleteAccountModal = useModal()
+
+    return {
+      theme,
+      isSystemTheme,
+      setTheme,
+      setSnackbarMessage,
+      deleteAccountModal
+    }
+  },
   data () {
     return {
       automatic: false,
-      darkMode: false,
-      deleteModalOpen: false
-    }
-  },
-  computed: {
-    theme (): Theme {
-      return this.$store.state.theme.theme
+      darkMode: false
     }
   },
   watch: {
     automatic (enabled: boolean) {
       if (enabled) {
-        this.handleChangeTheme(null)
+        this.setTheme('system')
       } else {
-        this.handleChangeTheme(this.darkMode ? 'dark' : 'light')
+        this.setTheme(this.darkMode ? 'dark' : 'light')
       }
     },
     darkMode (enabled: boolean) {
-      this.handleChangeTheme(enabled ? 'dark' : 'light')
+      this.setTheme(enabled ? 'dark' : 'light')
     }
   },
   mounted () {
-    if (this.theme) {
-      this.darkMode = this.theme === 'dark'
-    } else {
+    if (this.isSystemTheme) {
       this.automatic = true
+    } else {
+      this.darkMode = this.theme === 'dark'
     }
   },
   methods: {
-    handleChangeTheme (theme: Theme) {
-      this.$store.commit(SET_THEME, theme)
-    },
     async deactivateAccount () {
-      this.deleteModalOpen = false
-      if (this.user) {
+      this.deleteAccountModal.close()
+      if (this.$store.state.user) {
         try {
-          await usersService.deleteUser(this.user.id)
+          await usersService.deleteUser(this.$store.state.user.id)
           this.$router.push('/login')
-          await this.$store.dispatch(ALERT, 'Student removed.')
+          this.setSnackbarMessage('Student removed')
         } catch (error) {
-          await this.$store.dispatch(ALERT, 'Could not delete student.')
+          this.setSnackbarMessage('Could not delete student.')
         }
       }
     }

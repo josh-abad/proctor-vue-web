@@ -1,25 +1,27 @@
 <template>
-  <img
-    :src="require(`@/assets/${logoFilename}`)"
-    alt="Proctor Vue logo"
-    class="h-7"
-  />
+  <img :src="logo" alt="Proctor Vue logo" class="h-7" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Theme } from '@/types'
+import { computed, defineComponent } from 'vue'
+import logoWhite from '@/assets/logo-white.png'
+import logo from '@/assets/logo.png'
+import useTheme from '@/composables/use-theme'
 
 export default defineComponent({
   name: 'AppLogo',
-  computed: {
-    logoFilename (): string {
-      const theme: Theme = this.$store.getters.theme
+  setup () {
+    const { isDarkTheme } = useTheme()
 
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        return 'logo-white.png'
+    const logoFilename = computed(() => {
+      if (isDarkTheme.value) {
+        return logoWhite
       }
-      return 'logo.png'
+      return logo
+    })
+
+    return {
+      logo: logoFilename
     }
   }
 })

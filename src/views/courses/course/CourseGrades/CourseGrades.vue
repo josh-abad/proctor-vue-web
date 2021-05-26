@@ -1,5 +1,5 @@
 <template>
-  <div class="table-bg">
+  <div class="table-bg" v-if="courseGrades">
     <table>
       <tr class="table-header">
         <td>Test</td>
@@ -8,30 +8,19 @@
         <td class="table-data prominent">Total</td>
       </tr>
       <tbody>
-        <tr v-for="(grade, i) in courseGrades" :key="i">
+        <tr v-for="exam in courseGrades.exams" :key="exam.id">
           <td>
             <router-link
-              :to="`/courses/${exams[i]?.course?.id}/exams/${exams[i]?.id}`"
+              :to="`/courses/${courseGrades?.courseId}/exams/${exam.id}`"
               class="inline-flex items-center"
             >
-              <!-- Heroicon name: document-text -->
-              <svg
-                class="w-5 h-5 mr-1 fill-current"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              {{ exams[i]?.label }}
+              <DocumentTextIcon class="w-5 h-5 mr-1 fill-current" />
+              {{ exam.label }}
             </router-link>
           </td>
-          <td class="table-data">{{ weightPercentage }}%</td>
-          <td class="table-data prominent">{{ grade }}</td>
-          <td class="table-data">{{ Math.floor(grade * weight) }}%</td>
+          <td class="table-data">{{ exam.weightPercentage }}%</td>
+          <td class="table-data prominent">{{ exam.grade }}</td>
+          <td class="table-data">{{ Math.floor(exam.grade * exam.weight) }}%</td>
         </tr>
       </tbody>
       <tr class="table-footer">
@@ -44,7 +33,7 @@
         <td />
         <td />
         <td class="table-data prominent course-total-value">
-          {{ courseTotal }}%
+          {{ courseGrades.courseTotal }}%
         </td>
       </tr>
     </table>
@@ -53,35 +42,36 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import userMixin from '@/mixins/user'
-import { Exam } from '@/types'
+import { DocumentTextIcon } from '@heroicons/vue/solid'
+import useFetch from '@/composables/use-fetch'
+import coursesService from '@/services/courses'
+import { useStore } from '@/store'
+import { CourseGrades } from '@/types'
 
 export default defineComponent({
   name: 'CourseGrades',
-  mixins: [userMixin],
+  components: { DocumentTextIcon },
   props: {
     courseId: {
       type: String,
       required: true
     }
   },
-  computed: {
-    courseGrades (): number[] {
-      return this.user ? this.$store.getters.courseGrades(this.courseId, this.user.id) : []
-    },
-    courseTotal (): number {
-      return this.user ? this.$store.getters.courseTotal(this.courseId, this.user.id) : 0
-    },
-    exams (): Exam[] {
-      return this.$store.getters.examsByCourse(this.courseId)
-    },
-    // TODO: add actual weight per exam
-    weight (): number {
-      const exams = this.$store.getters.examsByCourse(this.courseId)
-      return 1 / exams.length
-    },
-    weightPercentage (): string {
-      return (this.weight * 100).toLocaleString('en-US', { maximumFractionDigits: 1 })
+  setup (props) {
+    const store = useStore()
+    const [
+      courseGrades,
+      fetchCourseGrades,
+      loading,
+      error
+    ] = useFetch<CourseGrades | null>(() => coursesService.getUserGrades(props.courseId, store.state.user?.id ?? ''))
+
+    fetchCourseGrades()
+
+    return {
+      courseGrades,
+      loading,
+      error
     }
   }
 })

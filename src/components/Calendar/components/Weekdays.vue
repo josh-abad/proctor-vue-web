@@ -33,6 +33,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .weekdays--compact {
-  @apply dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 backdrop-blur;
+  @apply dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg;
 }
 </style>

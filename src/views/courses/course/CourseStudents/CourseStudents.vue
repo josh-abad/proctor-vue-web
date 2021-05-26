@@ -7,7 +7,7 @@
         placeholder="Filter students"
       />
       <AddStudentModal
-        v-if="hasPermission(['coordinator', 'admin'])"
+        v-if="$store.getters.permissions(['coordinator', 'admin'])"
         :course-id="courseId"
       />
     </div>
@@ -23,21 +23,14 @@
         :student="student"
         :course-id="courseId"
         v-for="student in filteredStudents"
-        :key="student.id"
+        :key="student?.id"
       />
     </div>
     <div
       v-else
       class="flex items-center justify-center w-full py-5 font-semibold text-gray-500"
     >
-      <!-- Heroicons name: exclamation-circle -->
-      <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20" fill="currentColor">
-        <path
-          fill-rule="evenodd"
-          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <ExclamationCircleIcon class="w-5 h-5 fill-current" />
       <div class="ml-2 text-lg">
         There are no students enrolled in this course.
       </div>
@@ -51,12 +44,13 @@ import { User } from '@/types'
 import AppInput from '@/components/ui/AppInput.vue'
 import AddStudentModal from './components/AddStudentModal.vue'
 import StudentRow from '@/components/StudentRow.vue'
-import userMixin from '@/mixins/user'
+import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import useFetch from '@/composables/use-fetch'
+import coursesService from '@/services/courses'
 
 export default defineComponent({
   name: 'CourseStudents',
-  components: { AppInput, AddStudentModal, StudentRow },
-  mixins: [userMixin],
+  components: { AppInput, AddStudentModal, StudentRow, ExclamationCircleIcon },
   props: {
     courseId: {
       type: String,
@@ -68,13 +62,26 @@ export default defineComponent({
       searchFilter: ''
     }
   },
+  setup (props) {
+    const [
+      students,
+      fetchStudents,
+      loading,
+      error
+    ] = useFetch(() => coursesService.getStudents(props.courseId), [])
+
+    fetchStudents()
+
+    return {
+      students,
+      loading,
+      error
+    }
+  },
   computed: {
-    students (): User[] {
-      return this.$store.getters.studentsByCourse(this.courseId)
-    },
     filteredStudents (): User[] {
       return this.students.filter(student => {
-        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student?.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
       })
     }
   }

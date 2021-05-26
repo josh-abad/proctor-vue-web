@@ -209,7 +209,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -226,11 +226,11 @@ router.beforeEach((to, _from, next) => {
   const authorize = to.meta.authorize as Role[]
 
   if (authorize) {
-    if (!store.getters.isLoggedIn) {
+    if (!store.state.user) {
       return next({ name: 'Login', query: { redirect: to.fullPath } })
     }
 
-    if (authorize.length && store.state.user && !authorize.includes(store.state.user.role)) {
+    if (authorize.length && !authorize.includes(store.state.user.role)) {
       return next({ path: '/' })
     }
   }

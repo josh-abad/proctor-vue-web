@@ -1,69 +1,107 @@
-import { RootState, UserCredentials } from '@/types'
 import { ActionTree } from 'vuex'
-import { ALERT, LOAD_ATTEMPTS, LOAD_COURSES, LOAD_EXAMS, LOAD_EXAM_RESULTS, LOAD_USERS, LOG_IN, LOG_OUT, SIGN_UP, VERIFY } from './action-types'
-import { SET_ATTEMPTS, SET_COURSES, SET_EXAM_RESULTS, SET_USER, SET_VERIFIED } from './mutation-types'
+import * as ActionTypes from './action-types'
+import * as MutationTypes from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import loginService from '@/services/login'
 import usersService from '@/services/users'
 import verifyService from '@/services/verify'
 import router from '@/router'
-import nProgress from 'nprogress'
-
 import cookie from '@/utils/cookie'
+import { State, Actions } from '@/store/interfaces'
+import coursesService from '@/services/courses'
+import examResultsService from '@/services/exam-results'
+import useSnackbar from '@/composables/use-snackbar'
+
+const { setSnackbarMessage } = useSnackbar()
 
 export default {
-  async [SIGN_UP] ({ dispatch }, credentials: UserCredentials): Promise<void> {
+  async [ActionTypes.SIGN_UP] (_, credentials) {
     try {
-      nProgress.start()
       await usersService.create(credentials)
       router.push('/')
-      nProgress.done()
     } catch (error) {
-      nProgress.done()
-      dispatch(ALERT, error.response.data.error)
+      setSnackbarMessage(error.response.data.error)
     }
   },
-  async [LOG_IN] ({ commit, dispatch }, { email, password }): Promise<void> {
+  async [ActionTypes.LOG_IN] ({ commit }, { email, password }) {
     try {
-      nProgress.start()
       const user = await loginService.login({ email, password })
-      commit(SET_USER, user)
+      commit(MutationTypes.SET_USER, user)
       router.push((router.currentRoute.value.query.redirect as string) || '/')
-      nProgress.done()
       cookie.set('loggedAppUser', JSON.stringify(user))
       examAttemptsService.setToken(user.token)
       if (user.role !== 'student') {
         examsService.setToken(user.token)
       }
-      await Promise.all([
-        dispatch(LOAD_USERS),
-        dispatch(LOAD_COURSES),
-        dispatch(LOAD_EXAMS),
-        dispatch(LOAD_ATTEMPTS),
-        dispatch(LOAD_EXAM_RESULTS)
-      ])
     } catch (error) {
-      nProgress.done()
-      dispatch(ALERT, 'Incorrect email or password')
+      setSnackbarMessage('Incorrect email or password')
     }
   },
-  async [LOG_OUT] ({ commit }): Promise<void> {
+  async [ActionTypes.LOG_OUT] ({ commit }) {
     localStorage.clear()
-    commit(SET_USER, null)
-    commit(SET_COURSES, [])
-    commit(SET_ATTEMPTS, [])
-    commit(SET_EXAM_RESULTS, [])
+    cookie.remove('loggedAppUser')
+    commit(MutationTypes.SET_USER, null)
   },
-  async [VERIFY] ({ commit, dispatch }, token: string): Promise<void> {
+  async [ActionTypes.VERIFY] ({ commit }, token) {
     try {
-      nProgress.start()
       const verifiedUser = await verifyService.verify(token)
-      nProgress.done()
-      commit(SET_VERIFIED, verifiedUser.id)
+      commit(MutationTypes.SET_VERIFIED, verifiedUser.id)
     } catch (error) {
-      nProgress.done()
-      dispatch(ALERT, error.response.data.error)
+      setSnackbarMessage(error.response.data.error)
     }
+  },
+  async [ActionTypes.ENROLL_STUDENT] (_, { studentId, courseId }) {
+    try {
+      await coursesService.enrollUser(studentId, courseId)
+      setSnackbarMessage('Student successfully enrolled.')
+    } catch (error) {
+      setSnackbarMessage(error.response.data.error)
+    }
+  },
+  async [ActionTypes.ENROLL_STUDENTS] (_, { userIds, courseId }) {
+    try {
+      await coursesService.enrollUsers(userIds, courseId)
+      setSnackbarMessage('Students successfully added to course.')
+    } catch (error) {
+      setSnackbarMessage(error.response.data.error)
+    }
+  },
+  async [ActionTypes.CREATE_COURSE] (_, newCourse) {
+    try {
+      await coursesService.create(newCourse)
+      setSnackbarMessage('Course successfully created')
+    } catch (error) {
+      setSnackbarMessage(error.response.data.error)
+    }
+  },
+  async [ActionTypes.DELETE_COURSE] (_, courseId) {
+    try {
+      await coursesService.deleteCourse(courseId)
+      setSnackbarMessage('Course successfully deleted')
+    } catch (error) {
+      setSnackbarMessage('Could not delete course')
+    }
+  },
+  async [ActionTypes.DELETE_EXAM] (_, examId) {
+    try {
+      await examsService.deleteExam(examId)
+      setSnackbarMessage('Exam successfully deleted')
+    } catch (error) {
+      setSnackbarMessage('Could not delete exam')
+    }
+  },
+  async [ActionTypes.START_ATTEMPT] ({ commit }, examId) {
+    try {
+      const response = await examAttemptsService.start(examId)
+      localStorage.setItem('activeExam', JSON.stringify(response))
+      examResultsService.setToken(response.token)
+      commit(MutationTypes.SET_ACTIVE_EXAM, response.attempt.exam.id)
+    } catch (error) {
+      setSnackbarMessage('Attempt could not be started')
+    }
+  },
+  async [ActionTypes.SUBMIT_EXAM] (_, payload) {
+    await examResultsService.submit(payload)
   }
-} as ActionTree<RootState, RootState>
+} as ActionTree<State, State> & Actions

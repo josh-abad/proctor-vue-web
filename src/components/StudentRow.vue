@@ -20,43 +20,31 @@
     </div>
     <button
       class="relative focus:outline-none"
-      @click="menuOpen = !menuOpen"
+      @click="menuDropdown.toggle"
       id="dropdown-toggle"
     >
-      <svg
-        class="w-6 h-6 pointer-events-none fill-current"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-        />
-      </svg>
+      <DotsVerticalIcon class="w-6 h-6 pointer-events-none fill-current" />
       <MenuDropdown
         class="mr-8 -mt-6"
-        v-show="menuOpen"
-        @click-outside="menuOpen = false"
+        v-show="menuDropdown.isOpen"
+        @click-outside="menuDropdown.close"
       >
         <MenuDropdownItem :path="`/user/${student.id}`">
           <template #label> View Student </template>
         </MenuDropdownItem>
         <MenuDropdownItem
-          @item-click="unenrollModalOpen = true"
+          @item-click="unenrollStudentModal.open"
           separator
-          v-if="courseId && hasPermission(['admin', 'coordinator'])"
+          v-if="courseId && $store.getters.permissions(['admin', 'coordinator'])"
         >
           <template #label>
             <span class="text-red-500">Un-Enroll From Course</span>
           </template>
         </MenuDropdownItem>
         <MenuDropdownItem
-          @item-click="deleteModalOpen = true"
+          @item-click="deleteStudentModal.open"
           separator
-          v-if="!courseId && hasPermission(['admin'])"
+          v-if="!courseId && $store.getters.permissions(['admin'])"
         >
           <template #label>
             <span class="text-red-500">Delete Student</span>
@@ -65,7 +53,7 @@
       </MenuDropdown>
     </button>
     <teleport to="#modals">
-      <AppModal :open="deleteModalOpen" @close="deleteModalOpen = false">
+      <AppModal :open="deleteStudentModal.isOpen" @close="deleteStudentModal.close">
         <template #header> Delete Account </template>
         <template #body>
           Are you sure you want to delete this account?
@@ -74,7 +62,7 @@
           <AppButton @click="deleteStudent" prominent> Delete </AppButton>
         </template>
       </AppModal>
-      <AppModal :open="unenrollModalOpen" @close="unenrollModalOpen = false">
+      <AppModal :open="unenrollStudentModal.isOpen" @close="unenrollStudentModal.close">
         <template #header> Un-Enroll Student </template>
         <template #body>
           Are you sure you want to unenroll this student from this course?
@@ -89,16 +77,16 @@
 
 <script lang="ts">
 import usersService from '@/services/users'
-import { ALERT } from '@/store/action-types'
-import { REMOVE_STUDENT, REMOVE_USER } from '@/store/mutation-types'
 import { User } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
 import MenuDropdownItem from './MenuDropdownItem.vue'
 import AppButton from './ui/AppButton.vue'
 import AppModal from './ui/AppModal.vue'
-import userMixin from '@/mixins/user'
 import courses from '@/services/courses'
+import { DotsVerticalIcon } from '@heroicons/vue/outline'
+import useSnackbar from '@/composables/use-snackbar'
+import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -106,12 +94,12 @@ export default defineComponent({
     AppButton,
     AppModal,
     MenuDropdown,
-    MenuDropdownItem
+    MenuDropdownItem,
+    DotsVerticalIcon
   },
-  mixins: [userMixin],
   props: {
     student: {
-      type: Object as () => User,
+      type: Object as PropType<User>,
       required: true
     },
 
@@ -125,36 +113,38 @@ export default defineComponent({
       required: false
     }
   },
-  data () {
+  setup () {
+    const { setSnackbarMessage } = useSnackbar()
+
+    const deleteStudentModal = useModal()
+    const unenrollStudentModal = useModal()
+    const menuDropdown = useModal()
+
     return {
-      menuOpen: false,
-      deleteModalOpen: false,
-      unenrollModalOpen: false
+      setSnackbarMessage,
+      deleteStudentModal,
+      unenrollStudentModal,
+      menuDropdown
     }
   },
   methods: {
-    async deleteStudent (): Promise<void> {
-      this.deleteModalOpen = false
+    async deleteStudent () {
+      this.deleteStudentModal.close()
       try {
         await usersService.deleteUser(this.student.id)
-        this.$store.commit(REMOVE_USER, this.student.id)
-        await this.$store.dispatch(ALERT, 'Student removed.')
+        this.setSnackbarMessage('Student removed')
       } catch (error) {
-        await this.$store.dispatch(ALERT, 'Could not delete student.')
+        this.setSnackbarMessage('Could not delete student.')
       }
     },
-    async unenrollStudent (): Promise<void> {
-      this.unenrollModalOpen = false
+    async unenrollStudent () {
+      this.unenrollStudentModal.close()
       if (this.courseId) {
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
-          this.$store.commit(REMOVE_STUDENT, {
-            courseId: this.courseId,
-            userId: this.student.id
-          })
-          await this.$store.dispatch(ALERT, 'Student un-enrolled from course.')
+          this.setSnackbarMessage('Student un-enrolled from course.')
         } catch (error) {
-          await this.$store.dispatch(ALERT, 'Could not un-enroll student.')
+          this.setSnackbarMessage('Could not un-enroll student.')
         }
       }
     }
