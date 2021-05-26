@@ -31,7 +31,7 @@
           :key="i"
           :exam-item="item"
           :question-number="i + 1"
-          @answer-changed="handleAnswerChange"
+          v-model="answers"
         />
         <div class="flex items-center justify-between mt-4">
           <ModalButton

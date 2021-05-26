@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { ExamItem } from '@/types'
+import { Answer, ExamItem } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import AppCheckbox from './ui/AppCheckbox.vue'
 import AppInput from './ui/AppInput.vue'
@@ -50,9 +50,14 @@ export default defineComponent({
       required: true
     },
 
+    modelValue: {
+      type: Array as PropType<Answer[]>,
+      default: () => []
+    },
+
     questionNumber: Number
   },
-  emits: ['answer-changed'],
+  emits: ['update:modelValue'],
   data () {
     let answer: string | string[]
     if (this.examItem.questionType !== 'multiple answers') {
@@ -66,10 +71,23 @@ export default defineComponent({
   },
   watch: {
     answer (newAnswer: string | string[]) {
-      this.$emit('answer-changed', {
-        question: this.examItem.question,
-        answer: newAnswer
-      })
+      // FIXME: duplicate questions don't get counted
+      if (this.modelValue.some(({ question }) => question === this.examItem.question)) {
+        this.$emit('update:modelValue', this.modelValue
+          .map(item => item.question === this.examItem.question
+            ? {
+              question: item.question,
+              answer: newAnswer
+            }
+            : item
+          )
+        )
+      } else {
+        this.$emit('update:modelValue', [...this.modelValue, {
+          question: this.examItem.question,
+          answer: newAnswer
+        }])
+      }
     }
   }
 })
