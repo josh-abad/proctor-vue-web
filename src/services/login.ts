@@ -1,7 +1,6 @@
 import { AuthenticatedUser, UserCredentials } from '@/types'
 import axios from 'axios'
-import API_URL from './utils/config'
-const baseUrl = `${API_URL}/login`
+const baseUrl = '/api/login'
 
 /**
  * Attempts to log in to the app with the specified credentials
