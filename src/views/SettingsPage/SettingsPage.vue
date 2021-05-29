@@ -142,9 +142,9 @@ export default defineComponent({
         try {
           await usersService.deleteUser(this.$store.state.user.id)
           this.$router.push('/login')
-          this.setSnackbarMessage('Student removed')
+          this.setSnackbarMessage('Student removed', 'success')
         } catch (error) {
-          this.setSnackbarMessage('Could not delete student.')
+          this.setSnackbarMessage('Could not delete student.', 'error')
         }
       }
     }

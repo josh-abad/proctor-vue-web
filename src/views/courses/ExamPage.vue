@@ -182,7 +182,7 @@ export default defineComponent({
         useKeepOnPage({
           preventLeave: isActive,
           onLeaveAttempt: () => {
-            setSnackbarMessage('You cannot leave until you have finished the exam')
+            setSnackbarMessage('You cannot leave until you have finished the exam', 'warning')
           },
           onLeaveFocus: warn,
           onLeaveTimeout: warn
@@ -192,12 +192,12 @@ export default defineComponent({
 
     const handleNoFaceSeen = () => {
       warn(false)
-      setSnackbarMessage('No face seen for 10 seconds.')
+      setSnackbarMessage('No face seen for 10 seconds.', 'warning')
     }
 
     const handleUnidentifiedFace = () => {
       warn(false)
-      setSnackbarMessage('Face unidentified for 10 seconds')
+      setSnackbarMessage('Face unidentified for 10 seconds', 'warning')
     }
 
     onMounted(() => {

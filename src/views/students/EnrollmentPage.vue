@@ -95,7 +95,7 @@ export default defineComponent({
         await this.$store.dispatch(ENROLL_STUDENT, payload)
         this.$router.push('/students')
       } catch (error) {
-        this.setSnackbarMessage(error.response.data.error)
+        this.setSnackbarMessage(error.response.data.error, 'error')
       }
     }
   }

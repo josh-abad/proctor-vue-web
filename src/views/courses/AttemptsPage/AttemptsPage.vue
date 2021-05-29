@@ -248,7 +248,7 @@ export default defineComponent({
           `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
         )
       } catch (error) {
-        this.setSnackbarMessage('Attempt could not be started')
+        this.setSnackbarMessage('Attempt could not be started', 'error')
       }
     },
     async deleteExam () {
