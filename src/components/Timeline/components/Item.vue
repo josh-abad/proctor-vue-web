@@ -16,7 +16,7 @@
           class="item__action"
           :class="isOpen ? 'item__action--opening' : 'item__action--closing'"
         >
-          opens
+          {{ isOpen ? 'opens' : 'closes' }}
         </span>
       </div>
       <router-link :to="`/courses/${event.course.id}`" class="item__location">
