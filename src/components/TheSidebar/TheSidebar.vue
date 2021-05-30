@@ -5,7 +5,7 @@
       :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <nav class="flex flex-col">
-        <NavLink url="/" @mobile-nav="$emit('close-sidebar')">
+        <NavLink url="/" @mobile-nav="$emit('update:isOpen', false)">
           <template #label> Home </template>
           <template #icon>
             <HomeIconOutline class="w-5 h-5" />
@@ -14,7 +14,7 @@
             <HomeIconSolid class="w-5 h-5" />
           </template>
         </NavLink>
-        <NavLink url="/courses" @mobile-nav="$emit('close-sidebar')">
+        <NavLink url="/courses" @mobile-nav="$emit('update:isOpen', false)">
           <template #label> Courses </template>
           <template #icon>
             <BookOpenIconOutline class="w-5 h-5" />
@@ -26,7 +26,7 @@
         <NavLink
           url="/students"
           v-if="$store.getters.permissions(['coordinator', 'admin'])"
-          @mobile-nav="$emit('close-sidebar')"
+          @mobile-nav="$emit('update:isOpen', false)"
         >
           <template #label> Students </template>
           <template #icon>
@@ -36,7 +36,7 @@
             <UsersIconSolid class="w-5 h-5" />
           </template>
         </NavLink>
-        <NavLink url="/calendar" @mobile-nav="$emit('close-sidebar')">
+        <NavLink url="/calendar" @mobile-nav="$emit('update:isOpen', false)">
           <template #label> Calendar </template>
           <template #icon>
             <CalendarIconOutline class="w-5 h-5" />
@@ -82,7 +82,7 @@ export default defineComponent({
   props: {
     isOpen: Boolean
   },
-  emit: ['close-sidebar']
+  emit: ['update:isOpen']
 })
 </script>
 
