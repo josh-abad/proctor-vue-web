@@ -1,6 +1,7 @@
 import { AppEvent, Course, Exam, User, UserCredentials } from '@/types'
 import axios from 'axios'
-const baseUrl = '/api/users'
+import { API_URL } from './helper'
+const baseUrl = `${API_URL}/users`
 
 /**
  * Registers a new user to the server
