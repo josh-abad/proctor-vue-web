@@ -1,14 +1,15 @@
 <template>
   <button
-    class="px-6 py-2 text-sm font-semibold capitalize duration-300 ease-in-out rounded-lg shadow appearance-none focus:outline-none disabled:opacity-50"
+    class="transition-colors duration-300 ease-in-out rounded-lg  focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
     :class="
       prominent
-        ? 'text-white bg-gradient-to-t from-green-600 to-green-500 hover:from-green-700 hover:to-green-600'
-        : 'bg-gray-200 bg-opacity-5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 hover:bg-opacity-20 dark:hover:bg-opacity-30 hover:shadow-md'
+        ? 'text-white bg-green-500 active:bg-green-300'
+        : 'bg-gray-300 text-gray-600 active:bg-gray-200 dark:active:bg-gray-500 dark:text-gray-400 dark:bg-gray-700'
     "
-    :disabled="disabled"
   >
-    <slot></slot>
+    <div class="mx-6 my-2 text-sm font-semibold capitalize">
+      <slot></slot>
+    </div>
   </button>
 </template>
 
@@ -20,12 +21,6 @@ export default defineComponent({
   props: {
     prominent: {
       type: Boolean,
-      default: false
-    },
-
-    disabled: {
-      type: Boolean,
-      required: false,
       default: false
     }
   }
