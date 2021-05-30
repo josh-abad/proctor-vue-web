@@ -17,17 +17,6 @@ module.exports = {
     }
   },
   plugins: [
-    require('@tailwindcss/forms'),
-    plugin(function ({ addUtilities }) {
-      const newUtilities = {
-        '.glow': {
-          'box-shadow': '0px 0px 20px 0px rgb(16, 185, 129, 0.75)'
-        }
-      }
-
-      addUtilities(newUtilities, {
-        variants: ['responsive']
-      })
-    })
+    require('@tailwindcss/forms')
   ]
 }
