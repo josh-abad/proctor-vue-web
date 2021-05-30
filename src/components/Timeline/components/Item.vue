@@ -1,15 +1,22 @@
 <template>
   <div class="item">
     <DocumentTextIcon
-      class="item__icon item__icon--closing"
+      class="item__icon"
+      :class="isOpen ? 'item__icon--closing' : 'item__icon--opening'"
     />
     <div>
       <div class="flex">
-        <router-link :to="`/courses/${event.course.id}/exams/${event.id}`" class="item__course">
+        <router-link
+          :to="`/courses/${event.course.id}/exams/${event.id}`"
+          class="item__course"
+        >
           {{ event.label }}
         </router-link>
-        <span class="item__action item__action--closing">
-          closes
+        <span
+          class="item__action"
+          :class="isOpen ? 'item__action--opening' : 'item__action--closing'"
+        >
+          opens
         </span>
       </div>
       <router-link :to="`/courses/${event.course.id}`" class="item__location">
@@ -30,6 +37,11 @@ export default defineComponent({
   props: {
     event: {
       type: Object as PropType<Exam>,
+      required: true
+    },
+
+    isOpen: {
+      type: Boolean,
       required: true
     }
   }

@@ -6,7 +6,7 @@
       <RecentActivity class="hidden sm:block" />
     </AppPanel>
     <div class="w-full mt-4 ml-0 space-y-4 sm:w-72 sm:ml-4 sm:mt-0">
-      <Timeline />
+      <UpcomingExams />
       <OpenExams />
     </div>
   </div>
@@ -15,17 +15,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import RecentCourses from './components/RecentCourses.vue'
-import Timeline from './components/Timeline/Timeline.vue'
+import UpcomingExams from './components/UpcomingExams.vue'
 import RecentActivity from './components/RecentActivity.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
-import OpenExams from './components/OpenExams/OpenExams.vue'
+import OpenExams from './components/OpenExams.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
     RecentCourses,
-    Timeline,
+    UpcomingExams,
     RecentActivity,
     CourseList,
     AppPanel,
