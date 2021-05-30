@@ -32,7 +32,7 @@ export default defineComponent({
     }
   },
   emits: ['close'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const closeModal = () => {
       emit('close')
       const body = document.querySelector('body')
@@ -49,7 +49,7 @@ export default defineComponent({
     }
   },
   watch: {
-    open (isOpen: boolean) {
+    open(isOpen: boolean) {
       if (isOpen) {
         const body = document.querySelector('body')
         if (body) {
@@ -67,7 +67,7 @@ export default defineComponent({
 }
 
 .modal {
-  @apply overflow-x-auto flex flex-col bg-gray-100 dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10 rounded-lg shadow-2xl;
+  @apply overflow-x-auto flex flex-col bg-gray-100 dark:bg-gray-700 rounded-lg shadow-2xl;
 }
 
 .modal-header,
