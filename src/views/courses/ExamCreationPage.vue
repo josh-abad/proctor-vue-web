@@ -239,10 +239,10 @@ export default defineComponent({
           endDate: new Date(this.endDate)
         }
         await examsService.create(newExam)
-        this.setSnackbarMessage('Exam successfully created')
+        this.setSnackbarMessage('Exam successfully created', 'success')
         this.$router.push(`/courses/${this.courseId}`)
       } catch (error) {
-        this.setSnackbarMessage(error.response.data.error)
+        this.setSnackbarMessage(error.response.data.error, 'error')
       }
     }
   }

@@ -21,7 +21,7 @@ export default {
       await usersService.create(credentials)
       router.push('/')
     } catch (error) {
-      setSnackbarMessage(error.response.data.error)
+      setSnackbarMessage(error.response.data.error, 'error')
     }
   },
   async [ActionTypes.LOG_IN] ({ commit }, { email, password }) {
@@ -35,7 +35,7 @@ export default {
         examsService.setToken(user.token)
       }
     } catch (error) {
-      setSnackbarMessage('Incorrect email or password')
+      setSnackbarMessage('Incorrect email or password', 'error')
     }
   },
   async [ActionTypes.LOG_OUT] ({ commit }) {
@@ -48,47 +48,47 @@ export default {
       const verifiedUser = await verifyService.verify(token)
       commit(MutationTypes.SET_VERIFIED, verifiedUser.id)
     } catch (error) {
-      setSnackbarMessage(error.response.data.error)
+      setSnackbarMessage(error.response.data.error, 'error')
     }
   },
   async [ActionTypes.ENROLL_STUDENT] (_, { studentId, courseId }) {
     try {
       await coursesService.enrollUser(studentId, courseId)
-      setSnackbarMessage('Student successfully enrolled.')
+      setSnackbarMessage('Student successfully enrolled.', 'success')
     } catch (error) {
-      setSnackbarMessage(error.response.data.error)
+      setSnackbarMessage(error.response.data.error, 'error')
     }
   },
   async [ActionTypes.ENROLL_STUDENTS] (_, { userIds, courseId }) {
     try {
       await coursesService.enrollUsers(userIds, courseId)
-      setSnackbarMessage('Students successfully added to course.')
+      setSnackbarMessage('Students successfully added to course.', 'success')
     } catch (error) {
-      setSnackbarMessage(error.response.data.error)
+      setSnackbarMessage(error.response.data.error, 'error')
     }
   },
   async [ActionTypes.CREATE_COURSE] (_, newCourse) {
     try {
       await coursesService.create(newCourse)
-      setSnackbarMessage('Course successfully created')
+      setSnackbarMessage('Course successfully created', 'success')
     } catch (error) {
-      setSnackbarMessage(error.response.data.error)
+      setSnackbarMessage(error.response.data.error, 'error')
     }
   },
   async [ActionTypes.DELETE_COURSE] (_, courseId) {
     try {
       await coursesService.deleteCourse(courseId)
-      setSnackbarMessage('Course successfully deleted')
+      setSnackbarMessage('Course successfully deleted', 'success')
     } catch (error) {
-      setSnackbarMessage('Could not delete course')
+      setSnackbarMessage('Could not delete course', 'error')
     }
   },
   async [ActionTypes.DELETE_EXAM] (_, examId) {
     try {
       await examsService.deleteExam(examId)
-      setSnackbarMessage('Exam successfully deleted')
+      setSnackbarMessage('Exam successfully deleted', 'success')
     } catch (error) {
-      setSnackbarMessage('Could not delete exam')
+      setSnackbarMessage('Could not delete exam', 'error')
     }
   },
   async [ActionTypes.START_ATTEMPT] ({ commit }, examId) {
@@ -98,7 +98,7 @@ export default {
       examResultsService.setToken(response.token)
       commit(MutationTypes.SET_ACTIVE_EXAM, response.attempt.exam.id)
     } catch (error) {
-      setSnackbarMessage('Attempt could not be started')
+      setSnackbarMessage('Attempt could not be started', 'error')
     }
   },
   async [ActionTypes.SUBMIT_EXAM] (_, payload) {

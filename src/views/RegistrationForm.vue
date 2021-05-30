@@ -161,7 +161,7 @@ export default defineComponent({
         this.password = ''
         this.confirmPassword = ''
       } catch (error) {
-        this.setSnackbarMessage('Invalid credentials')
+        this.setSnackbarMessage('Invalid credentials', 'error')
       }
     }
   }

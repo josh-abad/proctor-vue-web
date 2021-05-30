@@ -41,15 +41,14 @@ export default defineComponent({
     }
   },
   props: {
-    base64Token: {
+    token: {
       type: String,
       required: true
     }
   },
   async mounted () {
-    const token = Buffer.from(this.base64Token, 'base64').toString('binary')
     try {
-      const verifiedUser = await verifyService.verify(token)
+      const verifiedUser = await verifyService.verify(this.token)
       this.$store.commit(SET_VERIFIED, verifiedUser.id)
       this.message = 'Verification successful'
     } catch (error) {

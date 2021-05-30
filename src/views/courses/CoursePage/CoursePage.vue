@@ -186,7 +186,7 @@ export default defineComponent({
       try {
         await usersService.addRecentCourse(this.$store.state.user.id, this.courseId)
       } catch (error) {
-        this.setSnackbarMessage(error.message)
+        this.setSnackbarMessage(error.message, 'error')
       }
     }
   },

@@ -1,19 +1,16 @@
 <template>
   <router-link
     :to="url"
-    class="text-gray-600 transition-colors duration-200 ease-in-out border-l-2 border-gray-800 border-opacity-0 dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
-    v-slot="{ isActive }"
+    class="mx-2 text-gray-600  dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
   >
     <div class="flex wrapper sm:hidden" @click="handleMobileNav">
-      <slot v-if="isActive" name="icon-selected" />
-      <slot v-else name="icon" />
+      <slot name="icon" />
       <div class="ml-6">
         <slot name="label" />
       </div>
     </div>
     <div class="hidden wrapper sm:flex">
-      <slot v-if="isActive" name="icon-selected" />
-      <slot v-else name="icon" />
+      <slot name="icon" />
       <div class="ml-6">
         <slot name="label" />
       </div>
@@ -34,7 +31,7 @@ export default defineComponent({
   },
   emits: ['mobile-nav'],
   methods: {
-    handleMobileNav () {
+    handleMobileNav() {
       this.$emit('mobile-nav')
     }
   }
@@ -43,7 +40,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .router-link-active {
-  @apply bg-gray-200 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-30 font-semibold text-green-500 dark:text-white border-green-500;
+  @apply bg-green-300 dark:bg-gray-700 rounded-lg bg-opacity-30 dark:bg-opacity-30 font-semibold text-green-500 dark:text-white;
 }
 
 .wrapper {

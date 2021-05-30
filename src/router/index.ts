@@ -161,7 +161,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/SettingsPage/SettingsPage.vue')
   },
   {
-    path: '/verify/:base64Token',
+    path: '/verify/:token',
     name: 'Verify',
     props: true,
     meta: {

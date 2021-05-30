@@ -1,7 +1,6 @@
 import { Course, CourseGrades, Exam, NewCourse, User } from '@/types'
 import axios from 'axios'
-import API_URL from './utils/config'
-const baseUrl = `${API_URL}/courses`
+const baseUrl = '/api/courses'
 
 /**
  * Creates a new course in the server and returns it

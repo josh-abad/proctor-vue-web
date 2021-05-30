@@ -7,7 +7,7 @@
         @toggle="handleToggle"
       />
       <div>
-        <TheSidebar v-if="$store.state.user" :is-open="isOpen" @close-sidebar="isOpen = false" />
+        <TheSidebar v-if="$store.state.user" v-model:is-open="isOpen" />
         <div>
           <router-view
             class="duration-300 ease-in-out transform"

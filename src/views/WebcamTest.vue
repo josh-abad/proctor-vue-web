@@ -57,11 +57,11 @@ export default defineComponent({
   methods: {
     handleNoFaceSeen () {
       this.warnings++
-      this.setSnackbarMessage('No face seen for 10 seconds.')
+      this.setSnackbarMessage('No face seen for 10 seconds.', 'warning')
     },
     handleUnidentifiedFace () {
       this.warnings++
-      this.setSnackbarMessage('Face unidentified for 10 seconds')
+      this.setSnackbarMessage('Face unidentified for 10 seconds', 'warning')
     }
   }
 })

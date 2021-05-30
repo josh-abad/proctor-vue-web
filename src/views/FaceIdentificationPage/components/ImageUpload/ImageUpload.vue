@@ -95,7 +95,7 @@ export default defineComponent({
     try {
       await faceapi.loadTinyFaceDetectorModel(MODELS_URL)
     } catch (error) {
-      this.setSnackbarMessage('Could not load face detection.')
+      this.setSnackbarMessage('Could not load face detection.', 'error')
     }
   },
   methods: {
@@ -129,7 +129,7 @@ export default defineComponent({
             this.loading = false
             this.validImage = !!detection
           } catch (error) {
-            this.setSnackbarMessage('Something went wrong.')
+            this.setSnackbarMessage('Something went wrong.', 'error')
           }
         })
       }

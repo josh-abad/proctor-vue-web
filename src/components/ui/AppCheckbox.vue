@@ -7,7 +7,7 @@
     >
       <div
         class="box-border w-5 h-5 border-2 border-gray-400 rounded dark:border-gray-600"
-        :class="{ 'bg-green-500 border-green-500 dark:border-green-500 glow': isSelected }"
+        :class="{ 'bg-green-500 border-green-500 dark:border-green-500': isSelected }"
       >
         <CheckIcon
           class="w-4 h-4 text-green-200 stroke-current stroke-2"

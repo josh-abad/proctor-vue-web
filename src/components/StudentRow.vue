@@ -132,9 +132,9 @@ export default defineComponent({
       this.deleteStudentModal.close()
       try {
         await usersService.deleteUser(this.student.id)
-        this.setSnackbarMessage('Student removed')
+        this.setSnackbarMessage('Student removed', 'success')
       } catch (error) {
-        this.setSnackbarMessage('Could not delete student.')
+        this.setSnackbarMessage('Could not delete student.', 'error')
       }
     },
     async unenrollStudent () {
@@ -142,9 +142,9 @@ export default defineComponent({
       if (this.courseId) {
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
-          this.setSnackbarMessage('Student un-enrolled from course.')
+          this.setSnackbarMessage('Student un-enrolled from course.', 'success')
         } catch (error) {
-          this.setSnackbarMessage('Could not un-enroll student.')
+          this.setSnackbarMessage('Could not un-enroll student.', 'error')
         }
       }
     }
