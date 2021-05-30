@@ -10,12 +10,6 @@ module.exports = {
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
-    colors: {
-      gray: colors.gray,
-      green: colors.emerald,
-      red: colors.rose,
-      white: colors.white
-    },
     extend: {
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans]
