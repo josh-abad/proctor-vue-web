@@ -6,23 +6,18 @@
     >
       <div class="flex justify-between px-3 py-2">
         <div class="flex items-center space-x-1">
-          <img
-            :src="event.avatarUrl"
-            alt="Avatar"
-            class="object-cover w-5 h-5 mr-2 rounded-full"
-          />
           <router-link
             :to="event.subjectUrl"
             class="text-gray-700 dark:text-gray-300"
             >{{
-              event.subjectId === $store.state.user?.id ? "You" : event.subject
+              event.subjectId === $store.state.user?.id ? 'You' : event.subject
             }}</router-link
           >
           <span>{{ event.action }}</span>
           <router-link
             class="text-gray-900 dark:text-white"
             :to="event.predicateUrl || '#'"
-            >{{ event.predicate || "" }}</router-link
+            >{{ event.predicate || '' }}</router-link
           >
           <span class="hidden sm:inline-block">in</span>
           <router-link
@@ -53,7 +48,7 @@ export default defineComponent({
     }
   },
   methods: {
-    formattedDate (d: string | Date) {
+    formattedDate(d: string | Date) {
       return dayjs(d).fromNow()
     }
   }
