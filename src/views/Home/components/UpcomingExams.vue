@@ -2,7 +2,7 @@
   <Timeline
     name="Upcoming Exams"
     :events="upcomingExams"
-    empty-message="No upcoming events."
+    empty-message="No upcoming exams."
     :has-error="error"
     :is-loading="loading"
   />

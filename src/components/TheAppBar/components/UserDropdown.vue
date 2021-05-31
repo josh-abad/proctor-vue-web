@@ -4,17 +4,15 @@
       <button
         @click="menuDropdown.toggle"
         type="button"
-        class="inline-flex items-center justify-center w-full px-4 py-2 text-gray-500 focus:outline-none"
+        class="w-full px-4 py-2 text-gray-500 focus:outline-none"
         id="user-dropdown-toggle"
         aria-haspopup="true"
         aria-expanded="true"
       >
-        <img
-          :src="$store.state.user?.avatarUrl || ''"
-          alt="Avatar"
-          class="object-cover w-8 h-8 ml-2 rounded-full pointer-events-none"
-        />
-        <ChevronDownIcon class="w-5 h-5 ml-2 -mr-1 pointer-events-none" />
+        <div class="flex items-center justify-center pointer-events-none">
+          <Avatar class="w-10 h-10 text-gray-400 dark:text-gray-600" />
+          <ChevronDownIcon class="w-5 h-5 ml-2 -mr-1" />
+        </div>
       </button>
     </div>
     <MenuDropdown
@@ -53,7 +51,13 @@ import { LOG_OUT } from '@/store/action-types'
 import { defineComponent } from 'vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
-import { ChevronDownIcon, UserCircleIcon, CogIcon, LogoutIcon } from '@heroicons/vue/outline'
+import { UserCircleIcon as Avatar } from '@heroicons/vue/solid'
+import {
+  ChevronDownIcon,
+  UserCircleIcon,
+  CogIcon,
+  LogoutIcon
+} from '@heroicons/vue/outline'
 import useModal from '@/composables/use-modal'
 
 export default defineComponent({
@@ -64,9 +68,10 @@ export default defineComponent({
     ChevronDownIcon,
     UserCircleIcon,
     CogIcon,
+    Avatar,
     LogoutIcon
   },
-  setup () {
+  setup() {
     const menuDropdown = useModal()
 
     return {
@@ -74,7 +79,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleLogOut () {
+    async handleLogOut() {
       await this.$store.dispatch(LOG_OUT)
       this.$router.push('/login')
     }

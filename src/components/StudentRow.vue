@@ -1,20 +1,16 @@
 <template>
   <div
-    class="flex items-center justify-between py-4 pl-2 pr-4 bg-white rounded-lg shadow-lg dark:bg-gray-700"
+    class="flex items-center justify-between py-4 pl-2 pr-4 bg-white rounded-lg shadow-lg  dark:bg-gray-700"
   >
     <div class="flex items-center">
-      <img
-        :src="student.avatarUrl"
-        alt="Avatar"
-        class="object-cover w-10 h-10 ml-2 rounded-full"
-      />
+      <UserCircleIcon class="w-10 h-10 ml-2 text-gray-400" />
       <div class="ml-4">
         <router-link :to="`/user/${student.id}`">{{
           student.fullName
         }}</router-link>
         <div class="text-sm text-gray-400" v-if="showCourseCount">
           Enrolled in {{ student.courses.length }}
-          {{ student.courses.length === 1 ? "course" : "courses" }}
+          {{ student.courses.length === 1 ? 'course' : 'courses' }}
         </div>
       </div>
     </div>
@@ -35,7 +31,9 @@
         <MenuDropdownItem
           @item-click="unenrollStudentModal.open"
           separator
-          v-if="courseId && $store.getters.permissions(['admin', 'coordinator'])"
+          v-if="
+            courseId && $store.getters.permissions(['admin', 'coordinator'])
+          "
         >
           <template #label>
             <span class="text-red-500">Un-Enroll From Course</span>
@@ -53,7 +51,10 @@
       </MenuDropdown>
     </button>
     <teleport to="#modals">
-      <AppModal :open="deleteStudentModal.isOpen" @close="deleteStudentModal.close">
+      <AppModal
+        :open="deleteStudentModal.isOpen"
+        @close="deleteStudentModal.close"
+      >
         <template #header> Delete Account </template>
         <template #body>
           Are you sure you want to delete this account?
@@ -62,7 +63,10 @@
           <AppButton @click="deleteStudent" prominent> Delete </AppButton>
         </template>
       </AppModal>
-      <AppModal :open="unenrollStudentModal.isOpen" @close="unenrollStudentModal.close">
+      <AppModal
+        :open="unenrollStudentModal.isOpen"
+        @close="unenrollStudentModal.close"
+      >
         <template #header> Un-Enroll Student </template>
         <template #body>
           Are you sure you want to unenroll this student from this course?
@@ -82,6 +86,7 @@ import { defineComponent, PropType } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
 import MenuDropdownItem from './MenuDropdownItem.vue'
 import AppButton from './ui/AppButton.vue'
+import { UserCircleIcon } from '@heroicons/vue/solid'
 import AppModal from './ui/AppModal.vue'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
@@ -95,6 +100,7 @@ export default defineComponent({
     AppModal,
     MenuDropdown,
     MenuDropdownItem,
+    UserCircleIcon,
     DotsVerticalIcon
   },
   props: {
@@ -113,7 +119,7 @@ export default defineComponent({
       required: false
     }
   },
-  setup () {
+  setup() {
     const { setSnackbarMessage } = useSnackbar()
 
     const deleteStudentModal = useModal()
@@ -128,7 +134,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async deleteStudent () {
+    async deleteStudent() {
       this.deleteStudentModal.close()
       try {
         await usersService.deleteUser(this.student.id)
@@ -137,7 +143,7 @@ export default defineComponent({
         this.setSnackbarMessage('Could not delete student.', 'error')
       }
     },
-    async unenrollStudent () {
+    async unenrollStudent() {
       this.unenrollStudentModal.close()
       if (this.courseId) {
         try {

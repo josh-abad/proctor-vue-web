@@ -49,7 +49,10 @@
         </template>
       </PageHeader>
       <teleport to="#modals">
-        <AppModal :open="deleteCourseModal.isOpen" @close="deleteCourseModal.close">
+        <AppModal
+          :open="deleteCourseModal.isOpen"
+          @close="deleteCourseModal.close"
+        >
           <template #header> Delete Course </template>
           <template #body>
             Are you sure you want to delete this course?
@@ -75,7 +78,6 @@
             :student-count="course.studentsEnrolled.length"
             :description="course.description"
             :coordinator-name="course.coordinator.fullName"
-            :coordinator-avatar-url="course.coordinator.avatarUrl"
           />
           <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
           <CoursePageProgress class="mt-4" :course-id="courseId" />
@@ -133,19 +135,16 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const { setSnackbarMessage } = useSnackbar()
 
     const deleteCourseModal = useModal()
 
     const menuDropdown = useModal()
 
-    const [
-      course,
-      fetchCourse,
-      loading,
-      error
-    ] = useFetch(() => coursesService.getCourse(props.courseId))
+    const [course, fetchCourse, loading, error] = useFetch(() =>
+      coursesService.getCourse(props.courseId)
+    )
 
     fetchCourse()
 
@@ -159,7 +158,7 @@ export default defineComponent({
     }
   },
   computed: {
-    links (): Link[] {
+    links(): Link[] {
       return [
         {
           name: 'Home',
@@ -176,26 +175,37 @@ export default defineComponent({
       ]
     }
   },
-  async mounted () {
-    if (!this.$store.getters.permissions(['admin']) && !this.$store.getters.hasCourse(this.courseId)) {
+  async mounted() {
+    if (
+      !this.$store.getters.permissions(['admin']) &&
+      !this.$store.getters.hasCourse(this.courseId)
+    ) {
       this.$router.replace('/')
     }
-    document.title = this.course ? `${this.course.name} - Proctor Vue` : 'Course Not Found - Proctor Vue'
+    document.title = this.course
+      ? `${this.course.name} - Proctor Vue`
+      : 'Course Not Found - Proctor Vue'
 
-    if (this.$store.state.user?.recentCourses[0] !== this.courseId && this.$store.state.user) {
+    if (
+      this.$store.state.user?.recentCourses[0] !== this.courseId &&
+      this.$store.state.user
+    ) {
       try {
-        await usersService.addRecentCourse(this.$store.state.user.id, this.courseId)
+        await usersService.addRecentCourse(
+          this.$store.state.user.id,
+          this.courseId
+        )
       } catch (error) {
         this.setSnackbarMessage(error.message, 'error')
       }
     }
   },
   methods: {
-    deleteCourse () {
+    deleteCourse() {
       this.$store.dispatch(DELETE_COURSE, this.courseId)
       this.$router.push('/courses')
     },
-    editCourse () {
+    editCourse() {
       // TODO: implement editing courses
     }
   }

@@ -2,7 +2,7 @@
   <div class="user-page">
     <AppPanel class="user-page__header">
       <div class="user-page__user">
-        <img :src="user?.avatarUrl" alt="Avatar" class="user-page__avatar" />
+        <UserCircleIcon class="w-20 h-20 text-gray-400 dark:text-gray-600" />
         <div class="user-page__info">
           <div class="user-page__name">
             {{ user?.fullName }}
@@ -14,7 +14,7 @@
       </div>
       <div class="user-page__stats">
         <UserPageStat :count="user?.courses.length ?? 0">
-          {{ user?.courses.length !== 1 ? "Courses" : "Course" }}
+          {{ user?.courses.length !== 1 ? 'Courses' : 'Course' }}
         </UserPageStat>
       </div>
     </AppPanel>
@@ -41,30 +41,24 @@ import ActivityRow from '@/components/ActivityRow.vue'
 import UserPageStat from '@/components/UserPageStat.vue'
 import usersService from '@/services/users'
 import useFetch from '@/composables/use-fetch'
+import { UserCircleIcon } from '@heroicons/vue/solid'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'UserPage',
-  components: { AppPanel, ActivityRow, UserPageStat },
+  components: { AppPanel, ActivityRow, UserPageStat, UserCircleIcon },
   props: {
     userId: {
       type: String,
       required: true
     }
   },
-  setup (props) {
-    const [
-      user,
-      fetchUser,
-      loadingUser,
-      errorUser
-    ] = useFetch<User | null>(() => usersService.getUser(props.userId))
-    const [
-      userEvents,
-      fetchUserEvents,
-      loadingUserEvents,
-      errorUserEvents
-    ] = useFetch(() => usersService.getRecentActivity(props.userId), [])
+  setup(props) {
+    const [user, fetchUser, loadingUser, errorUser] = useFetch<User | null>(
+      () => usersService.getUser(props.userId)
+    )
+    const [userEvents, fetchUserEvents, loadingUserEvents, errorUserEvents] =
+      useFetch(() => usersService.getRecentActivity(props.userId), [])
 
     fetchUser().then(() => {
       fetchUserEvents()

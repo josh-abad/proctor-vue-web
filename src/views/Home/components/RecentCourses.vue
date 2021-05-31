@@ -3,15 +3,15 @@
     <div class="flex items-center justify-between label-border">
       <AppLabel emphasis>Recent Courses</AppLabel>
     </div>
-    <div>
+    <div class="mt-4">
       <div v-if="error">
         <ErrorLoading />
       </div>
-      <div v-else-if="loading" class="flex justify-start w-full mt-4 space-x-4">
+      <div v-else-if="loading" class="flex justify-start w-full space-x-4">
         <SkeletonCourseCard />
         <SkeletonCourseCard class="hidden sm:block" />
       </div>
-      <div v-else class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
+      <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <CoursesPageCard
           :course="course"
           :key="course.id"
@@ -40,15 +40,13 @@ export default defineComponent({
     SkeletonCourseCard,
     ErrorLoading
   },
-  setup () {
+  setup() {
     const store = useStore()
 
-    const [
-      recentCourses,
-      fetchRecentCourses,
-      loading,
-      error
-    ] = useFetch(() => users.getRecentCourses(store.state.user?.id ?? '', 2), [])
+    const [recentCourses, fetchRecentCourses, loading, error] = useFetch(
+      () => users.getRecentCourses(store.state.user?.id ?? '', 2),
+      []
+    )
 
     fetchRecentCourses()
 

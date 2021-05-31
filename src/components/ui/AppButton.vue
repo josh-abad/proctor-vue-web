@@ -7,7 +7,7 @@
         : 'bg-gray-300 text-gray-600 active:bg-gray-200 dark:active:bg-gray-500 dark:text-gray-400 dark:bg-gray-700'
     "
   >
-    <div class="mx-6 my-2 text-sm font-semibold capitalize">
+    <div class="mx-6 my-2 text-sm font-semibold capitalize pointer-events-none">
       <slot></slot>
     </div>
   </button>
