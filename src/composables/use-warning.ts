@@ -1,12 +1,16 @@
 import { computed, ref, watch } from 'vue'
 
 interface WarningOptions {
-  maximum: number,
-  onWarn?: () => void,
+  maximum: number
+  onWarn?: () => void
   onExceed?: () => void
 }
 
-export default function useWarning ({ maximum, onWarn, onExceed }: WarningOptions) {
+export default function useWarning({
+  maximum,
+  onWarn,
+  onExceed
+}: WarningOptions) {
   const warnings = ref(0)
   const maxWarnings = ref(maximum)
 

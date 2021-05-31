@@ -51,13 +51,25 @@ const deleteExam = async (id: string) => {
 }
 
 const getAttemptsByUser = async (id: string, userId: string) => {
-  const response = await axios.get<Attempt[]>(`${baseUrl}/${id}/attempts/${userId}`)
+  const response = await axios.get<Attempt[]>(
+    `${baseUrl}/${id}/attempts/${userId}`
+  )
   return response.data
 }
 
 const isExamTaken = async (id: string, userId: string) => {
-  const response = await axios.get<{ isTaken: boolean }>(`${baseUrl}/${id}/taken-by/${userId}`)
+  const response = await axios.get<{ isTaken: boolean }>(
+    `${baseUrl}/${id}/taken-by/${userId}`
+  )
   return response.data
 }
 
-export default { setToken, create, getAll, getExam, deleteExam, getAttemptsByUser, isExamTaken }
+export default {
+  setToken,
+  create,
+  getAll,
+  getExam,
+  deleteExam,
+  getAttemptsByUser,
+  isExamTaken
+}

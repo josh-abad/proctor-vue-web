@@ -1,4 +1,10 @@
-import { CommitOptions, createStore, DispatchOptions, Store as VuexStore, useStore as baseUseStore } from 'vuex'
+import {
+  CommitOptions,
+  createStore,
+  DispatchOptions,
+  Store as VuexStore,
+  useStore as baseUseStore
+} from 'vuex'
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
@@ -37,18 +43,21 @@ export type Store = Omit<
   }
 }
 
-export function useStore () {
+export function useStore() {
   return baseUseStore() as Store
 }
 
 if (import.meta.hot) {
-  import.meta.hot?.accept(['./mutations', './actions', './getters'], ([newMutations, newActions, newGetters]) => {
-    store.hotUpdate({
-      mutations: newMutations,
-      actions: newActions,
-      getters: newGetters
-    })
-  })
+  import.meta.hot?.accept(
+    ['./mutations', './actions', './getters'],
+    ([newMutations, newActions, newGetters]) => {
+      store.hotUpdate({
+        mutations: newMutations,
+        actions: newActions,
+        getters: newGetters
+      })
+    }
+  )
 }
 
 export default store

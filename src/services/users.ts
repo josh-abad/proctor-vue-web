@@ -50,14 +50,19 @@ const getCourses = async (id: string) => {
 }
 
 const addRecentCourse = async (id: string, courseId: string) => {
-  const response = await axios.put<User>(`${baseUrl}/${id}/recent-courses`, { courseId })
+  const response = await axios.put<User>(`${baseUrl}/${id}/recent-courses`, {
+    courseId
+  })
   return response.data
 }
 
 const getRecentCourses = async (id: string, limit = 5) => {
-  const response = await axios.get<Course[]>(`${baseUrl}/${id}/recent-courses`, {
-    params: { limit }
-  })
+  const response = await axios.get<Course[]>(
+    `${baseUrl}/${id}/recent-courses`,
+    {
+      params: { limit }
+    }
+  )
   return response.data
 }
 
@@ -77,7 +82,11 @@ const uploadImage = async (id: string, data: FormData) => {
       'Content-Type': 'multipart/form-data'
     }
   }
-  const response = await axios.post<User>(`${baseUrl}/${id}/reference-image`, data, config)
+  const response = await axios.post<User>(
+    `${baseUrl}/${id}/reference-image`,
+    data,
+    config
+  )
   return response.data
 }
 
@@ -86,7 +95,9 @@ const deleteUser = async (id: string) => {
 }
 
 const getRecentActivity = async (id: string) => {
-  const response = await axios.get<AppEvent[]>(`${baseUrl}/${id}/recent-activity`)
+  const response = await axios.get<AppEvent[]>(
+    `${baseUrl}/${id}/recent-activity`
+  )
   return response.data
 }
 

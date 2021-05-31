@@ -55,7 +55,9 @@ const enrollUser = async (userId: string, courseId: string) => {
  * @param courseId the id of the course
  */
 const enrollUsers = async (userIds: string[], courseId: string) => {
-  const response = await axios.put<Course>(`${baseUrl}/${courseId}`, { userIds })
+  const response = await axios.put<Course>(`${baseUrl}/${courseId}`, {
+    userIds
+  })
   return response.data
 }
 
@@ -87,17 +89,23 @@ const getStudents = async (id: string) => {
 }
 
 const getCourseProgressByUser = async (id: string, userId: string) => {
-  const response = await axios.get<{ percentage: number }>(`${baseUrl}/${id}/progress/${userId}`)
+  const response = await axios.get<{ percentage: number }>(
+    `${baseUrl}/${id}/progress/${userId}`
+  )
   return response.data
 }
 
 const getExamsByWeek = async (id: string, week: number) => {
-  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/exams/week/${week}`)
+  const response = await axios.get<Exam[]>(
+    `${baseUrl}/${id}/exams/week/${week}`
+  )
   return response.data
 }
 
 const getUserGrades = async (id: string, userId: string) => {
-  const response = await axios.get<CourseGrades>(`${baseUrl}/${id}/grades/${userId}`)
+  const response = await axios.get<CourseGrades>(
+    `${baseUrl}/${id}/grades/${userId}`
+  )
   return response.data
 }
 

@@ -8,28 +8,25 @@ const systemTheme = ref<SystemTheme>('light')
 
 const QUERY = '(prefers-color-scheme: dark)'
 
-export default function useTheme () {
+function isTheme(x: unknown): x is Theme {
+  return typeof x === 'string' && ['dark', 'light', 'system'].includes(x)
+}
 
+export default function useTheme() {
   const getTheme = computed(() => {
-    return theme.value === 'system'
-      ? systemTheme.value
-      : theme.value
+    return theme.value === 'system' ? systemTheme.value : theme.value
   })
 
   const isDarkTheme = computed(() => getTheme.value === 'dark')
 
   const isSystemTheme = computed(() => theme.value === 'system')
 
-  function isTheme (x: unknown): x is Theme {
-    return typeof x === 'string' && ['dark', 'light', 'system'].includes(x)
-  }
-
   /**
    * Sets the theme to saved theme setting in localStorage.
    * If no theme is saved, it defaults to the system theme.
    * Call this method only once, at the start of the application.
    */
-  function initTheme () { 
+  function initTheme() {
     document.body.classList.add('bg-gray-200', 'dark:bg-gray-900')
 
     if (matchMedia(QUERY).matches) {
@@ -41,11 +38,9 @@ export default function useTheme () {
       setTheme(savedTheme)
     }
 
-    window
-      .matchMedia(QUERY)
-      .addEventListener('change', ({ matches }) => {
-        systemTheme.value = matches ? 'dark' : 'light'
-      })
+    window.matchMedia(QUERY).addEventListener('change', ({ matches }) => {
+      systemTheme.value = matches ? 'dark' : 'light'
+    })
   }
 
   watch(theme, value => {
@@ -67,7 +62,7 @@ export default function useTheme () {
    * Set the application theme
    * @param value 'dark', 'light', or 'system'
    */
-  function setTheme (value: Theme) {
+  function setTheme(value: Theme) {
     theme.value = value
   }
 

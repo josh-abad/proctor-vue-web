@@ -68,7 +68,10 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               tabPosition: 1
             },
-            component: () => import('../views/courses/course/CourseOverview/CourseOverview.vue')
+            component: () =>
+              import(
+                '../views/courses/course/CourseOverview/CourseOverview.vue'
+              )
           },
           {
             path: 'students',
@@ -76,7 +79,10 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               tabPosition: 2
             },
-            component: () => import('../views/courses/course/CourseStudents/CourseStudents.vue')
+            component: () =>
+              import(
+                '../views/courses/course/CourseStudents/CourseStudents.vue'
+              )
           },
           {
             path: 'grades',
@@ -84,7 +90,8 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               tabPosition: 3
             },
-            component: () => import('../views/courses/course/CourseGrades/CourseGrades.vue')
+            component: () =>
+              import('../views/courses/course/CourseGrades/CourseGrades.vue')
           }
         ],
         component: () => import('../views/courses/CoursePage/CoursePage.vue')
@@ -104,7 +111,8 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: createTitle('Attempts')
         },
-        component: () => import('../views/courses/AttemptsPage/AttemptsPage.vue')
+        component: () =>
+          import('../views/courses/AttemptsPage/AttemptsPage.vue')
       },
       {
         path: ':courseId/exams/:examId/:attemptId',
@@ -177,7 +185,8 @@ const routes: Array<RouteRecordRaw> = [
       title: createTitle('Face Identification'),
       authorize: [] as Role[]
     },
-    component: () => import('../views/FaceIdentificationPage/FaceIdentificationPage.vue')
+    component: () =>
+      import('../views/FaceIdentificationPage/FaceIdentificationPage.vue')
   },
   {
     path: '/user/:userId',
@@ -210,7 +219,7 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(),
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
@@ -242,7 +251,8 @@ router.afterEach((to, from) => {
   if (to.meta.tabPosition && from.meta.tabPosition) {
     const toTabPosition = to.meta.tabPosition as number
     const fromTabPosition = from.meta.tabPosition as number
-    to.meta.transition = toTabPosition < fromTabPosition ? 'slide-right' : 'slide-left'
+    to.meta.transition =
+      toTabPosition < fromTabPosition ? 'slide-right' : 'slide-left'
   }
 })
 
