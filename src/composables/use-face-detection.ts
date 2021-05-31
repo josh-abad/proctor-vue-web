@@ -14,24 +14,27 @@ const getFaceMatcher = async (referenceImageUrl: string, name: string) => {
     throw new Error(`No face detected for ${name}.`)
   }
 
-  const labeledDescriptor = new faceapi.LabeledFaceDescriptors(
-    name,
-    [detection.descriptor]
-  )
+  const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [
+    detection.descriptor
+  ])
 
   return new faceapi.FaceMatcher(labeledDescriptor, 0.6)
 }
 
 interface FaceDetectionOptions {
-  intervalDuration?: number;
-  inputSize?: number;
+  intervalDuration?: number
+  inputSize?: number
   faceRecognition?: {
-    name: string;
-    referenceImageUrl: string;
+    name: string
+    referenceImageUrl: string
   }
 }
 
-export default function useFaceDetection ({ intervalDuration = 300, inputSize = 128, faceRecognition }: FaceDetectionOptions) {
+export default function useFaceDetection({
+  intervalDuration = 300,
+  inputSize = 128,
+  faceRecognition
+}: FaceDetectionOptions) {
   const isFaceSeen = ref(false)
   const isFaceIdentified = ref(false)
   const isLoading = ref(false)
@@ -47,7 +50,7 @@ export default function useFaceDetection ({ intervalDuration = 300, inputSize = 
         faceapi.loadFaceRecognitionModel(MODELS_URL)
       ])
     } catch (_error) {
-      error.value = true 
+      error.value = true
     } finally {
       isLoading.value = false
     }
@@ -76,11 +79,13 @@ export default function useFaceDetection ({ intervalDuration = 300, inputSize = 
         isFaceSeen.value = detections.length !== 0
 
         if (faceRecognition) {
-          const [identifiedFace] = detections.map(({ descriptor }) => (
+          const [identifiedFace] = detections.map(({ descriptor }) =>
             faceMatcher.value?.findBestMatch(descriptor).toString()
-          ))
+          )
           const { name } = faceRecognition
-          isFaceIdentified.value = identifiedFace ? identifiedFace.includes(name) : false
+          isFaceIdentified.value = identifiedFace
+            ? identifiedFace.includes(name)
+            : false
         }
       }, intervalDuration)
     }

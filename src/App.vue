@@ -2,10 +2,7 @@
   <div class="min-h-screen antialiased text-gray-900 dark:text-white">
     <div id="modals" />
     <div>
-      <TheAppBar
-        v-if="$store.state.user"
-        @toggle="handleToggle"
-      />
+      <TheAppBar v-if="$store.state.user" @toggle="handleToggle" />
       <div>
         <TheSidebar v-if="$store.state.user" v-model:is-open="isOpen" />
         <div>
@@ -44,7 +41,7 @@ export default defineComponent({
     TheSidebar,
     Snackbar
   },
-  setup () {
+  setup() {
     const isOpen = useLocalStorage('sidebarState', false)
 
     const handleToggle = () => {
@@ -59,11 +56,11 @@ export default defineComponent({
       handleToggle
     }
   },
-  async created () {
+  async created() {
     await this.initUser()
   },
   methods: {
-    async initUser () {
+    async initUser() {
       const loggedUserJSON = cookie.get('loggedAppUser')
       if (loggedUserJSON) {
         cookie.set('loggedAppUser', loggedUserJSON)
@@ -76,14 +73,17 @@ export default defineComponent({
 
         const activeExamJSON = localStorage.getItem('activeExam')
         if (activeExamJSON) {
-          const activeExam: { token: string; attempt: Attempt } = JSON.parse(activeExamJSON)
+          const activeExam: { token: string; attempt: Attempt } =
+            JSON.parse(activeExamJSON)
           examResultsService.setToken(activeExam.token)
           this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam.id)
         }
 
         const pendingSubmissionsJSON = localStorage.getItem('pendingSubmission')
         if (pendingSubmissionsJSON) {
-          const pendingSubmissions: Submission = JSON.parse(pendingSubmissionsJSON)
+          const pendingSubmissions: Submission = JSON.parse(
+            pendingSubmissionsJSON
+          )
           await this.$store.dispatch(SUBMIT_EXAM, pendingSubmissions)
           this.$store.commit(SET_ACTIVE_EXAM, null)
           localStorage.removeItem('pendingSubmission')

@@ -3,14 +3,20 @@ import useTimer from '@/composables/use-timer'
 import { onBeforeRouteLeave } from 'vue-router'
 
 interface KeepOnPageOptions {
-  preventLeave: Ref<boolean>;
-  onLeaveAttempt?: () => void;
-  onLeaveFocus?: () => void;
-  onLeaveTimeout?: () => void;
-  onUnload?: () => void;
+  preventLeave: Ref<boolean>
+  onLeaveAttempt?: () => void
+  onLeaveFocus?: () => void
+  onLeaveTimeout?: () => void
+  onUnload?: () => void
 }
 
-export default function useKeepOnPage ({ preventLeave, onLeaveAttempt, onLeaveTimeout, onLeaveFocus, onUnload }: KeepOnPageOptions) {
+export default function useKeepOnPage({
+  preventLeave,
+  onLeaveAttempt,
+  onLeaveTimeout,
+  onLeaveFocus,
+  onUnload
+}: KeepOnPageOptions) {
   const timer = useTimer(() => {
     if (onLeaveTimeout !== undefined) {
       onLeaveTimeout()

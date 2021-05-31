@@ -1,15 +1,11 @@
 <template>
   <div class="p-4">
-    <div v-if="error">
-      Invalid attempt
-    </div>
-    <div v-else-if="isLoading">
-      Loading exam...
-    </div>
+    <div v-if="error">Invalid attempt</div>
+    <div v-else-if="isLoading">Loading exam...</div>
     <div v-else-if="attempt && isActive">
       <teleport to="#modals">
         <div
-          class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg backdrop-filter backdrop-blur-lg"
+          class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg  backdrop-filter backdrop-blur-lg"
         >
           <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <Webcam
@@ -30,7 +26,7 @@
       </PageHeader>
       <AppPanel class="mt-4">
         <BaseExamItem
-          v-for="(item, i) in attempt.exam.examItems"
+          v-for="(item, i) in examItems"
           :key="i"
           :exam-item="item"
           :question-number="i + 1"
@@ -67,7 +63,7 @@
         <template #body>
           Please refrain from leaving this page during the exam. You have
           {{ warningsLeft }}
-          {{ warningsLeft === 1 ? "warning" : "warnings" }} left.
+          {{ warningsLeft === 1 ? 'warning' : 'warnings' }} left.
         </template>
       </AppModal>
     </teleport>
@@ -75,11 +71,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import examResultsService from '@/services/exam-results'
-import { Answer, Attempt } from '@/types'
+import { Answer, Attempt, ExamItem } from '@/types'
 import Timer from '@/components/Timer.vue'
 import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
@@ -98,6 +94,7 @@ import useKeepOnPage from '@/composables/use-keep-on-page'
 import useWarning from '@/composables/use-warning'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
+import { shuffle } from '@/utils/helper'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -127,18 +124,15 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const store = useStore()
     const router = useRouter()
 
     const { setSnackbarMessage } = useSnackbar()
 
-    const [
-      attempt,
-      fetchAttempt,
-      isLoading,
-      error
-    ] = useFetch<Attempt | null>(() => examAttemptsService.getAttempt(props.attemptId))
+    const [attempt, fetchAttempt, isLoading, error] = useFetch<Attempt | null>(
+      () => examAttemptsService.getAttempt(props.attemptId)
+    )
 
     const warningModal = useModal()
 
@@ -148,7 +142,10 @@ export default defineComponent({
 
     const handleSubmit = async () => {
       isActive.value = false
-      await store.dispatch(SUBMIT_EXAM, { answers: answers.value, examId: props.examId })
+      await store.dispatch(SUBMIT_EXAM, {
+        answers: answers.value,
+        examId: props.examId
+      })
       store.commit(SET_ACTIVE_EXAM, null)
       router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
     }
@@ -166,23 +163,25 @@ export default defineComponent({
     //   })
     // }
 
-    const {
-      warn,
-      warnings,
-      warningsLeft,
-    } = useWarning({
+    const { warn, warnings, warningsLeft } = useWarning({
       maximum: 5,
       onWarn: warningModal.open,
       onExceed: handleSubmit
     })
 
     fetchAttempt().then(() => {
-      if (examResultsService.hasToken() && (store.state.activeExam === attempt.value?.exam.id)) {
+      if (
+        examResultsService.hasToken() &&
+        store.state.activeExam === attempt.value?.exam.id
+      ) {
         isActive.value = true
         useKeepOnPage({
           preventLeave: isActive,
           onLeaveAttempt: () => {
-            setSnackbarMessage('You cannot leave until you have finished the exam', 'warning')
+            setSnackbarMessage(
+              'You cannot leave until you have finished the exam',
+              'warning'
+            )
           },
           onLeaveFocus: warn,
           onLeaveTimeout: warn
@@ -214,6 +213,15 @@ export default defineComponent({
       }
     })
 
+    const shuffledExamItems = computed<ExamItem[]>(() => {
+      if (!attempt.value) {
+        return []
+      }
+      return attempt.value.exam.random
+        ? shuffle([...attempt.value.exam.examItems])
+        : attempt.value.exam.examItems
+    })
+
     return {
       attempt,
       isLoading,
@@ -226,7 +234,8 @@ export default defineComponent({
       answers,
       isActive,
       handleNoFaceSeen,
-      handleUnidentifiedFace
+      handleUnidentifiedFace,
+      examItems: shuffledExamItems
     }
   }
 })

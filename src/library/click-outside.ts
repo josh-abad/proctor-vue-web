@@ -16,24 +16,24 @@ const IS_TOUCH =
 const EVENTS = IS_TOUCH ? ['touchstart'] : ['click']
 
 interface ClickOutsideElement extends HTMLElement {
-  [HANDLERS_PROPERTY]: any;
+  [HANDLERS_PROPERTY]: any
 }
 
 interface HandlerObject {
-  event: string;
-  srcTarget: ClickOutsideElement | (Window & typeof globalThis);
-  handler: EventListener;
-  capture: boolean;
+  event: string
+  srcTarget: ClickOutsideElement | (Window & typeof globalThis)
+  handler: EventListener
+  capture: boolean
 }
 
-type Middleware = (evt: MouseEvent) => boolean;
-type Handler = (evt: MouseEvent) => void;
+type Middleware = (evt: MouseEvent) => boolean
+type Handler = (evt: MouseEvent) => void
 
 interface EventObject {
-  el: ClickOutsideElement;
-  event: MouseEvent;
-  handler: Handler;
-  middleware: Middleware;
+  el: ClickOutsideElement
+  event: MouseEvent
+  handler: Handler
+  middleware: Middleware
 }
 
 const processDirectiveArguments = (bindingValue: DirectiveBinding['value']) => {
@@ -100,19 +100,13 @@ const onEvent = ({ el, event, handler, middleware }: EventObject) => {
 }
 
 const beforeMount = (el: ClickOutsideElement, { value }: DirectiveBinding) => {
-  const {
-    events,
-    handler,
-    middleware,
-    isActive,
-    detectIframe,
-    capture
-  } = processDirectiveArguments(value)
+  const { events, handler, middleware, isActive, detectIframe, capture } =
+    processDirectiveArguments(value)
   if (!isActive) {
     return
   }
 
-  el[HANDLERS_PROPERTY] = events.map((eventName) => ({
+  el[HANDLERS_PROPERTY] = events.map(eventName => ({
     event: eventName,
     srcTarget: document.documentElement,
     handler: (event: MouseEvent) => onEvent({ el, event, handler, middleware }),

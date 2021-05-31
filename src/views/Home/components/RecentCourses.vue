@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loading || recentCourses.length > 0">
     <div class="flex items-center justify-between label-border">
       <AppLabel emphasis>Recent Courses</AppLabel>
     </div>

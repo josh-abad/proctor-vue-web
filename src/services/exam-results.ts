@@ -27,7 +27,7 @@ const submit = async (submission: Submission) => {
     headers: { Authorization: token }
   }
   const response = await axios.post<{
-    examResult: ExamResult;
+    examResult: ExamResult
     attempt: Attempt
   }>(baseUrl, submission, config)
   return response.data

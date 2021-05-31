@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export default function useVideo () {
+export default function useVideo() {
   const video = ref<HTMLMediaElement | null>(null)
   const isEnabled = ref(false)
   const isLoading = ref(false)

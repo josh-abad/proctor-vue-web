@@ -56,6 +56,12 @@
           </label>
           <DatePicker id="endDate" v-model="endDate" />
         </div>
+        <div class="form__detail">
+          <label for="shuffle">
+            <AppLabel>Shuffle Questions</AppLabel>
+          </label>
+          <AppSwitch v-model="random" />
+        </div>
       </div>
       <div class="form__exam-items">
         <ExamItemInput
@@ -89,6 +95,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
+import AppSwitch from '@/components/ui/AppSwitch.vue'
 import DatePicker from '@/components/DatePicker.vue'
 import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
@@ -104,22 +111,30 @@ import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'ExamCreationPage',
-  components: { AppButton, AppPanel, AppLabel, TimePicker, NumberInput, ExamItemInput, DatePicker, AppInput, FormError },
+  components: {
+    AppButton,
+    AppPanel,
+    AppSwitch,
+    AppLabel,
+    TimePicker,
+    NumberInput,
+    ExamItemInput,
+    DatePicker,
+    AppInput,
+    FormError
+  },
   props: {
     courseId: {
       type: String,
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const { setSnackbarMessage } = useSnackbar()
 
-    const [
-      course,
-      fetchCourse,
-      loading,
-      error
-    ] = useFetch<Course | null>(() => coursesService.getCourse(props.courseId))
+    const [course, fetchCourse, loading, error] = useFetch<Course | null>(() =>
+      coursesService.getCourse(props.courseId)
+    )
 
     fetchCourse()
 
@@ -130,25 +145,28 @@ export default defineComponent({
       setSnackbarMessage
     }
   },
-  data () {
+  data() {
     return {
       examName: '',
       examSeconds: 3600,
       maxAttempts: 3,
+      random: false,
       week: 1,
       startDate: '',
       endDate: '',
-      examItems: [{
-        question: '',
-        answer: [''],
-        choices: [],
-        questionType: 'text' as QuestionType
-      }] as ExamItem[],
+      examItems: [
+        {
+          question: '',
+          answer: [''],
+          choices: [],
+          questionType: 'text' as QuestionType
+        }
+      ] as ExamItem[],
       openCalendar: false
     }
   },
   computed: {
-    questionsInvalid (): string {
+    questionsInvalid(): string {
       if (!this.examItems.length) {
         return 'Please create an exam item.'
       }
@@ -176,7 +194,7 @@ export default defineComponent({
       })
       return error
     },
-    dateInvalid (): string {
+    dateInvalid(): string {
       if (!this.startDate || !this.endDate) {
         return 'Please set the start and end dates for the exam.'
       }
@@ -188,7 +206,7 @@ export default defineComponent({
       }
       return ''
     },
-    formError (): string {
+    formError(): string {
       if (!this.examName) {
         return 'Please enter a name for the exam.'
       }
@@ -203,12 +221,12 @@ export default defineComponent({
       }
       return ''
     },
-    valid (): boolean {
+    valid(): boolean {
       return !this.formError
     }
   },
   methods: {
-    addExamItem (i?: number) {
+    addExamItem(i?: number) {
       const newExamItem: ExamItem = {
         question: '',
         answer: [''],
@@ -221,14 +239,14 @@ export default defineComponent({
         this.examItems.push(newExamItem)
       }
     },
-    removeExamItem (index: number) {
+    removeExamItem(index: number) {
       this.examItems = this.examItems.filter((item, i) => i !== index)
     },
-    async saveExam () {
+    async saveExam() {
       try {
         const newExam: NewExam = {
           label: this.examName,
-          random: false,
+          random: this.random,
           length: this.examItems.length,
           duration: this.examSeconds,
           courseId: this.courseId,
