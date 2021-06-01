@@ -44,6 +44,6 @@ export default defineComponent({
 }
 
 .wrapper {
-  @apply items-center px-6 py-2 my-1;
+  @apply items-center px-4 py-2 my-1;
 }
 </style>
