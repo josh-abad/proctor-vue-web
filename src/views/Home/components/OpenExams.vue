@@ -5,6 +5,7 @@
     empty-message="No open exams."
     :has-error="error"
     :is-loading="loading"
+    is-open
   />
 </template>
 

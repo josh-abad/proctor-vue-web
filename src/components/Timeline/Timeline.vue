@@ -72,7 +72,11 @@ export default defineComponent({
   },
   setup(props) {
     const getFormattedDate = (event?: Exam) => {
-      return event ? dayjs(event.startDate).format('dddd, DD MMMM YYYY') : ''
+      return event
+        ? dayjs(props.isOpen ? event.endDate : event.startDate).format(
+            'dddd, DD MMMM YYYY'
+          )
+        : ''
     }
 
     const isEmpty = computed(() => {
