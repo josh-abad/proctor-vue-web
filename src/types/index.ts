@@ -77,7 +77,7 @@ export interface Attempt {
   id: string
   exam: Exam
   user: string
-  status: 'in-progress' | 'completed'
+  status: 'in-progress' | 'completed' | 'expired'
   startDate: Date
   endDate: Date
   submittedDate: Date

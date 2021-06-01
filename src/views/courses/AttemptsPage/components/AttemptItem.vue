@@ -12,7 +12,10 @@
           <div v-if="attempt.status === 'in-progress'">
             Started {{ formattedDate(attempt.startDate) }}
           </div>
-          <div v-else>Submitted {{ formattedDate(attempt.submittedDate) }}</div>
+          <div v-else-if="attempt.status === 'completed'">
+            Submitted {{ formattedDate(attempt.submittedDate) }}
+          </div>
+          <div v-else>Expired {{ formattedDate(attempt.endDate) }}</div>
         </div>
       </div>
     </div>
@@ -43,12 +46,12 @@ export default defineComponent({
     attemptNumber: Number
   },
   computed: {
-    percentage (): number {
-      return Math.floor(this.attempt.score / this.attempt.examTotal * 100)
+    percentage(): number {
+      return Math.floor((this.attempt.score / this.attempt.examTotal) * 100)
     }
   },
   methods: {
-    formattedDate (d: string | Date) {
+    formattedDate(d: string | Date) {
       return dayjs(d).fromNow()
     }
   }
