@@ -10,7 +10,7 @@
         <span class="text-gray-500">{{ emptyMessage }}</span>
       </div>
       <div v-else>
-        <div v-for="(date, i) in events" :key="i">
+        <div v-for="(date, i) in eventsByDate" :key="i">
           <div class="item__date">{{ getFormattedDate(date?.[0]) }}</div>
           <div class="w-full sm:w-64">
             <Item
@@ -46,7 +46,7 @@ export default defineComponent({
     },
 
     events: {
-      type: Array as PropType<Exam[][]>,
+      type: Array as PropType<Exam[]>,
       required: true
     },
 
@@ -80,12 +80,26 @@ export default defineComponent({
     }
 
     const isEmpty = computed(() => {
-      return props.events.every(date => date.length === 0)
+      return props.events.length === 0
+    })
+
+    const eventsByDate = computed(() => {
+      const map = new Map(
+        Array.from(props.events, event => [
+          props.isOpen ? event.endDate : event.startDate,
+          [] as Exam[]
+        ])
+      )
+      props.events.forEach(event =>
+        map.get(props.isOpen ? event.endDate : event.startDate)?.push(event)
+      )
+      return Array.from(map.values())
     })
 
     return {
       getFormattedDate,
-      isEmpty
+      isEmpty,
+      eventsByDate
     }
   }
 })
