@@ -16,6 +16,12 @@
         <router-link to="/">
           <AppLogo class="ml-6 h-7" @click="$router.push('/')" />
         </router-link>
+        <div
+          class="ml-6 transition-opacity duration-300 ease-in-out"
+          :class="isPageStart ? 'opacity-0' : 'opacity-100'"
+        >
+          {{ title }}
+        </div>
       </div>
       <div class="flex items-center pr-6">
         <div class="hidden mr-5 sm:block">
@@ -28,11 +34,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import UserDropdown from './components/UserDropdown.vue'
 import Search from './components/Search/Search.vue'
 import AppLogo from '../AppLogo.vue'
 import { MenuIcon } from '@heroicons/vue/outline'
+import useTitle from '@/composables/use-title'
 
 export default defineComponent({
   name: 'TheAppBar',
@@ -53,8 +60,14 @@ export default defineComponent({
       }
     })
 
+    const { title } = useTitle()
+    const mainTitle = computed(() => {
+      return title.value.replace(/( - )?Proctor Vue/, '')
+    })
+
     return {
-      isPageStart
+      isPageStart,
+      title: mainTitle
     }
   }
 })

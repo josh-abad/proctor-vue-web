@@ -95,6 +95,7 @@ import useWarning from '@/composables/use-warning'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 import { shuffle } from '@/utils/helper'
+import useTitle from '@/composables/use-title'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -169,11 +170,7 @@ export default defineComponent({
       onExceed: handleSubmit
     })
 
-    fetchAttempt().then(() => {
-      if (
-        examResultsService.hasToken() &&
-        store.state.activeExam === attempt.value?.exam.id
-      ) {
+    const { setTitle } = useTitle()
         isActive.value = true
         useKeepOnPage({
           preventLeave: isActive,
@@ -186,8 +183,14 @@ export default defineComponent({
           onLeaveFocus: warn,
           onLeaveTimeout: warn
         })
-      }
-    })
+
+        if (attempt.value) {
+          setTitle(`${attempt.value.exam.label} - Proctor Vue`)
+        }
+      })
+      .catch(() => {
+        setTitle('Invalid Exam - Proctor Vue')
+      })
 
     const handleNoFaceSeen = () => {
       warn(false)
@@ -198,14 +201,6 @@ export default defineComponent({
       warn(false)
       setSnackbarMessage('Face unidentified for 10 seconds', 'warning')
     }
-
-    onMounted(() => {
-      if (attempt.value) {
-        document.title = `${attempt.value.exam.label} in ${attempt.value.exam.course.name} - Proctor Vue`
-      } else {
-        document.title = 'Invalid Exam - Proctor Vue'
-      }
-    })
 
     onUnmounted(() => {
       if (isActive.value) {

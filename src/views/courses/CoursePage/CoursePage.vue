@@ -110,6 +110,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import usersService from '@/services/users'
 import useSnackbar from '@/composables/use-snackbar'
 import useModal from '@/composables/use-modal'
+import useTitle from '@/composables/use-title'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -146,7 +147,15 @@ export default defineComponent({
       coursesService.getCourse(props.courseId)
     )
 
-    fetchCourse()
+    const { setTitle } = useTitle()
+
+    fetchCourse().then(() => {
+      setTitle(
+        course.value
+          ? `${course.value.name} - Proctor Vue`
+          : 'Course Not Found - Proctor Vue'
+      )
+    })
 
     return {
       course,
@@ -182,9 +191,6 @@ export default defineComponent({
     ) {
       this.$router.replace('/')
     }
-    document.title = this.course
-      ? `${this.course.name} - Proctor Vue`
-      : 'Course Not Found - Proctor Vue'
 
     if (
       this.$store.state.user?.recentCourses[0] !== this.courseId &&

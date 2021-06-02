@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
 import { Role } from '@/types'
+import useTitle from '@/composables/use-title'
+
+const { setTitle } = useTitle()
 
 const createTitle = (pageName: string): string => {
   return `${pageName} - Proctor Vue`
@@ -230,7 +233,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  document.title = to.meta.title as string
+  setTitle(to.meta.title as string)
 
   const authorize = to.meta.authorize as Role[]
 
