@@ -1,5 +1,7 @@
 export type Role = 'student' | 'coordinator' | 'admin'
 
+export type AttemptStatus = 'in-progress' | 'completed' | 'expired'
+
 export interface User {
   id: string
   name: {
@@ -77,7 +79,7 @@ export interface Attempt {
   id: string
   exam: Exam
   user: string
-  status: 'in-progress' | 'completed' | 'expired'
+  status: AttemptStatus
   startDate: Date
   endDate: Date
   submittedDate: Date

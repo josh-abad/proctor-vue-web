@@ -130,7 +130,7 @@ export default defineComponent({
     const { setSnackbarMessage } = useSnackbar()
 
     const [attempt, fetchAttempt, isLoading, error] = useFetch<Attempt | null>(
-      () => examAttemptsService.getAttempt(props.attemptId)
+      () => examAttemptsService.getAttempt(props.attemptId, 'in-progress')
     )
 
     const warningModal = useModal()

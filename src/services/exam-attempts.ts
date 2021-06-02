@@ -1,4 +1,4 @@
-import { Attempt } from '@/types'
+import { Attempt, AttemptStatus } from '@/types'
 import axios from 'axios'
 import { API_URL } from './helper'
 const baseUrl = `${API_URL}/exam-attempts`
@@ -26,8 +26,11 @@ const start = async (examId: string) => {
   return response.data
 }
 
-const getAttempt = async (id: string) => {
-  const response = await axios.get<Attempt>(`${baseUrl}/${id}`)
+const getAttempt = async (id: string, status?: AttemptStatus) => {
+  const response = await axios.get<Attempt>(
+    `${baseUrl}/${id}`,
+    status ? { params: { status } } : undefined
+  )
   return response.data
 }
 
