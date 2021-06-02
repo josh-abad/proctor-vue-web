@@ -5,18 +5,9 @@ const baseUrl = `${API_URL}/exam-results`
 
 let token: string | null = null
 
-/**
- * Sets the token containing the active attempt information
- * @param newToken the attempt token to be set
- */
 const setToken = (newToken: string) => {
   token = `bearer ${newToken}`
 }
-
-/**
- * Checks if an attempt token has been set
- */
-const hasToken = () => !!token
 
 /**
  * Submits the user's answers to an exam. Returns both the result and the corresponding updated attempt.
@@ -41,4 +32,4 @@ const getAll = async () => {
   return response.data
 }
 
-export default { submit, setToken, getAll, hasToken }
+export default { submit, setToken, getAll }

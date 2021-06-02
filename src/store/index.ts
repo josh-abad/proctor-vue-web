@@ -11,8 +11,7 @@ import getters from './getters'
 import { State, Mutations, Actions, Getters } from './interfaces'
 
 const state: State = {
-  user: null,
-  activeExam: null
+  user: null
 }
 
 const store = createStore<State>({

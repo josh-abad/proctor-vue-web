@@ -11,13 +11,11 @@ import * as MutationTypes from './mutation-types'
 
 export type State = {
   user: AuthenticatedUser | null
-  activeExam: string | null
 }
 
 export interface Mutations<S = State> {
   [MutationTypes.SET_USER](state: S, payload: AuthenticatedUser | null): void
   [MutationTypes.SET_VERIFIED](state: S, payload: string): void
-  [MutationTypes.SET_ACTIVE_EXAM](state: S, examId: string | null): void
 }
 
 type AugmentedActionContext = {

@@ -26,8 +26,8 @@ import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
 import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser, Submission } from './types'
+import { SET_USER } from './store/mutation-types'
+import { AuthenticatedUser, Submission } from './types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import cookie from '@/utils/cookie'
@@ -71,13 +71,7 @@ export default defineComponent({
           examsService.setToken(user.token)
         }
 
-        const activeExamJSON = localStorage.getItem('activeExam')
-        if (activeExamJSON) {
-          const activeExam: { token: string; attempt: Attempt } =
-            JSON.parse(activeExamJSON)
-          examResultsService.setToken(activeExam.token)
-          this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam.id)
-        }
+        examResultsService.setToken(user.token)
 
         const pendingSubmissionsJSON = localStorage.getItem('pendingSubmission')
         if (pendingSubmissionsJSON) {
@@ -85,9 +79,7 @@ export default defineComponent({
             pendingSubmissionsJSON
           )
           await this.$store.dispatch(SUBMIT_EXAM, pendingSubmissions)
-          this.$store.commit(SET_ACTIVE_EXAM, null)
           localStorage.removeItem('pendingSubmission')
-          localStorage.removeItem('activeExam')
         }
       }
     }

@@ -22,11 +22,7 @@ const start = async (examId: string) => {
     headers: { Authorization: token }
   }
 
-  const response = await axios.post<{ token: string; attempt: Attempt }>(
-    baseUrl,
-    { examId },
-    config
-  )
+  const response = await axios.post<Attempt>(baseUrl, { examId }, config)
   return response.data
 }
 

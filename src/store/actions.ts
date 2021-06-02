@@ -91,12 +91,9 @@ export default {
       setSnackbarMessage('Could not delete exam', 'error')
     }
   },
-  async [ActionTypes.START_ATTEMPT]({ commit }, examId) {
+  async [ActionTypes.START_ATTEMPT](_, examId) {
     try {
-      const response = await examAttemptsService.start(examId)
-      localStorage.setItem('activeExam', JSON.stringify(response))
-      examResultsService.setToken(response.token)
-      commit(MutationTypes.SET_ACTIVE_EXAM, response.attempt.exam.id)
+      await examAttemptsService.start(examId)
     } catch (error) {
       setSnackbarMessage('Attempt could not be started', 'error')
     }

@@ -69,13 +69,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, onUnmounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
-import examResultsService from '@/services/exam-results'
 import { Answer, Attempt, ExamItem } from '@/types'
 import Timer from '@/components/Timer.vue'
-import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
@@ -147,7 +145,6 @@ export default defineComponent({
         answers: answers.value,
         examId: props.examId
       })
-      store.commit(SET_ACTIVE_EXAM, null)
       router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
     }
 
@@ -171,6 +168,9 @@ export default defineComponent({
     })
 
     const { setTitle } = useTitle()
+
+    fetchAttempt()
+      .then(() => {
         isActive.value = true
         useKeepOnPage({
           preventLeave: isActive,

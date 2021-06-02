@@ -10,8 +10,5 @@ export default {
     if (state.user && state.user.id === userId) {
       state.user.verified = true
     }
-  },
-  [MutationTypes.SET_ACTIVE_EXAM](state, examId) {
-    state.activeExam = examId
   }
 } as MutationTree<State> & Mutations
