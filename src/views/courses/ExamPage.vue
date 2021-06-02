@@ -4,9 +4,7 @@
     <div v-else-if="isLoading">Loading exam...</div>
     <div v-else-if="attempt && isActive">
       <teleport to="#modals">
-        <div
-          class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg  backdrop-filter backdrop-blur-lg"
-        >
+        <IndicatorBar>
           <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <Webcam
             @no-face-seen="handleNoFaceSeen"
@@ -19,7 +17,7 @@
             />
             <span class="text-3xl">{{ warnings }}</span>
           </div>
-        </div>
+        </IndicatorBar>
       </teleport>
       <PageHeader hide-menu>
         <template #label>{{ attempt.exam.label }}</template>
@@ -95,6 +93,7 @@ import useWarning from '@/composables/use-warning'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 import { shuffle } from '@/utils/helper'
+import IndicatorBar from '@/components/IndicatorBar.vue'
 import useTitle from '@/composables/use-title'
 
 export default defineComponent({
@@ -109,7 +108,8 @@ export default defineComponent({
     ModalButton,
     AppModal,
     Webcam,
-    ExclamationIcon
+    ExclamationIcon,
+    IndicatorBar
   },
   props: {
     courseId: {
