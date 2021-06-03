@@ -169,20 +169,21 @@ export default defineComponent({
 
     const { setTitle } = useTitle()
 
+    useKeepOnPage({
+      preventLeave: isActive,
+      onLeaveAttempt: () => {
+        setSnackbarMessage(
+          'You cannot leave until you have finished the exam',
+          'warning'
+        )
+      },
+      onLeaveFocus: warn,
+      onLeaveTimeout: warn
+    })
+
     fetchAttempt()
       .then(() => {
         isActive.value = true
-        useKeepOnPage({
-          preventLeave: isActive,
-          onLeaveAttempt: () => {
-            setSnackbarMessage(
-              'You cannot leave until you have finished the exam',
-              'warning'
-            )
-          },
-          onLeaveFocus: warn,
-          onLeaveTimeout: warn
-        })
 
         if (attempt.value) {
           setTitle(`${attempt.value.exam.label} - Proctor Vue`)
