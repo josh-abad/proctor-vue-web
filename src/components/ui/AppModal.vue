@@ -51,12 +51,12 @@ export default defineComponent({
   watch: {
     open(isOpen: boolean) {
       if (isOpen) {
-        const body = document.querySelector('body')
-        if (body) {
-          body.classList.add('overflow-hidden')
-        }
+        document.body.classList.add('overflow-hidden')
       }
     }
+  },
+  unmounted() {
+    document.body.classList.remove('overflow-hidden')
   }
 })
 </script>
