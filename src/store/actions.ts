@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
+import authService from '@/services/auth'
 import examsService from '@/services/exams'
 import loginService from '@/services/login'
 import usersService from '@/services/users'
@@ -30,10 +31,7 @@ export default {
       commit(MutationTypes.SET_USER, user)
       router.push((router.currentRoute.value.query.redirect as string) || '/')
       cookie.set('loggedAppUser', JSON.stringify(user))
-      examAttemptsService.setToken(user.token)
-      if (user.role !== 'student') {
-        examsService.setToken(user.token)
-      }
+      authService.setToken(user.token)
     } catch (error) {
       setSnackbarMessage('Incorrect email or password', 'error')
     }

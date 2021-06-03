@@ -24,15 +24,14 @@ import { defineComponent } from 'vue'
 import Snackbar from './components/Snackbar.vue'
 import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import TheSidebar from './components/TheSidebar/TheSidebar.vue'
-import examResultsService from './services/exam-results'
 import { SUBMIT_EXAM } from './store/action-types'
 import { SET_USER } from './store/mutation-types'
 import { AuthenticatedUser, Submission } from './types'
-import examAttemptsService from '@/services/exam-attempts'
-import examsService from '@/services/exams'
+import authService from '@/services/auth'
 import cookie from '@/utils/cookie'
 import useLocalStorage from '@/composables/use-local-storage'
 import useTheme from '@/composables/use-theme'
+import useFaceDetection from './composables/use-face-detection'
 
 export default defineComponent({
   name: 'App',
@@ -51,13 +50,17 @@ export default defineComponent({
     const { initTheme } = useTheme()
     initTheme()
 
+    const { loadModels } = useFaceDetection()
+
     return {
       isOpen,
-      handleToggle
+      handleToggle,
+      loadModels
     }
   },
   async created() {
     await this.initUser()
+    await this.loadModels()
   },
   methods: {
     async initUser() {
@@ -66,12 +69,7 @@ export default defineComponent({
         cookie.set('loggedAppUser', loggedUserJSON)
         const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
         this.$store.commit(SET_USER, user)
-        examAttemptsService.setToken(user.token)
-        if (user.role !== 'student') {
-          examsService.setToken(user.token)
-        }
-
-        examResultsService.setToken(user.token)
+        authService.setToken(user.token)
 
         const pendingSubmissionsJSON = localStorage.getItem('pendingSubmission')
         if (pendingSubmissionsJSON) {
