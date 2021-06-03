@@ -140,11 +140,11 @@ export default defineComponent({
     const answers = ref<Answer[]>([])
 
     const handleSubmit = async () => {
-      isActive.value = false
       await store.dispatch(SUBMIT_EXAM, {
         answers: answers.value,
         examId: props.examId
       })
+      isActive.value = false
       router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
     }
 
