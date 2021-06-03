@@ -18,10 +18,11 @@
     <div v-else>
       <div class="flex flex-col space-y-2" v-if="course?.exams.length">
         <Week
-          v-for="week in course.weeks"
-          :key="week"
+          v-for="exams in examsByWeek"
+          :key="exams[0].week"
           :course-id="courseId"
-          :week="week"
+          :week="exams[0].week"
+          :exams="exams"
         />
       </div>
       <div class="flex items-center justify-center py-5" v-else>
@@ -36,7 +37,8 @@ import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
-import { defineComponent } from 'vue'
+import { Exam } from '@/types'
+import { computed, defineComponent } from 'vue'
 import Week from './components/Week/Week.vue'
 
 export default defineComponent({
@@ -52,20 +54,29 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
-    const [
-      course,
-      fetchCourse,
-      loading,
-      error
-    ] = useFetch(() => coursesService.getCourse(props.courseId))
+  setup(props) {
+    const [course, fetchCourse, loading, error] = useFetch(() =>
+      coursesService.getCourse(props.courseId)
+    )
 
     fetchCourse()
+
+    const examsByWeek = computed(() => {
+      if (!course.value) {
+        return []
+      }
+      const map = new Map(
+        Array.from(course.value.exams, exam => [exam.week, [] as Exam[]])
+      )
+      course.value.exams.forEach(exam => map.get(exam.week)?.push(exam))
+      return Array.from(map.values())
+    })
 
     return {
       course,
       loading,
-      error
+      error,
+      examsByWeek
     }
   }
 })
