@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { Link } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { ChevronRightIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
@@ -28,16 +28,16 @@ export default defineComponent({
   components: { ChevronRightIcon },
   props: {
     links: {
-      type: Array,
+      type: Array as PropType<Link[]>,
       required: true
     }
   },
   computed: {
-    lastLink (): Link {
-      return (this.links as Link[])[this.links.length - 1]
+    lastLink(): Link {
+      return this.links[this.links.length - 1]
     },
-    linksMinusLast (): Link[] {
-      return (this.links as Link[]).slice(0, this.links.length - 1)
+    linksMinusLast(): Link[] {
+      return this.links.slice(0, this.links.length - 1)
     }
   }
 })

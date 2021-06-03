@@ -23,16 +23,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import Breadcrumbs from './components/Breadcrumbs.vue'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
+import { Link } from '@/types'
 
 export default defineComponent({
   name: 'PageHeader',
   components: { Breadcrumbs, DotsVerticalIcon },
   props: {
     links: {
-      type: Array,
+      type: Array as PropType<Link[]>,
       required: false
     },
     hideMenu: {
