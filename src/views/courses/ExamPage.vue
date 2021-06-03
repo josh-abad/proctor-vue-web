@@ -193,12 +193,12 @@ export default defineComponent({
       })
 
     const handleNoFaceSeen = () => {
-      warn(false)
+      warn(true)
       setSnackbarMessage('No face seen for 10 seconds.', 'warning')
     }
 
     const handleUnidentifiedFace = () => {
-      warn(false)
+      warn(true)
       setSnackbarMessage('Face unidentified for 10 seconds', 'warning')
     }
 

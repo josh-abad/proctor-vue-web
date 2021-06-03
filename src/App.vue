@@ -31,7 +31,6 @@ import authService from '@/services/auth'
 import cookie from '@/utils/cookie'
 import useLocalStorage from '@/composables/use-local-storage'
 import useTheme from '@/composables/use-theme'
-import useFaceDetection from './composables/use-face-detection'
 
 export default defineComponent({
   name: 'App',
@@ -50,17 +49,13 @@ export default defineComponent({
     const { initTheme } = useTheme()
     initTheme()
 
-    const { loadModels } = useFaceDetection()
-
     return {
       isOpen,
-      handleToggle,
-      loadModels
+      handleToggle
     }
   },
   async created() {
     await this.initUser()
-    await this.loadModels()
   },
   methods: {
     async initUser() {
