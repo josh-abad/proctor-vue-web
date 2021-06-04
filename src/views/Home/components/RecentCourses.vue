@@ -26,10 +26,9 @@
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import useFetch from '@/composables/use-fetch'
-import users from '@/services/users'
+import userService from '@/services/user'
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
-import { useStore } from '@/store'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 
 export default defineComponent({
@@ -41,10 +40,8 @@ export default defineComponent({
     ErrorLoading
   },
   setup() {
-    const store = useStore()
-
     const [recentCourses, fetchRecentCourses, loading, error] = useFetch(
-      () => users.getRecentCourses(store.state.user?.id ?? '', 2),
+      () => userService.getRecentCourses(2),
       []
     )
 

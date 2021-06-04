@@ -109,7 +109,7 @@ import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import usersService from '@/services/users'
+import userService from '@/services/user'
 import useSnackbar from '@/composables/use-snackbar'
 import useModal from '@/composables/use-modal'
 import useTitle from '@/composables/use-title'
@@ -194,18 +194,10 @@ export default defineComponent({
       this.$router.replace('/')
     }
 
-    if (
-      this.$store.state.user?.recentCourses[0] !== this.courseId &&
-      this.$store.state.user
-    ) {
-      try {
-        await usersService.addRecentCourse(
-          this.$store.state.user.id,
-          this.courseId
-        )
-      } catch (error) {
-        this.setSnackbarMessage(error.message, 'error')
-      }
+    try {
+      await userService.addRecentCourse(this.courseId)
+    } catch (error) {
+      this.setSnackbarMessage(error.message, 'error')
     }
   },
   methods: {

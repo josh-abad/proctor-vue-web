@@ -4,56 +4,35 @@
       :to="`/courses/${exam.course.id}/exams/${exam.id}`"
       class="week-exam__link"
       :class="{
-        'week-exam__link--locked': locked && !taken,
+        'week-exam__link--locked': locked && !exam.isTaken
       }"
     >
       <DocumentTextIcon class="week-exam__icon" v-if="!locked" />
       <LockClosedIcon class="week-exam__icon" v-else />
       {{ exam.label }}
     </router-link>
-    <SVGCheckbox v-model="taken" static-check />
+    <SVGCheckbox :model-value="exam.isTaken" static-check />
   </div>
 </template>
 
 <script lang="ts">
-import { Exam } from '@/types'
-import { defineComponent, PropType, ref } from 'vue'
+import { ExamWithTaken } from '@/types'
+import { defineComponent, PropType } from 'vue'
 import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import { DocumentTextIcon, LockClosedIcon } from '@heroicons/vue/solid'
 import { isExamLocked } from '@/utils/helper'
-import examsService from '@/services/exams'
-import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'WeekExam',
   components: { SVGCheckbox, DocumentTextIcon, LockClosedIcon },
   props: {
     exam: {
-      type: Object as PropType<Exam>,
+      type: Object as PropType<ExamWithTaken>,
       required: true
     }
   },
-  setup (props) {
-    const store = useStore()
-
-    const taken = ref(false)
-
-    const isExamTaken = async () => {
-      if (!store.state.user) {
-        return
-      }
-      const { isTaken } = await examsService.isExamTaken(props.exam.id, store.state.user.id)
-      taken.value = isTaken
-    }
-
-    isExamTaken()
-
-    return {
-      taken
-    }
-  },
   computed: {
-    locked (): boolean {
+    locked(): boolean {
       return isExamLocked(this.exam) !== 0
     }
   }

@@ -37,9 +37,10 @@ import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
-import { Exam } from '@/types'
-import { computed, defineComponent } from 'vue'
+import { ExamWithTaken } from '@/types'
+import { computed, defineComponent, ref } from 'vue'
 import Week from './components/Week/Week.vue'
+import userService from '@/services/user'
 
 export default defineComponent({
   name: 'CourseOverview',
@@ -61,14 +62,32 @@ export default defineComponent({
 
     fetchCourse()
 
-    const examsByWeek = computed(() => {
+    const examsTaken = ref<{ exam: string; isTaken: boolean }[]>([])
+
+    userService.getExamsTaken(props.courseId).then(fetchedExamsTaken => {
+      examsTaken.value = fetchedExamsTaken
+    })
+
+    const examsWithTaken = computed(() => {
       if (!course.value) {
         return []
       }
+      return course.value.exams.map(exam => ({
+        ...exam,
+        isTaken:
+          examsTaken.value.find(taken => exam.id === taken.exam)?.isTaken ??
+          false
+      }))
+    })
+
+    const examsByWeek = computed(() => {
       const map = new Map(
-        Array.from(course.value.exams, exam => [exam.week, [] as Exam[]])
+        Array.from(examsWithTaken.value, exam => [
+          exam.week,
+          [] as ExamWithTaken[]
+        ])
       )
-      course.value.exams.forEach(exam => map.get(exam.week)?.push(exam))
+      examsWithTaken.value.forEach(exam => map.get(exam.week)?.push(exam))
       return Array.from(map.values())
     })
 
@@ -76,7 +95,8 @@ export default defineComponent({
       course,
       loading,
       error,
-      examsByWeek
+      examsByWeek,
+      examsTaken
     }
   }
 })

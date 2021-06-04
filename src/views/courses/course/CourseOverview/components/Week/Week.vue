@@ -10,7 +10,7 @@
 import { defineComponent, PropType } from 'vue'
 import AppAccordion from '@/components/ui/AppAccordion.vue'
 import WeekExam from './components/WeekExam.vue'
-import { Exam } from '@/types'
+import { ExamWithTaken } from '@/types'
 
 export default defineComponent({
   name: 'Week',
@@ -27,7 +27,7 @@ export default defineComponent({
     },
 
     exams: {
-      type: Array as PropType<Exam[]>,
+      type: Array as PropType<ExamWithTaken[]>,
       required: true
     }
   }

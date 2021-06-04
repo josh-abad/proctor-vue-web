@@ -11,9 +11,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import usersService from '@/services/users'
+import userService from '@/services/user'
 import useFetch from '@/composables/use-fetch'
-import { useStore } from '@/store'
 import Timeline from '@/components/Timeline/Timeline.vue'
 
 export default defineComponent({
@@ -22,10 +21,8 @@ export default defineComponent({
     Timeline
   },
   setup() {
-    const store = useStore()
-
     const [openExams, fetchOpenExams, loading, error] = useFetch(
-      () => usersService.getOpenExams(store.state.user?.id ?? ''),
+      () => userService.getOpenExams(),
       []
     )
 

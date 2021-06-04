@@ -29,6 +29,7 @@
         <CoursesPageListItem
           :course="course"
           :key="course.id"
+          :percentage="course.progress"
           v-for="course in courses"
         />
       </ul>
@@ -40,10 +41,9 @@
 import { defineComponent } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import ViewOptions from './components/ViewOptions.vue'
-import usersService from '@/services/users'
+import userService from '@/services/user'
 import useLocalStorage from '@/composables/use-local-storage'
 import useFetch from '@/composables/use-fetch'
-import { useStore } from '@/store'
 import CoursesPageCard from '../CoursesPageCard.vue'
 import SkeletonCourseListItem from '../SkeletonCourseListItem.vue'
 import SkeletonCourseCard from '../SkeletonCourseCard.vue'
@@ -61,17 +61,16 @@ export default defineComponent({
     SkeletonCourseListItem,
     ErrorLoading
   },
-  setup () {
-    const store = useStore()
+  setup() {
+    const viewMode = useLocalStorage<'card' | 'list'>(
+      'coursesPageViewState',
+      'list'
+    )
 
-    const viewMode = useLocalStorage<'card' | 'list'>('coursesPageViewState', 'list')
-
-    const [
-      courses,
-      fetchRecentCourses,
-      loading,
-      error
-    ] = useFetch(() => usersService.getCourses(store.state.user?.id ?? ''), [])
+    const [courses, fetchRecentCourses, loading, error] = useFetch(
+      () => userService.getCourses(),
+      []
+    )
 
     fetchRecentCourses()
 

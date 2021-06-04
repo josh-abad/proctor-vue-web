@@ -2,6 +2,8 @@ export type Role = 'student' | 'coordinator' | 'admin'
 
 export type AttemptStatus = 'in-progress' | 'completed' | 'expired'
 
+export type ExamWithTaken = Exam & { isTaken: boolean }
+
 export interface User {
   id: string
   name: {
