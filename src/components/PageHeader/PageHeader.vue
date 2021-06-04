@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="p-6 rounded-lg shadow-lg  bg-gradient-to-t from-green-600 via-green-500 to-green-400"
-  >
+  <div class="p-6 bg-green-500 rounded-lg shadow-lg">
     <div class="flex justify-between">
       <div class="text-2xl font-bold text-white sm:text-3xl">
         <slot name="label" />
