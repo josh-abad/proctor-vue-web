@@ -8,7 +8,7 @@
         <div>
           <router-view
             class="duration-300 ease-in-out transform"
-            :class="isOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
+            :class="isOpen && $store.state.user ? 'ml-auto sm:ml-56' : 'ml-0'"
           />
           <div class="mt-4">
             <Snackbar />
