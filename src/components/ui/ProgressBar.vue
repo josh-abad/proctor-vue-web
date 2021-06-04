@@ -29,7 +29,7 @@ export default defineComponent({
 }
 
 .progress-bar__progress {
-  @apply bg-gradient-to-r from-green-600 to-green-400 h-full rounded-full;
+  @apply bg-gradient-to-r from-green-600 to-green-400 h-full rounded-full ease-out duration-500;
 }
 
 .label {
