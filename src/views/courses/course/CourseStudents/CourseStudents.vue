@@ -22,7 +22,7 @@
         <AppSkeleton class="w-32 h-3 ml-4" />
       </div>
     </div>
-    <div v-if="students && students.length" class="mt-4 separator-y">
+    <div v-else-if="students.length" class="mt-4 separator-y">
       <StudentRow
         :student="student"
         :course-id="courseId"
