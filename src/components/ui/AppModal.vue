@@ -86,4 +86,22 @@ export default defineComponent({
 .modal-body {
   @apply px-4 pb-4 text-gray-400;
 }
+
+.modal-fade-enter-active {
+  @apply transition duration-300 ease-out transform;
+}
+
+.modal-fade-leave-active {
+  @apply transition duration-300 ease-in transform;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  @apply translate-y-4 opacity-0;
+}
+
+.modal-fade-enter-to,
+.modal-fade-leave-from {
+  @apply translate-y-0 opacity-100;
+}
 </style>
