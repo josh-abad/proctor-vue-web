@@ -15,10 +15,14 @@
       <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
       <div v-else>Students</div>
     </div>
-    <div
-      v-if="students && students.length"
-      class="flex flex-col mt-4 separator-y"
-    >
+    <div v-if="error">Error loading students</div>
+    <div v-else-if="loading" class="mt-4 separator-y">
+      <div class="flex items-center py-3" v-for="i in 5" :key="i">
+        <AppSkeleton class="rounded-full w-9 h-9" />
+        <AppSkeleton class="w-32 h-3 ml-4" />
+      </div>
+    </div>
+    <div v-if="students && students.length" class="mt-4 separator-y">
       <StudentRow
         :student="student"
         :course-id="courseId"
@@ -47,10 +51,17 @@ import StudentRow from '@/components/StudentRow.vue'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
+import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 
 export default defineComponent({
   name: 'CourseStudents',
-  components: { AppInput, AddStudentModal, StudentRow, ExclamationCircleIcon },
+  components: {
+    AppInput,
+    AddStudentModal,
+    StudentRow,
+    ExclamationCircleIcon,
+    AppSkeleton
+  },
   props: {
     courseId: {
       type: String,
