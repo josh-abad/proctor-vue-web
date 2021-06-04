@@ -39,7 +39,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/courses',
     name: 'Courses',
     meta: {
-      title: createTitle('Courses'),
       authorize: [] as Role[]
     },
     children: [
@@ -60,9 +59,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: ':courseId',
         props: true,
-        meta: {
-          title: createTitle('Course')
-        },
         children: [
           {
             path: 'overview',
@@ -233,7 +229,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  setTitle(to.meta.title as string)
+  if (to.meta.title) {
+    console.log(to.meta.title)
+    setTitle(to.meta.title as string)
+  }
 
   const authorize = to.meta.authorize as Role[]
 
