@@ -7,7 +7,7 @@
         v-model="searchFilter"
         @focus="open = true"
         v-click-outside="handleClickOutside"
-        class="text-gray-900 bg-gray-900 border-0 shadow-none w-80 dark:text-white dark:bg-white bg-opacity-10 dark:bg-opacity-5"
+        class="search-bar"
       />
       <button
         type="submit"
@@ -25,10 +25,7 @@
       </button>
     </div>
     <transition name="dropdown-fade">
-      <div
-        class="absolute w-full mt-2 bg-white bg-opacity-50 border border-gray-800 rounded-lg shadow-lg dark:bg-gray-900 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg dark:border-gray-100 border-opacity-10 dark:border-opacity-10"
-        v-show="open && filteredCourses.length"
-      >
+      <div class="search-dropdown" v-show="open && filteredCourses.length">
         <ul class="py-1 overflow-auto rounded-lg max-h-56 sm:text-sm">
           <Result
             @result-click="$router.push(`/courses/${option.id}`)"
@@ -93,5 +90,13 @@ export default defineComponent({
 <style lang="postcss" scoped>
 ::-webkit-scrollbar {
   @apply w-1;
+}
+
+.search-bar {
+  @apply text-gray-900 bg-gray-900 border-0 shadow-none  w-80 dark:text-white dark:bg-white bg-opacity-10 dark:bg-opacity-5;
+}
+
+.search-dropdown {
+  @apply absolute w-full mt-2 bg-white rounded-lg shadow-lg dark:bg-gray-700;
 }
 </style>

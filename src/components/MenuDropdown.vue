@@ -26,7 +26,7 @@ export default defineComponent({
     }
   },
   emits: ['click-outside'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const handleClickOutside = useClickOutside(() => {
       emit('click-outside')
     }, props.toggleId)
@@ -40,6 +40,6 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .dropdown-menu {
-  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg border border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10;
+  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-700;
 }
 </style>

@@ -2,7 +2,7 @@
   <div v-if="error">Could not load course.</div>
   <div v-else-if="loading">
     <div class="p-4">
-      <AppSkeleton class="w-full h-32 rounded-lg" />
+      <AppSkeleton class="w-full h-28 rounded-xl" />
       <div class="flex flex-col mt-4 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-id="courseId" />
@@ -42,7 +42,7 @@
             <MenuDropdownItem :path="`/courses/${courseId}/edit`">
               <template #label>Edit Course</template>
             </MenuDropdownItem>
-            <MenuDropdownItem @item-click="deleteCourseModal.open">
+            <MenuDropdownItem @item-click="deleteCourseModal.open" separator>
               <template #label>Delete Course</template>
             </MenuDropdownItem>
           </MenuDropdown>

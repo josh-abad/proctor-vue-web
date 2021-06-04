@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div
-      v-if="event"
-      class="text-sm text-gray-600 bg-white dark:text-gray-400 dark:bg-gray-700"
-    >
-      <div class="flex justify-between px-3 py-2">
+    <div v-if="event" class="text-sm text-gray-600 dark:text-gray-400">
+      <div class="flex justify-between py-2">
         <div class="flex items-center space-x-1">
           <router-link
             :to="event.subjectUrl"

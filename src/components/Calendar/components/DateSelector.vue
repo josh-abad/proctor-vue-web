@@ -1,19 +1,15 @@
 <template>
   <div class="flex items-center justify-between cursor-pointer">
     <span @click="selectPrevious">
-      <ChevronLeftIcon
-        class="w-5 h-5 text-gray-700 stroke-current dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-      />
+      <ChevronLeftIcon class="w-5 h-5 text-indigo-200 hover:text-white" />
     </span>
     <span
       @click="selectCurrent"
-      class="text-sm font-semibold tracking-wider uppercase rounded-full"
+      class="text-sm font-semibold tracking-wider text-white uppercase"
       >Today</span
     >
     <span @click="selectNext">
-      <ChevronRightIcon
-        class="w-5 h-5 text-gray-700 stroke-current dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-      />
+      <ChevronRightIcon class="w-5 h-5 text-indigo-200 hover:text-white" />
     </span>
   </div>
 </template>
@@ -39,15 +35,15 @@ export default defineComponent({
   },
   emits: ['date-selected'],
   methods: {
-    selectPrevious () {
+    selectPrevious() {
       const newSelectedDate = dayjs(this.selectedDate).subtract(1, 'month')
       this.$emit('date-selected', newSelectedDate)
     },
-    selectCurrent () {
+    selectCurrent() {
       const newSelectedDate = dayjs(this.currentDate)
       this.$emit('date-selected', newSelectedDate)
     },
-    selectNext () {
+    selectNext() {
       const newSelectedDate = dayjs(this.selectedDate).add(1, 'month')
       this.$emit('date-selected', newSelectedDate)
     }

@@ -1,6 +1,6 @@
 <template>
   <li class="flex pt-3 mt-3">
-    <div class="w-16 h-16 overflow-hidden rounded shadow sm:w-40 sm:h-20">
+    <div class="w-16 h-16 overflow-hidden rounded sm:w-40 sm:h-20">
       <router-link :to="`/courses/${course.id}`">
         <img
           src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"

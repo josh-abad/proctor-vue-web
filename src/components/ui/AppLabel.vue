@@ -20,7 +20,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .app-label {
-  @apply text-xs text-gray-400 font-semibold mb-1 capitalize;
+  @apply text-xs text-gray-600 dark:text-gray-400 font-semibold mb-1 capitalize;
 }
 
 .app-label--emphasized {

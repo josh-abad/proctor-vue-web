@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-green-500 rounded-lg shadow-lg">
+  <div class="p-6 bg-green-500 rounded-lg shadow-lg h-28">
     <div class="flex justify-between">
       <div class="text-2xl font-bold text-white sm:text-3xl">
         <slot name="label" />
