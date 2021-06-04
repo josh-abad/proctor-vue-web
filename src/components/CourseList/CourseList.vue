@@ -25,13 +25,13 @@
           v-for="course in courses"
         />
       </section>
-      <section v-else-if="viewMode === 'list'" class="separator-y">
+      <ul v-else-if="viewMode === 'list'" class="separator-y">
         <CoursesPageListItem
           :course="course"
           :key="course.id"
           v-for="course in courses"
         />
-      </section>
+      </ul>
     </div>
   </div>
 </template>
