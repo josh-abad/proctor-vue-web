@@ -53,9 +53,8 @@ import { defineComponent } from 'vue'
 import Snackbar from './components/Snackbar.vue'
 import TheAppBar from './components/TheAppBar/TheAppBar.vue'
 import NavigationDrawer from './components/NavigationDrawer.vue'
-import { SUBMIT_EXAM } from './store/action-types'
 import { SET_USER } from './store/mutation-types'
-import { AuthenticatedUser, Submission } from './types'
+import { AuthenticatedUser } from './types'
 import authService from '@/services/auth'
 import cookie from '@/utils/cookie'
 import useLocalStorage from '@/composables/use-local-storage'
@@ -106,15 +105,6 @@ export default defineComponent({
         const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
         this.$store.commit(SET_USER, user)
         authService.setToken(user.token)
-
-        const pendingSubmissionsJSON = localStorage.getItem('pendingSubmission')
-        if (pendingSubmissionsJSON) {
-          const pendingSubmissions: Submission = JSON.parse(
-            pendingSubmissionsJSON
-          )
-          await this.$store.dispatch(SUBMIT_EXAM, pendingSubmissions)
-          localStorage.removeItem('pendingSubmission')
-        }
       }
     }
   }

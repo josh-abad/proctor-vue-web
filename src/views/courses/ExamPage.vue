@@ -148,19 +148,6 @@ export default defineComponent({
       router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
     }
 
-    // const handleUnload = async () => {
-    //   localStorage.setItem('pendingSubmission', JSON.stringify({
-    //     answers: answers.value,
-    //     examId: props.examId,
-    //     submittedDate: new Date()
-    //   }))
-    //   store.commit(SET_ACTIVE_EXAM, null)
-    //   await store.dispatch(SUBMIT_EXAM, {
-    //     answers: answers.value,
-    //     examId: props.examId
-    //   })
-    // }
-
     const { warn, warnings, warningsLeft } = useWarning({
       maximum: 5,
       onWarn: warningModal.open,
