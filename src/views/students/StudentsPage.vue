@@ -9,23 +9,18 @@
           placeholder="Search student"
         />
       </div>
-      <div v-if="error">
-        Error
-      </div>
-      <div v-else-if="loading">
-        Loading...
-      </div>
-      <div v-else-if="students.length" class="flex flex-col mt-4 space-y-4">
+      <div v-if="error">Error</div>
+      <div v-else-if="loading">Loading...</div>
+      <div v-else-if="students.length" class="flex flex-col mt-2 separator-y">
         <StudentRow
           v-for="student in filteredStudents"
           :key="student.id"
           :student="student"
           show-course-count
+          @delete-student="handleDeleteStudent(student.id)"
         />
       </div>
-      <div v-else>
-        No students found
-      </div>
+      <div v-else>No students found</div>
     </AppPanel>
   </div>
 </template>
@@ -42,31 +37,38 @@ import usersService from '@/services/users'
 export default defineComponent({
   name: 'StudentsPage',
   components: { AppInput, StudentRow, AppPanel },
-  setup () {
-    const [
-      students,
-      fetchStudents,
-      loading,
-      error
-    ] = useFetch(() => usersService.getStudents(), [])
+  setup() {
+    const [students, fetchStudents, loading, error] = useFetch(
+      () => usersService.getStudents(),
+      []
+    )
 
     fetchStudents()
+
+    const handleDeleteStudent = (id: string) => {
+      students.value = students.value.filter(student => {
+        return student.id !== id
+      })
+    }
 
     return {
       students,
       loading,
-      error
+      error,
+      handleDeleteStudent
     }
   },
-  data () {
+  data() {
     return {
       searchFilter: ''
     }
   },
   computed: {
-    filteredStudents (): User[] {
+    filteredStudents(): User[] {
       return this.students.filter(student => {
-        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student.fullName
+          .toLowerCase()
+          .includes(this.searchFilter.toLowerCase())
       })
     }
   }
