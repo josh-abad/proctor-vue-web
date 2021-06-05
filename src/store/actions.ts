@@ -2,12 +2,8 @@ import { ActionTree } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
-import authService from '@/services/auth'
 import examsService from '@/services/exams'
-import loginService from '@/services/login'
-import usersService from '@/services/users'
 import verifyService from '@/services/verify'
-import router from '@/router'
 import cookie from '@/utils/cookie'
 import { State, Actions } from '@/store/interfaces'
 import coursesService from '@/services/courses'
@@ -17,25 +13,6 @@ import useSnackbar from '@/composables/use-snackbar'
 const { setSnackbarMessage } = useSnackbar()
 
 export default {
-  async [ActionTypes.SIGN_UP](_, credentials) {
-    try {
-      await usersService.create(credentials)
-      router.push('/')
-    } catch (error) {
-      setSnackbarMessage(error.response.data.error, 'error')
-    }
-  },
-  async [ActionTypes.LOG_IN]({ commit }, { email, password }) {
-    try {
-      const user = await loginService.login({ email, password })
-      commit(MutationTypes.SET_USER, user)
-      router.push((router.currentRoute.value.query.redirect as string) || '/')
-      cookie.set('loggedAppUser', JSON.stringify(user))
-      authService.setToken(user.token)
-    } catch (error) {
-      setSnackbarMessage('Incorrect email or password', 'error')
-    }
-  },
   async [ActionTypes.LOG_OUT]({ commit }) {
     localStorage.clear()
     cookie.remove('loggedAppUser')

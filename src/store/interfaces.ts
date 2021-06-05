@@ -1,10 +1,4 @@
-import {
-  AuthenticatedUser,
-  NewCourse,
-  Role,
-  Submission,
-  UserCredentials
-} from '@/types'
+import { AuthenticatedUser, NewCourse, Role, Submission } from '@/types'
 import { ActionContext } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'
@@ -30,14 +24,6 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, State>, 'commit' | 'dispatch'>
 
 export interface Actions {
-  [ActionTypes.SIGN_UP](
-    { dispatch }: AugmentedActionContext,
-    credentials: UserCredentials
-  ): Promise<void>
-  [ActionTypes.LOG_IN](
-    { commit, dispatch }: AugmentedActionContext,
-    { email, password }: { email: string; password: string }
-  ): Promise<void>
   [ActionTypes.LOG_OUT]({ commit }: AugmentedActionContext): Promise<void>
   [ActionTypes.VERIFY](
     { commit, dispatch }: AugmentedActionContext,

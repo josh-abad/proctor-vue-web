@@ -230,11 +230,18 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   if (to.meta.title) {
-    console.log(to.meta.title)
     setTitle(to.meta.title as string)
   }
 
   const authorize = to.meta.authorize as Role[]
+
+  if (
+    typeof to.name === 'string' &&
+    ['Login', 'Register'].includes(to.name) &&
+    store.state.user
+  ) {
+    return next({ path: '/' })
+  }
 
   if (authorize) {
     if (!store.state.user) {

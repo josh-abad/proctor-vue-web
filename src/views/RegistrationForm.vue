@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ColorBackgroundCard v-if="!$store.state.user">
+    <ColorBackgroundCard>
       <div class="p-4">
         <AppLogo class="h-7" />
         <form class="mt-4" @submit.prevent="handleRegister">
@@ -67,6 +67,8 @@
           </div>
           <div class="flex justify-between mt-4">
             <AppButton
+              class="w-32 h-9"
+              :loading="isLoading"
               :disabled="!allFieldsFilled || !!error"
               type="submit"
               prominent
@@ -86,7 +88,6 @@
         </form>
       </div>
     </ColorBackgroundCard>
-    <Redirect v-else />
   </div>
 </template>
 
@@ -94,45 +95,94 @@
 import AppButton from '@/components/ui/AppButton.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import { SIGN_UP } from '@/store/action-types'
-import { UserCredentials } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
-import Redirect from '@/components/Redirect.vue'
 import FormError from '@/components/FormError.vue'
 import AppLogo from '@/components/AppLogo.vue'
 import useSnackbar from '@/composables/use-snackbar'
+import usersService from '@/services/users'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'RegistrationForm',
-  components: { AppButton, AppInput, AppLabel, ColorBackgroundCard, Redirect, FormError, AppLogo },
-  data () {
-    return {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    }
+  components: {
+    AppButton,
+    AppInput,
+    AppLabel,
+    ColorBackgroundCard,
+    FormError,
+    AppLogo
   },
-  setup () {
+  setup() {
+    const router = useRouter()
     const { setSnackbarMessage } = useSnackbar()
 
+    const firstName = ref('')
+    const lastName = ref('')
+    const email = ref('')
+    const password = ref('')
+    const confirmPassword = ref('')
+
+    const isLoading = ref(false)
+
+    const handleRegister = async () => {
+      try {
+        isLoading.value = true
+        await usersService.create({
+          name: {
+            first: firstName.value,
+            last: lastName.value
+          },
+          email: email.value,
+          password: password.value
+        })
+        await router.push('/')
+        setSnackbarMessage('Your account has been created.', 'success')
+      } catch (error) {
+        setSnackbarMessage('Invalid credentials', 'error')
+      } finally {
+        isLoading.value = false
+        password.value = ''
+        confirmPassword.value = ''
+      }
+    }
+
     return {
-      setSnackbarMessage
+      handleRegister,
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      isLoading
     }
   },
   computed: {
-    allFieldsFilled (): boolean {
-      return !!this.firstName && !!this.lastName && !!this.email && !!this.password && !!this.confirmPassword
+    allFieldsFilled(): boolean {
+      return (
+        !!this.firstName &&
+        !!this.lastName &&
+        !!this.email &&
+        !!this.password &&
+        !!this.confirmPassword
+      )
     },
-    passwordsMatch (): boolean {
-      return ((!!this.password && !this.confirmPassword) || (!this.password && !!this.confirmPassword)) || this.password === this.confirmPassword
+    passwordsMatch(): boolean {
+      return (
+        (!!this.password && !this.confirmPassword) ||
+        (!this.password && !!this.confirmPassword) ||
+        this.password === this.confirmPassword
+      )
     },
-    emailValid (): boolean {
-      return !this.email || !!this.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    emailValid(): boolean {
+      return (
+        !this.email ||
+        !!this.email.match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+      )
     },
-    error (): string {
+    error(): string {
       let error = ''
       if (!this.passwordsMatch) {
         error = 'Passwords do not match'
@@ -141,28 +191,6 @@ export default defineComponent({
         error = 'Invalid email'
       }
       return error
-    }
-  },
-  methods: {
-    async handleRegister () {
-      const credentials: UserCredentials = {
-        name: {
-          first: this.firstName,
-          last: this.lastName
-        },
-        email: this.email,
-        password: this.password
-      }
-      try {
-        await this.$store.dispatch(SIGN_UP, credentials)
-        this.firstName = ''
-        this.lastName = ''
-        this.email = ''
-        this.password = ''
-        this.confirmPassword = ''
-      } catch (error) {
-        this.setSnackbarMessage('Invalid credentials', 'error')
-      }
     }
   }
 })
