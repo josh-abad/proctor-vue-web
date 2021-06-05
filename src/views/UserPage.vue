@@ -20,13 +20,11 @@
     </AppPanel>
     <AppPanel class="user-page__content">
       <h3 class="user-page__activity-header">Activity</h3>
-      <div class="user-page__activities separator-y">
-        <ActivityRow
-          :key="i"
-          v-for="(event, i) in userEvents.slice(0, 10)"
-          :event="event"
-        />
-      </div>
+      <ActivityList
+        :activities="userEvents.slice(0, 5)"
+        :is-loading="loadingUserEvents"
+        :has-error="errorUserEvents"
+      />
     </AppPanel>
   </div>
 </template>
@@ -37,16 +35,21 @@ import { User } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import ActivityRow from '@/components/ActivityRow.vue'
 import UserPageStat from '@/components/UserPageStat.vue'
 import usersService from '@/services/users'
 import useFetch from '@/composables/use-fetch'
 import { UserCircleIcon } from '@heroicons/vue/solid'
+import ActivityList from '@/components/ActivityList.vue'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'UserPage',
-  components: { AppPanel, ActivityRow, UserPageStat, UserCircleIcon },
+  components: {
+    AppPanel,
+    UserPageStat,
+    UserCircleIcon,
+    ActivityList
+  },
   props: {
     userId: {
       type: String,
@@ -115,9 +118,5 @@ export default defineComponent({
 
 .user-page__activity-header {
   @apply text-xl font-semibold;
-}
-
-.user-page__activities {
-  @apply mt-2 rounded-lg overflow-hidden shadow-lg;
 }
 </style>
