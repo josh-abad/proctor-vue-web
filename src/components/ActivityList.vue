@@ -1,5 +1,7 @@
 <template>
-  <div v-if="hasError">Could not load activities</div>
+  <div v-if="hasError" class="flex justify-center pt-8 text-gray-500">
+    Could not load activities
+  </div>
   <div v-else-if="isLoading" class="separator-y">
     <div class="flex justify-between py-3" v-for="i in 5" :key="i">
       <AppSkeleton class="h-3" :class="i % 2 === 0 ? 'w-52' : 'w-60'" />
@@ -9,7 +11,9 @@
   <ul v-else-if="activities.length" class="separator-y">
     <ActivityRow v-for="(event, i) of activities" :key="i" :event="event" />
   </ul>
-  <div v-else>You have no recent activity</div>
+  <div v-else class="flex justify-center py-8 text-gray-500">
+    No activity to display.
+  </div>
 </template>
 
 <script lang="ts">

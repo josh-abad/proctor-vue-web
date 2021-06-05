@@ -14,7 +14,10 @@
       </section>
     </div>
     <div v-else>
-      <section v-if="!courses.length" class="course-list--empty">
+      <section
+        v-if="!courses.length"
+        class="flex justify-center py-4 mt-8 text-gray-500"
+      >
         You don't have any courses.
       </section>
       <section v-else-if="viewMode === 'card'" class="course-list--card-view">
