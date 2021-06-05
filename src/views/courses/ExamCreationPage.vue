@@ -63,7 +63,7 @@
           <AppSwitch v-model="random" />
         </div>
       </div>
-      <div class="form__exam-items">
+      <div class="form__exam-items separator-y">
         <ExamItemInput
           v-model:question="examItem.question"
           v-model:answer="examItem.answer"
@@ -101,7 +101,7 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { Course, ExamItem, NewExam, QuestionType } from '@/types'
+import { CourseWithExams, ExamItem, NewExam, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
@@ -132,9 +132,10 @@ export default defineComponent({
   setup(props) {
     const { setSnackbarMessage } = useSnackbar()
 
-    const [course, fetchCourse, loading, error] = useFetch<Course | null>(() =>
-      coursesService.getCourse(props.courseId)
-    )
+    const [course, fetchCourse, loading, error] =
+      useFetch<CourseWithExams | null>(() =>
+        coursesService.getCourse(props.courseId)
+      )
 
     fetchCourse()
 
