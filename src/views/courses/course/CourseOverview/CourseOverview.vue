@@ -18,10 +18,11 @@
     <div v-else>
       <div class="flex flex-col space-y-2" v-if="course?.exams.length">
         <Week
-          v-for="week in course.weeks"
-          :key="week"
+          v-for="exams in examsByWeek"
+          :key="exams[0].week"
           :course-id="courseId"
-          :week="week"
+          :week="exams[0].week"
+          :exams="exams"
         />
       </div>
       <div class="flex items-center justify-center py-5" v-else>
@@ -36,8 +37,10 @@ import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
-import { defineComponent } from 'vue'
+import { ExamWithTaken } from '@/types'
+import { computed, defineComponent, ref } from 'vue'
 import Week from './components/Week/Week.vue'
+import userService from '@/services/user'
 
 export default defineComponent({
   name: 'CourseOverview',
@@ -52,20 +55,48 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
-    const [
-      course,
-      fetchCourse,
-      loading,
-      error
-    ] = useFetch(() => coursesService.getCourse(props.courseId))
+  setup(props) {
+    const [course, fetchCourse, loading, error] = useFetch(() =>
+      coursesService.getCourse(props.courseId)
+    )
 
     fetchCourse()
+
+    const examsTaken = ref<{ exam: string; isTaken: boolean }[]>([])
+
+    userService.getExamsTaken(props.courseId).then(fetchedExamsTaken => {
+      examsTaken.value = fetchedExamsTaken
+    })
+
+    const examsWithTaken = computed(() => {
+      if (!course.value) {
+        return []
+      }
+      return course.value.exams.map(exam => ({
+        ...exam,
+        isTaken:
+          examsTaken.value.find(taken => exam.id === taken.exam)?.isTaken ??
+          false
+      }))
+    })
+
+    const examsByWeek = computed(() => {
+      const map = new Map(
+        Array.from(examsWithTaken.value, exam => [
+          exam.week,
+          [] as ExamWithTaken[]
+        ])
+      )
+      examsWithTaken.value.forEach(exam => map.get(exam.week)?.push(exam))
+      return Array.from(map.values())
+    })
 
     return {
       course,
       loading,
-      error
+      error,
+      examsByWeek,
+      examsTaken
     }
   }
 })

@@ -48,7 +48,10 @@
           </div>
           <div v-else>The exam was closed {{ formattedEndDate }} ago.</div>
         </div>
-        <div v-if="!$store.state.user?.referenceImageUrl" class="inline-flex items-center">
+        <div
+          v-if="!$store.state.user?.referenceImageUrl"
+          class="inline-flex items-center"
+        >
           <ExclamationCircleIcon class="w-5 h-5 mr-2" />
           <div>
             Please set up
@@ -61,7 +64,12 @@
             in order to proceed with the exam.
           </div>
         </div>
-        <div v-else-if="!loadingAttempts && !errorLoadingAttempts && attempts.length > 0" class="mt-4">
+        <div
+          v-else-if="
+            !loadingAttempts && !errorLoadingAttempts && attempts.length > 0
+          "
+          class="mt-4"
+        >
           <AppLabel emphasis>Previous Attempts</AppLabel>
           <div class="mt-2 overflow-hidden rounded-xl separator-y">
             <AttemptItem
@@ -75,14 +83,18 @@
         <div v-else>You have made no attempts so far.</div>
         <div class="flex flex-row-reverse justify-between mt-4">
           <ModalButton
-            v-if="locked === 0 && attemptsLeft > 0 && $store.state.user?.referenceImageUrl"
+            v-if="
+              locked === 0 &&
+              attemptsLeft > 0 &&
+              $store.state.user?.referenceImageUrl
+            "
             header="Attempt Quiz"
             message="Are you sure you want to start the quiz?"
             action-label="Start Quiz"
             @confirm="startAttempt"
             prominent
           >
-            {{ attempts.length > 0 ? "Re-attempt quiz" : "Attempt quiz" }}
+            {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
           </ModalButton>
           <AppButton
             v-if="locked !== 0"
@@ -103,9 +115,7 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
-import examResultsService from '@/services/exam-results'
 import { DELETE_EXAM } from '@/store/action-types'
-import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { Link } from '@/types'
 import { defineComponent } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
@@ -153,7 +163,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const store = useStore()
     const { setSnackbarMessage } = useSnackbar()
 
@@ -161,26 +171,21 @@ export default defineComponent({
 
     const menuDropdown = useModal()
 
-    const [
-      attempts,
-      fetchAttempts,
-      loadingAttempts,
-      errorLoadingAttempts
-    ] = useFetch(() => (
-      examsService.getAttemptsByUser(props.examId, store.state.user?.id ?? '')
-    ), [])
+    const [attempts, fetchAttempts, loadingAttempts, errorLoadingAttempts] =
+      useFetch(
+        () =>
+          examsService.getAttemptsByUser(
+            props.examId,
+            store.state.user?.id ?? ''
+          ),
+        []
+      )
 
-    const [
-      exam,
-      fetchExam,
-      loadingExam,
-      errorLoadingExam
-    ] = useFetch(() => examsService.getExam(props.examId))
+    const [exam, fetchExam, loadingExam, errorLoadingExam] = useFetch(() =>
+      examsService.getExam(props.examId)
+    )
 
-    Promise.all([
-      fetchAttempts(),
-      fetchExam()
-    ])
+    Promise.all([fetchAttempts(), fetchExam()])
 
     return {
       exam,
@@ -195,7 +200,7 @@ export default defineComponent({
     }
   },
   computed: {
-    links (): Link[] {
+    links(): Link[] {
       return [
         {
           name: 'Home',
@@ -215,43 +220,44 @@ export default defineComponent({
         }
       ]
     },
-    locked (): number {
+    locked(): number {
       return this.exam ? isExamLocked(this.exam) : 0
     },
-    attemptsLeft (): number {
+    attemptsLeft(): number {
       return this.exam ? this.exam.maxAttempts - this.attempts.length : 0
     },
-    displayAttemptsLeft (): string {
-      return `You have ${this.attemptsLeft} ${this.attemptsLeft === 1 ? 'attempt' : 'attempts'} left.`
+    displayAttemptsLeft(): string {
+      return `You have ${this.attemptsLeft} ${
+        this.attemptsLeft === 1 ? 'attempt' : 'attempts'
+      } left.`
     },
-    highestGrade (): number {
+    highestGrade(): number {
       return this.attempts.reduce((a, b) => Math.max(a, b.score), 0)
     },
-    duration (): string {
-      return this.exam ? dayjs.duration({ seconds: this.exam.duration }).humanize(true) : ''
+    duration(): string {
+      return this.exam
+        ? dayjs.duration({ seconds: this.exam.duration }).humanize(true)
+        : ''
     },
-    formattedStartDate (): string {
+    formattedStartDate(): string {
       return this.exam ? dayjs(this.exam.startDate).fromNow(true) : ''
     },
-    formattedEndDate (): string {
+    formattedEndDate(): string {
       return this.exam ? dayjs(this.exam.endDate).toNow(true) : ''
     }
   },
   methods: {
-    async startAttempt () {
+    async startAttempt() {
       try {
-        const response = await examAttemptsService.start(this.examId)
-        localStorage.setItem('activeExam', JSON.stringify(response))
-        examResultsService.setToken(response.token)
-        this.$store.commit(SET_ACTIVE_EXAM, response.attempt.exam.id)
+        const attempt = await examAttemptsService.start(this.examId)
         this.$router.push(
-          `/courses/${this.courseId}/exams/${this.examId}/${response.attempt.id}`
+          `/courses/${this.courseId}/exams/${this.examId}/${attempt.id}`
         )
       } catch (error) {
         this.setSnackbarMessage('Attempt could not be started', 'error')
       }
     },
-    async deleteExam () {
+    async deleteExam() {
       await this.$store.dispatch(DELETE_EXAM, this.examId)
       this.$router.push(`/courses/${this.courseId}`)
     }

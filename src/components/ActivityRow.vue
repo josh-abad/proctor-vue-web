@@ -1,35 +1,30 @@
 <template>
-  <div>
-    <div
-      v-if="event"
-      class="text-sm text-gray-600 bg-white dark:text-gray-400 dark:bg-gray-700"
-    >
-      <div class="flex justify-between px-3 py-2">
-        <div class="flex items-center space-x-1">
-          <router-link
-            :to="event.subjectUrl"
-            class="text-gray-700 dark:text-gray-300"
-            >{{
-              event.subjectId === $store.state.user?.id ? 'You' : event.subject
-            }}</router-link
-          >
-          <span>{{ event.action }}</span>
-          <router-link
-            class="text-gray-900 dark:text-white"
-            :to="event.predicateUrl || '#'"
-            >{{ event.predicate || '' }}</router-link
-          >
-          <span class="hidden sm:inline-block">in</span>
-          <router-link
-            :to="event.locationUrl"
-            class="hidden text-gray-700 dark:text-gray-300 sm:inline-block"
-            >{{ event.location }}</router-link
-          >
-        </div>
-        <div>{{ formattedDate(event.date) }}</div>
+  <li class="text-sm text-gray-600 dark:text-gray-400">
+    <div class="flex justify-between py-2">
+      <div class="flex items-center space-x-1">
+        <router-link
+          :to="event.subjectUrl"
+          class="text-gray-700 dark:text-gray-300"
+          >{{
+            event.subjectId === $store.state.user?.id ? 'You' : event.subject
+          }}</router-link
+        >
+        <span>{{ event.action }}</span>
+        <router-link
+          class="text-gray-900 dark:text-white"
+          :to="event.predicateUrl || '#'"
+          >{{ event.predicate || '' }}</router-link
+        >
+        <span class="hidden sm:inline-block">in</span>
+        <router-link
+          :to="event.locationUrl"
+          class="hidden text-gray-700 dark:text-gray-300 sm:inline-block"
+          >{{ event.location }}</router-link
+        >
       </div>
+      <div>{{ date }}</div>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
@@ -47,9 +42,9 @@ export default defineComponent({
       required: true
     }
   },
-  methods: {
-    formattedDate(d: string | Date) {
-      return dayjs(d).fromNow()
+  computed: {
+    date(): string {
+      return dayjs(this.event.date).fromNow()
     }
   }
 })

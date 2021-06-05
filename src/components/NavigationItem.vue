@@ -1,15 +1,12 @@
 <template>
-  <router-link
-    :to="url"
-    class="mx-2 text-gray-600  dark:text-gray-400 hover:text-green-500 dark:hover:text-white"
-  >
-    <div class="flex wrapper sm:hidden" @click="handleMobileNav">
+  <router-link :to="href" class="navigation-item">
+    <div class="flex content sm:hidden" @click="handleMobileNav">
       <slot name="icon" />
       <div class="ml-6">
         <slot name="label" />
       </div>
     </div>
-    <div class="hidden wrapper sm:flex">
+    <div class="hidden content sm:flex">
       <slot name="icon" />
       <div class="ml-6">
         <slot name="label" />
@@ -22,9 +19,9 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'NavLink',
+  name: 'NavigationItem',
   props: {
-    url: {
+    href: {
       type: String,
       default: ''
     }
@@ -39,11 +36,15 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.router-link-active {
-  @apply bg-green-300 dark:bg-gray-700 rounded-lg bg-opacity-30 dark:bg-opacity-30 font-semibold text-green-500 dark:text-white;
+.navigation-item {
+  @apply mx-2 text-gray-600  dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400;
 }
 
-.wrapper {
-  @apply items-center px-6 py-2 my-1;
+.router-link-active {
+  @apply bg-green-300 dark:bg-green-900 rounded-lg bg-opacity-30 dark:bg-opacity-30 font-semibold text-green-500 dark:text-green-400;
+}
+
+.content {
+  @apply items-center px-4 py-2 my-1;
 }
 </style>

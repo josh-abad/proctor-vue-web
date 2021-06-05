@@ -51,12 +51,12 @@ export default defineComponent({
   watch: {
     open(isOpen: boolean) {
       if (isOpen) {
-        const body = document.querySelector('body')
-        if (body) {
-          body.classList.add('overflow-hidden')
-        }
+        document.body.classList.add('overflow-hidden')
       }
     }
+  },
+  unmounted() {
+    document.body.classList.remove('overflow-hidden')
   }
 })
 </script>
@@ -85,5 +85,23 @@ export default defineComponent({
 
 .modal-body {
   @apply px-4 pb-4 text-gray-400;
+}
+
+.modal-fade-enter-active {
+  @apply transition duration-300 ease-out transform;
+}
+
+.modal-fade-leave-active {
+  @apply transition duration-300 ease-in transform;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  @apply translate-y-4 opacity-0;
+}
+
+.modal-fade-enter-to,
+.modal-fade-leave-from {
+  @apply translate-y-0 opacity-100;
 }
 </style>

@@ -25,15 +25,19 @@ export default function useKeepOnPage({
   }, 5000)
 
   const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-    e.preventDefault()
-    e.returnValue = ''
+    if (preventLeave.value) {
+      e.preventDefault()
+      e.returnValue = ''
+    }
   }
 
   const handleBlur = () => {
-    if (onLeaveFocus !== undefined) {
-      onLeaveFocus()
+    if (preventLeave.value) {
+      if (onLeaveFocus !== undefined) {
+        onLeaveFocus()
+      }
+      timer.start()
     }
-    timer.start()
   }
 
   const clearListeners = () => {

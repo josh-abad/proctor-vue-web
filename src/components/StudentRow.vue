@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="flex items-center justify-between py-4 pl-2 pr-4 bg-white rounded-lg shadow-lg  dark:bg-gray-700"
-  >
+  <div class="flex items-center justify-between py-3">
     <div class="flex items-center">
-      <UserCircleIcon class="w-10 h-10 ml-2 text-gray-400" />
+      <UserCircleIcon class="w-10 h-10 text-gray-400" />
       <div class="ml-4">
         <router-link :to="`/user/${student.id}`">{{
           student.fullName
@@ -36,7 +34,9 @@
           "
         >
           <template #label>
-            <span class="text-red-500">Un-Enroll From Course</span>
+            <span class="text-red-500 dark:text-red-400">
+              Un-Enroll From Course
+            </span>
           </template>
         </MenuDropdownItem>
         <MenuDropdownItem
@@ -45,7 +45,7 @@
           v-if="!courseId && $store.getters.permissions(['admin'])"
         >
           <template #label>
-            <span class="text-red-500">Delete Student</span>
+            <span class="text-red-500 dark:text-red-400">Delete Student</span>
           </template>
         </MenuDropdownItem>
       </MenuDropdown>
@@ -119,6 +119,7 @@ export default defineComponent({
       required: false
     }
   },
+  emit: ['delete-student'],
   setup() {
     const { setSnackbarMessage } = useSnackbar()
 
@@ -139,6 +140,7 @@ export default defineComponent({
       try {
         await usersService.deleteUser(this.student.id)
         this.setSnackbarMessage('Student removed', 'success')
+        this.$emit('delete-student')
       } catch (error) {
         this.setSnackbarMessage('Could not delete student.', 'error')
       }

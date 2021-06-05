@@ -3,7 +3,7 @@
     <li
       v-for="weekday in weekdays"
       :key="weekday"
-      class="py-2 text-xs font-semibold tracking-wider text-center text-gray-400 uppercase select-none"
+      class="py-2 text-xs font-semibold tracking-wider text-center text-gray-400 uppercase select-none "
     >
       {{ compact ? weekday[0] : weekday }}
     </li>
@@ -24,15 +24,9 @@ export default defineComponent({
     }
   },
   computed: {
-    weekdays () {
+    weekdays() {
       return WEEKDAYS
     }
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.weekdays--compact {
-  @apply dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-75 backdrop-filter backdrop-blur-lg;
-}
-</style>

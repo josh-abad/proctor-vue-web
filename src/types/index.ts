@@ -1,5 +1,9 @@
 export type Role = 'student' | 'coordinator' | 'admin'
 
+export type AttemptStatus = 'in-progress' | 'completed' | 'expired'
+
+export type ExamWithTaken = Exam & { isTaken: boolean }
+
 export interface User {
   id: string
   name: {
@@ -70,14 +74,13 @@ export interface Answer {
 export interface Submission {
   answers: Answer[]
   examId: string
-  submittedDate?: Date
 }
 
 export interface Attempt {
   id: string
   exam: Exam
   user: string
-  status: 'in-progress' | 'completed'
+  status: AttemptStatus
   startDate: Date
   endDate: Date
   submittedDate: Date

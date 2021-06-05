@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="p-6 rounded-lg shadow-lg  bg-gradient-to-t from-green-600 via-green-500 to-green-400"
-  >
+  <div class="p-6 bg-green-500 rounded-lg shadow-lg h-28">
     <div class="flex justify-between">
       <div class="text-2xl font-bold text-white sm:text-3xl">
         <slot name="label" />
@@ -23,16 +21,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import Breadcrumbs from './components/Breadcrumbs.vue'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
+import { Link } from '@/types'
 
 export default defineComponent({
   name: 'PageHeader',
   components: { Breadcrumbs, DotsVerticalIcon },
   props: {
     links: {
-      type: Array,
+      type: Array as PropType<Link[]>,
       required: false
     },
     hideMenu: {

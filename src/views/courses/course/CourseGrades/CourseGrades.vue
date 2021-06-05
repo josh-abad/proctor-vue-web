@@ -20,7 +20,9 @@
           </td>
           <td class="table-data">{{ exam.weightPercentage }}%</td>
           <td class="table-data prominent">{{ exam.grade }}</td>
-          <td class="table-data">{{ Math.floor(exam.grade * exam.weight) }}%</td>
+          <td class="table-data">
+            {{ Math.floor(exam.grade * exam.weight) }}%
+          </td>
         </tr>
       </tbody>
       <tr class="table-footer">
@@ -44,8 +46,7 @@
 import { defineComponent } from 'vue'
 import { DocumentTextIcon } from '@heroicons/vue/solid'
 import useFetch from '@/composables/use-fetch'
-import coursesService from '@/services/courses'
-import { useStore } from '@/store'
+import userService from '@/services/user'
 import { CourseGrades } from '@/types'
 
 export default defineComponent({
@@ -57,14 +58,11 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
-    const store = useStore()
-    const [
-      courseGrades,
-      fetchCourseGrades,
-      loading,
-      error
-    ] = useFetch<CourseGrades | null>(() => coursesService.getUserGrades(props.courseId, store.state.user?.id ?? ''))
+  setup(props) {
+    const [courseGrades, fetchCourseGrades, loading, error] =
+      useFetch<CourseGrades | null>(() =>
+        userService.getGradesForCourse(props.courseId)
+      )
 
     fetchCourseGrades()
 

@@ -25,11 +25,11 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .progress-bar__bg {
-  @apply bg-gray-200 dark:bg-gray-700 w-full h-2 rounded-full overflow-hidden;
+  @apply bg-green-200 dark:bg-green-900 w-full h-1.5 rounded-full overflow-hidden;
 }
 
 .progress-bar__progress {
-  @apply bg-gradient-to-r from-green-600 to-green-400 h-full rounded-full;
+  @apply bg-green-500 h-full rounded-full ease-out duration-500;
 }
 
 .label {

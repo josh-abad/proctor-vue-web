@@ -1,26 +1,14 @@
 import { Attempt, Exam, NewExam } from '@/types'
 import axios from 'axios'
+import { config } from './auth'
 import { API_URL } from './helper'
 const baseUrl = `${API_URL}/exams`
-
-let token: string | null = null
-
-/**
- * Sets the token containing the information of the coordinator/admin creating an exam
- * @param newToken the token to be set
- */
-const setToken = (newToken: string) => {
-  token = `bearer ${newToken}`
-}
 
 /**
  * Creates a new exam in the server and returns it
  * @param newExam the information for a new exam
  */
 const create = async (newExam: NewExam) => {
-  const config = {
-    headers: { Authorization: token }
-  }
   const response = await axios.post<Exam>(baseUrl, newExam, config)
   return response.data
 }
@@ -65,7 +53,6 @@ const isExamTaken = async (id: string, userId: string) => {
 }
 
 export default {
-  setToken,
   create,
   getAll,
   getExam,

@@ -1,23 +1,23 @@
 <template>
   <li
-    class="h-full border-t border-gray-300 dark:border-gray-700"
+    class="h-full border-t border-gray-300"
     :class="{
       'text-gray-500': !isCurrentMonth,
       'font-semibold text-green-500': isToday,
-      'p-1': compact,
-      'p-4': !compact,
+      'p-1 dark:border-gray-600': compact,
+      'p-4 dark:border-gray-700': !compact
     }"
   >
     <div class="flex items-center justify-center">
       <div
-        class="box-border flex items-center justify-center p-4 rounded-full cursor-pointer"
+        class="box-border flex items-center justify-center p-4 rounded-full cursor-pointer "
         :class="{
           'font-semibold text-white bg-green-500 bg-opacity-50':
             modelValue === day.date,
           'w-2 h-2 text-sm': compact,
           'w-5 h-5 text-base': !compact,
           'bg-red-500 bg-opacity-50 text-white':
-            hasEvent && modelValue !== day.date,
+            hasEvent && modelValue !== day.date
         }"
         @click="$emit('update:modelValue', day.date)"
       >
@@ -66,7 +66,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   computed: {
-    label (): string {
+    label(): string {
       return dayjs(this.day.date).format('D')
     }
   }

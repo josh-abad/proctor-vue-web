@@ -17,7 +17,7 @@
         <div v-else>
           <div class="w-56 h-56 bg-gray-700 rounded-lg">
             <div
-              class="flex items-center justify-center h-full font-semibold tracking-wider text-gray-500 uppercase"
+              class="flex items-center justify-center h-full font-semibold tracking-wider text-gray-500 uppercase "
             >
               No image
             </div>
@@ -31,10 +31,15 @@
       :valid="validImage"
       :loading="loading"
     />
-    <form method="post" enctype="multipart/form-data" class="mt-2" @submit.prevent="handleSubmit">
+    <form
+      method="post"
+      enctype="multipart/form-data"
+      class="mt-2"
+      @submit.prevent="handleSubmit"
+    >
       <div class="flex items-end justify-between">
         <label
-          class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer hover:text-white hover:bg-green-500 focus:outline-none"
+          class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer  hover:text-white hover:bg-green-500 focus:outline-none"
         >
           <PhotographIcon class="w-5 h-5 fill-current" />
           <span class="text-sm">Select Image</span>
@@ -59,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import usersService from '@/services/users'
+import userService from '@/services/user'
 import { SET_USER } from '@/store/mutation-types'
 import { defineComponent } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -76,14 +81,14 @@ const MODELS_URL = '/models'
 export default defineComponent({
   name: 'ImageUpload',
   components: { AppButton, Feedback, Preview, AppLabel, PhotographIcon },
-  setup () {
+  setup() {
     const { setSnackbarMessage } = useSnackbar()
 
     return {
       setSnackbarMessage
     }
   },
-  data () {
+  data() {
     return {
       image: null as File | null,
       previewImage: null as string | null,
@@ -91,7 +96,7 @@ export default defineComponent({
       loading: false
     }
   },
-  async mounted () {
+  async mounted() {
     try {
       await faceapi.loadTinyFaceDetectorModel(MODELS_URL)
     } catch (error) {
@@ -99,27 +104,27 @@ export default defineComponent({
     }
   },
   methods: {
-    async handleSubmit () {
+    async handleSubmit() {
       if (!this.$store.state.user) return
-      const { token, id } = this.$store.state.user
+      const { token } = this.$store.state.user
 
       if (!this.image) return
       const data = new FormData()
       data.append('image', this.image)
 
-      const updatedUser = await usersService.uploadImage(id, data)
+      const updatedUser = await userService.uploadReferenceImage(data)
       this.$store.commit(SET_USER, { token, ...updatedUser })
       this.previewImage = null
       this.image = null
       this.validImage = false
     },
-    async handleChange (event: Event) {
+    async handleChange(event: Event) {
       this.loading = true
       this.image = (event.target as HTMLInputElement).files?.[0] || null
       if (this.image) {
         const reader = new FileReader()
         reader.readAsDataURL(this.image)
-        reader.addEventListener('load', async (e) => {
+        reader.addEventListener('load', async e => {
           this.previewImage = e.target?.result as string
 
           const input = await faceapi.fetchImage(this.previewImage)

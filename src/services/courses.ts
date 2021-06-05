@@ -25,7 +25,8 @@ const getAll = async () => {
  * @param id the id of the course
  */
 const getCourse = async (id: string) => {
-  const response = await axios.get<Course>(`${baseUrl}/${id}`)
+  type CourseWithExams = Omit<Course, 'exams'> & { exams: Exam[] }
+  const response = await axios.get<CourseWithExams>(`${baseUrl}/${id}`)
   return response.data
 }
 

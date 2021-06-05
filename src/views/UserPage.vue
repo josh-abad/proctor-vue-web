@@ -1,30 +1,42 @@
 <template>
   <div class="user-page">
-    <AppPanel class="user-page__header">
-      <div class="user-page__user">
-        <UserCircleIcon class="w-20 h-20 text-gray-400 dark:text-gray-600" />
-        <div class="user-page__info">
-          <div class="user-page__name">
-            {{ user?.fullName }}
-          </div>
-          <div class="user-page__role">
-            {{ user?.role }}
+    <AppPanel>
+      <div v-if="errorUser">Something went wrong.</div>
+      <div v-else-if="loadingUser" class="user-page__header">
+        <div class="user-page__user">
+          <UserCircleIcon class="w-20 h-20 text-gray-400 dark:text-gray-600" />
+          <div class="user-page__info">
+            <div class="user-page__name">
+              <AppSkeleton class="h-5 w-60" />
+            </div>
+            <AppSkeleton class="w-20 h-6 rounded-full" />
           </div>
         </div>
       </div>
-      <div class="user-page__stats">
-        <UserPageStat :count="user?.courses.length ?? 0">
-          {{ user?.courses.length !== 1 ? 'Courses' : 'Course' }}
-        </UserPageStat>
+      <div v-else-if="user" class="user-page__header">
+        <div class="user-page__user">
+          <UserCircleIcon class="w-20 h-20 text-gray-400 dark:text-gray-600" />
+          <div class="user-page__info">
+            <div class="user-page__name">
+              {{ user.fullName }}
+            </div>
+            <div class="user-page__role">
+              {{ user.role }}
+            </div>
+          </div>
+        </div>
+        <div class="user-page__stats">
+          <UserPageStat :count="user.courses.length ?? 0">
+            {{ user.courses.length !== 1 ? 'Courses' : 'Course' }}
+          </UserPageStat>
+        </div>
       </div>
-    </AppPanel>
-    <AppPanel class="user-page__content">
-      <h3 class="user-page__activity-header">Activity</h3>
-      <div class="user-page__activities separator-y">
-        <ActivityRow
-          :key="i"
-          v-for="(event, i) in userEvents.slice(0, 10)"
-          :event="event"
+      <div class="user-page__content">
+        <h3 class="user-page__activity-header">Activity</h3>
+        <ActivityList
+          :activities="userEvents.slice(0, 5)"
+          :is-loading="loadingUserEvents"
+          :has-error="errorUserEvents"
         />
       </div>
     </AppPanel>
@@ -37,16 +49,23 @@ import { User } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import ActivityRow from '@/components/ActivityRow.vue'
 import UserPageStat from '@/components/UserPageStat.vue'
 import usersService from '@/services/users'
 import useFetch from '@/composables/use-fetch'
 import { UserCircleIcon } from '@heroicons/vue/solid'
+import ActivityList from '@/components/ActivityList.vue'
+import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'UserPage',
-  components: { AppPanel, ActivityRow, UserPageStat, UserCircleIcon },
+  components: {
+    AppPanel,
+    UserPageStat,
+    UserCircleIcon,
+    ActivityList,
+    AppSkeleton
+  },
   props: {
     userId: {
       type: String,
@@ -60,9 +79,8 @@ export default defineComponent({
     const [userEvents, fetchUserEvents, loadingUserEvents, errorUserEvents] =
       useFetch(() => usersService.getRecentActivity(props.userId), [])
 
-    fetchUser().then(() => {
-      fetchUserEvents()
-    })
+    fetchUser()
+    fetchUserEvents()
 
     return {
       user,
@@ -82,11 +100,11 @@ export default defineComponent({
 }
 
 .user-page__header {
-  @apply rounded-b-none border-b-0 flex justify-between items-start;
+  @apply flex justify-between items-start;
 }
 
 .user-page__content {
-  @apply rounded-t-none border-t-0 pt-0;
+  @apply mt-7;
 }
 
 .user-page__stats {
@@ -115,9 +133,5 @@ export default defineComponent({
 
 .user-page__activity-header {
   @apply text-xl font-semibold;
-}
-
-.user-page__activities {
-  @apply mt-2 rounded-lg overflow-hidden shadow-lg;
 }
 </style>

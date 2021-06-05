@@ -1,95 +1,32 @@
 <template>
   <div class="min-h-screen antialiased text-gray-900 dark:text-white">
-    <div id="modals" />
-    <div>
-      <TheAppBar v-if="$store.state.user" @toggle="handleToggle" />
-      <div>
-        <TheSidebar v-if="$store.state.user" v-model:is-open="isOpen" />
-        <div>
-          <router-view
-            class="duration-300 ease-in-out transform"
-            :class="isOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
-          />
-          <div class="mt-4">
-            <Snackbar />
-          </div>
-        </div>
-      </div>
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Snackbar from './components/Snackbar.vue'
-import TheAppBar from './components/TheAppBar/TheAppBar.vue'
-import TheSidebar from './components/TheSidebar/TheSidebar.vue'
-import examResultsService from './services/exam-results'
-import { SUBMIT_EXAM } from './store/action-types'
-import { SET_ACTIVE_EXAM, SET_USER } from './store/mutation-types'
-import { Attempt, AuthenticatedUser, Submission } from './types'
-import examAttemptsService from '@/services/exam-attempts'
-import examsService from '@/services/exams'
+import { SET_USER } from '@/store/mutation-types'
+import { AuthenticatedUser } from '@/types'
+import authService from '@/services/auth'
 import cookie from '@/utils/cookie'
-import useLocalStorage from '@/composables/use-local-storage'
 import useTheme from '@/composables/use-theme'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    TheAppBar,
-    TheSidebar,
-    Snackbar
-  },
   setup() {
-    const isOpen = useLocalStorage('sidebarState', false)
-
-    const handleToggle = () => {
-      isOpen.value = !isOpen.value
-    }
+    const store = useStore()
 
     const { initTheme } = useTheme()
     initTheme()
 
-    return {
-      isOpen,
-      handleToggle
-    }
-  },
-  async created() {
-    await this.initUser()
-  },
-  methods: {
-    async initUser() {
-      const loggedUserJSON = cookie.get('loggedAppUser')
-      if (loggedUserJSON) {
-        cookie.set('loggedAppUser', loggedUserJSON)
-        const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
-        this.$store.commit(SET_USER, user)
-        examAttemptsService.setToken(user.token)
-        if (user.role !== 'student') {
-          examsService.setToken(user.token)
-        }
-
-        const activeExamJSON = localStorage.getItem('activeExam')
-        if (activeExamJSON) {
-          const activeExam: { token: string; attempt: Attempt } =
-            JSON.parse(activeExamJSON)
-          examResultsService.setToken(activeExam.token)
-          this.$store.commit(SET_ACTIVE_EXAM, activeExam.attempt.exam.id)
-        }
-
-        const pendingSubmissionsJSON = localStorage.getItem('pendingSubmission')
-        if (pendingSubmissionsJSON) {
-          const pendingSubmissions: Submission = JSON.parse(
-            pendingSubmissionsJSON
-          )
-          await this.$store.dispatch(SUBMIT_EXAM, pendingSubmissions)
-          this.$store.commit(SET_ACTIVE_EXAM, null)
-          localStorage.removeItem('pendingSubmission')
-          localStorage.removeItem('activeExam')
-        }
-      }
+    const loggedUserJSON = cookie.get('loggedAppUser')
+    if (loggedUserJSON) {
+      cookie.set('loggedAppUser', loggedUserJSON)
+      const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
+      store.commit(SET_USER, user)
+      authService.setToken(user.token)
     }
   }
 })
@@ -113,46 +50,20 @@ export default defineComponent({
 }
 
 .dropdown-fade-enter-active {
-  @apply transition ease-out duration-100 transform;
+  @apply transition duration-100 ease-out transform;
 }
 
 .dropdown-fade-leave-active {
-  @apply transition ease-in duration-75 transform;
+  @apply transition duration-75 ease-in transform;
 }
 
 .dropdown-fade-enter-from,
 .dropdown-fade-leave-to {
-  @apply opacity-0 scale-95;
+  @apply scale-95 opacity-0;
 }
 
 .dropdown-fade-enter-to,
 .dropdown-fade-leave-from {
-  @apply opacity-100 scale-100;
-}
-
-.modal-fade-enter-active {
-  @apply transition ease-out duration-300 transform;
-}
-
-.modal-fade-leave-active {
-  @apply transition ease-in duration-300 transform;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  @apply opacity-0 translate-y-4;
-}
-
-.modal-fade-enter-to,
-.modal-fade-leave-from {
-  @apply opacity-100 translate-y-0;
-}
-
-.separator-y {
-  @apply divide-y divide-gray-300 dark:divide-gray-700;
-}
-
-.label-border {
-  @apply border-b border-gray-300 dark:border-gray-700;
+  @apply scale-100 opacity-100;
 }
 </style>

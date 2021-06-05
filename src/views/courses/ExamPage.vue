@@ -4,9 +4,7 @@
     <div v-else-if="isLoading">Loading exam...</div>
     <div v-else-if="attempt && isActive">
       <teleport to="#modals">
-        <div
-          class="fixed bottom-0 right-0 z-20 flex px-4 py-2 mr-8 space-x-2 bg-gray-700 bg-opacity-75 rounded-t-lg shadow-lg  backdrop-filter backdrop-blur-lg"
-        >
+        <IndicatorBar>
           <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
           <Webcam
             @no-face-seen="handleNoFaceSeen"
@@ -19,7 +17,7 @@
             />
             <span class="text-3xl">{{ warnings }}</span>
           </div>
-        </div>
+        </IndicatorBar>
       </teleport>
       <PageHeader hide-menu>
         <template #label>{{ attempt.exam.label }}</template>
@@ -71,13 +69,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineComponent, onUnmounted, ref } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
-import examResultsService from '@/services/exam-results'
 import { Answer, Attempt, ExamItem } from '@/types'
 import Timer from '@/components/Timer.vue'
-import { SET_ACTIVE_EXAM } from '@/store/mutation-types'
 import { SUBMIT_EXAM } from '@/store/action-types'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
@@ -95,6 +91,8 @@ import useWarning from '@/composables/use-warning'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 import { shuffle } from '@/utils/helper'
+import IndicatorBar from '@/components/IndicatorBar.vue'
+import useTitle from '@/composables/use-title'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -108,7 +106,8 @@ export default defineComponent({
     ModalButton,
     AppModal,
     Webcam,
-    ExclamationIcon
+    ExclamationIcon,
+    IndicatorBar
   },
   props: {
     courseId: {
@@ -131,7 +130,7 @@ export default defineComponent({
     const { setSnackbarMessage } = useSnackbar()
 
     const [attempt, fetchAttempt, isLoading, error] = useFetch<Attempt | null>(
-      () => examAttemptsService.getAttempt(props.attemptId)
+      () => examAttemptsService.getAttempt(props.attemptId, 'in-progress')
     )
 
     const warningModal = useModal()
@@ -141,27 +140,13 @@ export default defineComponent({
     const answers = ref<Answer[]>([])
 
     const handleSubmit = async () => {
-      isActive.value = false
       await store.dispatch(SUBMIT_EXAM, {
         answers: answers.value,
         examId: props.examId
       })
-      store.commit(SET_ACTIVE_EXAM, null)
+      isActive.value = false
       router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
     }
-
-    // const handleUnload = async () => {
-    //   localStorage.setItem('pendingSubmission', JSON.stringify({
-    //     answers: answers.value,
-    //     examId: props.examId,
-    //     submittedDate: new Date()
-    //   }))
-    //   store.commit(SET_ACTIVE_EXAM, null)
-    //   await store.dispatch(SUBMIT_EXAM, {
-    //     answers: answers.value,
-    //     examId: props.examId
-    //   })
-    // }
 
     const { warn, warnings, warningsLeft } = useWarning({
       maximum: 5,
@@ -169,43 +154,41 @@ export default defineComponent({
       onExceed: handleSubmit
     })
 
-    fetchAttempt().then(() => {
-      if (
-        examResultsService.hasToken() &&
-        store.state.activeExam === attempt.value?.exam.id
-      ) {
-        isActive.value = true
-        useKeepOnPage({
-          preventLeave: isActive,
-          onLeaveAttempt: () => {
-            setSnackbarMessage(
-              'You cannot leave until you have finished the exam',
-              'warning'
-            )
-          },
-          onLeaveFocus: warn,
-          onLeaveTimeout: warn
-        })
-      }
+    const { setTitle } = useTitle()
+
+    useKeepOnPage({
+      preventLeave: isActive,
+      onLeaveAttempt: () => {
+        setSnackbarMessage(
+          'You cannot leave until you have finished the exam',
+          'warning'
+        )
+      },
+      onLeaveFocus: warn,
+      onLeaveTimeout: warn
     })
 
+    fetchAttempt()
+      .then(() => {
+        isActive.value = true
+
+        if (attempt.value) {
+          setTitle(`${attempt.value.exam.label} - Proctor Vue`)
+        }
+      })
+      .catch(() => {
+        setTitle('Invalid Exam - Proctor Vue')
+      })
+
     const handleNoFaceSeen = () => {
-      warn(false)
+      warn(true)
       setSnackbarMessage('No face seen for 10 seconds.', 'warning')
     }
 
     const handleUnidentifiedFace = () => {
-      warn(false)
+      warn(true)
       setSnackbarMessage('Face unidentified for 10 seconds', 'warning')
     }
-
-    onMounted(() => {
-      if (attempt.value) {
-        document.title = `${attempt.value.exam.label} in ${attempt.value.exam.course.name} - Proctor Vue`
-      } else {
-        document.title = 'Invalid Exam - Proctor Vue'
-      }
-    })
 
     onUnmounted(() => {
       if (isActive.value) {

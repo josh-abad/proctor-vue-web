@@ -2,7 +2,7 @@
   <div v-if="error">Could not load course.</div>
   <div v-else-if="loading">
     <div class="p-4">
-      <AppSkeleton class="w-full h-32 rounded-lg" />
+      <AppSkeleton class="w-full h-28 rounded-xl" />
       <div class="flex flex-col mt-4 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-id="courseId" />
@@ -42,7 +42,7 @@
             <MenuDropdownItem :path="`/courses/${courseId}/edit`">
               <template #label>Edit Course</template>
             </MenuDropdownItem>
-            <MenuDropdownItem @item-click="deleteCourseModal.open">
+            <MenuDropdownItem @item-click="deleteCourseModal.open" separator>
               <template #label>Delete Course</template>
             </MenuDropdownItem>
           </MenuDropdown>
@@ -68,7 +68,9 @@
           <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
             <router-view v-slot="{ Component, route }">
               <transition :name="route.meta.transition || 'fade'" mode="out-in">
-                <component :is="Component" />
+                <keep-alive>
+                  <component :is="Component" />
+                </keep-alive>
               </transition>
             </router-view>
           </AppPanel>
@@ -107,9 +109,10 @@ import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import usersService from '@/services/users'
+import userService from '@/services/user'
 import useSnackbar from '@/composables/use-snackbar'
 import useModal from '@/composables/use-modal'
+import useTitle from '@/composables/use-title'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -146,7 +149,15 @@ export default defineComponent({
       coursesService.getCourse(props.courseId)
     )
 
-    fetchCourse()
+    const { setTitle } = useTitle()
+
+    fetchCourse().then(() => {
+      setTitle(
+        course.value
+          ? `${course.value.name} - Proctor Vue`
+          : 'Course Not Found - Proctor Vue'
+      )
+    })
 
     return {
       course,
@@ -182,22 +193,11 @@ export default defineComponent({
     ) {
       this.$router.replace('/')
     }
-    document.title = this.course
-      ? `${this.course.name} - Proctor Vue`
-      : 'Course Not Found - Proctor Vue'
 
-    if (
-      this.$store.state.user?.recentCourses[0] !== this.courseId &&
-      this.$store.state.user
-    ) {
-      try {
-        await usersService.addRecentCourse(
-          this.$store.state.user.id,
-          this.courseId
-        )
-      } catch (error) {
-        this.setSnackbarMessage(error.message, 'error')
-      }
+    try {
+      await userService.addRecentCourse(this.courseId)
+    } catch (error) {
+      this.setSnackbarMessage(error.message, 'error')
     }
   },
   methods: {
