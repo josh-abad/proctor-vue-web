@@ -1,4 +1,11 @@
-import { Course, CourseGrades, Exam, NewCourse, User } from '@/types'
+import {
+  Course,
+  CourseGrades,
+  CourseWithExams,
+  Exam,
+  NewCourse,
+  User
+} from '@/types'
 import axios from 'axios'
 import { API_URL } from './helper'
 const baseUrl = `${API_URL}/courses`
@@ -25,7 +32,6 @@ const getAll = async () => {
  * @param id the id of the course
  */
 const getCourse = async (id: string) => {
-  type CourseWithExams = Omit<Course, 'exams'> & { exams: Exam[] }
   const response = await axios.get<CourseWithExams>(`${baseUrl}/${id}`)
   return response.data
 }

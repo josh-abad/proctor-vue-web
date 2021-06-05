@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Course, User } from '@/types'
+import { CourseWithExams, User } from '@/types'
 import AppButton from '@/components/ui/AppButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
 import AppInput from '@/components/ui/AppInput.vue'
@@ -62,22 +62,18 @@ export default defineComponent({
     }
   },
   emits: ['close-modal'],
-  setup (props) {
+  setup(props) {
     const modal = useModal()
 
-    const [
-      students,
-      fetchStudents,
-      loadingStudents,
-      errorStudents
-    ] = useFetch(() => usersService.getStudents(), [])
+    const [students, fetchStudents, loadingStudents, errorStudents] = useFetch(
+      () => usersService.getStudents(),
+      []
+    )
 
-    const [
-      course,
-      fetchCourse,
-      loadingCourse,
-      errorCourse
-    ] = useFetch<Course | null>(() => coursesService.getCourse(props.courseId))
+    const [course, fetchCourse, loadingCourse, errorCourse] =
+      useFetch<CourseWithExams | null>(() =>
+        coursesService.getCourse(props.courseId)
+      )
 
     fetchStudents()
 
@@ -93,27 +89,31 @@ export default defineComponent({
       modal
     }
   },
-  data () {
+  data() {
     return {
       checkedNames: [],
       searchFilter: ''
     }
   },
   computed: {
-    unenrolledStudents (): User[] {
+    unenrolledStudents(): User[] {
       const unenrolledStudents = (student: User): boolean => {
-        return !!this.course && !this.course.studentsEnrolled.includes(student.id)
+        return (
+          !!this.course && !this.course.studentsEnrolled.includes(student.id)
+        )
       }
       return this.students.filter(unenrolledStudents)
     },
-    filteredStudents (): User[] {
+    filteredStudents(): User[] {
       return this.unenrolledStudents.filter(student => {
-        return student.fullName.toLowerCase().includes(this.searchFilter.toLowerCase())
+        return student.fullName
+          .toLowerCase()
+          .includes(this.searchFilter.toLowerCase())
       })
     }
   },
   methods: {
-    async handleSubmit () {
+    async handleSubmit() {
       const payload = {
         userIds: this.checkedNames,
         courseId: this.courseId
