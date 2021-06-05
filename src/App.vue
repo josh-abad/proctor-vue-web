@@ -66,6 +66,7 @@ import {
   BookOpenIcon,
   HomeIcon
 } from '@heroicons/vue/solid'
+import { useStore } from './store'
 
 export default defineComponent({
   name: 'App',
@@ -80,6 +81,8 @@ export default defineComponent({
     HomeIcon
   },
   setup() {
+    const store = useStore()
+
     const isOpen = useLocalStorage('sidebarState', false)
 
     const handleToggle = () => {
@@ -89,23 +92,17 @@ export default defineComponent({
     const { initTheme } = useTheme()
     initTheme()
 
+    const loggedUserJSON = cookie.get('loggedAppUser')
+    if (loggedUserJSON) {
+      cookie.set('loggedAppUser', loggedUserJSON)
+      const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
+      store.commit(SET_USER, user)
+      authService.setToken(user.token)
+    }
+
     return {
       isOpen,
       handleToggle
-    }
-  },
-  async created() {
-    await this.initUser()
-  },
-  methods: {
-    async initUser() {
-      const loggedUserJSON = cookie.get('loggedAppUser')
-      if (loggedUserJSON) {
-        cookie.set('loggedAppUser', loggedUserJSON)
-        const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
-        this.$store.commit(SET_USER, user)
-        authService.setToken(user.token)
-      }
     }
   }
 })
