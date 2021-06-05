@@ -4,6 +4,8 @@ export type AttemptStatus = 'in-progress' | 'completed' | 'expired'
 
 export type ExamWithTaken = Exam & { isTaken: boolean }
 
+export type CourseWithExams = Omit<Course, 'exams'> & { exams: Exam[] }
+
 export interface User {
   id: string
   name: {
