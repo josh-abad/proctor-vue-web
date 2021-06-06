@@ -1,7 +1,7 @@
 <template>
   <div class="week-exam">
     <router-link
-      :to="`/courses/${exam.course.id}/exams/${exam.id}`"
+      :to="`/courses/${courseId}/exams/${exam.id}`"
       class="week-exam__link"
       :class="{
         'week-exam__link--locked': locked && !exam.isTaken
@@ -28,6 +28,11 @@ export default defineComponent({
   props: {
     exam: {
       type: Object as PropType<ExamWithTaken>,
+      required: true
+    },
+
+    courseId: {
+      type: String,
       required: true
     }
   },
