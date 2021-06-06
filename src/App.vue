@@ -1,6 +1,10 @@
 <template>
   <div class="min-h-screen antialiased text-gray-900 dark:text-white">
+    <div id="modals" />
     <router-view />
+    <div>
+      <Snackbar />
+    </div>
   </div>
 </template>
 
@@ -12,15 +16,14 @@ import authService from '@/services/auth'
 import cookie from '@/utils/cookie'
 import useTheme from '@/composables/use-theme'
 import { useStore } from '@/store'
+import Snackbar from './components/Snackbar.vue'
 
 export default defineComponent({
   name: 'App',
   setup() {
     const store = useStore()
-
     const { initTheme } = useTheme()
     initTheme()
-
     const loggedUserJSON = cookie.get('loggedAppUser')
     if (loggedUserJSON) {
       cookie.set('loggedAppUser', loggedUserJSON)
@@ -28,7 +31,8 @@ export default defineComponent({
       store.commit(SET_USER, user)
       authService.setToken(user.token)
     }
-  }
+  },
+  components: { Snackbar }
 })
 </script>
 

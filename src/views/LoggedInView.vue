@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="modals" />
     <div>
       <TheAppBar @toggle="handleToggle" />
       <div>
@@ -39,9 +38,6 @@
             class="duration-300 ease-in-out transform"
             :class="isOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
           />
-          <div class="mt-4">
-            <Snackbar />
-          </div>
         </div>
       </div>
     </div>
@@ -50,7 +46,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Snackbar from '@/components/Snackbar.vue'
 import TheAppBar from '@/components/TheAppBar/TheAppBar.vue'
 import NavigationDrawer from '@/components/NavigationDrawer.vue'
 import useLocalStorage from '@/composables/use-local-storage'
@@ -67,7 +62,6 @@ export default defineComponent({
   components: {
     TheAppBar,
     NavigationDrawer,
-    Snackbar,
     NavigationItem,
     CalendarIcon,
     UsersIcon,
