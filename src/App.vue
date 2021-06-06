@@ -31,3 +31,23 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss">
+.dropdown-fade-enter-active {
+  @apply transition duration-100 ease-out transform;
+}
+
+.dropdown-fade-leave-active {
+  @apply transition duration-75 ease-in transform;
+}
+
+.dropdown-fade-enter-from,
+.dropdown-fade-leave-to {
+  @apply scale-95 opacity-0;
+}
+
+.dropdown-fade-enter-to,
+.dropdown-fade-leave-from {
+  @apply scale-100 opacity-100;
+}
+</style>
