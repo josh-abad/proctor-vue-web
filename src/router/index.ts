@@ -59,9 +59,6 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'overview',
                 alias: '',
                 props: true,
-                meta: {
-                  tabPosition: 1
-                },
                 component: () =>
                   import(
                     '../views/courses/course/CourseOverview/CourseOverview.vue'
@@ -70,9 +67,6 @@ const routes: Array<RouteRecordRaw> = [
               {
                 path: 'students',
                 props: true,
-                meta: {
-                  tabPosition: 2
-                },
                 component: () =>
                   import(
                     '../views/courses/course/CourseStudents/CourseStudents.vue'
@@ -81,9 +75,6 @@ const routes: Array<RouteRecordRaw> = [
               {
                 path: 'grades',
                 props: true,
-                meta: {
-                  tabPosition: 3
-                },
                 component: () =>
                   import(
                     '../views/courses/course/CourseGrades/CourseGrades.vue'
@@ -270,15 +261,6 @@ router.beforeEach((to, _from, next) => {
   }
 
   next()
-})
-
-router.afterEach((to, from) => {
-  if (to.meta.tabPosition && from.meta.tabPosition) {
-    const toTabPosition = to.meta.tabPosition as number
-    const fromTabPosition = from.meta.tabPosition as number
-    to.meta.transition =
-      toTabPosition < fromTabPosition ? 'slide-right' : 'slide-left'
-  }
 })
 
 export default router

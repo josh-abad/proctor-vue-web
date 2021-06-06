@@ -66,8 +66,8 @@
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-id="courseId" />
           <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
-            <router-view v-slot="{ Component, route }">
-              <transition :name="route.meta.transition || 'fade'" mode="out-in">
+            <router-view v-slot="{ Component }">
+              <transition :name="'fade'" mode="out-in">
                 <keep-alive>
                   <component :is="Component" />
                 </keep-alive>
@@ -213,30 +213,13 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.slide-left-enter-active,
-.slide-right-enter-active {
-  @apply transition-transform duration-200 ease-out;
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity ease-in duration-200;
 }
 
-.slide-left-leave-active,
-.slide-right-leave-active {
-  @apply transition-transform duration-200 ease-in;
-}
-
-.slide-left-enter-from,
-.slide-right-leave-to {
-  @apply transform-gpu translate-x-full;
-}
-
-.slide-left-enter-to,
-.slide-right-leave-from,
-.slide-right-enter-to,
-.slide-left-leave-from {
-  @apply transform-gpu translate-x-0;
-}
-
-.slide-right-enter-from,
-.slide-left-leave-to {
-  @apply transform-gpu -translate-x-full;
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
 }
 </style>
