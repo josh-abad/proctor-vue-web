@@ -33,7 +33,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/courses',
         name: 'Courses',
         meta: {
-          authorize: [] as Role[]
+          authorize: [] as Role[],
+          title: createTitle('Courses')
         },
         children: [
           {
