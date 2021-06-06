@@ -6,7 +6,7 @@
       <div class="flex flex-col mt-4 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-id="courseId" />
-          <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
+          <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component, route }">
               <transition :name="route.meta.transition || 'fade'" mode="out-in">
                 <component :is="Component" />
@@ -65,7 +65,7 @@
       <div class="flex flex-col mt-4 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-id="courseId" />
-          <AppPanel class="overflow-hidden border-t-0 rounded-t-none">
+          <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component }">
               <transition :name="'fade'" mode="out-in">
                 <keep-alive>
