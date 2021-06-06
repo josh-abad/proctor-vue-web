@@ -34,9 +34,9 @@
       <div class="user-page__content">
         <h3 class="user-page__activity-header">Activity</h3>
         <ActivityList
-          :activities="userEvents.slice(0, 5)"
-          :is-loading="loadingUserEvents"
-          :has-error="errorUserEvents"
+          :attempts="attempts"
+          :is-loading="loadingAttempts"
+          :has-error="errorAttempts"
         />
       </div>
     </AppPanel>
@@ -76,19 +76,21 @@ export default defineComponent({
     const [user, fetchUser, loadingUser, errorUser] = useFetch<User | null>(
       () => usersService.getUser(props.userId)
     )
-    const [userEvents, fetchUserEvents, loadingUserEvents, errorUserEvents] =
-      useFetch(() => usersService.getRecentActivity(props.userId), [])
+    const [attempts, fetchAttempts, loadingAttempts, errorAttempts] = useFetch(
+      () => usersService.getAttempts(props.userId, 5),
+      []
+    )
 
     fetchUser()
-    fetchUserEvents()
+    fetchAttempts()
 
     return {
       user,
-      userEvents,
+      attempts,
       loadingUser,
-      loadingUserEvents,
+      loadingAttempts,
       errorUser,
-      errorUserEvents
+      errorAttempts
     }
   }
 })

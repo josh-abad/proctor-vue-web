@@ -2,7 +2,7 @@
   <div>
     <AppLabel class="pb-2 label-border" emphasis>Recent Activity</AppLabel>
     <ActivityList
-      :activities="recentActivities.slice(0, 5)"
+      :attempts="attempts"
       :is-loading="isLoading"
       :has-error="hasError"
     />
@@ -20,13 +20,15 @@ export default defineComponent({
   name: 'RecentActivites',
   components: { AppLabel, ActivityList },
   setup() {
-    const [recentActivities, fetchRecentActivities, isLoading, hasError] =
-      useFetch(() => userService.getRecentActivity(), [])
+    const [attempts, fetchAttempts, isLoading, hasError] = useFetch(
+      () => userService.getAttempts(5),
+      []
+    )
 
-    fetchRecentActivities()
+    fetchAttempts()
 
     return {
-      recentActivities,
+      attempts,
       isLoading,
       hasError
     }

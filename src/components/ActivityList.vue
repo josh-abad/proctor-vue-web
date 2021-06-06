@@ -9,7 +9,7 @@
     </div>
   </div>
   <ul v-else-if="activities.length" class="separator-y">
-    <ActivityRow v-for="(event, i) of activities" :key="i" :event="event" />
+    <ActivityRow v-for="(event, i) of activities" :key="i" :activity="event" />
   </ul>
   <div v-else class="flex justify-center py-8 text-gray-500">
     No activity to display.
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { AppEvent } from '@/types'
+import { ExamActivity, Attempt } from '@/types'
 import { defineComponent, PropType } from '@vue/runtime-core'
 import AppSkeleton from './ui/AppSkeleton.vue'
 import ActivityRow from './ActivityRow.vue'
@@ -26,8 +26,8 @@ export default defineComponent({
   name: 'ActivityList',
   components: { AppSkeleton, ActivityRow },
   props: {
-    activities: {
-      type: Array as PropType<AppEvent[]>,
+    attempts: {
+      type: Array as PropType<Attempt[]>,
       required: true
     },
     isLoading: {
@@ -37,6 +37,56 @@ export default defineComponent({
     hasError: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    activities(): ExamActivity[] {
+      const activities: ExamActivity[] = []
+      for (const attempt of this.attempts) {
+        if (activities.length === this.attempts.length) {
+          break
+        }
+
+        const sharedEventInfo = {
+          course: {
+            name: attempt.exam.course.name,
+            url: `/courses/${attempt.exam.course.id}`
+          },
+          user: {
+            name: attempt.user.name.first,
+            id: attempt.user.id,
+            url: `/user/${attempt.user.id}`
+          },
+          exam: {
+            name: attempt.exam.label,
+            url: `/courses/${attempt.exam.course.id}/exams/${attempt.exam.id}`
+          }
+        }
+        const startedActivity: ExamActivity = {
+          ...sharedEventInfo,
+          status: 'started',
+          date: attempt.startDate
+        }
+        activities.push(startedActivity)
+
+        if (
+          attempt.status === 'completed' &&
+          activities.length < this.attempts.length
+        ) {
+          const completedActivity: ExamActivity = {
+            ...sharedEventInfo,
+            status: 'completed',
+            date: attempt.submittedDate
+          }
+          activities.push(completedActivity)
+        }
+      }
+
+      activities.sort((a, b) => {
+        return new Date(b.date).valueOf() - new Date(a.date).valueOf()
+      })
+
+      return activities
     }
   }
 })

@@ -81,7 +81,7 @@ export interface Submission {
 export interface Attempt {
   id: string
   exam: Exam
-  user: string
+  user: User
   status: AttemptStatus
   startDate: Date
   endDate: Date
@@ -123,17 +123,22 @@ export interface Option {
   value: string
 }
 
-export interface AppEvent {
-  subject: string
-  subjectUrl: string
-  subjectId: string
-  predicate?: string
-  predicateUrl?: string
-  action: string
-  location: string
-  locationUrl: string
+export interface ExamActivity {
+  user: {
+    name: string
+    url: string
+    id: string
+  }
+  exam: {
+    name: string
+    url: string
+  }
+  status: string
+  course: {
+    name: string
+    url: string
+  }
   date: Date
-  avatarUrl: string
 }
 
 export type Theme = 'dark' | 'light' | 'system'
