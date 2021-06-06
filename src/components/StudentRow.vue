@@ -6,10 +6,6 @@
         <router-link :to="`/user/${student.id}`">{{
           student.fullName
         }}</router-link>
-        <div class="text-sm text-gray-400" v-if="showCourseCount">
-          Enrolled in {{ student.courses.length }}
-          {{ student.courses.length === 1 ? 'course' : 'courses' }}
-        </div>
       </div>
     </div>
     <button
@@ -109,11 +105,6 @@ export default defineComponent({
       required: true
     },
 
-    showCourseCount: {
-      type: Boolean,
-      default: false
-    },
-
     courseId: {
       type: String,
       required: false
@@ -151,6 +142,7 @@ export default defineComponent({
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
           this.setSnackbarMessage('Student un-enrolled from course.', 'success')
+          this.$emit('delete-student')
         } catch (error) {
           this.setSnackbarMessage('Could not un-enroll student.', 'error')
         }
