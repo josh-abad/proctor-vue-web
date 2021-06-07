@@ -3,18 +3,14 @@
     <PageHeader
       :links="[
         { name: 'Home', url: '/' },
-        { name: 'Courses', url: '/courses' },
+        { name: 'Courses', url: '/courses' }
       ]"
-      @menu-clicked="menuDropdown.toggle"
+      @menu-clicked="menuDropdown = !menuDropdown"
       :hide-menu="!$store.getters.permissions(['admin'])"
     >
       <template #label>Courses</template>
       <template #menu>
-        <MenuDropdown
-          class="mt-2 mr-2"
-          v-show="menuDropdown.isOpen"
-          @click-outside="menuDropdown.close"
-        >
+        <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
           <MenuDropdownItem path="/courses/new">
             <template #label>Create Course</template>
           </MenuDropdownItem>
@@ -30,17 +26,22 @@
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
-import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'CoursesPage',
-  components: { AppPanel, PageHeader, MenuDropdown, MenuDropdownItem, CourseList },
-  setup () {
-    const menuDropdown = useModal()
+  components: {
+    AppPanel,
+    PageHeader,
+    MenuDropdown,
+    MenuDropdownItem,
+    CourseList
+  },
+  setup() {
+    const menuDropdown = ref(false)
 
     return {
       menuDropdown

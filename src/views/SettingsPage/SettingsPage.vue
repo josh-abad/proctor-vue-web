@@ -40,17 +40,17 @@
           <button
             id="btn-open"
             class="flex items-center text-red-500 focus:outline-none"
-            @click="deleteAccountModal.open"
+            @click="deleteAccountModal = true"
           >
             <TrashIcon class="w-5 h-5 pointer-events-none fill-current" />
             <span
-              class="ml-1 text-sm font-bold tracking-wide uppercase pointer-events-none"
+              class="ml-1 text-sm font-bold tracking-wide uppercase pointer-events-none "
             >
               Deactivate Account
             </span>
           </button>
           <teleport to="#modals">
-            <AppModal :open="deleteAccountModal.isOpen" @close="deleteAccountModal.close">
+            <AppModal v-model="deleteAccountModal">
               <template #header> Deactivate Account </template>
               <template #body>
                 Are you sure you want to deactivate your account?
@@ -73,7 +73,7 @@ import AppAccordion from '@/components/ui/AppAccordion.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppSwitch from '@/components/ui/AppSwitch.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -81,7 +81,6 @@ import SettingsItem from './components/SettingsItem.vue'
 import { TrashIcon, CogIcon } from '@heroicons/vue/solid'
 import useTheme from '@/composables/use-theme'
 import useSnackbar from '@/composables/use-snackbar'
-import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -96,11 +95,11 @@ export default defineComponent({
     CogIcon,
     TrashIcon
   },
-  setup () {
+  setup() {
     const { theme, isSystemTheme, setTheme } = useTheme()
     const { setSnackbarMessage } = useSnackbar()
 
-    const deleteAccountModal = useModal()
+    const deleteAccountModal = ref(false)
 
     return {
       theme,
@@ -110,25 +109,25 @@ export default defineComponent({
       deleteAccountModal
     }
   },
-  data () {
+  data() {
     return {
       automatic: false,
       darkMode: false
     }
   },
   watch: {
-    automatic (enabled: boolean) {
+    automatic(enabled: boolean) {
       if (enabled) {
         this.setTheme('system')
       } else {
         this.setTheme(this.darkMode ? 'dark' : 'light')
       }
     },
-    darkMode (enabled: boolean) {
+    darkMode(enabled: boolean) {
       this.setTheme(enabled ? 'dark' : 'light')
     }
   },
-  mounted () {
+  mounted() {
     if (this.isSystemTheme) {
       this.automatic = true
     } else {
@@ -136,8 +135,8 @@ export default defineComponent({
     }
   },
   methods: {
-    async deactivateAccount () {
-      this.deleteAccountModal.close()
+    async deactivateAccount() {
+      this.deleteAccountModal = false
       if (this.$store.state.user) {
         try {
           await usersService.deleteUser(this.$store.state.user.id)

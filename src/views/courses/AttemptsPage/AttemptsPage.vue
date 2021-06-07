@@ -3,24 +3,23 @@
     <div v-if="exam">
       <PageHeader
         :links="links"
-        @menu-clicked="menuDropdown.toggle"
+        @menu-clicked="menuDropdown = !menuDropdown"
         :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
       >
         <template #label>{{ exam.label }}</template>
         <template #menu>
-          <MenuDropdown
-            class="mt-2 mr-2"
-            v-show="menuDropdown.isOpen"
-            @click-outside="menuDropdown.close"
-          >
-            <MenuDropdownItem id="btn-open" @item-click="deleteExamModal.open">
+          <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
+            <MenuDropdownItem
+              id="btn-open"
+              @item-click="deleteExamModal = true"
+            >
               <template #label>Delete Exam</template>
             </MenuDropdownItem>
           </MenuDropdown>
         </template>
       </PageHeader>
       <teleport to="#modals">
-        <AppModal :open="deleteExamModal.isOpen" @close="deleteExamModal.close">
+        <AppModal v-model="deleteExamModal">
           <template #header>Delete Quiz</template>
           <template #body>Are you sure you want to delete this quiz?</template>
           <template #action>
@@ -117,7 +116,7 @@ import PageHeader from '@/components/PageHeader/PageHeader.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import { DELETE_EXAM } from '@/store/action-types'
 import { Link } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -132,7 +131,6 @@ import useFetch from '@/composables/use-fetch'
 import examsService from '@/services/exams'
 import { useStore } from '@/store'
 import useSnackbar from '@/composables/use-snackbar'
-import useModal from '@/composables/use-modal'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -167,9 +165,9 @@ export default defineComponent({
     const store = useStore()
     const { setSnackbarMessage } = useSnackbar()
 
-    const deleteExamModal = useModal()
+    const deleteExamModal = ref(false)
 
-    const menuDropdown = useModal()
+    const menuDropdown = ref(false)
 
     const [attempts, fetchAttempts, loadingAttempts, errorLoadingAttempts] =
       useFetch(

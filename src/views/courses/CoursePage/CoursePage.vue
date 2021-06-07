@@ -26,33 +26,26 @@
     <div v-if="course" class="p-4">
       <PageHeader
         :links="links"
-        @menu-clicked="menuDropdown.toggle"
+        @menu-clicked="menuDropdown = !menuDropdown"
         :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
       >
         <template #label>{{ course.name }}</template>
         <template #menu>
-          <MenuDropdown
-            class="mt-2 mr-2"
-            v-show="menuDropdown.isOpen"
-            @click-outside="menuDropdown.close"
-          >
+          <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
             <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
               <template #label>Create Exam</template>
             </MenuDropdownItem>
             <MenuDropdownItem :path="`/courses/${courseId}/edit`">
               <template #label>Edit Course</template>
             </MenuDropdownItem>
-            <MenuDropdownItem @item-click="deleteCourseModal.open" separator>
+            <MenuDropdownItem @item-click="deleteCourseModal = true" separator>
               <template #label>Delete Course</template>
             </MenuDropdownItem>
           </MenuDropdown>
         </template>
       </PageHeader>
       <teleport to="#modals">
-        <AppModal
-          :open="deleteCourseModal.isOpen"
-          @close="deleteCourseModal.close"
-        >
+        <AppModal v-model="deleteCourseModal">
           <template #header> Delete Course </template>
           <template #body>
             Are you sure you want to delete this course?
@@ -92,7 +85,7 @@
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
 import { Link } from '@/types'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import coursesService from '@/services/courses'
 import useFetch from '@/composables/use-fetch'
 import { DELETE_COURSE } from '@/store/action-types'
@@ -111,7 +104,6 @@ import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import userService from '@/services/user'
 import useSnackbar from '@/composables/use-snackbar'
-import useModal from '@/composables/use-modal'
 import useTitle from '@/composables/use-title'
 
 export default defineComponent({
@@ -141,9 +133,9 @@ export default defineComponent({
   setup(props) {
     const { setSnackbarMessage } = useSnackbar()
 
-    const deleteCourseModal = useModal()
+    const deleteCourseModal = ref(false)
 
-    const menuDropdown = useModal()
+    const menuDropdown = ref(false)
 
     const [course, fetchCourse, loading, error] = useFetch(() =>
       coursesService.getCourse(props.courseId)

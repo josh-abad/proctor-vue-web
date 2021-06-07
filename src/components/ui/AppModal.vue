@@ -1,6 +1,6 @@
 <template>
   <transition name="modal-fade">
-    <div class="modal-backdrop" v-show="open">
+    <div class="modal-backdrop" v-show="modelValue">
       <div class="modal" v-click-outside="handleClickOutside">
         <header class="modal-header">
           <slot name="header">Dialog Header</slot>
@@ -26,15 +26,15 @@ export default defineComponent({
   name: 'AppModal',
   components: { AppButton },
   props: {
-    open: {
+    modelValue: {
       type: Boolean,
       default: false
     }
   },
-  emits: ['close'],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const closeModal = () => {
-      emit('close')
+      emit('update:modelValue', false)
       const body = document.querySelector('body')
       if (body) {
         body.classList.remove('overflow-hidden')

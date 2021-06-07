@@ -1,5 +1,5 @@
 <template>
-  <transition name="dropdown-fade">
+  <transition name="dropdown-fade" v-show="modelValue">
     <div class="dropdown-menu" v-click-outside="handleClickOutside">
       <div
         class="py-1"
@@ -20,15 +20,19 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'MenuDropdown',
   props: {
+    modelValue: {
+      type: Boolean,
+      default: false
+    },
     toggleId: {
       type: String,
       default: 'dropdown-toggle'
     }
   },
-  emits: ['click-outside'],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const handleClickOutside = useClickOutside(() => {
-      emit('click-outside')
+      emit('update:modelValue', false)
     }, props.toggleId)
 
     return {
