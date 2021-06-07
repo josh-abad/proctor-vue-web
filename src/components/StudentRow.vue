@@ -11,10 +11,14 @@
     <button
       class="relative focus:outline-none"
       @click="menuDropdown = !menuDropdown"
-      id="dropdown-toggle"
+      :id="student.id"
     >
       <DotsVerticalIcon class="w-6 h-6 pointer-events-none fill-current" />
-      <MenuDropdown class="mr-8 -mt-6" v-model="menuDropdown">
+      <MenuDropdown
+        class="mr-8 -mt-6"
+        v-model="menuDropdown"
+        :toggle-id="student.id"
+      >
         <MenuDropdownItem :path="`/user/${student.id}`">
           <template #label> View Student </template>
         </MenuDropdownItem>
