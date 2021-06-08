@@ -1,15 +1,12 @@
 <template>
   <div class="flex">
-    <div
-      class="flex flex-grow overflow-hidden bg-gray-100 border rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700"
-    >
-      <div class="p-1 bg-gradient-to-b from-green-400 to-green-600" />
-      <div class="flex-grow p-4">
+    <div class="flex flex-grow overflow-hidden">
+      <div class="flex-grow py-4 pr-4">
         <div class="w-full">
           <QuestionTypeInput
             :model-value="questionType"
             @update:modelValue="
-              (newValue) => $emit('update:questionType', newValue)
+              newValue => $emit('update:questionType', newValue)
             "
           />
         </div>
@@ -18,9 +15,7 @@
             placeholder="Question"
             class="w-full"
             :model-value="question"
-            @update:modelValue="
-              (newValue) => $emit('update:question', newValue)
-            "
+            @update:modelValue="newValue => $emit('update:question', newValue)"
             type="text"
           />
         </div>
@@ -30,9 +25,7 @@
             placeholder="Text answer"
             class="w-full text-sm sm:w-1/2"
             :model-value="answer?.[0] || ''"
-            @update:modelValue="
-              (newValue) => $emit('update:answer', [newValue])
-            "
+            @update:modelValue="newValue => $emit('update:answer', [newValue])"
             type="text"
           />
         </div>
@@ -117,9 +110,18 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['update:question', 'update:answer', 'update:questionType', 'update:choices', 'discard', 'add-choice', 'add-question'],
+  emits: [
+    'update:modelValue',
+    'update:question',
+    'update:answer',
+    'update:questionType',
+    'update:choices',
+    'discard',
+    'add-choice',
+    'add-question'
+  ],
   watch: {
-    questionType (newValue: string) {
+    questionType(newValue: string) {
       if (newValue === 'multiple answers') {
         this.$emit('update:answer', [])
       } else {
@@ -128,16 +130,24 @@ export default defineComponent({
     }
   },
   methods: {
-    handleRadioChange ($event: Event, choice: string) {
+    handleRadioChange($event: Event, choice: string) {
       const byIndex = (_value: string, index: number): boolean => {
         return this.answer.indexOf(choice) !== index
       }
 
       if ($event.target instanceof HTMLInputElement) {
-        this.$emit('update:answer', $event.target.checked ? [...this.answer, choice] : this.answer.filter(byIndex))
+        this.$emit(
+          'update:answer',
+          $event.target.checked
+            ? [...this.answer, choice]
+            : this.answer.filter(byIndex)
+        )
       }
     },
-    handleUpdateChoices ($event: string | number | undefined, oldChoiceIndex: number) {
+    handleUpdateChoices(
+      $event: string | number | undefined,
+      oldChoiceIndex: number
+    ) {
       if (typeof $event === 'string') {
         const toNewChoice = (choice: string, index: number): string => {
           return index === oldChoiceIndex ? $event : choice

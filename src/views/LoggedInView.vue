@@ -33,12 +33,11 @@
             </template>
           </NavigationItem>
         </NavigationDrawer>
-        <div>
-          <router-view
-            class="duration-300 ease-in-out transform"
-            :class="isOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
-          />
-        </div>
+
+        <router-view
+          class="duration-300 ease-in-out transform"
+          :class="isOpen ? 'ml-auto sm:ml-56' : 'ml-0'"
+        />
       </div>
     </div>
   </div>

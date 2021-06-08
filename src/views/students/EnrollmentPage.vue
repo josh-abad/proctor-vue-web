@@ -36,41 +36,31 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const { setSnackbarMessage } = useSnackbar()
-    const [
-      student,
-      fetchStudent,
-      loadingStudent,
-      errorLoadingStudent
-    ] = useFetch<User | null>(() => usersService.getStudent(props.studentId))
+    const [student, fetchStudent, loadingStudent, errorLoadingStudent] =
+      useFetch<User | null>(() => usersService.getStudent(props.studentId))
 
-    const [
-      courses,
-      fetchCourses
-    ] = useFetch(() => coursesService.getAll(), [])
+    const [courses, fetchCourses] = useFetch(() => coursesService.getAll(), [])
 
     const unenrolledCourses = computed(() => {
-      return courses.value.filter(course => (
+      return courses.value.filter(course =>
         student.value
           ? !course.studentsEnrolled.includes(student.value.id)
           : false
-      ))
+      )
     })
 
-    const options = computed(() => (
+    const options = computed(() =>
       unenrolledCourses.value.map(({ name, id }) => {
         return {
           text: name,
           value: id
         }
       })
-    ))
+    )
 
-    Promise.all([
-      fetchStudent(),
-      fetchCourses()
-    ])
+    Promise.all([fetchStudent(), fetchCourses()])
 
     return {
       student,
@@ -80,13 +70,13 @@ export default defineComponent({
       setSnackbarMessage
     }
   },
-  data () {
+  data() {
     return {
       selectedCourse: ''
     }
   },
   methods: {
-    async handleEnroll () {
+    async handleEnroll() {
       try {
         const payload = {
           studentId: this.studentId,
