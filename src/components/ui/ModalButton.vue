@@ -1,10 +1,10 @@
 <template>
   <div>
-    <AppButton id="btn-open" @click="modal.open" :prominent="prominent">
+    <AppButton id="btn-open" @click="modal = true" :prominent="prominent">
       <slot></slot>
     </AppButton>
     <teleport to="#modals">
-      <AppModal :open="modal.isOpen" @close="modal.close">
+      <AppModal v-model="modal">
         <template #header>{{ header }}</template>
         <template #body>{{ message }}</template>
         <template #action>
@@ -18,10 +18,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import AppModal from './AppModal.vue'
 import AppButton from './AppButton.vue'
-import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'ModalButton',
@@ -48,8 +47,8 @@ export default defineComponent({
     }
   },
   emits: ['confirm'],
-  setup () {
-    const modal = useModal()
+  setup() {
+    const modal = ref(false)
 
     return {
       modal

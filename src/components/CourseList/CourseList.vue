@@ -4,39 +4,41 @@
       <AppLabel emphasis>Your Courses</AppLabel>
       <ViewOptions class="mb-2" v-model="viewMode" />
     </div>
-    <div v-if="error" class="mt-8"><ErrorLoading /></div>
-    <div v-else-if="loading">
-      <section v-if="viewMode === 'card'" class="course-list--card-view">
-        <SkeletonCourseCard :key="i" v-for="i in 10" />
-      </section>
-      <section v-else-if="viewMode === 'list'" class="separator-y">
-        <SkeletonCourseListItem :key="i" v-for="i in 10" />
-      </section>
-    </div>
-    <div v-else>
-      <section
-        v-if="!courses.length"
-        class="flex justify-center py-4 mt-8 text-gray-500"
-      >
-        You don't have any courses.
-      </section>
-      <section v-else-if="viewMode === 'card'" class="course-list--card-view">
-        <CoursesPageCard
-          class="w-full"
-          :course="course"
-          :key="course.id"
-          v-for="course in courses"
-        />
-      </section>
-      <ul v-else-if="viewMode === 'list'" class="separator-y">
-        <CoursesPageListItem
-          :course="course"
-          :key="course.id"
-          :percentage="course.progress"
-          v-for="course in courses"
-        />
-      </ul>
-    </div>
+    <transition name="fade" mode="out-in">
+      <div v-if="error" class="mt-8"><ErrorLoading /></div>
+      <div v-else-if="loading">
+        <section v-if="viewMode === 'card'" class="course-list--card-view">
+          <SkeletonCourseCard :key="i" v-for="i in 10" />
+        </section>
+        <section v-else-if="viewMode === 'list'" class="separator-y">
+          <SkeletonCourseListItem :key="i" v-for="i in 10" />
+        </section>
+      </div>
+      <div v-else>
+        <section
+          v-if="!courses.length"
+          class="flex justify-center py-4 mt-8 text-gray-500"
+        >
+          You don't have any courses.
+        </section>
+        <section v-else-if="viewMode === 'card'" class="course-list--card-view">
+          <CoursesPageCard
+            class="w-full"
+            :course="course"
+            :key="course.id"
+            v-for="course in courses"
+          />
+        </section>
+        <ul v-else-if="viewMode === 'list'" class="separator-y">
+          <CoursesPageListItem
+            :course="course"
+            :key="course.id"
+            :percentage="course.progress"
+            v-for="course in courses"
+          />
+        </ul>
+      </div>
+    </transition>
   </div>
 </template>
 

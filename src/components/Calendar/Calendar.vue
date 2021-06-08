@@ -21,7 +21,7 @@
         :is-today="day.date === today"
         :is-current-month="day.isCurrentMonth"
         :model-value="modelValue"
-        :has-event="formattedEventDates.includes(day.date)"
+        :has-event="hasEvent(day.date)"
         @click="$emit('date-pick')"
         @update:modelValue="newDate => $emit('update:modelValue', newDate)"
       />
@@ -146,14 +146,16 @@ export default defineComponent({
           isCurrentMonth: false
         }
       })
-    },
-    formattedEventDates(): string[] {
-      return this.events.map(event =>
-        dayjs(event.startDate).format('YYYY-MM-DD')
-      )
     }
   },
   methods: {
+    hasEvent(date: string): boolean {
+      return this.events.some(event => {
+        return [event.startDate, event.endDate]
+          .map(date => dayjs(date).format('YYYY-MM-DD'))
+          .includes(date)
+      })
+    },
     selectDate(newSelectedDate: Dayjs) {
       this.selectedDate = newSelectedDate
     },

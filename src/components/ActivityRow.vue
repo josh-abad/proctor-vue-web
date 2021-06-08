@@ -3,23 +3,25 @@
     <div class="flex justify-between py-2">
       <div class="flex items-center space-x-1">
         <router-link
-          :to="event.subjectUrl"
+          :to="activity.user.url"
           class="text-gray-700 dark:text-gray-300"
           >{{
-            event.subjectId === $store.state.user?.id ? 'You' : event.subject
+            activity.user.id === $store.state.user?.id
+              ? 'You'
+              : activity.user.name
           }}</router-link
         >
-        <span>{{ event.action }}</span>
+        <span>{{ activity.status }}</span>
         <router-link
           class="text-gray-900 dark:text-white"
-          :to="event.predicateUrl || '#'"
-          >{{ event.predicate || '' }}</router-link
+          :to="activity.exam.url || '#'"
+          >{{ activity.exam.name || '' }}</router-link
         >
         <span class="hidden sm:inline-block">in</span>
         <router-link
-          :to="event.locationUrl"
+          :to="activity.course.url"
           class="hidden text-gray-700 dark:text-gray-300 sm:inline-block"
-          >{{ event.location }}</router-link
+          >{{ activity.course.name }}</router-link
         >
       </div>
       <div>{{ date }}</div>
@@ -28,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { AppEvent } from '@/types'
+import { ExamActivity } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -37,14 +39,14 @@ dayjs.extend(relativeTime)
 export default defineComponent({
   name: 'ActivityRow',
   props: {
-    event: {
-      type: Object as PropType<AppEvent>,
+    activity: {
+      type: Object as PropType<ExamActivity>,
       required: true
     }
   },
   computed: {
     date(): string {
-      return dayjs(this.event.date).fromNow()
+      return dayjs(this.activity.date).fromNow()
     }
   }
 })

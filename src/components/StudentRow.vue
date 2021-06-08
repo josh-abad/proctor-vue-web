@@ -6,28 +6,24 @@
         <router-link :to="`/user/${student.id}`">{{
           student.fullName
         }}</router-link>
-        <div class="text-sm text-gray-400" v-if="showCourseCount">
-          Enrolled in {{ student.courses.length }}
-          {{ student.courses.length === 1 ? 'course' : 'courses' }}
-        </div>
       </div>
     </div>
     <button
       class="relative focus:outline-none"
-      @click="menuDropdown.toggle"
-      id="dropdown-toggle"
+      @click="menuDropdown = !menuDropdown"
+      :id="student.id"
     >
       <DotsVerticalIcon class="w-6 h-6 pointer-events-none fill-current" />
       <MenuDropdown
         class="mr-8 -mt-6"
-        v-show="menuDropdown.isOpen"
-        @click-outside="menuDropdown.close"
+        v-model="menuDropdown"
+        :toggle-id="student.id"
       >
         <MenuDropdownItem :path="`/user/${student.id}`">
           <template #label> View Student </template>
         </MenuDropdownItem>
         <MenuDropdownItem
-          @item-click="unenrollStudentModal.open"
+          @item-click="unenrollStudentModal = true"
           separator
           v-if="
             courseId && $store.getters.permissions(['admin', 'coordinator'])
@@ -40,7 +36,7 @@
           </template>
         </MenuDropdownItem>
         <MenuDropdownItem
-          @item-click="deleteStudentModal.open"
+          @item-click="deleteStudentModal = true"
           separator
           v-if="!courseId && $store.getters.permissions(['admin'])"
         >
@@ -51,10 +47,7 @@
       </MenuDropdown>
     </button>
     <teleport to="#modals">
-      <AppModal
-        :open="deleteStudentModal.isOpen"
-        @close="deleteStudentModal.close"
-      >
+      <AppModal v-model="deleteStudentModal">
         <template #header> Delete Account </template>
         <template #body>
           Are you sure you want to delete this account?
@@ -63,10 +56,7 @@
           <AppButton @click="deleteStudent" prominent> Delete </AppButton>
         </template>
       </AppModal>
-      <AppModal
-        :open="unenrollStudentModal.isOpen"
-        @close="unenrollStudentModal.close"
-      >
+      <AppModal v-model="unenrollStudentModal">
         <template #header> Un-Enroll Student </template>
         <template #body>
           Are you sure you want to unenroll this student from this course?
@@ -82,7 +72,7 @@
 <script lang="ts">
 import usersService from '@/services/users'
 import { User } from '@/types'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
 import MenuDropdownItem from './MenuDropdownItem.vue'
 import AppButton from './ui/AppButton.vue'
@@ -91,7 +81,6 @@ import AppModal from './ui/AppModal.vue'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
 import useSnackbar from '@/composables/use-snackbar'
-import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -109,11 +98,6 @@ export default defineComponent({
       required: true
     },
 
-    showCourseCount: {
-      type: Boolean,
-      default: false
-    },
-
     courseId: {
       type: String,
       required: false
@@ -123,9 +107,9 @@ export default defineComponent({
   setup() {
     const { setSnackbarMessage } = useSnackbar()
 
-    const deleteStudentModal = useModal()
-    const unenrollStudentModal = useModal()
-    const menuDropdown = useModal()
+    const deleteStudentModal = ref(false)
+    const unenrollStudentModal = ref(false)
+    const menuDropdown = ref(false)
 
     return {
       setSnackbarMessage,
@@ -136,7 +120,7 @@ export default defineComponent({
   },
   methods: {
     async deleteStudent() {
-      this.deleteStudentModal.close()
+      this.deleteStudentModal = false
       try {
         await usersService.deleteUser(this.student.id)
         this.setSnackbarMessage('Student removed', 'success')
@@ -146,11 +130,12 @@ export default defineComponent({
       }
     },
     async unenrollStudent() {
-      this.unenrollStudentModal.close()
+      this.unenrollStudentModal = false
       if (this.courseId) {
         try {
           await courses.unenrollUser(this.courseId, this.student.id)
           this.setSnackbarMessage('Student un-enrolled from course.', 'success')
+          this.$emit('delete-student')
         } catch (error) {
           this.setSnackbarMessage('Could not un-enroll student.', 'error')
         }

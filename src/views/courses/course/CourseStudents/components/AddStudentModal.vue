@@ -1,7 +1,7 @@
 <template>
-  <AppButton id="btn-open" @click="modal.open">Add Student</AppButton>
+  <AppButton id="btn-open" @click="modal = true">Add Student</AppButton>
   <teleport to="#modals">
-    <AppModal :open="modal.isOpen" @close="modal.close">
+    <AppModal v-model="modal">
       <template #header>Choose Students</template>
       <template #body>
         <div class="mt-4">
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { CourseWithExams, User } from '@/types'
 import AppButton from '@/components/ui/AppButton.vue'
 import { ENROLL_STUDENTS } from '@/store/action-types'
@@ -50,7 +50,6 @@ import AppModal from '@/components/ui/AppModal.vue'
 import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
 import coursesService from '@/services/courses'
-import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'AddStudentModal',
@@ -61,9 +60,8 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['close-modal'],
   setup(props) {
-    const modal = useModal()
+    const modal = ref(false)
 
     const [students, fetchStudents, loadingStudents, errorStudents] = useFetch(
       () => usersService.getStudents(),
@@ -119,7 +117,7 @@ export default defineComponent({
         courseId: this.courseId
       }
       await this.$store.dispatch(ENROLL_STUDENTS, payload)
-      this.$emit('close-modal')
+      this.modal = false
     }
   }
 })

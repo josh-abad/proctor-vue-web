@@ -1,7 +1,12 @@
 <template>
   <AppAccordion v-if="exams.length" :label="`Week ${week}`">
     <div class="week__exams">
-      <WeekExam v-for="exam in exams" :key="exam.id" :exam="exam" />
+      <WeekExam
+        v-for="exam in exams"
+        :key="exam.id"
+        :exam="exam"
+        :courseId="courseId"
+      />
     </div>
   </AppAccordion>
 </template>

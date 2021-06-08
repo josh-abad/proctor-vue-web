@@ -4,20 +4,22 @@
       <AppLabel emphasis>Recent Courses</AppLabel>
     </div>
     <div class="mt-4">
-      <div v-if="error">
-        <ErrorLoading />
-      </div>
-      <div v-else-if="loading" class="flex justify-start w-full space-x-4">
-        <SkeletonCourseCard />
-        <SkeletonCourseCard class="hidden sm:block" />
-      </div>
-      <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <CoursesPageCard
-          :course="course"
-          :key="course.id"
-          v-for="course in recentCourses"
-        />
-      </div>
+      <transition name="fade" mode="out-in">
+        <div v-if="error">
+          <ErrorLoading />
+        </div>
+        <div v-else-if="loading" class="flex justify-start w-full space-x-4">
+          <SkeletonCourseCard />
+          <SkeletonCourseCard class="hidden sm:block" />
+        </div>
+        <div v-else class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <CoursesPageCard
+            :course="course"
+            :key="course.id"
+            v-for="course in recentCourses"
+          />
+        </div>
+      </transition>
     </div>
   </div>
 </template>

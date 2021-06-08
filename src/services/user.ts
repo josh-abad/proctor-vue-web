@@ -1,4 +1,4 @@
-import { AppEvent, Course, CourseGrades, Exam, User } from '@/types'
+import { Attempt, Course, CourseGrades, Exam, User } from '@/types'
 import axios from 'axios'
 import { config } from './auth'
 import { API_URL } from './helper'
@@ -15,12 +15,25 @@ const addRecentCourse = async (courseId: string) => {
   return response.data
 }
 
+const getAttempts = async (limit = 0) => {
+  const response = await axios.get<Attempt[]>(`${baseUrl}/attempts`, {
+    ...config,
+    params: { limit }
+  })
+  return response.data
+}
+
 const getCourses = async () => {
   type CourseWithProgress = Course & { progress: number }
   const response = await axios.get<CourseWithProgress[]>(
     `${baseUrl}/courses`,
     config
   )
+  return response.data
+}
+
+const getExams = async () => {
+  const response = await axios.get<Exam[]>(`${baseUrl}/exams`, config)
   return response.data
 }
 
@@ -46,14 +59,6 @@ const getGradesForCourse = async (id: string) => {
 
 const getOpenExams = async () => {
   const response = await axios.get<Exam[]>(`${baseUrl}/open-exams`, config)
-  return response.data
-}
-
-const getRecentActivity = async () => {
-  const response = await axios.get<AppEvent[]>(
-    `${baseUrl}/recent-activity`,
-    config
-  )
   return response.data
 }
 
@@ -87,11 +92,12 @@ const uploadReferenceImage = async (data: FormData) => {
 
 export default {
   addRecentCourse,
+  getAttempts,
   getCourses,
+  getExams,
   getExamsTaken,
   getGradesForCourse,
   getOpenExams,
-  getRecentActivity,
   getRecentCourses,
   getUpcomingExams,
   getUser,

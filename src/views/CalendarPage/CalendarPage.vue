@@ -2,15 +2,16 @@
   <div class="p-6">
     <div class="block space-y-4 sm:space-y-0 sm:space-x-4 sm:flex">
       <div class="flex-grow">
-        <CalendarMonth v-model="value" :events="events" />
+        <CalendarMonth v-model="date" :events="events" />
       </div>
-      <EventsPanel
-        class="w-full sm:w-80"
-        :date="date"
-        :events="eventsOnDate"
-        @close="value = ''"
-        v-show="value"
-      />
+      <teleport to="#modals">
+        <AppModal v-model="modal" class="w-96">
+          <template #header>{{ formattedDate }}</template>
+          <template #body>
+            <EventsPanel :exams="examsOnDate" :date="oldDate" />
+          </template>
+        </AppModal>
+      </teleport>
     </div>
   </div>
 </template>
@@ -22,30 +23,52 @@ import { Exam } from '@/types'
 import dayjs from 'dayjs'
 import userService from '@/services/user'
 import { defineComponent } from 'vue'
+import AppModal from '@/components/ui/AppModal.vue'
 
 export default defineComponent({
   name: 'CalendarPage',
-  components: { CalendarMonth, EventsPanel },
+  components: { CalendarMonth, EventsPanel, AppModal },
   data() {
     return {
-      value: '',
-      events: [] as Exam[]
+      date: '',
+      /**
+       * Extra ref to keep track of date even if `date` is empty.
+       * This is to keep from displaying 'Invalid Date' while the modal closes.
+       */
+      oldDate: '',
+      events: [] as Exam[],
+      modal: false
     }
   },
   computed: {
-    eventsOnDate(): Exam[] {
-      return this.events.filter(event => this.dateSame(event.startDate))
+    examsOnDate(): Exam[] {
+      return this.events.filter(
+        event => this.dateSame(event.startDate) || this.dateSame(event.endDate)
+      )
     },
-    date(): string {
-      return dayjs(this.value).format('MMMM D, YYYY')
+    formattedDate(): string {
+      return dayjs(this.oldDate).format('MMMM D, YYYY')
+    }
+  },
+  watch: {
+    date(newDate: string) {
+      this.modal = newDate.length > 0
+      if (newDate.length > 0) {
+        this.oldDate = newDate
+      }
+    },
+    modal(isOpen: boolean) {
+      if (!isOpen) {
+        this.date = ''
+      }
     }
   },
   async created() {
-    this.events = await userService.getUpcomingExams()
+    this.events = await userService.getExams()
   },
   methods: {
     dateSame(d: Date) {
-      return this.value === dayjs(d).format('YYYY-MM-DD')
+      return this.oldDate === dayjs(d).format('YYYY-MM-DD')
     }
   }
 })

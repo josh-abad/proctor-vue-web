@@ -15,30 +15,13 @@
       <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
       <div v-else>Students</div>
     </div>
-    <div v-if="error">Error loading students</div>
-    <div v-else-if="loading" class="mt-4 separator-y">
-      <div class="flex items-center py-3" v-for="i in 5" :key="i">
-        <AppSkeleton class="rounded-full w-9 h-9" />
-        <AppSkeleton class="w-32 h-3 ml-4" />
-      </div>
-    </div>
-    <div v-else-if="students.length" class="mt-4 separator-y">
-      <StudentRow
-        :student="student"
-        :course-id="courseId"
-        v-for="student in filteredStudents"
-        :key="student?.id"
-      />
-    </div>
-    <div
-      v-else
-      class="flex items-center justify-center w-full py-5 text-gray-500"
-    >
-      <ExclamationCircleIcon class="w-5 h-5 fill-current" />
-      <div class="ml-2 text-lg font-semibold">
-        There are no students enrolled in this course.
-      </div>
-    </div>
+    <StudentList
+      :students="filteredStudents"
+      :loading="loading"
+      :error="error"
+      :course-id="courseId"
+      @delete-student="handleDeleteStudent"
+    />
   </div>
 </template>
 
@@ -47,20 +30,16 @@ import { defineComponent } from 'vue'
 import { User } from '@/types'
 import AppInput from '@/components/ui/AppInput.vue'
 import AddStudentModal from './components/AddStudentModal.vue'
-import StudentRow from '@/components/StudentRow.vue'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
-import AppSkeleton from '@/components/ui/AppSkeleton.vue'
+import StudentList from '@/components/StudentList.vue'
 
 export default defineComponent({
   name: 'CourseStudents',
   components: {
     AppInput,
     AddStudentModal,
-    StudentRow,
-    ExclamationCircleIcon,
-    AppSkeleton
+    StudentList
   },
   props: {
     courseId: {
@@ -81,10 +60,17 @@ export default defineComponent({
 
     fetchStudents()
 
+    const handleDeleteStudent = (id: string) => {
+      students.value = students.value.filter(student => {
+        return student.id !== id
+      })
+    }
+
     return {
       students,
       loading,
-      error
+      error,
+      handleDeleteStudent
     }
   },
   computed: {

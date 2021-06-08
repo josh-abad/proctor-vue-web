@@ -2,7 +2,7 @@
   <div class="relative inline-block text-left">
     <div>
       <button
-        @click="menuDropdown.toggle"
+        @click="menuDropdown = !menuDropdown"
         type="button"
         class="w-full px-4 py-2 text-gray-500 focus:outline-none"
         id="user-dropdown-toggle"
@@ -17,20 +17,19 @@
     </div>
     <MenuDropdown
       class="mt-2"
-      v-show="menuDropdown.isOpen"
-      @click-outside="menuDropdown.close"
+      v-model="menuDropdown"
       toggle-id="user-dropdown-toggle"
     >
       <MenuDropdownItem
         :path="`/user/${$store.state.user?.id || ''}`"
-        @item-click="menuDropdown.close"
+        @item-click="menuDropdown = false"
       >
         <template #icon>
           <UserCircleIcon class="dropdown-item__icon" />
         </template>
         <template #label>Profile</template>
       </MenuDropdownItem>
-      <MenuDropdownItem path="/settings" @item-click="menuDropdown.close">
+      <MenuDropdownItem path="/settings" @item-click="menuDropdown = false">
         <template #icon>
           <CogIcon class="dropdown-item__icon" />
         </template>
@@ -48,7 +47,7 @@
 
 <script lang="ts">
 import { LOG_OUT } from '@/store/action-types'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
 import { UserCircleIcon as Avatar } from '@heroicons/vue/solid'
@@ -58,7 +57,6 @@ import {
   CogIcon,
   LogoutIcon
 } from '@heroicons/vue/outline'
-import useModal from '@/composables/use-modal'
 
 export default defineComponent({
   name: 'UserDropdown',
@@ -72,7 +70,7 @@ export default defineComponent({
     LogoutIcon
   },
   setup() {
-    const menuDropdown = useModal()
+    const menuDropdown = ref(false)
 
     return {
       menuDropdown

@@ -1,34 +1,28 @@
 <template>
   <div class="p-4">
-    <AppPanel>
+    <PageHeader
+      :links="[
+        { name: 'Home', url: '/' },
+        { name: 'Students', url: '/students' }
+      ]"
+      hide-menu
+    >
+      <template #label>Students</template>
+    </PageHeader>
+    <AppPanel class="mt-4">
       <div class="flex justify-between">
-        <div class="text-2xl font-bold">Students</div>
         <AppInput
           type="text"
           v-model="searchFilter"
           placeholder="Search student"
         />
       </div>
-      <div v-if="error">Error</div>
-      <div v-else-if="loading" class="mt-2 separator-y">
-        <div class="flex items-center py-3" v-for="i in 5" :key="i">
-          <AppSkeleton class="rounded-full w-9 h-9" />
-          <div class="ml-4">
-            <AppSkeleton class="w-32 h-3" />
-            <AppSkeleton class="h-2 mt-2 w-28" />
-          </div>
-        </div>
-      </div>
-      <div v-else-if="students.length" class="mt-2 separator-y">
-        <StudentRow
-          v-for="student in filteredStudents"
-          :key="student.id"
-          :student="student"
-          show-course-count
-          @delete-student="handleDeleteStudent(student.id)"
-        />
-      </div>
-      <div v-else>No students found</div>
+      <StudentList
+        :students="filteredStudents"
+        :loading="loading"
+        :error="error"
+        @delete-student="handleDeleteStudent"
+      />
     </AppPanel>
   </div>
 </template>
@@ -36,16 +30,16 @@
 <script lang="ts">
 import AppInput from '@/components/ui/AppInput.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
-import StudentRow from '@/components/StudentRow.vue'
 import { User } from '@/types'
 import { defineComponent } from 'vue'
 import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
-import AppSkeleton from '@/components/ui/AppSkeleton.vue'
+import StudentList from '@/components/StudentList.vue'
+import PageHeader from '../../components/PageHeader/PageHeader.vue'
 
 export default defineComponent({
   name: 'StudentsPage',
-  components: { AppInput, StudentRow, AppPanel, AppSkeleton },
+  components: { AppInput, AppPanel, StudentList, PageHeader },
   setup() {
     const [students, fetchStudents, loading, error] = useFetch(
       () => usersService.getStudents(),

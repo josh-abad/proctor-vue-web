@@ -1,16 +1,18 @@
 <template>
   <li
-    class="h-full border-t border-gray-300"
+    id="btn-open"
+    class="h-full border-t border-gray-300 cursor-pointer"
     :class="{
       'text-gray-500': !isCurrentMonth,
       'font-semibold text-green-500': isToday,
       'p-1 dark:border-gray-600': compact,
       'p-4 dark:border-gray-700': !compact
     }"
+    @click="$emit('update:modelValue', day.date)"
   >
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center pointer-events-none">
       <div
-        class="box-border flex items-center justify-center p-4 rounded-full cursor-pointer "
+        class="box-border flex items-center justify-center p-4 rounded-full"
         :class="{
           'font-semibold text-white bg-green-500 bg-opacity-50':
             modelValue === day.date,
@@ -19,7 +21,6 @@
           'bg-red-500 bg-opacity-50 text-white':
             hasEvent && modelValue !== day.date
         }"
-        @click="$emit('update:modelValue', day.date)"
       >
         {{ label }}
       </div>

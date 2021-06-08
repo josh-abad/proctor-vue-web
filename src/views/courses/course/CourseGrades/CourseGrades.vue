@@ -1,5 +1,11 @@
 <template>
-  <div class="table-bg" v-if="courseGrades">
+  <div v-if="error">
+    <ErrorLoading />
+  </div>
+  <div v-else-if="loading" class="flex items-center justify-center h-32">
+    <LoadingWheel class="w-8 h-8" />
+  </div>
+  <div v-else-if="courseGrades" class="table-bg">
     <table>
       <tr class="table-header">
         <td>Test</td>
@@ -48,10 +54,12 @@ import { DocumentTextIcon } from '@heroicons/vue/solid'
 import useFetch from '@/composables/use-fetch'
 import userService from '@/services/user'
 import { CourseGrades } from '@/types'
+import LoadingWheel from '../../../../components/LoadingWheel.vue'
+import ErrorLoading from '../../../../components/ui/ErrorLoading.vue'
 
 export default defineComponent({
   name: 'CourseGrades',
-  components: { DocumentTextIcon },
+  components: { DocumentTextIcon, LoadingWheel, ErrorLoading },
   props: {
     courseId: {
       type: String,
@@ -76,16 +84,12 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.table-bg {
-  @apply bg-white dark:bg-gray-700 rounded-lg shadow-lg overflow-hidden;
-}
-
 table {
   @apply w-full;
 }
 
 td {
-  @apply px-4 py-2;
+  @apply py-2;
 }
 
 .table-data {
@@ -93,7 +97,7 @@ td {
 }
 
 tbody {
-  @apply divide-y divide-gray-200 dark:divide-gray-600;
+  @apply divide-y divide-gray-300 dark:divide-gray-700;
 }
 
 .table-header {
@@ -106,12 +110,12 @@ tbody {
 }
 
 .table-footer {
-  @apply border-t bg-white dark:bg-gray-700;
+  @apply border-t;
 }
 
 .table-header,
 .table-footer {
-  @apply border-gray-200 dark:border-gray-600;
+  @apply border-gray-300 dark:border-gray-700;
 }
 
 .prominent {

@@ -56,7 +56,7 @@
       </div>
     </Center>
     <teleport to="#modals">
-      <AppModal :open="warningModal.isOpen" @close="warningModal.close">
+      <AppModal v-model="warningModal">
         <template #header> Warning </template>
         <template #body>
           Please refrain from leaving this page during the exam. You have
@@ -85,7 +85,6 @@ import { ExclamationIcon } from '@heroicons/vue/outline'
 import useFetch from '@/composables/use-fetch'
 import examAttemptsService from '@/services/exam-attempts'
 import useSnackbar from '@/composables/use-snackbar'
-import useModal from '@/composables/use-modal'
 import useKeepOnPage from '@/composables/use-keep-on-page'
 import useWarning from '@/composables/use-warning'
 import { useStore } from '@/store'
@@ -133,7 +132,7 @@ export default defineComponent({
       () => examAttemptsService.getAttempt(props.attemptId, 'in-progress')
     )
 
-    const warningModal = useModal()
+    const warningModal = ref(false)
 
     const isActive = ref(false)
 
@@ -150,7 +149,9 @@ export default defineComponent({
 
     const { warn, warnings, warningsLeft } = useWarning({
       maximum: 5,
-      onWarn: warningModal.open,
+      onWarn: () => {
+        warningModal.value = true
+      },
       onExceed: handleSubmit
     })
 

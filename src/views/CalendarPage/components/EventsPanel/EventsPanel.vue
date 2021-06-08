@@ -1,41 +1,32 @@
 <template>
-  <AppPanel>
-    <div class="flex items-start justify-between">
-      <div class="text-xs font-semibold tracking-wider text-gray-500 uppercase">
-        {{ date }}
-      </div>
-      <button class="focus:outline-none" @click="$emit('close')">
-        <XIcon class="w-5 h-5 text-gray-500 fill-current hover:text-white" />
-      </button>
-    </div>
-    <div class="text-lg font-semibold">Events</div>
-    <div>
-      <EventsPanelItem :event="event" v-for="event in events" :key="event.id" />
-    </div>
-  </AppPanel>
+  <ul v-if="exams.length > 0" class="separator-y dark:divide-gray-600">
+    <EventsPanelItem
+      :event="exam"
+      v-for="exam in exams"
+      :key="exam.id"
+      :date="date"
+    />
+  </ul>
+  <div v-else>No events occuring today.</div>
 </template>
 
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
-import AppPanel from '@/components/ui/AppPanel.vue'
 import EventsPanelItem from './components/EventsPanelItem.vue'
-import { XIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'EventsPanel',
-  components: { AppPanel, EventsPanelItem, XIcon },
+  components: { EventsPanelItem },
   props: {
     date: {
       type: String,
       required: true
     },
-
-    events: {
+    exams: {
       type: Array as PropType<Exam[]>,
       required: true
     }
-  },
-  emits: ['close']
+  }
 })
 </script>
