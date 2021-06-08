@@ -1,36 +1,42 @@
 <template>
   <div class="user-page">
     <AppPanel>
-      <div v-if="errorUser">Something went wrong.</div>
-      <div v-else-if="loadingUser" class="user-page__header">
-        <div class="user-page__user">
-          <UserCircleIcon class="w-20 h-20 text-gray-400 dark:text-gray-600" />
-          <div class="user-page__info">
-            <div class="user-page__name">
-              <AppSkeleton class="h-5 w-60" />
-            </div>
-            <AppSkeleton class="w-20 h-6 rounded-full" />
-          </div>
-        </div>
-      </div>
-      <div v-else-if="user" class="user-page__header">
-        <div class="user-page__user">
-          <UserCircleIcon class="w-20 h-20 text-gray-400 dark:text-gray-600" />
-          <div class="user-page__info">
-            <div class="user-page__name">
-              {{ user.fullName }}
-            </div>
-            <div class="user-page__role">
-              {{ user.role }}
+      <transition name="fade" mode="out-in">
+        <div v-if="errorUser">Something went wrong.</div>
+        <div v-else-if="loadingUser" class="user-page__header">
+          <div class="user-page__user">
+            <UserCircleIcon
+              class="w-20 h-20 text-gray-400 dark:text-gray-600"
+            />
+            <div class="user-page__info">
+              <div class="user-page__name">
+                <AppSkeleton class="h-5 w-60" />
+              </div>
+              <AppSkeleton class="w-20 h-6 rounded-full" />
             </div>
           </div>
         </div>
-        <div class="user-page__stats">
-          <UserPageStat :count="user.courses.length ?? 0">
-            {{ user.courses.length !== 1 ? 'Courses' : 'Course' }}
-          </UserPageStat>
+        <div v-else-if="user" class="user-page__header">
+          <div class="user-page__user">
+            <UserCircleIcon
+              class="w-20 h-20 text-gray-400 dark:text-gray-600"
+            />
+            <div class="user-page__info">
+              <div class="user-page__name">
+                {{ user.fullName }}
+              </div>
+              <div class="user-page__role">
+                {{ user.role }}
+              </div>
+            </div>
+          </div>
+          <div class="user-page__stats">
+            <UserPageStat :count="user.courses.length ?? 0">
+              {{ user.courses.length !== 1 ? 'Courses' : 'Course' }}
+            </UserPageStat>
+          </div>
         </div>
-      </div>
+      </transition>
       <div class="user-page__content">
         <h3 class="user-page__activity-header">Activity</h3>
         <ActivityList

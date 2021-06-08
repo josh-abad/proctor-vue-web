@@ -7,8 +7,8 @@
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-id="courseId" />
           <AppPanel class="border-t-0 rounded-t-none">
-            <router-view v-slot="{ Component, route }">
-              <transition :name="route.meta.transition || 'fade'" mode="out-in">
+            <router-view v-slot="{ Component }">
+              <transition name="fade" mode="out-in">
                 <component :is="Component" />
               </transition>
             </router-view>
@@ -60,7 +60,7 @@
           <TabRow :course-id="courseId" />
           <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component }">
-              <transition :name="'fade'" mode="out-in">
+              <transition name="fade" mode="out-in">
                 <keep-alive>
                   <component :is="Component" />
                 </keep-alive>
@@ -203,15 +203,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  @apply transition-opacity ease-in duration-200;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  @apply opacity-0;
-}
-</style>

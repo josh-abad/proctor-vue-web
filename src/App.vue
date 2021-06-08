@@ -54,4 +54,14 @@ export default defineComponent({
 .dropdown-fade-leave-from {
   @apply scale-100 opacity-100;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity ease-in duration-200;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
 </style>

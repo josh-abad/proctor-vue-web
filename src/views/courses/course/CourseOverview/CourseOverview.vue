@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <transition name="fade" mode="out-in">
     <div v-if="error">Could not load course.</div>
     <div v-else-if="loading" class="space-y-2">
       <div v-for="i in 10" :key="i">
@@ -29,7 +29,7 @@
         <span class="text-gray-500">No exams found.</span>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
