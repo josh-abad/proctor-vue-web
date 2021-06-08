@@ -1,38 +1,63 @@
 <template>
-  <div class="flex items-center">
-    <LockClosedIcon class="w-5 h-5" />
-    <div class="ml-2">
-      <div class="text-gray-700 dark:text-gray-300">
-        <router-link
-          :to="`/courses/${event.course.id}/exams/${event.id}`"
-          class="font-semibold text-gray-900 dark:text-white"
-          >{{ event.label }}</router-link
-        >
-        opens
-      </div>
-      <router-link
-        :to="`/courses/${event.course.id}`"
-        class="block text-xs font-semibold tracking-wider text-gray-500 uppercase"
-      >
+  <li class="flex py-2">
+    <LockClosedIcon v-if="status === 'close'" class="w-5 h-5 icon" />
+    <LockOpenIcon v-else class="w-5 h-5 icon" />
+    <span class="ml-2">
+      <router-link :to="`/courses/${event.course.id}/exams/${event.id}`">
+        {{ event.label }}
+      </router-link>
+      in
+      <router-link :to="`/courses/${event.course.id}`">
         {{ event.course.name }}
       </router-link>
-    </div>
-  </div>
+      <span class="ml-1">{{
+        status +
+        (isBefore ? (status[status.length - 1] === 'e' ? 'd' : 'ed') : 's')
+      }}</span>
+    </span>
+  </li>
 </template>
 
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
-import { LockClosedIcon } from '@heroicons/vue/solid'
+import dayjs from 'dayjs'
+import { LockClosedIcon, LockOpenIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'EventsPanelItem',
-  components: { LockClosedIcon },
+  components: { LockClosedIcon, LockOpenIcon },
   props: {
+    date: {
+      type: String,
+      required: true
+    },
     event: {
       type: Object as PropType<Exam>,
       required: true
     }
+  },
+  computed: {
+    status(): 'open' | 'close' {
+      return this.date === dayjs(this.event.startDate).format('YYYY-MM-DD')
+        ? 'open'
+        : 'close'
+    },
+
+    isBefore(): boolean {
+      return dayjs(this.date).isBefore(new Date())
+    }
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+span,
+.icon {
+  @apply text-gray-900 dark:text-white;
+}
+
+a {
+  @apply text-indigo-700 dark:text-indigo-300 hover:underline;
+}
+</style>

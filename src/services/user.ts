@@ -32,6 +32,11 @@ const getCourses = async () => {
   return response.data
 }
 
+const getExams = async () => {
+  const response = await axios.get<Exam[]>(`${baseUrl}/exams`, config)
+  return response.data
+}
+
 const getExamsTaken = async (id: string) => {
   interface ExamTaken {
     exam: string
@@ -89,6 +94,7 @@ export default {
   addRecentCourse,
   getAttempts,
   getCourses,
+  getExams,
   getExamsTaken,
   getGradesForCourse,
   getOpenExams,
