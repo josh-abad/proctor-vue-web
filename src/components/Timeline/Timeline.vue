@@ -1,28 +1,37 @@
 <template>
   <AppPanel>
-    <AppLabel class="pb-2 label-border" emphasis>{{ name }}</AppLabel>
-    <div v-if="hasError"><ErrorLoading /></div>
-    <div v-else-if="isLoading" class="mt-4 space-y-2">
-      <SkeletonItem v-for="i in 5" :key="i" />
-    </div>
-    <div v-else class="mt-4 space-y-2">
-      <div v-if="isEmpty" class="flex items-center justify-center py-5">
-        <span class="text-gray-500">{{ emptyMessage }}</span>
+    <header class="flex items-start justify-between label-border">
+      <AppLabel emphasis>{{ name }}</AppLabel>
+      <span>{{ events.length }}</span>
+    </header>
+    <transition name="fade" mode="out-in">
+      <div v-if="hasError"><ErrorLoading /></div>
+      <div v-else-if="isLoading" class="separator-y">
+        <div class="py-3 last:pb-0" v-for="i in 3" :key="i">
+          <AppSkeleton class="w-32 h-2" />
+          <AppSkeleton class="w-40 h-3 my-1" />
+        </div>
       </div>
       <div v-else>
-        <div v-for="(date, i) in eventsByDate" :key="i">
-          <div class="item__date">{{ getFormattedDate(date?.[0]) }}</div>
-          <div class="w-full sm:w-64">
-            <Item
-              :event="event"
-              v-for="event in date"
-              :key="event.id"
-              :isOpen="isOpen"
-            />
+        <div v-if="isEmpty" class="flex items-center justify-center py-5">
+          <span class="text-gray-500">{{ emptyMessage }}</span>
+        </div>
+        <div v-else class="separator-y">
+          <div
+            v-for="(date, i) in eventsByDate"
+            :key="i"
+            class="py-3 last:pb-0"
+          >
+            <div class="item__date" v-if="!hideDate">
+              {{ getFormattedDate(date?.[0]) }}
+            </div>
+            <ul class="w-full sm:w-64">
+              <Item :event="event" v-for="event in date" :key="event.id" />
+            </ul>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </AppPanel>
 </template>
 
@@ -32,13 +41,13 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import { Exam } from '@/types'
 import dayjs from 'dayjs'
-import SkeletonItem from './components/SkeletonItem.vue'
 import Item from './components/Item.vue'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
+import AppSkeleton from '../ui/AppSkeleton.vue'
 
 export default defineComponent({
   name: 'Timeline',
-  components: { AppPanel, AppLabel, SkeletonItem, Item, ErrorLoading },
+  components: { AppPanel, AppLabel, Item, ErrorLoading, AppSkeleton },
   props: {
     name: {
       type: String,
@@ -68,13 +77,18 @@ export default defineComponent({
     isLoading: {
       type: Boolean,
       default: false
+    },
+
+    hideDate: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
     const getFormattedDate = (event?: Exam) => {
       return event
         ? dayjs(props.isOpen ? event.endDate : event.startDate).format(
-            'dddd, DD MMMM YYYY'
+            'dddd, D MMMM YYYY'
           )
         : ''
     }
@@ -107,6 +121,10 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .item__date {
-  @apply dark:text-gray-400 text-sm;
+  @apply text-gray-600 dark:text-gray-400 text-xs;
+}
+
+header span {
+  @apply px-2 text-xs font-semibold bg-gray-300 dark:bg-gray-700 rounded;
 }
 </style>

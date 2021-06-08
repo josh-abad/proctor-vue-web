@@ -1,47 +1,29 @@
 <template>
-  <div class="item">
-    <DocumentTextIcon
-      class="item__icon"
-      :class="isOpen ? 'item__icon--closing' : 'item__icon--opening'"
-    />
+  <li class="item">
     <div>
-      <div class="flex">
-        <router-link
-          :to="`/courses/${event.course.id}/exams/${event.id}`"
-          class="item__course"
-        >
-          {{ event.label }}
-        </router-link>
-        <span
-          class="item__action"
-          :class="isOpen ? 'item__action--closing' : 'item__action--opening'"
-        >
-          {{ isOpen ? 'closes' : 'opens' }}
-        </span>
-      </div>
+      <router-link
+        :to="`/courses/${event.course.id}/exams/${event.id}`"
+        class="item__course"
+      >
+        {{ event.label }}
+      </router-link>
+      in
       <router-link :to="`/courses/${event.course.id}`" class="item__location">
         {{ event.course.name }}
       </router-link>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
 import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
-import { DocumentTextIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'Item',
-  components: { DocumentTextIcon },
   props: {
     event: {
       type: Object as PropType<Exam>,
-      required: true
-    },
-
-    isOpen: {
-      type: Boolean,
       required: true
     }
   }
@@ -53,24 +35,12 @@ export default defineComponent({
   @apply py-1 text-gray-700 dark:text-gray-300 text-sm flex items-start space-x-1 w-full;
 }
 
-.item__icon {
-  @apply mr-2 w-5 h-5;
-}
-
-.item__icon--opening {
-  @apply text-green-500 dark:text-green-300;
-}
-
-.item__icon--closing {
-  @apply text-red-500;
-}
-
 .item__course {
-  @apply inline font-semibold text-gray-900 dark:text-white;
+  @apply inline font-semibold;
 }
 
 .item__action {
-  @apply ml-1 text-green-200;
+  @apply ml-1;
 }
 
 .item__action--opening {
@@ -82,6 +52,10 @@ export default defineComponent({
 }
 
 .item__location {
-  @apply text-gray-500 text-xs;
+  @apply text-sm font-semibold;
+}
+
+a {
+  @apply text-indigo-700 dark:text-indigo-300 hover:underline;
 }
 </style>
