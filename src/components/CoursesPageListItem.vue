@@ -11,7 +11,7 @@
     </div>
     <div class="ml-3 sm:flex sm:justify-between sm:w-full">
       <div>
-        <router-link :to="`/courses/${course.id}`" class="font-semibold">
+        <router-link :to="`/courses/${course.slug}`" class="font-semibold">
           {{ course.name }}
         </router-link>
       </div>

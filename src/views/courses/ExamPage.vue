@@ -49,7 +49,7 @@
         </p>
         <AppButton
           class="mt-3"
-          @click="$router.push(`/courses/${courseId}`)"
+          @click="$router.push(`/courses/${courseSlug}`)"
           prominent
           >Return to course</AppButton
         >
@@ -83,7 +83,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import Webcam from '@/components/Webcam/Webcam.vue'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import useFetch from '@/composables/use-fetch'
-import examAttemptsService from '@/services/exam-attempts'
+import userService from '@/services/user'
 import useSnackbar from '@/composables/use-snackbar'
 import useKeepOnPage from '@/composables/use-keep-on-page'
 import useWarning from '@/composables/use-warning'
@@ -109,11 +109,11 @@ export default defineComponent({
     IndicatorBar
   },
   props: {
-    courseId: {
+    courseSlug: {
       type: String,
       required: true
     },
-    examId: {
+    examSlug: {
       type: String,
       required: true
     },
@@ -129,7 +129,7 @@ export default defineComponent({
     const { setSnackbarMessage } = useSnackbar()
 
     const [attempt, fetchAttempt, isLoading, error] = useFetch<Attempt | null>(
-      () => examAttemptsService.getAttempt(props.attemptId, 'in-progress')
+      () => userService.getActiveExam(props.courseSlug, props.examSlug)
     )
 
     const warningModal = ref(false)
@@ -139,12 +139,14 @@ export default defineComponent({
     const answers = ref<Answer[]>([])
 
     const handleSubmit = async () => {
-      await store.dispatch(SUBMIT_EXAM, {
-        answers: answers.value,
-        examId: props.examId
-      })
-      isActive.value = false
-      router.replace(`/courses/${props.courseId}/exams/${props.examId}`)
+      if (attempt.value) {
+        await store.dispatch(SUBMIT_EXAM, {
+          answers: answers.value,
+          examId: attempt.value.exam.id
+        })
+        isActive.value = false
+        router.replace(`/courses/${props.courseSlug}/${props.examSlug}`)
+      }
     }
 
     const { warn, warnings, warningsLeft } = useWarning({

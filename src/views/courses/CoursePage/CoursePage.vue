@@ -5,7 +5,7 @@
       <AppSkeleton class="w-full h-28 rounded-xl" />
       <div class="flex flex-col mt-4 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
-          <TabRow :course-id="courseId" />
+          <TabRow :course-slug="slug" />
           <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component }">
               <transition name="fade" mode="out-in">
@@ -32,10 +32,10 @@
         <template #label>{{ course.name }}</template>
         <template #menu>
           <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
-            <MenuDropdownItem :path="`/courses/${courseId}/exams/new`">
+            <MenuDropdownItem :path="`/courses/${slug}/create-exam`">
               <template #label>Create Exam</template>
             </MenuDropdownItem>
-            <MenuDropdownItem :path="`/courses/${courseId}/edit`">
+            <MenuDropdownItem :path="`/courses/${slug}/edit`">
               <template #label>Edit Course</template>
             </MenuDropdownItem>
             <MenuDropdownItem @item-click="deleteCourseModal = true" separator>
@@ -57,7 +57,7 @@
       </teleport>
       <div class="flex flex-col mt-4 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
-          <TabRow :course-id="courseId" />
+          <TabRow :course-slug="slug" />
           <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component }">
               <transition name="fade" mode="out-in">
@@ -75,7 +75,7 @@
             :coordinator-name="course.coordinator.fullName"
           />
           <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
-          <CoursePageProgress class="mt-4" :course-id="courseId" />
+          <CoursePageProgress class="mt-4" :course-slug="slug" />
         </div>
       </div>
     </div>
@@ -103,7 +103,6 @@ import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import userService from '@/services/user'
-import useSnackbar from '@/composables/use-snackbar'
 import useTitle from '@/composables/use-title'
 
 export default defineComponent({
@@ -125,20 +124,18 @@ export default defineComponent({
     AppButton
   },
   props: {
-    courseId: {
+    slug: {
       type: String,
       required: true
     }
   },
   setup(props) {
-    const { setSnackbarMessage } = useSnackbar()
-
     const deleteCourseModal = ref(false)
 
     const menuDropdown = ref(false)
 
     const [course, fetchCourse, loading, error] = useFetch(() =>
-      coursesService.getCourse(props.courseId)
+      coursesService.getCourse(props.slug)
     )
 
     const { setTitle } = useTitle()
@@ -149,13 +146,14 @@ export default defineComponent({
           ? `${course.value.name} - Proctor Vue`
           : 'Course Not Found - Proctor Vue'
       )
+
+      userService.addRecentCourse(course.value.id)
     })
 
     return {
       course,
       loading,
       error,
-      setSnackbarMessage,
       deleteCourseModal,
       menuDropdown
     }
@@ -173,7 +171,7 @@ export default defineComponent({
         },
         {
           name: this.course?.name,
-          url: `/courses/${this.courseId}`
+          url: `/courses/${this.slug}`
         }
       ]
     }
@@ -181,20 +179,14 @@ export default defineComponent({
   async mounted() {
     if (
       !this.$store.getters.permissions(['admin']) &&
-      !this.$store.getters.hasCourse(this.courseId)
+      !this.$store.getters.hasCourse(this.slug)
     ) {
       this.$router.replace('/')
-    }
-
-    try {
-      await userService.addRecentCourse(this.courseId)
-    } catch (error) {
-      this.setSnackbarMessage(error.message, 'error')
     }
   },
   methods: {
     deleteCourse() {
-      this.$store.dispatch(DELETE_COURSE, this.courseId)
+      this.$store.dispatch(DELETE_COURSE, this.slug)
       this.$router.push('/courses')
     },
     editCourse() {

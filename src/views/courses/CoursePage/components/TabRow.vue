@@ -1,12 +1,12 @@
 <template>
   <div class="tab-row label-border">
-    <router-link :to="`/courses/${courseId}`" class="tab-row__tab">
+    <router-link :to="`/courses/${courseSlug}`" class="tab-row__tab">
       Overview
     </router-link>
-    <router-link :to="`/courses/${courseId}/students`" class="tab-row__tab">
+    <router-link :to="`/courses/${courseSlug}/students`" class="tab-row__tab">
       Students
     </router-link>
-    <router-link :to="`/courses/${courseId}/grades`" class="tab-row__tab">
+    <router-link :to="`/courses/${courseSlug}/grades`" class="tab-row__tab">
       Grades
     </router-link>
   </div>
@@ -18,7 +18,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'TabRow',
   props: {
-    courseId: {
+    courseSlug: {
       type: String,
       required: true
     }

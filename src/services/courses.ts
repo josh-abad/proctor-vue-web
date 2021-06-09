@@ -28,11 +28,11 @@ const getAll = async () => {
 }
 
 /**
- * Gets a course from the server by its ID
- * @param id the id of the course
+ * Gets a course from the server by its slug
+ * @param slug the slug of the course
  */
-const getCourse = async (id: string) => {
-  const response = await axios.get<CourseWithExams>(`${baseUrl}/${id}`)
+const getCourse = async (slug: string) => {
+  const response = await axios.get<CourseWithExams>(`${baseUrl}/${slug}`)
   return response.data
 }
 
@@ -70,14 +70,21 @@ const enrollUsers = async (userIds: string[], courseId: string) => {
 
 /**
  * Deletes a course from the server
- * @param id the id of the course to be deleted
+ * @param slug the slug of the course to be deleted
  */
-const deleteCourse = async (id: string) => {
-  await axios.delete(`${baseUrl}/${id}`)
+const deleteCourse = async (slug: string) => {
+  await axios.delete(`${baseUrl}/${slug}`)
 }
 
-const unenrollUser = async (courseId: string, userId: string) => {
-  await axios.delete(`${baseUrl}/${courseId}/students/${userId}`)
+const unenrollUser = async (slug: string, userId: string) => {
+  await axios.delete(`${baseUrl}/${slug}/students/${userId}`)
+}
+
+const getExam = async (courseSlug: string, examSlug: string) => {
+  const response = await axios.get<Exam>(
+    `${baseUrl}/${courseSlug}/exams/${examSlug}`
+  )
+  return response.data
 }
 
 const getAllExams = async (id: string) => {
@@ -90,14 +97,14 @@ const getUpcomingExams = async (id: string) => {
   return response.data
 }
 
-const getStudents = async (id: string) => {
-  const response = await axios.get<User[]>(`${baseUrl}/${id}/students`)
+const getStudents = async (slug: string) => {
+  const response = await axios.get<User[]>(`${baseUrl}/${slug}/students`)
   return response.data
 }
 
-const getCourseProgressByUser = async (id: string, userId: string) => {
+const getCourseProgressByUser = async (slug: string, userId: string) => {
   const response = await axios.get<{ percentage: number }>(
-    `${baseUrl}/${id}/progress/${userId}`
+    `${baseUrl}/${slug}/progress/${userId}`
   )
   return response.data
 }
@@ -125,6 +132,7 @@ export default {
   enrollUsers,
   deleteCourse,
   unenrollUser,
+  getExam,
   getAllExams,
   getUpcomingExams,
   getStudents,

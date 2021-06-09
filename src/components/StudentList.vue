@@ -10,7 +10,7 @@
     <div v-else-if="students.length" class="mt-4 separator-y">
       <StudentRow
         :student="student"
-        :course-id="courseId"
+        :course-slug="courseSlug"
         v-for="student in students"
         :key="student.id"
         @delete-student="$emit('delete-student', student.id)"
@@ -54,7 +54,7 @@ export default defineComponent({
       default: false
     },
 
-    courseId: {
+    courseSlug: {
       type: String,
       required: false
     }

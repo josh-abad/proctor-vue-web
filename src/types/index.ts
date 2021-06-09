@@ -43,6 +43,7 @@ export interface Course {
   coordinator: User
   studentsEnrolled: string[]
   weeks: number
+  slug: string
 }
 
 export interface NewCourse
@@ -62,9 +63,10 @@ export interface Exam {
   startDate: Date
   endDate: Date
   id: string
+  slug: string
 }
 
-export interface NewExam extends Omit<Exam, 'id' | 'course'> {
+export interface NewExam extends Omit<Exam, 'id' | 'course' | 'slug'> {
   courseId: string
 }
 
@@ -146,7 +148,9 @@ export type Theme = 'dark' | 'light' | 'system'
 export interface CourseGrades {
   courseName: string
   courseId: string
+  courseSlug: string
   exams: {
+    slug: string
     label: string
     id: string
     weight: number

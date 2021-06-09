@@ -26,7 +26,7 @@
           @item-click="unenrollStudentModal = true"
           separator
           v-if="
-            courseId && $store.getters.permissions(['admin', 'coordinator'])
+            courseSlug && $store.getters.permissions(['admin', 'coordinator'])
           "
         >
           <template #label>
@@ -38,7 +38,7 @@
         <MenuDropdownItem
           @item-click="deleteStudentModal = true"
           separator
-          v-if="!courseId && $store.getters.permissions(['admin'])"
+          v-if="!courseSlug && $store.getters.permissions(['admin'])"
         >
           <template #label>
             <span class="text-red-500 dark:text-red-400">Delete Student</span>
@@ -98,7 +98,7 @@ export default defineComponent({
       required: true
     },
 
-    courseId: {
+    courseSlug: {
       type: String,
       required: false
     }
@@ -131,9 +131,9 @@ export default defineComponent({
     },
     async unenrollStudent() {
       this.unenrollStudentModal = false
-      if (this.courseId) {
+      if (this.courseSlug) {
         try {
-          await courses.unenrollUser(this.courseId, this.student.id)
+          await courses.unenrollUser(this.courseSlug, this.student.id)
           this.setSnackbarMessage('Student un-enrolled from course.', 'success')
           this.$emit('delete-student')
         } catch (error) {

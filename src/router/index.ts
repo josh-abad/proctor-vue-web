@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../views/courses/CourseCreationPage.vue')
           },
           {
-            path: ':courseId',
+            path: ':slug',
             props: true,
             children: [
               {
@@ -86,7 +86,7 @@ const routes: Array<RouteRecordRaw> = [
               import('../views/courses/CoursePage/CoursePage.vue')
           },
           {
-            path: ':courseId/exams/new',
+            path: ':slug/create-exam',
             props: true,
             meta: {
               title: createTitle('Create Exam'),
@@ -95,7 +95,7 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../views/courses/ExamCreationPage.vue')
           },
           {
-            path: ':courseId/exams/:examId',
+            path: ':courseSlug/:examSlug',
             props: true,
             meta: {
               title: createTitle('Attempts')
@@ -104,7 +104,7 @@ const routes: Array<RouteRecordRaw> = [
               import('../views/courses/AttemptsPage/AttemptsPage.vue')
           },
           {
-            path: ':courseId/exams/:examId/:attemptId',
+            path: ':courseSlug/:examSlug/attempt',
             name: 'Exam',
             props: true,
             meta: {

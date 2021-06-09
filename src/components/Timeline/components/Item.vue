@@ -2,13 +2,13 @@
   <li class="item">
     <div>
       <router-link
-        :to="`/courses/${event.course.id}/exams/${event.id}`"
+        :to="`/courses/${event.course.slug}/${event.slug}`"
         class="item__course"
       >
         {{ event.label }}
       </router-link>
       in
-      <router-link :to="`/courses/${event.course.id}`" class="item__location">
+      <router-link :to="`/courses/${event.course.slug}`" class="item__location">
         {{ event.course.name }}
       </router-link>
     </div>
