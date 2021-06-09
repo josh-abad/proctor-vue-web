@@ -13,7 +13,7 @@
           <div class="ml-4">
             <label for="courseWeeks"><AppLabel>Course Weeks</AppLabel></label>
             <input
-              class="px-3 py-2 bg-gray-100 border-gray-300 rounded-lg shadow appearance-none focus:outline-none dark:bg-gray-800 focus:ring-0 dark:border-gray-700 focus:border-green-500"
+              class="px-3 py-2 bg-gray-100 border-gray-300 rounded-lg shadow appearance-none  focus:outline-none dark:bg-gray-800 focus:ring-0 dark:border-gray-700 focus:border-green-500"
               type="number"
               id="courseWeeks"
               min="4"
@@ -62,22 +62,27 @@ import usersService from '@/services/users'
 
 export default defineComponent({
   name: 'CourseCreationPage',
-  components: { AppInput, AppButton, AppTextArea, AppDropdown, AppLabel, AppPanel },
-  setup () {
-    const [
-      coordinators,
-      fetchCoordinators,
-      loading,
-      error
-    ] = useFetch(() => usersService.getCoordinators(), [])
+  components: {
+    AppInput,
+    AppButton,
+    AppTextArea,
+    AppDropdown,
+    AppLabel,
+    AppPanel
+  },
+  setup() {
+    const [coordinators, fetchCoordinators, loading, error] = useFetch(
+      () => usersService.getCoordinators(),
+      []
+    )
 
     fetchCoordinators()
 
-    const options = computed(() => (
+    const options = computed(() =>
       coordinators.value.map(({ fullName, id }) => {
         return { text: fullName, value: id }
       })
-    ))
+    )
 
     return {
       coordinators: options,
@@ -85,7 +90,7 @@ export default defineComponent({
       error
     }
   },
-  data () {
+  data() {
     return {
       courseName: '',
       courseDescription: '',
@@ -94,7 +99,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async saveCourse () {
+    async saveCourse() {
       const newCourse: NewCourse = {
         name: this.courseName,
         description: this.courseDescription,

@@ -55,7 +55,7 @@ export default defineComponent({
   name: 'AddStudentModal',
   components: { AppButton, AppInput, AppModal },
   props: {
-    courseId: {
+    courseSlug: {
       type: String,
       required: true
     }
@@ -70,7 +70,7 @@ export default defineComponent({
 
     const [course, fetchCourse, loadingCourse, errorCourse] =
       useFetch<CourseWithExams | null>(() =>
-        coursesService.getCourse(props.courseId)
+        coursesService.getCourse(props.courseSlug)
       )
 
     fetchStudents()
@@ -112,12 +112,14 @@ export default defineComponent({
   },
   methods: {
     async handleSubmit() {
-      const payload = {
-        userIds: this.checkedNames,
-        courseId: this.courseId
+      if (this.course) {
+        const payload = {
+          userIds: this.checkedNames,
+          courseId: this.course.id
+        }
+        await this.$store.dispatch(ENROLL_STUDENTS, payload)
+        this.modal = false
       }
-      await this.$store.dispatch(ENROLL_STUDENTS, payload)
-      this.modal = false
     }
   }
 })

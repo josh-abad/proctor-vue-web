@@ -8,10 +8,9 @@ export default {
     }
   },
   hasCourse(state) {
-    return courseId => {
+    return slug => {
       return (
-        !!state.user &&
-        state.user.courses.some(course => course.id === courseId)
+        !!state.user && state.user.courses.some(course => course.slug === slug)
       )
     }
   }

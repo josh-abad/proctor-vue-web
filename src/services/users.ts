@@ -56,13 +56,6 @@ const getCourses = async (id: string) => {
   return response.data
 }
 
-const addRecentCourse = async (id: string, courseId: string) => {
-  const response = await axios.put<User>(`${baseUrl}/${id}/recent-courses`, {
-    courseId
-  })
-  return response.data
-}
-
 const getRecentCourses = async (id: string, limit = 5) => {
   const response = await axios.get<Course[]>(
     `${baseUrl}/${id}/recent-courses`,
@@ -83,20 +76,6 @@ const getUpcomingExams = async (id: string) => {
   return response.data
 }
 
-const uploadImage = async (id: string, data: FormData) => {
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }
-  const response = await axios.post<User>(
-    `${baseUrl}/${id}/reference-image`,
-    data,
-    config
-  )
-  return response.data
-}
-
 const deleteUser = async (id: string) => {
   await axios.delete(`${baseUrl}/${id}`)
 }
@@ -110,10 +89,8 @@ export default {
   getStudent,
   getCoordinators,
   getCourses,
-  addRecentCourse,
   getRecentCourses,
   getOpenExams,
   getUpcomingExams,
-  uploadImage,
   deleteUser
 }

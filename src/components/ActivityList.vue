@@ -56,7 +56,7 @@ export default defineComponent({
         const sharedEventInfo = {
           course: {
             name: attempt.exam.course.name,
-            url: `/courses/${attempt.exam.course.id}`
+            url: `/courses/${attempt.exam.course.slug}`
           },
           user: {
             name: attempt.user.name.first,
@@ -65,7 +65,7 @@ export default defineComponent({
           },
           exam: {
             name: attempt.exam.label,
-            url: `/courses/${attempt.exam.course.id}/exams/${attempt.exam.id}`
+            url: `/courses/${attempt.exam.course.slug}/${attempt.exam.slug}`
           }
         }
         const startedActivity: ExamActivity = {

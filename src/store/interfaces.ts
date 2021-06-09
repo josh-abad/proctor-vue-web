@@ -61,5 +61,5 @@ export interface Actions {
 
 export type Getters<S = State> = {
   permissions(state: S): (roles: Role[]) => boolean
-  hasCourse(state: S): (courseId: string) => boolean
+  hasCourse(state: S): (slug: string) => boolean
 }

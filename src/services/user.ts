@@ -15,6 +15,14 @@ const addRecentCourse = async (courseId: string) => {
   return response.data
 }
 
+const getActiveExam = async (course: string, exam: string) => {
+  const response = await axios.get<Attempt>(`${baseUrl}/active-exam`, {
+    ...config,
+    params: { course, exam }
+  })
+  return response.data
+}
+
 const getAttempts = async (limit = 0) => {
   const response = await axios.get<Attempt[]>(`${baseUrl}/attempts`, {
     ...config,
@@ -49,9 +57,9 @@ const getExamsTaken = async (id: string) => {
   return response.data
 }
 
-const getGradesForCourse = async (id: string) => {
+const getGradesForCourse = async (slug: string) => {
   const response = await axios.get<CourseGrades>(
-    `${baseUrl}/grades/${id}`,
+    `${baseUrl}/grades/${slug}`,
     config
   )
   return response.data
@@ -92,6 +100,7 @@ const uploadReferenceImage = async (data: FormData) => {
 
 export default {
   addRecentCourse,
+  getActiveExam,
   getAttempts,
   getCourses,
   getExams,

@@ -17,7 +17,7 @@
         <tr v-for="exam in courseGrades.exams" :key="exam.id">
           <td>
             <router-link
-              :to="`/courses/${courseGrades?.courseId}/exams/${exam.id}`"
+              :to="`/courses/${courseGrades?.courseSlug}/${exam.slug}`"
               class="inline-flex items-center"
             >
               <DocumentTextIcon class="w-5 h-5 mr-1 fill-current" />
@@ -61,7 +61,7 @@ export default defineComponent({
   name: 'CourseGrades',
   components: { DocumentTextIcon, LoadingWheel, ErrorLoading },
   props: {
-    courseId: {
+    slug: {
       type: String,
       required: true
     }
@@ -69,7 +69,7 @@ export default defineComponent({
   setup(props) {
     const [courseGrades, fetchCourseGrades, loading, error] =
       useFetch<CourseGrades | null>(() =>
-        userService.getGradesForCourse(props.courseId)
+        userService.getGradesForCourse(props.slug)
       )
 
     fetchCourseGrades()

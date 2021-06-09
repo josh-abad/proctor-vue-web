@@ -124,7 +124,7 @@ export default defineComponent({
     FormError
   },
   props: {
-    courseId: {
+    slug: {
       type: String,
       required: true
     }
@@ -134,7 +134,7 @@ export default defineComponent({
 
     const [course, fetchCourse, loading, error] =
       useFetch<CourseWithExams | null>(() =>
-        coursesService.getCourse(props.courseId)
+        coursesService.getCourse(props.slug)
       )
 
     fetchCourse()
@@ -250,7 +250,7 @@ export default defineComponent({
           random: this.random,
           length: this.examItems.length,
           duration: this.examSeconds,
-          courseId: this.courseId,
+          courseId: this.course?.id ?? '',
           maxAttempts: this.maxAttempts,
           examItems: this.examItems,
           week: this.week,
@@ -259,7 +259,7 @@ export default defineComponent({
         }
         await examsService.create(newExam)
         this.setSnackbarMessage('Exam successfully created', 'success')
-        this.$router.push(`/courses/${this.courseId}`)
+        this.$router.push(`/courses/${this.slug}`)
       } catch (error) {
         this.setSnackbarMessage(error.response.data.error, 'error')
       }

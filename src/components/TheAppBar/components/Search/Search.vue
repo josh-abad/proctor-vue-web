@@ -28,7 +28,7 @@
       <div class="search-dropdown" v-show="open && filteredCourses.length">
         <ul class="py-1 overflow-auto rounded-lg max-h-56 sm:text-sm">
           <Result
-            @result-click="$router.push(`/courses/${option.id}`)"
+            @result-click="$router.push(`/courses/${option.slug}`)"
             v-for="(option, i) in filteredCourses"
             :key="i"
           >

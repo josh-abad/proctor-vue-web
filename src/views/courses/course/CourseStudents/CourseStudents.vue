@@ -8,7 +8,7 @@
       />
       <AddStudentModal
         v-if="$store.getters.permissions(['coordinator', 'admin'])"
-        :course-id="courseId"
+        :course-slug="slug"
       />
     </div>
     <div class="mt-2 text-lg font-semibold">
@@ -19,7 +19,7 @@
       :students="filteredStudents"
       :loading="loading"
       :error="error"
-      :course-id="courseId"
+      :course-slug="slug"
       @delete-student="handleDeleteStudent"
     />
   </div>
@@ -42,7 +42,7 @@ export default defineComponent({
     StudentList
   },
   props: {
-    courseId: {
+    slug: {
       type: String,
       required: true
     }
@@ -54,7 +54,7 @@ export default defineComponent({
   },
   setup(props) {
     const [students, fetchStudents, loading, error] = useFetch(
-      () => coursesService.getStudents(props.courseId),
+      () => coursesService.getStudents(props.slug),
       []
     )
 

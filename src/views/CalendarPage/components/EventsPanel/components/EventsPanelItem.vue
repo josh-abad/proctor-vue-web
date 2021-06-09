@@ -3,7 +3,7 @@
     <LockClosedIcon v-if="status === 'close'" class="w-5 h-5 icon" />
     <LockOpenIcon v-else class="w-5 h-5 icon" />
     <span class="ml-2">
-      <router-link :to="`/courses/${event.course.id}/exams/${event.id}`">
+      <router-link :to="`/courses/${event.course.id}/${event.id}`">
         {{ event.label }}
       </router-link>
       in

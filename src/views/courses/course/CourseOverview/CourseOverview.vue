@@ -20,7 +20,7 @@
         <Week
           v-for="exams in examsByWeek"
           :key="exams[0].week"
-          :course-id="courseId"
+          :course-slug="slug"
           :week="exams[0].week"
           :exams="exams"
         />
@@ -50,23 +50,23 @@ export default defineComponent({
     SVGCheckbox
   },
   props: {
-    courseId: {
+    slug: {
       type: String,
       required: true
     }
   },
   setup(props) {
     const [course, fetchCourse, loading, error] = useFetch(() =>
-      coursesService.getCourse(props.courseId)
+      coursesService.getCourse(props.slug)
     )
 
-    fetchCourse()
+    fetchCourse().then(() => {
+      userService.getExamsTaken(course.value.id).then(fetchedExamsTaken => {
+        examsTaken.value = fetchedExamsTaken
+      })
+    })
 
     const examsTaken = ref<{ exam: string; isTaken: boolean }[]>([])
-
-    userService.getExamsTaken(props.courseId).then(fetchedExamsTaken => {
-      examsTaken.value = fetchedExamsTaken
-    })
 
     const examsWithTaken = computed(() => {
       if (!course.value) {

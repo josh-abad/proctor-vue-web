@@ -22,8 +22,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleInput ($event: Event) {
-      if ($event.target instanceof HTMLInputElement) {
+    handleInput($event: Event) {
+      if ($event.target instanceof HTMLTextAreaElement) {
         this.$emit('update:modelValue', $event.target.value)
       }
     }

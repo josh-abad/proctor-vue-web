@@ -97,7 +97,7 @@
           </ModalButton>
           <AppButton
             v-if="locked !== 0"
-            @click="$router.push(`/courses/${courseId}`)"
+            @click="$router.push(`/courses/${courseSlug}`)"
             prominent
           >
             Back to the Course
@@ -129,8 +129,10 @@ import { ClockIcon, ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { isExamLocked } from '@/utils/helper'
 import useFetch from '@/composables/use-fetch'
 import examsService from '@/services/exams'
+import coursesService from '@/services/courses'
 import { useStore } from '@/store'
 import useSnackbar from '@/composables/use-snackbar'
+import useTitle from '@/composables/use-title'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -151,12 +153,12 @@ export default defineComponent({
     ExclamationCircleIcon
   },
   props: {
-    courseId: {
+    courseSlug: {
       type: String,
       required: true
     },
 
-    examId: {
+    examSlug: {
       type: String,
       required: true
     }
@@ -173,17 +175,22 @@ export default defineComponent({
       useFetch(
         () =>
           examsService.getAttemptsByUser(
-            props.examId,
+            exam.value.id,
             store.state.user?.id ?? ''
           ),
         []
       )
 
     const [exam, fetchExam, loadingExam, errorLoadingExam] = useFetch(() =>
-      examsService.getExam(props.examId)
+      coursesService.getExam(props.courseSlug, props.examSlug)
     )
 
-    Promise.all([fetchAttempts(), fetchExam()])
+    const { setTitle } = useTitle()
+
+    fetchExam().then(() => {
+      fetchAttempts()
+      setTitle(`${exam.value.label} - Proctor Vue`)
+    })
 
     return {
       exam,
@@ -210,11 +217,11 @@ export default defineComponent({
         },
         {
           name: this.exam ? this.exam.course.name : '',
-          url: `/courses/${this.courseId}`
+          url: `/courses/${this.courseSlug}`
         },
         {
           name: this.exam ? this.exam.label : '',
-          url: `/courses/${this.courseId}/exams/${this.examId}`
+          url: `/courses/${this.courseSlug}/${this.examSlug}`
         }
       ]
     },
@@ -247,17 +254,17 @@ export default defineComponent({
   methods: {
     async startAttempt() {
       try {
-        const attempt = await examAttemptsService.start(this.examId)
+        await examAttemptsService.start(this.exam.id)
         this.$router.push(
-          `/courses/${this.courseId}/exams/${this.examId}/${attempt.id}`
+          `/courses/${this.courseSlug}/${this.examSlug}/attempt`
         )
       } catch (error) {
         this.setSnackbarMessage('Attempt could not be started', 'error')
       }
     },
     async deleteExam() {
-      await this.$store.dispatch(DELETE_EXAM, this.examId)
-      this.$router.push(`/courses/${this.courseId}`)
+      await this.$store.dispatch(DELETE_EXAM, this.exam.id)
+      this.$router.push(`/courses/${this.courseSlug}`)
     }
   }
 })

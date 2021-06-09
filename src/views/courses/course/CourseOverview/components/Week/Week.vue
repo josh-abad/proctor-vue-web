@@ -5,7 +5,7 @@
         v-for="exam in exams"
         :key="exam.id"
         :exam="exam"
-        :courseId="courseId"
+        :course-slug="courseSlug"
       />
     </div>
   </AppAccordion>
@@ -21,7 +21,7 @@ export default defineComponent({
   name: 'Week',
   components: { WeekExam, AppAccordion },
   props: {
-    courseId: {
+    courseSlug: {
       type: String,
       required: true
     },

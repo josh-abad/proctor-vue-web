@@ -17,20 +17,23 @@ export default defineComponent({
   name: 'CoursePageProgress',
   components: { AppPanel, AppLabel, ProgressBar },
   props: {
-    courseId: {
+    courseSlug: {
       type: String,
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const store = useStore()
 
     const coursePercentage = ref(0)
-    const fetchCourseProgress = async () => { 
+    const fetchCourseProgress = async () => {
       if (!store.state.user) {
         return
       }
-      const { percentage } = await coursesService.getCourseProgressByUser(props.courseId, store.state.user.id)
+      const { percentage } = await coursesService.getCourseProgressByUser(
+        props.courseSlug,
+        store.state.user.id
+      )
       coursePercentage.value = percentage
     }
 
