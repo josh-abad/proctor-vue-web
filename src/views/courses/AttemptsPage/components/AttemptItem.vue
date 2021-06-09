@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full py-5">
+  <li class="flex justify-between w-full py-5">
     <div class="flex">
       <div class="mr-6 font-semibold text-gray-400">
         {{ attemptNumber }}
@@ -25,7 +25,7 @@
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
