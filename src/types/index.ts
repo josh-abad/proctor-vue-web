@@ -47,7 +47,10 @@ export interface Course {
 }
 
 export interface NewCourse
-  extends Omit<Course, 'id' | 'coordinator' | 'studentsEnrolled' | 'exams'> {
+  extends Omit<
+    Course,
+    'id' | 'coordinator' | 'studentsEnrolled' | 'exams' | 'slug'
+  > {
   coordinatorId: string
 }
 
