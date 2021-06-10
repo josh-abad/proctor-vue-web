@@ -19,13 +19,3 @@
     @apply bg-gray-400 dark:bg-gray-600;
   }
 }
-
-@layer utilities {
-  .separator-y {
-    @apply divide-y divide-gray-300 dark:divide-gray-700;
-  }
-
-  .label-border {
-    @apply border-b border-gray-300 dark:border-gray-700;
-  }
-}

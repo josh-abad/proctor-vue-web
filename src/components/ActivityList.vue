@@ -3,19 +3,19 @@
     <div v-if="hasError" class="flex justify-center pt-8 text-gray-500">
       Could not load activities
     </div>
-    <div v-else-if="isLoading" class="separator-y">
+    <List v-else-if="isLoading">
       <div class="flex justify-between py-3" v-for="i in 5" :key="i">
         <AppSkeleton class="h-3" :class="i % 2 === 0 ? 'w-52' : 'w-60'" />
         <AppSkeleton class="h-3 w-14" />
       </div>
-    </div>
-    <ul v-else-if="activities.length" class="separator-y">
+    </List>
+    <List v-else-if="activities.length">
       <ActivityRow
         v-for="(event, i) of activities"
         :key="i"
         :activity="event"
       />
-    </ul>
+    </List>
     <div v-else class="flex justify-center py-8 text-gray-500">
       No activity to display.
     </div>
@@ -27,10 +27,11 @@ import { ExamActivity, Attempt } from '@/types'
 import { defineComponent, PropType } from '@vue/runtime-core'
 import AppSkeleton from './ui/AppSkeleton.vue'
 import ActivityRow from './ActivityRow.vue'
+import List from './List.vue'
 
 export default defineComponent({
   name: 'ActivityList',
-  components: { AppSkeleton, ActivityRow },
+  components: { AppSkeleton, ActivityRow, List },
   props: {
     attempts: {
       type: Array as PropType<Attempt[]>,

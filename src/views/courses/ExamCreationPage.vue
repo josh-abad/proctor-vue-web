@@ -63,7 +63,7 @@
           <AppSwitch v-model="random" />
         </div>
       </div>
-      <div class="form__exam-items separator-y">
+      <List class="form__exam-items">
         <ExamItemInput
           v-model:question="examItem.question"
           v-model:answer="examItem.answer"
@@ -79,7 +79,7 @@
           @add-question="addExamItem(i + 1)"
           class="flex mb-4"
         />
-      </div>
+      </List>
       <footer class="form__footer">
         <AppButton @click="addExamItem()">Add Question</AppButton>
         <AppButton @click="saveExam" :disabled="!valid" prominent>
@@ -108,6 +108,7 @@ import FormError from '@/components/FormError.vue'
 import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
+import List from '@/components/List.vue'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -121,7 +122,8 @@ export default defineComponent({
     ExamItemInput,
     DatePicker,
     AppInput,
-    FormError
+    FormError,
+    List
   },
   props: {
     slug: {

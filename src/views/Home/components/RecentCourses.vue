@@ -1,8 +1,8 @@
 <template>
   <div v-if="loading || recentCourses.length > 0">
-    <div class="flex items-center justify-between label-border">
+    <Subheading>
       <AppLabel emphasis>Recent Courses</AppLabel>
-    </div>
+    </Subheading>
     <div class="mt-4">
       <transition name="fade" mode="out-in">
         <div v-if="error">
@@ -32,6 +32,7 @@ import userService from '@/services/user'
 import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
+import Subheading from '@/components/Subheading.vue'
 
 export default defineComponent({
   name: 'RecentCourses',
@@ -39,7 +40,8 @@ export default defineComponent({
     AppLabel,
     CoursesPageCard,
     SkeletonCourseCard,
-    ErrorLoading
+    ErrorLoading,
+    Subheading
   },
   setup() {
     const [recentCourses, fetchRecentCourses, loading, error] = useFetch(

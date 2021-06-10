@@ -1,16 +1,16 @@
 <template>
   <div>
-    <header class="accordion__header label-border">
+    <Subheading class="justify-start">
       <button @click="expanded = !expanded" class="accordion__toggle">
         <ChevronRightIcon
           class="accordion__icon"
           :class="{ 'accordion__icon--expanded': expanded }"
         />
       </button>
-      <AppLabel emphasis>
+      <AppLabel emphasis class="ml-2">
         {{ label }}
       </AppLabel>
-    </header>
+    </Subheading>
     <section
       class="accordion__content"
       :class="{ 'accordion__content--expanded': expanded }"
@@ -26,17 +26,18 @@
 import { defineComponent } from 'vue'
 import AppLabel from './AppLabel.vue'
 import { ChevronRightIcon } from '@heroicons/vue/solid'
+import Subheading from '../Subheading.vue'
 
 export default defineComponent({
   name: 'AppAccordion',
-  components: { AppLabel, ChevronRightIcon },
+  components: { AppLabel, ChevronRightIcon, Subheading },
   props: {
     label: {
       type: String,
       required: true
     }
   },
-  data () {
+  data() {
     return {
       expanded: true
     }
@@ -45,16 +46,12 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.accordion__header {
-  @apply flex items-center space-x-2;
-}
-
 .accordion__toggle {
   @apply text-gray-500 hover:text-gray-900 dark:hover:text-white focus:outline-none;
 }
 
 .accordion__icon {
-  @apply w-5 h-5 mb-1 transition-transform transform ease-in-out duration-100 rotate-0;
+  @apply w-5 h-5 transition-transform transform ease-in-out duration-100 rotate-0;
 }
 
 .accordion__icon--expanded {

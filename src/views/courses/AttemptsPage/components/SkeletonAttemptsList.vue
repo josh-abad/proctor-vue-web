@@ -1,5 +1,5 @@
 <template>
-  <ul class="mt-2 separator-y">
+  <List class="mt-2">
     <li
       v-for="i in 3"
       :key="i"
@@ -17,15 +17,16 @@
         <AppSkeleton class="w-10 h-5 ml-4" />
       </div>
     </li>
-  </ul>
+  </List>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
+import List from '@/components/List.vue'
 
 export default defineComponent({
   name: 'SkeletonAttemptsList',
-  components: { AppSkeleton }
+  components: { AppSkeleton, List }
 })
 </script>

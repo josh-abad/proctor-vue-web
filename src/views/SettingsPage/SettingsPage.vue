@@ -9,7 +9,10 @@
       ><template #label> Settings </template></PageHeader
     >
     <AppPanel class="w-full mt-8 md:w-2/3">
-      <AppAccordion label="User">
+      <Subheading>
+        <AppLabel emphasis>User</AppLabel>
+      </Subheading>
+      <section class="mt-2">
         <SettingsItem
           name="Change Password"
           description="Password must be at least 6 characters"
@@ -25,21 +28,25 @@
             <AppButton>Configure</AppButton>
           </router-link>
         </SettingsItem>
-      </AppAccordion>
-      <AppAccordion label="Appearance" class="mt-2">
+      </section>
+
+      <Subheading class="mt-4">
+        <AppLabel emphasis>Appearance</AppLabel>
+      </Subheading>
+      <section class="mt-2">
         <SettingsItem name="Automatic" description="Follows system settings">
           <AppSwitch v-model="automatic" />
         </SettingsItem>
         <SettingsItem name="Dark Mode">
           <AppSwitch v-model="darkMode" :disabled="automatic" />
         </SettingsItem>
-      </AppAccordion>
+      </section>
 
       <div class="mt-4">
-        <header class="label-border">
+        <Subheading>
           <AppLabel emphasis> Deactivate Account </AppLabel>
-        </header>
-        <section class="py-4">
+        </Subheading>
+        <section class="mt-6">
           <button
             id="btn-open"
             class="text-red-500 focus:outline-none"
@@ -72,7 +79,6 @@
 </template>
 
 <script lang="ts">
-import AppAccordion from '@/components/ui/AppAccordion.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppSwitch from '@/components/ui/AppSwitch.vue'
@@ -85,19 +91,20 @@ import { TrashIcon } from '@heroicons/vue/solid'
 import useTheme from '@/composables/use-theme'
 import useSnackbar from '@/composables/use-snackbar'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import Subheading from '@/components/Subheading.vue'
 
 export default defineComponent({
   name: 'SettingsPage',
   components: {
     AppSwitch,
     AppPanel,
-    AppAccordion,
     AppButton,
     AppLabel,
     AppModal,
     SettingsItem,
     TrashIcon,
-    PageHeader
+    PageHeader,
+    Subheading
   },
   setup() {
     const { theme, isSystemTheme, setTheme } = useTheme()
