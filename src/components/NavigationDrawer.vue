@@ -3,7 +3,7 @@
     class="transform navigation-drawer"
     :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
   >
-    <nav class="flex flex-col">
+    <nav class="flex flex-col space-y-1">
       <slot></slot>
     </nav>
   </aside>

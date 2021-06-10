@@ -5,19 +5,22 @@
         { name: 'Home', url: '/' },
         { name: 'Courses', url: '/courses' }
       ]"
-      @menu-clicked="menuDropdown = !menuDropdown"
-      :hide-menu="!$store.getters.permissions(['admin'])"
     >
       <template #label>Courses</template>
-      <template #menu>
-        <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
-          <MenuDropdownItem path="/courses/new">
-            <template #label>Create Course</template>
-          </MenuDropdownItem>
-        </MenuDropdown>
+      <template #actions v-if="$store.getters.permissions(['admin'])">
+        <router-link to="/courses/new">
+          <AppButton prominent>
+            <span class="flex items-center">
+              <PlusIcon class="w-5 h-5" />
+              <span class="flex items-center">
+                <span class="ml-1.5">Create Course</span>
+              </span>
+            </span>
+          </AppButton>
+        </router-link>
       </template>
     </PageHeader>
-    <AppPanel class="mt-4 mb-0">
+    <AppPanel class="mt-8 mb-0">
       <CourseList />
     </AppPanel>
   </div>
@@ -26,26 +29,19 @@
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
 import PageHeader from '@/components/PageHeader/PageHeader.vue'
-import { defineComponent, ref } from 'vue'
-import MenuDropdown from '@/components/MenuDropdown.vue'
-import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
+import { defineComponent } from 'vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import { PlusIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'CoursesPage',
   components: {
     AppPanel,
     PageHeader,
-    MenuDropdown,
-    MenuDropdownItem,
-    CourseList
-  },
-  setup() {
-    const menuDropdown = ref(false)
-
-    return {
-      menuDropdown
-    }
+    CourseList,
+    AppButton,
+    PlusIcon
   }
 })
 </script>

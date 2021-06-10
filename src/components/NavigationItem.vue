@@ -37,11 +37,11 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .navigation-item {
-  @apply mx-2 text-gray-600  dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400;
+  @apply mx-2 text-gray-600  dark:text-gray-400 font-medium hover:text-green-500 dark:hover:text-green-400;
 }
 
 .router-link-active {
-  @apply bg-green-300 dark:bg-green-900 rounded-lg bg-opacity-30 dark:bg-opacity-30 font-semibold text-green-500 dark:text-green-400;
+  @apply bg-green-300 dark:bg-green-900 rounded-lg bg-opacity-30 dark:bg-opacity-30 text-green-500 dark:text-green-400;
 }
 
 .content {

@@ -7,13 +7,13 @@
           <NavigationItem href="/" @mobile-nav="isOpen = false">
             <template #label> Home </template>
             <template #icon>
-              <HomeIcon class="w-5 h-5" />
+              <HomeIcon class="w-6 h-6" />
             </template>
           </NavigationItem>
           <NavigationItem href="/courses" @mobile-nav="isOpen = false">
             <template #label> Courses </template>
             <template #icon>
-              <BookOpenIcon class="w-5 h-5" />
+              <BookOpenIcon class="w-6 h-6" />
             </template>
           </NavigationItem>
           <NavigationItem
@@ -23,13 +23,19 @@
           >
             <template #label> Students </template>
             <template #icon>
-              <UsersIcon class="w-5 h-5" />
+              <UsersIcon class="w-6 h-6" />
             </template>
           </NavigationItem>
           <NavigationItem href="/calendar" @mobile-nav="isOpen = false">
             <template #label> Calendar </template>
             <template #icon>
-              <CalendarIcon class="w-5 h-5" />
+              <CalendarIcon class="w-6 h-6" />
+            </template>
+          </NavigationItem>
+          <NavigationItem href="/settings" @mobile-nav="isOpen = false">
+            <template #label> Settings </template>
+            <template #icon>
+              <CogIcon class="w-6 h-6" />
             </template>
           </NavigationItem>
         </NavigationDrawer>
@@ -53,8 +59,9 @@ import {
   CalendarIcon,
   UsersIcon,
   BookOpenIcon,
-  HomeIcon
-} from '@heroicons/vue/solid'
+  HomeIcon,
+  CogIcon
+} from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'App',
@@ -65,7 +72,8 @@ export default defineComponent({
     CalendarIcon,
     UsersIcon,
     BookOpenIcon,
-    HomeIcon
+    HomeIcon,
+    CogIcon
   },
   setup() {
     const isOpen = useLocalStorage('sidebarState', true)

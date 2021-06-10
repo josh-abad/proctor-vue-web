@@ -19,7 +19,17 @@
           </div>
         </IndicatorBar>
       </teleport>
-      <PageHeader hide-menu>
+      <PageHeader
+        :links="[
+          { name: 'Home', url: '/' },
+          { name: 'Courses', url: '/courses' },
+          { name: attempt.exam.course.name, url: `/courses/${courseSlug}` },
+          {
+            name: attempt.exam.label,
+            url: `/courses/${courseSlug}/${examSlug}`
+          }
+        ]"
+      >
         <template #label>{{ attempt.exam.label }}</template>
       </PageHeader>
       <AppPanel class="mt-4">

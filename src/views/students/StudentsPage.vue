@@ -9,7 +9,7 @@
     >
       <template #label>Students</template>
     </PageHeader>
-    <AppPanel class="mt-4">
+    <AppPanel class="mt-8">
       <div class="flex justify-between">
         <AppInput
           type="text"

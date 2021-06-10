@@ -3,8 +3,8 @@
     <transition name="fade" mode="out-in">
       <div v-if="errorLoadingExam"><ErrorLoading /></div>
       <div v-else-if="loadingExam">
-        <AppSkeleton class="w-full h-28 rounded-xl" />
-        <AppPanel class="mt-4">
+        <SkeletonPageHeader />
+        <AppPanel class="mt-8">
           <AppSkeleton class="w-56 h-3" />
           <AppSkeleton class="w-40 h-3 mt-2" />
           <AppSkeleton class="w-56 h-3 mt-2" />
@@ -21,35 +21,27 @@
         </AppPanel>
       </div>
       <div v-else-if="exam">
-        <PageHeader
-          :links="links"
-          @menu-clicked="menuDropdown = !menuDropdown"
-          :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
-        >
+        <PageHeader :links="links">
           <template #label>{{ exam.label }}</template>
-          <template #menu>
-            <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
-              <MenuDropdownItem
-                id="btn-open"
-                @item-click="deleteExamModal = true"
-              >
-                <template #label>Delete Exam</template>
-              </MenuDropdownItem>
-            </MenuDropdown>
+          <template
+            #actions
+            v-if="$store.getters.permissions(['coordinator', 'admin'])"
+          >
+            <ModalButton
+              :header="`Delete ${exam.label}`"
+              :message="`Are you sure you want to delete ${exam.label}?`"
+              action-label="Delete"
+              @confirm="deleteExam"
+              danger
+            >
+              <span class="flex items-center">
+                <TrashIcon class="w-5 h-5" />
+                <span class="ml-1.5">Delete</span>
+              </span>
+            </ModalButton>
           </template>
         </PageHeader>
-        <teleport to="#modals">
-          <AppModal v-model="deleteExamModal">
-            <template #header>Delete Quiz</template>
-            <template #body
-              >Are you sure you want to delete this quiz?</template
-            >
-            <template #action>
-              <AppButton @click="deleteExam" prominent> Delete </AppButton>
-            </template>
-          </AppModal>
-        </teleport>
-        <AppPanel class="mt-4">
+        <AppPanel class="mt-8">
           <div class="text-gray-600 dark:text-gray-400">
             <div v-if="highestGrade">
               Your highest score for this quiz is {{ highestGrade }}.
@@ -146,9 +138,6 @@ import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import AppButton from '@/components/ui/AppButton.vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import MenuDropdown from '@/components/MenuDropdown.vue'
-import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
-import AppModal from '@/components/ui/AppModal.vue'
 import { ClockIcon, ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { isExamLocked } from '@/utils/helper'
 import useFetch from '@/composables/use-fetch'
@@ -160,6 +149,8 @@ import useTitle from '@/composables/use-title'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import SkeletonAttemptsList from './components/SkeletonAttemptsList.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
+import SkeletonPageHeader from '@/components/SkeletonPageHeader.vue'
+import { TrashIcon } from '@heroicons/vue/solid'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -173,14 +164,13 @@ export default defineComponent({
     PageHeader,
     ModalButton,
     AppButton,
-    MenuDropdown,
-    MenuDropdownItem,
-    AppModal,
     ClockIcon,
     ExclamationCircleIcon,
     ErrorLoading,
     SkeletonAttemptsList,
-    AppSkeleton
+    AppSkeleton,
+    SkeletonPageHeader,
+    TrashIcon
   },
   props: {
     courseSlug: {
@@ -198,8 +188,6 @@ export default defineComponent({
     const { setSnackbarMessage } = useSnackbar()
 
     const deleteExamModal = ref(false)
-
-    const menuDropdown = ref(false)
 
     const [attempts, fetchAttempts, loadingAttempts, errorLoadingAttempts] =
       useFetch(
@@ -230,8 +218,7 @@ export default defineComponent({
       loadingExam,
       errorLoadingExam,
       setSnackbarMessage,
-      deleteExamModal,
-      menuDropdown
+      deleteExamModal
     }
   },
   computed: {
