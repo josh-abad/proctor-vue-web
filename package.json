@@ -1,6 +1,6 @@
 {
   "name": "@proctor-vue/web",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
