@@ -1,5 +1,8 @@
 <template>
-  <button :disabled="loading" :class="prominent ? 'primary' : 'secondary'">
+  <button
+    :disabled="loading"
+    :class="{ primary: prominent, secondary: !prominent && !danger, danger }"
+  >
     <div class="flex justify-center" v-if="loading">
       <LoadingWheel class="w-5 h-5" />
     </div>
@@ -25,6 +28,11 @@ export default defineComponent({
     loading: {
       type: Boolean,
       default: false
+    },
+
+    danger: {
+      type: Boolean,
+      default: false
     }
   }
 })
@@ -36,7 +44,7 @@ button {
 }
 
 button.primary {
-  @apply text-white bg-green-500 active:bg-green-300;
+  @apply text-white bg-indigo-500 active:bg-indigo-300;
 }
 
 button.secondary {
@@ -44,6 +52,10 @@ button.secondary {
 }
 
 button div.content {
-  @apply mx-6 my-2 text-sm font-semibold capitalize pointer-events-none;
+  @apply mx-4 my-2 text-sm font-semibold capitalize pointer-events-none;
+}
+
+button.danger {
+  @apply bg-red-500 text-white active:bg-red-300;
 }
 </style>

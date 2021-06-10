@@ -32,10 +32,10 @@ export default defineComponent({
 }
 
 .tab-row__tab {
-  @apply px-6 py-2 text-center hover:text-gray-900 dark:hover:text-white transition-colors ease-in-out duration-300;
+  @apply px-6 py-2 text-center hover:text-gray-900 dark:hover:text-white w-full;
 }
 
 .router-link-active {
-  @apply rounded-t-lg font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
+  @apply font-semibold text-gray-900 dark:text-white border-b-2 border-green-500;
 }
 </style>

@@ -1,20 +1,28 @@
 <template>
-  <div>
-    <AppButton id="btn-open" @click="modal = true" :prominent="prominent">
-      <slot></slot>
-    </AppButton>
-    <teleport to="#modals">
-      <AppModal v-model="modal">
-        <template #header>{{ header }}</template>
-        <template #body>{{ message }}</template>
-        <template #action>
-          <AppButton @click="$emit('confirm')" prominent>
-            {{ actionLabel }}
-          </AppButton>
-        </template>
-      </AppModal>
-    </teleport>
-  </div>
+  <AppButton
+    v-bind="$attrs"
+    id="btn-open"
+    @click="modal = true"
+    :prominent="prominent"
+    :danger="danger"
+  >
+    <slot></slot>
+  </AppButton>
+  <teleport to="#modals">
+    <AppModal v-model="modal">
+      <template #header>{{ header }}</template>
+      <template #body>{{ message }}</template>
+      <template #action>
+        <AppButton
+          @click="$emit('confirm')"
+          :prominent="!danger"
+          :danger="danger"
+        >
+          {{ actionLabel }}
+        </AppButton>
+      </template>
+    </AppModal>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -25,6 +33,7 @@ import AppButton from './AppButton.vue'
 export default defineComponent({
   name: 'ModalButton',
   components: { AppButton, AppModal },
+  inheritAttrs: false,
   props: {
     actionLabel: {
       type: String,
@@ -42,6 +51,11 @@ export default defineComponent({
     },
 
     prominent: {
+      type: Boolean,
+      default: false
+    },
+
+    danger: {
       type: Boolean,
       default: false
     }

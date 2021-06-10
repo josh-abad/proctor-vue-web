@@ -2,8 +2,8 @@
   <div v-if="error">Could not load course.</div>
   <div v-else-if="loading">
     <div class="p-4">
-      <AppSkeleton class="w-full h-28 rounded-xl" />
-      <div class="flex flex-col mt-4 sm:flex-row">
+      <SkeletonPageHeader />
+      <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-slug="slug" />
           <AppPanel class="border-t-0 rounded-t-none">
@@ -24,38 +24,48 @@
   </div>
   <div v-else>
     <div v-if="course" class="p-4">
-      <PageHeader
-        :links="links"
-        @menu-clicked="menuDropdown = !menuDropdown"
-        :hide-menu="!$store.getters.permissions(['coordinator', 'admin'])"
-      >
+      <PageHeader :links="links">
         <template #label>{{ course.name }}</template>
-        <template #menu>
-          <MenuDropdown class="mt-2 mr-2" v-model="menuDropdown">
-            <MenuDropdownItem :path="`/courses/${slug}/create-exam`">
-              <template #label>Create Exam</template>
-            </MenuDropdownItem>
-            <MenuDropdownItem :path="`/courses/${slug}/edit`">
-              <template #label>Edit Course</template>
-            </MenuDropdownItem>
-            <MenuDropdownItem @item-click="deleteCourseModal = true" separator>
-              <template #label>Delete Course</template>
-            </MenuDropdownItem>
-          </MenuDropdown>
+        <template
+          #actions
+          v-if="$store.getters.permissions(['coordinator', 'admin'])"
+        >
+          <div class="flex items-center">
+            <router-link :to="`/courses/${slug}/create-exam`">
+              <AppButton prominent>
+                <span class="flex items-center">
+                  <PlusIcon class="w-5 h-5" />
+                  <span class="flex items-center">
+                    <span class="ml-1.5">Create Exam</span>
+                  </span>
+                </span>
+              </AppButton>
+            </router-link>
+            <AppButton class="ml-2">
+              <span class="flex items-center">
+                <PencilIcon class="w-5 h-5" />
+                <span class="flex items-center">
+                  <span class="ml-1.5">Edit</span>
+                </span>
+              </span>
+            </AppButton>
+            <ModalButton
+              header="Delete Course"
+              message="Are you sure you want to delete this course?"
+              action-label="Delete"
+              @confirm="deleteCourse"
+              class="ml-2"
+              danger
+            >
+              <span class="flex items-center">
+                <TrashIcon class="w-5 h-5" />
+                <span class="ml-1.5">Delete</span>
+              </span>
+            </ModalButton>
+          </div>
         </template>
       </PageHeader>
-      <teleport to="#modals">
-        <AppModal v-model="deleteCourseModal">
-          <template #header> Delete Course </template>
-          <template #body>
-            Are you sure you want to delete this course?
-          </template>
-          <template #action>
-            <AppButton @click="deleteCourse" prominent> Delete </AppButton>
-          </template>
-        </AppModal>
-      </teleport>
-      <div class="flex flex-col mt-4 sm:flex-row">
+      <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-slug="slug" />
           <AppPanel class="border-t-0 rounded-t-none">
@@ -98,12 +108,12 @@ import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import About from './components/fallback/components/About.vue'
 import UpcomingExams from './components/fallback/components/UpcomingExams.vue'
 import Progress from './components/fallback/components/Progress.vue'
-import MenuDropdown from '@/components/MenuDropdown.vue'
-import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
-import AppModal from '@/components/ui/AppModal.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import userService from '@/services/user'
 import useTitle from '@/composables/use-title'
+import SkeletonPageHeader from '@/components/SkeletonPageHeader.vue'
+import ModalButton from '@/components/ui/ModalButton.vue'
+import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -118,10 +128,12 @@ export default defineComponent({
     About,
     UpcomingExams,
     Progress,
-    MenuDropdown,
-    MenuDropdownItem,
-    AppModal,
-    AppButton
+    AppButton,
+    SkeletonPageHeader,
+    ModalButton,
+    PlusIcon,
+    PencilIcon,
+    TrashIcon
   },
   props: {
     slug: {
@@ -131,8 +143,6 @@ export default defineComponent({
   },
   setup(props) {
     const deleteCourseModal = ref(false)
-
-    const menuDropdown = ref(false)
 
     const [course, fetchCourse, loading, error] = useFetch(() =>
       coursesService.getCourse(props.slug)
@@ -154,8 +164,7 @@ export default defineComponent({
       course,
       loading,
       error,
-      deleteCourseModal,
-      menuDropdown
+      deleteCourseModal
     }
   },
   computed: {

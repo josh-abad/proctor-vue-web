@@ -20,8 +20,8 @@
       </div>
     </div>
     <div class="flex items-center">
-      <div class="mr-6 text-xl font-thin">{{ percentage }}%</div>
-      <div class="mr-6 text-xl font-thin">
+      <div class="mr-6 text-xl">{{ percentage }}%</div>
+      <div class="mr-6 text-xl">
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
     </div>

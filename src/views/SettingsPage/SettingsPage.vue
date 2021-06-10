@@ -1,37 +1,40 @@
 <template>
   <div class="p-4">
-    <AppPanel class="w-full md:w-1/2">
-      <div class="flex items-center">
-        <CogIcon class="w-6 h-6 fill-current" />
-        <div class="ml-2 text-2xl font-semibold">Settings</div>
-      </div>
-      <div class="mt-4">
-        <AppAccordion label="User">
-          <SettingsItem
-            name="Change Password"
-            description="Password must be at least 6 characters"
-          >
-            <AppButton>Change</AppButton>
-          </SettingsItem>
-          <SettingsItem
-            name="Configure Face ID"
-            description="Set up facial identification for exams"
-            class="mt-2"
-          >
-            <router-link :to="`/user/${$store.state.user?.id}/reference-image`">
-              <AppButton>Configure</AppButton>
-            </router-link>
-          </SettingsItem>
-        </AppAccordion>
-        <AppAccordion label="Appearance" class="mt-2">
-          <SettingsItem name="Automatic" description="Follows system settings">
-            <AppSwitch v-model="automatic" />
-          </SettingsItem>
-          <SettingsItem name="Dark Mode">
-            <AppSwitch v-model="darkMode" :disabled="automatic" />
-          </SettingsItem>
-        </AppAccordion>
-      </div>
+    <PageHeader
+      hide-menu
+      :links="[
+        { name: 'Home', url: '/' },
+        { name: 'Settings', url: '/settings' }
+      ]"
+      ><template #label> Settings </template></PageHeader
+    >
+    <AppPanel class="w-full mt-8 md:w-2/3">
+      <AppAccordion label="User">
+        <SettingsItem
+          name="Change Password"
+          description="Password must be at least 6 characters"
+        >
+          <AppButton>Change</AppButton>
+        </SettingsItem>
+        <SettingsItem
+          name="Configure Face ID"
+          description="Set up facial identification for exams"
+          class="mt-2"
+        >
+          <router-link to="/settings/face-id">
+            <AppButton>Configure</AppButton>
+          </router-link>
+        </SettingsItem>
+      </AppAccordion>
+      <AppAccordion label="Appearance" class="mt-2">
+        <SettingsItem name="Automatic" description="Follows system settings">
+          <AppSwitch v-model="automatic" />
+        </SettingsItem>
+        <SettingsItem name="Dark Mode">
+          <AppSwitch v-model="darkMode" :disabled="automatic" />
+        </SettingsItem>
+      </AppAccordion>
+
       <div class="mt-4">
         <header class="label-border">
           <AppLabel emphasis> Deactivate Account </AppLabel>
@@ -39,15 +42,15 @@
         <section class="py-4">
           <button
             id="btn-open"
-            class="flex items-center text-red-500 focus:outline-none"
+            class="text-red-500 focus:outline-none"
             @click="deleteAccountModal = true"
           >
-            <TrashIcon class="w-5 h-5 pointer-events-none fill-current" />
-            <span
-              class="ml-1 text-sm font-bold tracking-wide uppercase pointer-events-none "
-            >
-              Deactivate Account
-            </span>
+            <div class="flex items-center pointer-events-none">
+              <TrashIcon class="w-5 h-5 pointer-events-none fill-current" />
+              <span class="ml-1 text-sm font-bold tracking-wide uppercase">
+                Deactivate Account
+              </span>
+            </div>
           </button>
           <teleport to="#modals">
             <AppModal v-model="deleteAccountModal">
@@ -56,7 +59,7 @@
                 Are you sure you want to deactivate your account?
               </template>
               <template #action>
-                <AppButton @click="deactivateAccount" prominent>
+                <AppButton @click="deactivateAccount" prominent danger>
                   Deactivate
                 </AppButton>
               </template>
@@ -78,9 +81,10 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import usersService from '@/services/users'
 import AppModal from '@/components/ui/AppModal.vue'
 import SettingsItem from './components/SettingsItem.vue'
-import { TrashIcon, CogIcon } from '@heroicons/vue/solid'
+import { TrashIcon } from '@heroicons/vue/solid'
 import useTheme from '@/composables/use-theme'
 import useSnackbar from '@/composables/use-snackbar'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -92,8 +96,8 @@ export default defineComponent({
     AppLabel,
     AppModal,
     SettingsItem,
-    CogIcon,
-    TrashIcon
+    TrashIcon,
+    PageHeader
   },
   setup() {
     const { theme, isSystemTheme, setTheme } = useTheme()

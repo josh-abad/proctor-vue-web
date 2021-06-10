@@ -18,7 +18,7 @@
             modelValue === day.date,
           'w-2 h-2 text-sm': compact,
           'w-5 h-5 text-base': !compact,
-          'bg-red-500 bg-opacity-50 text-white':
+          'bg-indigo-500 bg-opacity-50 text-white':
             hasEvent && modelValue !== day.date
         }"
       >

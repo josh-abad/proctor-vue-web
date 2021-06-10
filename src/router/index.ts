@@ -155,18 +155,27 @@ const routes: Array<RouteRecordRaw> = [
           title: createTitle('Settings'),
           authorize: [] as Role[]
         },
-        component: () => import('../views/SettingsPage/SettingsPage.vue')
-      },
-      {
-        path: '/user/:userId/reference-image',
-        name: 'Face Identification',
-        props: true,
-        meta: {
-          title: createTitle('Face Identification'),
-          authorize: [] as Role[]
-        },
-        component: () =>
-          import('../views/FaceIdentificationPage/FaceIdentificationPage.vue')
+        component: () => import('../views/SettingsView.vue'),
+        children: [
+          {
+            path: '',
+            name: 'Settings',
+            component: () => import('../views/SettingsPage/SettingsPage.vue')
+          },
+          {
+            path: 'face-id',
+            name: 'Face Identification',
+            props: true,
+            meta: {
+              title: createTitle('Face Identification'),
+              authorize: [] as Role[]
+            },
+            component: () =>
+              import(
+                '../views/FaceIdentificationPage/FaceIdentificationPage.vue'
+              )
+          }
+        ]
       },
       {
         path: '/user/:userId',
