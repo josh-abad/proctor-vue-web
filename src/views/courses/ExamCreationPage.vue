@@ -1,10 +1,16 @@
 <template>
   <div v-if="course" class="form">
+    <PageHeader
+      :links="[
+        { name: 'Home', url: '/' },
+        { name: 'Courses', url: '/courses' },
+        { name: course.name, url: `/courses/${course.slug}` },
+        { name: 'New Exam', url: `/courses/${course.slug}/create-exam` }
+      ]"
+    >
+      <template #label>Create an exam for {{ course.name }}</template>
+    </PageHeader>
     <AppPanel class="form__panel">
-      <header class="form__header">New exam for {{ course.name }}</header>
-      <FormError class="form__error" v-show="formError">
-        {{ formError }}
-      </FormError>
       <div class="form__details">
         <div class="form__detail">
           <label for="name">
@@ -82,9 +88,19 @@
       </List>
       <footer class="form__footer">
         <AppButton @click="addExamItem()">Add Question</AppButton>
-        <AppButton @click="saveExam" :disabled="!valid" prominent>
-          Save Exam
-        </AppButton>
+        <div class="flex items-baseline">
+          <FormError class="form__error" v-show="formError">
+            {{ formError }}
+          </FormError>
+          <AppButton
+            class="ml-4"
+            @click="saveExam"
+            :disabled="!valid"
+            prominent
+          >
+            Save Exam
+          </AppButton>
+        </div>
       </footer>
     </AppPanel>
   </div>
@@ -109,6 +125,7 @@ import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
 import List from '@/components/List.vue'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -123,7 +140,8 @@ export default defineComponent({
     DatePicker,
     AppInput,
     FormError,
-    List
+    List,
+    PageHeader
   },
   props: {
     slug: {
@@ -281,15 +299,11 @@ export default defineComponent({
 }
 
 .form__panel {
-  @apply flex flex-col;
+  @apply mt-8 flex flex-col;
 }
 
 .form__error {
-  @apply mt-4 self-start;
-}
-
-.form__header {
-  @apply text-xl;
+  @apply self-start;
 }
 
 .form__details {
@@ -304,7 +318,6 @@ export default defineComponent({
   @apply space-x-2;
 }
 
-.form__details,
 .form__exam-items {
   @apply mt-4;
 }
