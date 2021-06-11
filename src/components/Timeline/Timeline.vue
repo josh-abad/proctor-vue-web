@@ -1,35 +1,31 @@
 <template>
   <AppPanel>
-    <header class="flex items-start justify-between label-border">
+    <Subheading>
       <AppLabel emphasis>{{ name }}</AppLabel>
       <span>{{ events.length }}</span>
-    </header>
+    </Subheading>
     <transition name="fade" mode="out-in">
       <div v-if="hasError"><ErrorLoading /></div>
-      <div v-else-if="isLoading" class="separator-y">
+      <List v-else-if="isLoading">
         <div class="py-3 last:pb-0" v-for="i in 3" :key="i">
           <AppSkeleton class="w-32 h-2" />
           <AppSkeleton class="w-40 h-3 my-1" />
         </div>
-      </div>
+      </List>
       <div v-else>
         <div v-if="isEmpty" class="flex items-center justify-center py-5">
           <span class="text-gray-500">{{ emptyMessage }}</span>
         </div>
-        <div v-else class="separator-y">
-          <div
-            v-for="(date, i) in eventsByDate"
-            :key="i"
-            class="py-3 last:pb-0"
-          >
+        <List v-else>
+          <li v-for="(date, i) in eventsByDate" :key="i" class="py-3 last:pb-0">
             <div class="item__date" v-if="!hideDate">
               {{ getFormattedDate(date?.[0]) }}
             </div>
             <ul class="w-full sm:w-64">
               <Item :event="event" v-for="event in date" :key="event.id" />
             </ul>
-          </div>
-        </div>
+          </li>
+        </List>
       </div>
     </transition>
   </AppPanel>
@@ -44,10 +40,20 @@ import dayjs from 'dayjs'
 import Item from './components/Item.vue'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import AppSkeleton from '../ui/AppSkeleton.vue'
+import List from '../List.vue'
+import Subheading from '../Subheading.vue'
 
 export default defineComponent({
   name: 'Timeline',
-  components: { AppPanel, AppLabel, Item, ErrorLoading, AppSkeleton },
+  components: {
+    AppPanel,
+    AppLabel,
+    Item,
+    ErrorLoading,
+    AppSkeleton,
+    List,
+    Subheading
+  },
   props: {
     name: {
       type: String,

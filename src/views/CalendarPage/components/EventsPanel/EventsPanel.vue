@@ -1,12 +1,12 @@
 <template>
-  <ul v-if="exams.length > 0" class="separator-y dark:divide-gray-600">
+  <List v-if="exams.length > 0" class="dark:divide-gray-600">
     <EventsPanelItem
       :event="exam"
       v-for="exam in exams"
       :key="exam.id"
       :date="date"
     />
-  </ul>
+  </List>
   <div v-else>No events occuring today.</div>
 </template>
 
@@ -14,10 +14,11 @@
 import { Exam } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import EventsPanelItem from './components/EventsPanelItem.vue'
+import List from '@/components/List.vue'
 
 export default defineComponent({
   name: 'EventsPanel',
-  components: { EventsPanelItem },
+  components: { EventsPanelItem, List },
   props: {
     date: {
       type: String,

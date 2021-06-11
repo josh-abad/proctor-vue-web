@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-row label-border">
+  <div class="tab-row">
     <router-link :to="`/courses/${courseSlug}`" class="tab-row__tab">
       Overview
     </router-link>
@@ -29,6 +29,7 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .tab-row {
   @apply flex space-x-2 text-gray-500 bg-gray-100 rounded-t-lg shadow dark:bg-gray-800;
+  @apply border-b border-gray-300 dark:border-gray-700;
 }
 
 .tab-row__tab {

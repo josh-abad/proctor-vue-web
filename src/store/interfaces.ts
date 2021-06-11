@@ -1,4 +1,4 @@
-import { AuthenticatedUser, NewCourse, Role, Submission } from '@/types'
+import { AuthenticatedUser, Role, Submission } from '@/types'
 import { ActionContext } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'
@@ -36,10 +36,6 @@ export interface Actions {
   [ActionTypes.ENROLL_STUDENTS](
     { commit, dispatch }: AugmentedActionContext,
     { userIds, courseId }: { userIds: string[]; courseId: string }
-  ): Promise<void>
-  [ActionTypes.CREATE_COURSE](
-    { commit, dispatch }: AugmentedActionContext,
-    newCourse: NewCourse
   ): Promise<void>
   [ActionTypes.DELETE_COURSE](
     { commit, dispatch }: AugmentedActionContext,

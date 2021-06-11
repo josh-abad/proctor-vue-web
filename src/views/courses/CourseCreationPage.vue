@@ -1,7 +1,15 @@
 <template>
   <div class="p-4">
-    <AppPanel>
-      <div class="text-xl font-semibold">Create New Course</div>
+    <PageHeader
+      :links="[
+        { name: 'Home', url: '/' },
+        { name: 'Courses', url: '/courses' },
+        { name: 'New Course', url: '/courses/new' }
+      ]"
+    >
+      <template #label>Create a course</template>
+    </PageHeader>
+    <AppPanel class="mt-8">
       <div class="flex flex-col items-start">
         <div class="flex mt-4">
           <div>
@@ -13,7 +21,6 @@
           <div class="ml-4">
             <label for="courseWeeks"><AppLabel>Course Weeks</AppLabel></label>
             <input
-              class="px-3 py-2 bg-gray-100 border-gray-300 rounded-lg shadow appearance-none  focus:outline-none dark:bg-gray-800 focus:ring-0 dark:border-gray-700 focus:border-green-500"
               type="number"
               id="courseWeeks"
               min="4"
@@ -54,11 +61,12 @@ import AppInput from '@/components/ui/AppInput.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import AppTextArea from '@/components/ui/AppTextArea.vue'
-import { CREATE_COURSE } from '@/store/action-types'
-import { NewCourse } from '@/types'
 import { computed, defineComponent } from 'vue'
 import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
+import coursesService from '@/services/courses'
+import useSnackbar from '@/composables/use-snackbar'
+import PageHeader from '@/components/PageHeader/PageHeader.vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
@@ -68,9 +76,12 @@ export default defineComponent({
     AppTextArea,
     AppDropdown,
     AppLabel,
-    AppPanel
+    AppPanel,
+    PageHeader
   },
   setup() {
+    const { setSnackbarMessage } = useSnackbar()
+
     const [coordinators, fetchCoordinators, loading, error] = useFetch(
       () => usersService.getCoordinators(),
       []
@@ -87,7 +98,8 @@ export default defineComponent({
     return {
       coordinators: options,
       loading,
-      error
+      error,
+      setSnackbarMessage
     }
   },
   data() {
@@ -100,15 +112,29 @@ export default defineComponent({
   },
   methods: {
     async saveCourse() {
-      const newCourse: NewCourse = {
-        name: this.courseName,
-        description: this.courseDescription,
-        coordinatorId: this.coordinator,
-        weeks: this.courseWeeks
+      try {
+        await coursesService.create({
+          name: this.courseName,
+          description: this.courseDescription,
+          coordinatorId: this.coordinator,
+          weeks: this.courseWeeks
+        })
+        await this.$router.push('/courses')
+        this.setSnackbarMessage('Course successfully created', 'success')
+      } catch (error) {
+        this.setSnackbarMessage(
+          `${this.courseName} already is already taken.`,
+          'error'
+        )
       }
-      await this.$store.dispatch(CREATE_COURSE, newCourse)
-      this.$router.push('/courses')
     }
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+#courseWeeks {
+  @apply px-3 py-2 appearance-none focus:outline-none focus:ring-0 focus:border-green-500;
+  @apply bg-gray-100 border-gray-300 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700;
+}
+</style>

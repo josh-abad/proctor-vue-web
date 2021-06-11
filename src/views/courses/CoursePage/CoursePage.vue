@@ -68,7 +68,7 @@
       <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-slug="slug" />
-          <AppPanel class="border-t-0 rounded-t-none">
+          <AppPanel class="rounded-t-none">
             <router-view v-slot="{ Component }">
               <transition name="fade" mode="out-in">
                 <keep-alive>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between py-2">
     <span>
       <div>{{ name }}</div>
       <div class="text-xs text-gray-500" v-if="description">

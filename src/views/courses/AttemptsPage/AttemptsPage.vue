@@ -83,16 +83,14 @@
               <ErrorLoading />
             </div>
             <SkeletonAttemptsList v-else-if="loadingAttempts" />
-            <div v-else-if="attempts.length > 0">
-              <ul class="mt-2 separator-y">
-                <AttemptItem
-                  v-for="(attempt, i) in attempts"
-                  :key="attempt.id"
-                  :attempt-number="i + 1"
-                  :attempt="attempt"
-                />
-              </ul>
-            </div>
+            <List class="mt-2" v-else-if="attempts.length > 0">
+              <AttemptItem
+                v-for="(attempt, i) in attempts"
+                :key="attempt.id"
+                :attempt-number="i + 1"
+                :attempt="attempt"
+              />
+            </List>
             <div v-else>You have made no attempts so far.</div>
           </transition>
           <div class="flex flex-row-reverse justify-between mt-4">
@@ -151,6 +149,7 @@ import SkeletonAttemptsList from './components/SkeletonAttemptsList.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import SkeletonPageHeader from '@/components/SkeletonPageHeader.vue'
 import { TrashIcon } from '@heroicons/vue/solid'
+import List from '@/components/List.vue'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -170,7 +169,8 @@ export default defineComponent({
     SkeletonAttemptsList,
     AppSkeleton,
     SkeletonPageHeader,
-    TrashIcon
+    TrashIcon,
+    List
   },
   props: {
     courseSlug: {

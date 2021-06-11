@@ -1,6 +1,8 @@
 <template>
   <div>
-    <AppLabel class="pb-2 label-border" emphasis>Recent Activity</AppLabel>
+    <Subheading>
+      <AppLabel emphasis>Recent Activity</AppLabel>
+    </Subheading>
     <ActivityList
       :attempts="attempts"
       :is-loading="isLoading"
@@ -15,10 +17,11 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import userService from '@/services/user'
 import useFetch from '@/composables/use-fetch'
 import ActivityList from '@/components/ActivityList.vue'
+import Subheading from '@/components/Subheading.vue'
 
 export default defineComponent({
   name: 'RecentActivites',
-  components: { AppLabel, ActivityList },
+  components: { AppLabel, ActivityList, Subheading },
   setup() {
     const [attempts, fetchAttempts, isLoading, hasError] = useFetch(
       () => userService.getAttempts(5),

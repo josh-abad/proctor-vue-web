@@ -42,14 +42,6 @@ export default {
       setSnackbarMessage(error.response.data.error, 'error')
     }
   },
-  async [ActionTypes.CREATE_COURSE](_, newCourse) {
-    try {
-      await coursesService.create(newCourse)
-      setSnackbarMessage('Course successfully created', 'success')
-    } catch (error) {
-      setSnackbarMessage(error.response.data.error, 'error')
-    }
-  },
   async [ActionTypes.DELETE_COURSE](_, courseId) {
     try {
       await coursesService.deleteCourse(courseId)

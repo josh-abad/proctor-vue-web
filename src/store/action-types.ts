@@ -1,7 +1,6 @@
 export const ENROLL_STUDENT = 'ENROLL_STUDENT'
 export const ENROLL_STUDENTS = 'ENROLL_STUDENTS'
 
-export const CREATE_COURSE = 'CREATE_COURSE'
 export const DELETE_COURSE = 'DELETE_COURSE'
 
 export const DELETE_EXAM = 'DELETE_EXAM'

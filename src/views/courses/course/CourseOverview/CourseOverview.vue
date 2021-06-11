@@ -2,15 +2,12 @@
   <transition name="fade" mode="out-in">
     <div v-if="error">Could not load course.</div>
     <div v-else-if="loading" class="space-y-2">
-      <div v-for="i in 10" :key="i">
-        <div class="py-2 label-border">
+      <div v-for="i in 8" :key="i">
+        <Subheading class="pb-3">
           <AppSkeleton class="h-2 w-28" />
-        </div>
+        </Subheading>
         <div class="flex items-center justify-between py-3">
-          <div class="flex">
-            <AppSkeleton class="w-5 h-3 mr-2" />
-            <AppSkeleton class="w-32 h-3" />
-          </div>
+          <AppSkeleton class="w-32 h-3" />
           <SVGCheckbox :model-value="false" static-check />
         </div>
       </div>
@@ -41,13 +38,15 @@ import { ExamWithTaken } from '@/types'
 import { computed, defineComponent, ref } from 'vue'
 import Week from './components/Week/Week.vue'
 import userService from '@/services/user'
+import Subheading from '@/components/Subheading.vue'
 
 export default defineComponent({
   name: 'CourseOverview',
   components: {
     Week,
     AppSkeleton,
-    SVGCheckbox
+    SVGCheckbox,
+    Subheading
   },
   props: {
     slug: {
