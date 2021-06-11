@@ -263,7 +263,12 @@ export default defineComponent({
         this.setSnackbarMessage('Exam successfully created', 'success')
         this.$router.push(`/courses/${this.slug}`)
       } catch (error) {
-        this.setSnackbarMessage(error.response.data.error, 'error')
+        this.setSnackbarMessage(
+          `${this.examName} already exists in ${
+            this.course?.name ?? 'this course'
+          }.`,
+          'error'
+        )
       }
     }
   }
