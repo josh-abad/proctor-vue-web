@@ -11,7 +11,7 @@
           class="block text-gray-500 focus:outline-none focus:ring-0"
           @click="$emit('toggle')"
         >
-          <MenuIcon class="w-5 h-5 fill-current" />
+          <MenuIcon class="w-6 h-6 fill-current" />
         </button>
         <router-link to="/">
           <AppLogo class="ml-6 h-7" @click="$router.push('/')" />
