@@ -44,11 +44,14 @@ button {
 }
 
 button.primary {
-  @apply text-white bg-indigo-500 active:bg-indigo-300;
+  @apply text-white bg-indigo-500 active:bg-indigo-300 hover:bg-indigo-400;
 }
 
 button.secondary {
-  @apply bg-gray-300 text-gray-600 active:bg-gray-200 dark:active:bg-gray-500 dark:text-gray-400 dark:bg-gray-700;
+  @apply bg-gray-900 bg-opacity-10 text-gray-600;
+  @apply dark:bg-white dark:bg-opacity-10 dark:text-gray-400;
+  @apply hover:bg-opacity-20 dark:hover:bg-opacity-20;
+  @apply active:bg-opacity-30 dark:active:bg-opacity-30;
 }
 
 button div.content {
@@ -56,6 +59,6 @@ button div.content {
 }
 
 button.danger {
-  @apply bg-red-500 text-white active:bg-red-300;
+  @apply bg-red-500 text-white active:bg-red-300 hover:bg-red-400;
 }
 </style>
