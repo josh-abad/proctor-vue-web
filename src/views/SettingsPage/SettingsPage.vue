@@ -1,13 +1,6 @@
 <template>
   <div class="p-4">
-    <PageHeader
-      hide-menu
-      :links="[
-        { name: 'Home', url: '/' },
-        { name: 'Settings', url: '/settings' }
-      ]"
-      ><template #label> Settings </template></PageHeader
-    >
+    <PageHeading><template #label> Settings </template></PageHeading>
     <AppPanel class="w-full mt-8 md:w-2/3">
       <Subheading>
         <AppLabel emphasis>User</AppLabel>
@@ -90,7 +83,7 @@ import SettingsItem from './components/SettingsItem.vue'
 import { TrashIcon } from '@heroicons/vue/solid'
 import useTheme from '@/composables/use-theme'
 import useSnackbar from '@/composables/use-snackbar'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import PageHeading from '@/components/PageHeading.vue'
 import Subheading from '@/components/Subheading.vue'
 
 export default defineComponent({
@@ -103,7 +96,7 @@ export default defineComponent({
     AppModal,
     SettingsItem,
     TrashIcon,
-    PageHeader,
+    PageHeading,
     Subheading
   },
   setup() {

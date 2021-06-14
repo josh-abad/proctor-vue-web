@@ -1,13 +1,12 @@
 <template>
   <div class="p-4">
-    <PageHeader
+    <PageHeading
       hide-menu
       :links="[
         { name: 'Home', url: '/' },
-        { name: 'Settings', url: '/settings' },
-        { name: 'Face Identification', url: '/settings/face-id' }
+        { name: 'Settings', url: '/settings' }
       ]"
-      ><template #label>Face Identification</template></PageHeader
+      ><template #label>Face Identification</template></PageHeading
     >
     <AppPanel class="mt-8">
       <div class="text-sm text-gray-400">
@@ -23,11 +22,11 @@
 import { defineComponent } from 'vue'
 import ImageUpload from './components/ImageUpload/ImageUpload.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import PageHeading from '@/components/PageHeading.vue'
 
 export default defineComponent({
   name: 'FaceIdentificationPage',
-  components: { ImageUpload, AppPanel, PageHeader },
+  components: { ImageUpload, AppPanel, PageHeading },
   props: {
     userId: {
       type: String,

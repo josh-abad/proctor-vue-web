@@ -1,5 +1,5 @@
 <template>
-  <li class="flex pt-3 mt-3">
+  <li class="flex py-3">
     <div class="w-16 h-16 overflow-hidden rounded sm:w-40 sm:h-20">
       <router-link :to="`/courses/${course.id}`">
         <img

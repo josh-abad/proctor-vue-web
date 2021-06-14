@@ -7,16 +7,17 @@
       </div>
       <slot name="actions"></slot>
     </div>
+    <slot name="meta"></slot>
   </header>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import Breadcrumbs from './components/Breadcrumbs.vue'
+import Breadcrumbs from './Breadcrumbs.vue'
 import { Link } from '@/types'
 
 export default defineComponent({
-  name: 'PageHeader',
+  name: 'PageHeading',
   components: { Breadcrumbs },
   props: {
     links: {

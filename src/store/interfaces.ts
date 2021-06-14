@@ -1,4 +1,4 @@
-import { AuthenticatedUser, Role, Submission } from '@/types'
+import { AuthenticatedUser, Role } from '@/types'
 import { ActionContext } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'
@@ -24,34 +24,9 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, State>, 'commit' | 'dispatch'>
 
 export interface Actions {
-  [ActionTypes.LOG_OUT]({ commit }: AugmentedActionContext): Promise<void>
   [ActionTypes.VERIFY](
     { commit, dispatch }: AugmentedActionContext,
     token: string
-  ): Promise<void>
-  [ActionTypes.ENROLL_STUDENT](
-    { commit, dispatch }: AugmentedActionContext,
-    { studentId, courseId }: { studentId: string; courseId: string }
-  ): Promise<void>
-  [ActionTypes.ENROLL_STUDENTS](
-    { commit, dispatch }: AugmentedActionContext,
-    { userIds, courseId }: { userIds: string[]; courseId: string }
-  ): Promise<void>
-  [ActionTypes.DELETE_COURSE](
-    { commit, dispatch }: AugmentedActionContext,
-    courseId: string
-  ): Promise<void>
-  [ActionTypes.DELETE_EXAM](
-    { commit, dispatch }: AugmentedActionContext,
-    examId: string
-  ): Promise<void>
-  [ActionTypes.START_ATTEMPT](
-    { commit, dispatch }: AugmentedActionContext,
-    examId: string
-  ): Promise<void>
-  [ActionTypes.SUBMIT_EXAM](
-    { commit }: AugmentedActionContext,
-    payload: Submission
   ): Promise<void>
 }
 

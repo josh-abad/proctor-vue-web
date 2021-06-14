@@ -1,11 +1,11 @@
 <template>
-  <div class="flex mt-3 overflow-hidden border border-gray-700 rounded-lg shadow-md">
-    <div class="px-3 py-3 text-gray-400 bg-gray-100 dark:bg-gray-700">
+  <div class="flex mt-3">
+    <div
+      class="flex items-center justify-center w-6 h-6 mt-4 bg-gray-700 rounded"
+    >
       {{ questionNumber }}
     </div>
-    <div
-      class="py-3 pl-4 bg-gray-100 select-none dark:bg-gray-800"
-    >
+    <div class="py-3 pl-4 select-none">
       {{ examItem.question }}
       <div class="mt-4">
         <div v-if="typeof answer === 'string'">
@@ -14,7 +14,10 @@
             v-model="answer"
             type="text"
           />
-          <div v-else-if="examItem.questionType === 'multiple choice'" class="space-y-2">
+          <div
+            v-else-if="examItem.questionType === 'multiple choice'"
+            class="space-y-2"
+          >
             <RadioButton
               v-for="(choice, i) in examItem.choices"
               :key="i"
@@ -60,7 +63,7 @@ export default defineComponent({
     questionNumber: Number
   },
   emits: ['update:modelValue'],
-  data () {
+  data() {
     let answer: string | string[]
     if (this.examItem.questionType !== 'multiple answers') {
       answer = ''
@@ -72,23 +75,32 @@ export default defineComponent({
     }
   },
   watch: {
-    answer (newAnswer: string | string[]) {
+    answer(newAnswer: string | string[]) {
       // FIXME: duplicate questions don't get counted
-      if (this.modelValue.some(({ question }) => question === this.examItem.question)) {
-        this.$emit('update:modelValue', this.modelValue
-          .map(item => item.question === this.examItem.question
-            ? {
-              question: item.question,
-              answer: newAnswer
-            }
-            : item
+      if (
+        this.modelValue.some(
+          ({ question }) => question === this.examItem.question
+        )
+      ) {
+        this.$emit(
+          'update:modelValue',
+          this.modelValue.map(item =>
+            item.question === this.examItem.question
+              ? {
+                  question: item.question,
+                  answer: newAnswer
+                }
+              : item
           )
         )
       } else {
-        this.$emit('update:modelValue', [...this.modelValue, {
-          question: this.examItem.question,
-          answer: newAnswer
-        }])
+        this.$emit('update:modelValue', [
+          ...this.modelValue,
+          {
+            question: this.examItem.question,
+            answer: newAnswer
+          }
+        ])
       }
     }
   }

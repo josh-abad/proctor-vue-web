@@ -2,7 +2,7 @@
   <div v-if="error">Could not load course.</div>
   <div v-else-if="loading">
     <div class="p-4">
-      <SkeletonPageHeader />
+      <SkeletonPageHeading />
       <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-slug="slug" />
@@ -24,7 +24,18 @@
   </div>
   <div v-else>
     <div v-if="course" class="p-4">
-      <PageHeader :links="links">
+      <PageHeading
+        :links="[
+          {
+            name: 'Home',
+            url: '/'
+          },
+          {
+            name: 'Courses',
+            url: '/courses'
+          }
+        ]"
+      >
         <template #label>{{ course.name }}</template>
         <template
           #actions
@@ -64,7 +75,33 @@
             </ModalButton>
           </div>
         </template>
-      </PageHeader>
+        <template #meta>
+          <PageHeadingMeta>
+            <PageHeadingMetaItem>
+              <template #icon>
+                <UserGroupIcon />
+              </template>
+              <template #content>
+                {{ course.studentsEnrolled.length }} students
+              </template>
+            </PageHeadingMetaItem>
+            <PageHeadingMetaItem>
+              <template #icon>
+                <CalendarIcon />
+              </template>
+              <template #content> {{ course.weeks }} weeks </template>
+            </PageHeadingMetaItem>
+            <PageHeadingMetaItem>
+              <template #icon>
+                <UserIcon />
+              </template>
+              <template #content>
+                Coordinated by {{ course.coordinator.fullName }}
+              </template>
+            </PageHeadingMetaItem>
+          </PageHeadingMeta>
+        </template>
+      </PageHeading>
       <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
           <TabRow :course-slug="slug" />
@@ -79,11 +116,7 @@
           </AppPanel>
         </div>
         <div class="w-full mt-4 sm:w-72 sm:mt-0">
-          <CoursePageAbout
-            :student-count="course.studentsEnrolled.length"
-            :description="course.description"
-            :coordinator-name="course.coordinator.fullName"
-          />
+          <CoursePageAbout>{{ course.description }}</CoursePageAbout>
           <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
           <CoursePageProgress class="mt-4" :course-slug="slug" />
         </div>
@@ -94,15 +127,13 @@
 
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
-import { Link } from '@/types'
 import { defineComponent, ref } from 'vue'
 import coursesService from '@/services/courses'
 import useFetch from '@/composables/use-fetch'
-import { DELETE_COURSE } from '@/store/action-types'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
 import CoursePageAbout from './components/CoursePageAbout.vue'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import PageHeading from '@/components/PageHeading.vue'
 import TabRow from './components/TabRow.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import About from './components/fallback/components/About.vue'
@@ -111,9 +142,19 @@ import Progress from './components/fallback/components/Progress.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import userService from '@/services/user'
 import useTitle from '@/composables/use-title'
-import SkeletonPageHeader from '@/components/SkeletonPageHeader.vue'
+import SkeletonPageHeading from '@/components/SkeletonPageHeading.vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
-import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
+import {
+  PlusIcon,
+  PencilIcon,
+  TrashIcon,
+  UserIcon,
+  UserGroupIcon,
+  CalendarIcon
+} from '@heroicons/vue/solid'
+import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
+import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -122,18 +163,23 @@ export default defineComponent({
     CoursePageProgress,
     CoursePageAbout,
     CoursePageUpcomingExams,
-    PageHeader,
+    PageHeading,
     TabRow,
     AppSkeleton,
     About,
     UpcomingExams,
     Progress,
     AppButton,
-    SkeletonPageHeader,
+    SkeletonPageHeading,
     ModalButton,
     PlusIcon,
     PencilIcon,
-    TrashIcon
+    TrashIcon,
+    UserIcon,
+    UserGroupIcon,
+    CalendarIcon,
+    PageHeadingMetaItem,
+    PageHeadingMeta
   },
   props: {
     slug: {
@@ -142,6 +188,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { setSnackbarMessage } = useSnackbar()
+
     const deleteCourseModal = ref(false)
 
     const [course, fetchCourse, loading, error] = useFetch(() =>
@@ -164,25 +212,8 @@ export default defineComponent({
       course,
       loading,
       error,
-      deleteCourseModal
-    }
-  },
-  computed: {
-    links(): Link[] {
-      return [
-        {
-          name: 'Home',
-          url: '/'
-        },
-        {
-          name: 'Courses',
-          url: '/courses'
-        },
-        {
-          name: this.course?.name,
-          url: `/courses/${this.slug}`
-        }
-      ]
+      deleteCourseModal,
+      setSnackbarMessage
     }
   },
   async mounted() {
@@ -194,9 +225,14 @@ export default defineComponent({
     }
   },
   methods: {
-    deleteCourse() {
-      this.$store.dispatch(DELETE_COURSE, this.slug)
-      this.$router.push('/courses')
+    async deleteCourse() {
+      try {
+        await coursesService.deleteCourse(this.slug)
+        this.setSnackbarMessage('Course successfully deleted', 'success')
+        this.$router.push('/courses')
+      } catch (error) {
+        this.setSnackbarMessage('Could not delete course', 'error')
+      }
     },
     editCourse() {
       // TODO: implement editing courses

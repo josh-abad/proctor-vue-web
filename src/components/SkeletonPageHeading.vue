@@ -1,9 +1,8 @@
 <template>
   <div>
-    <AppSkeleton class="w-56 h-5" />
-    <div class="flex justify-between mt-2">
-      <AppSkeleton class="w-48 h-8" />
-    </div>
+    <AppSkeleton class="w-56 h-4" />
+    <AppSkeleton class="w-48 h-8 mt-4" />
+    <AppSkeleton class="w-64 h-4 mt-4" />
   </div>
 </template>
 
@@ -12,7 +11,7 @@ import { defineComponent } from 'vue'
 import AppSkeleton from './ui/AppSkeleton.vue'
 
 export default defineComponent({
-  name: 'SkeletonPageHeader',
+  name: 'SkeletonPageHeading',
   components: { AppSkeleton }
 })
 </script>

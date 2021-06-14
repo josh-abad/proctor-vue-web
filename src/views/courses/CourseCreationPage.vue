@@ -1,14 +1,13 @@
 <template>
   <div class="p-4">
-    <PageHeader
+    <PageHeading
       :links="[
         { name: 'Home', url: '/' },
-        { name: 'Courses', url: '/courses' },
-        { name: 'New Course', url: '/courses/new' }
+        { name: 'Courses', url: '/courses' }
       ]"
     >
       <template #label>Create a course</template>
-    </PageHeader>
+    </PageHeading>
     <AppPanel class="mt-8">
       <div class="flex flex-col items-start">
         <div class="flex mt-4">
@@ -66,7 +65,7 @@ import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
 import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import PageHeading from '@/components/PageHeading.vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
@@ -77,7 +76,7 @@ export default defineComponent({
     AppDropdown,
     AppLabel,
     AppPanel,
-    PageHeader
+    PageHeading
   },
   setup() {
     const { setSnackbarMessage } = useSnackbar()

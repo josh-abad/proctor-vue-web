@@ -46,7 +46,6 @@
 </template>
 
 <script lang="ts">
-import { LOG_OUT } from '@/store/action-types'
 import { defineComponent, ref } from 'vue'
 import MenuDropdownItem from '@/components/MenuDropdownItem.vue'
 import MenuDropdown from '@/components/MenuDropdown.vue'
@@ -57,6 +56,8 @@ import {
   CogIcon,
   LogoutIcon
 } from '@heroicons/vue/outline'
+import { SET_USER } from '@/store/mutation-types'
+import cookie from '@/utils/cookie'
 
 export default defineComponent({
   name: 'UserDropdown',
@@ -78,7 +79,9 @@ export default defineComponent({
   },
   methods: {
     async handleLogOut() {
-      await this.$store.dispatch(LOG_OUT)
+      localStorage.clear()
+      cookie.remove('loggedAppUser')
+      this.$store.commit(SET_USER, null)
       this.$router.push('/login')
     }
   }
