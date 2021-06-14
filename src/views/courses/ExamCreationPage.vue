@@ -1,15 +1,14 @@
 <template>
   <div v-if="course" class="form">
-    <PageHeader
+    <PageHeading
       :links="[
         { name: 'Home', url: '/' },
         { name: 'Courses', url: '/courses' },
-        { name: course.name, url: `/courses/${course.slug}` },
-        { name: 'New Exam', url: `/courses/${course.slug}/create-exam` }
+        { name: course.name, url: `/courses/${course.slug}` }
       ]"
     >
-      <template #label>Create an exam for {{ course.name }}</template>
-    </PageHeader>
+      <template #label>Create exam</template>
+    </PageHeading>
     <AppPanel class="form__panel">
       <div class="form__details">
         <div class="form__detail">
@@ -125,7 +124,7 @@ import useFetch from '@/composables/use-fetch'
 import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
 import List from '@/components/List.vue'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import PageHeading from '@/components/PageHeading.vue'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -141,7 +140,7 @@ export default defineComponent({
     AppInput,
     FormError,
     List,
-    PageHeader
+    PageHeading
   },
   props: {
     slug: {

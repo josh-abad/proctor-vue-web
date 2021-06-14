@@ -1,11 +1,6 @@
 <template>
   <div class="p-4">
-    <PageHeader
-      :links="[
-        { name: 'Home', url: '/' },
-        { name: 'Courses', url: '/courses' }
-      ]"
-    >
+    <PageHeading>
       <template #label>Courses</template>
       <template #actions v-if="$store.getters.permissions(['admin'])">
         <router-link to="/courses/new">
@@ -19,7 +14,7 @@
           </AppButton>
         </router-link>
       </template>
-    </PageHeader>
+    </PageHeading>
     <AppPanel class="mt-8 mb-0">
       <CourseList />
     </AppPanel>
@@ -28,7 +23,7 @@
 
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
-import PageHeader from '@/components/PageHeader/PageHeader.vue'
+import PageHeading from '@/components/PageHeading.vue'
 import { defineComponent } from 'vue'
 import CourseList from '@/components/CourseList/CourseList.vue'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -38,7 +33,7 @@ export default defineComponent({
   name: 'CoursesPage',
   components: {
     AppPanel,
-    PageHeader,
+    PageHeading,
     CourseList,
     AppButton,
     PlusIcon

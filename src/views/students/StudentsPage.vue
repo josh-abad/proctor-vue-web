@@ -1,14 +1,8 @@
 <template>
   <div class="p-4">
-    <PageHeader
-      :links="[
-        { name: 'Home', url: '/' },
-        { name: 'Students', url: '/students' }
-      ]"
-      hide-menu
-    >
+    <PageHeading>
       <template #label>Students</template>
-    </PageHeader>
+    </PageHeading>
     <AppPanel class="mt-8">
       <div class="flex justify-between">
         <AppInput
@@ -35,11 +29,11 @@ import { defineComponent } from 'vue'
 import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
 import StudentList from '@/components/StudentList.vue'
-import PageHeader from '../../components/PageHeader/PageHeader.vue'
+import PageHeading from '../../components/PageHeading.vue'
 
 export default defineComponent({
   name: 'StudentsPage',
-  components: { AppInput, AppPanel, StudentList, PageHeader },
+  components: { AppInput, AppPanel, StudentList, PageHeading },
   setup() {
     const [students, fetchStudents, loading, error] = useFetch(
       () => usersService.getStudents(),
