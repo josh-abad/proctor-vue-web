@@ -33,11 +33,12 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'close'],
   inheritAttrs: false,
   setup(props, { emit }) {
     const closeModal = () => {
       emit('update:modelValue', false)
+      emit('close')
       const body = document.querySelector('body')
       if (body) {
         body.classList.remove('overflow-hidden')

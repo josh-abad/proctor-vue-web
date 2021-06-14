@@ -20,10 +20,17 @@
       </div>
     </div>
     <div class="flex items-center">
-      <div class="mr-6 text-xl">{{ percentage }}%</div>
-      <div class="mr-6 text-xl">
+      <div class="text-xl">{{ percentage }}%</div>
+      <div class="ml-6 text-xl">
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
+      <button
+        @click="deleteAttempt"
+        class="ml-6 focus:outline-none"
+        v-if="$store.getters.permissions(['coordinator', 'admin'])"
+      >
+        <XIcon class="w-5 h-5" />
+      </button>
     </div>
   </li>
 </template>
@@ -31,12 +38,15 @@
 <script lang="ts">
 import { Attempt } from '@/types'
 import { defineComponent, PropType } from 'vue'
+import { XIcon } from '@heroicons/vue/solid'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import examAttemptsService from '@/services/exam-attempts'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'AttemptItem',
+  components: { XIcon },
   props: {
     attempt: {
       type: Object as PropType<Attempt>,
@@ -45,6 +55,7 @@ export default defineComponent({
 
     attemptNumber: Number
   },
+  emits: ['delete'],
   computed: {
     percentage(): number {
       return Math.floor((this.attempt.score / this.attempt.examTotal) * 100)
@@ -53,6 +64,10 @@ export default defineComponent({
   methods: {
     formattedDate(d: string | Date) {
       return dayjs(d).fromNow()
+    },
+    async deleteAttempt() {
+      await examAttemptsService.deleteAttempt(this.attempt.id)
+      this.$emit('delete', this.attempt.id)
     }
   }
 })

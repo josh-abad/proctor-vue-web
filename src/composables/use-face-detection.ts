@@ -56,14 +56,16 @@ export default function useFaceDetection({
     }
   }
 
-  loadModels().then(() => {
-    if (faceRecognition) {
-      const { name, referenceImageUrl } = faceRecognition
-      getFaceMatcher(referenceImageUrl, name).then(createdFaceMatcher => {
-        faceMatcher.value = createdFaceMatcher
-      })
-    }
-  })
+  const loadFaceDetection = () => {
+    loadModels().then(() => {
+      if (faceRecognition) {
+        const { name, referenceImageUrl } = faceRecognition
+        getFaceMatcher(referenceImageUrl, name).then(createdFaceMatcher => {
+          faceMatcher.value = createdFaceMatcher
+        })
+      }
+    })
+  }
 
   const startDetection = (video: HTMLMediaElement) => {
     return () => {
@@ -94,6 +96,7 @@ export default function useFaceDetection({
   return {
     isFaceSeen,
     isFaceIdentified,
-    startDetection
+    startDetection,
+    loadFaceDetection
   }
 }

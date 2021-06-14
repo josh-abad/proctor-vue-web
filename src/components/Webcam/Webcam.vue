@@ -19,7 +19,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, onMounted, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  watch,
+  watchEffect
+} from 'vue'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
 import useFaceDetection from '@/composables/use-face-detection'
@@ -38,10 +45,15 @@ export default defineComponent({
     duration: {
       type: Number,
       default: 5
+    },
+
+    on: {
+      type: Boolean,
+      default: true
     }
   },
-  emits: ['no-face-seen', 'unidentified-face'],
-  setup (props, { emit }) {
+  emits: ['no-face-seen', 'unidentified-face', 'camera-status-change'],
+  setup(props, { emit }) {
     const store = useStore()
 
     const detectionTimer = useTimer(() => {
@@ -54,30 +66,65 @@ export default defineComponent({
       identificationTimer.start()
     }, props.duration * 1000)
 
-    const { video, startVideo, stopVideo, isEnabled } = useVideo()
+    const { video, startVideo, stopVideo, isEnabled, isLoading } = useVideo()
 
-    onBeforeUnmount(() => {
+    const cameraStatus = computed(() => {
+      if (isLoading.value) {
+        return 'loading'
+      } else if (isEnabled.value) {
+        return 'enabled'
+      } else {
+        return 'disabled'
+      }
+    })
+
+    watchEffect(() => {
+      emit('camera-status-change', cameraStatus.value)
+    })
+
+    watch(
+      () => props.on,
+      isOn => {
+        if (isOn) {
+          startVideo().then(() => {
+            loadFaceDetection()
+          })
+
+          if (video.value) {
+            video.value.addEventListener('play', startDetection(video.value))
+          }
+        } else {
+          stopVideo()
+          if (video.value) {
+            video.value.removeEventListener('play', startDetection(video.value))
+          }
+        }
+      }
+    )
+
+    onUnmounted(() => {
       stopVideo()
       detectionTimer.stop()
       identificationTimer.stop()
+
+      if (video.value) {
+        video.value.removeEventListener('play', startDetection(video.value))
+      }
     })
 
     if (!store.state.user) {
       throw new Error('User not logged in')
     }
 
-    const {
-      isFaceSeen,
-      isFaceIdentified,
-      startDetection
-    } = useFaceDetection({
-      faceRecognition: store.state.user.referenceImageUrl
-        ? {
-          name: store.state.user.fullName,
-          referenceImageUrl: store.state.user.referenceImageUrl
-        }
-        : undefined
-    })
+    const { isFaceSeen, isFaceIdentified, startDetection, loadFaceDetection } =
+      useFaceDetection({
+        faceRecognition: store.state.user.referenceImageUrl
+          ? {
+              name: store.state.user.fullName,
+              referenceImageUrl: store.state.user.referenceImageUrl
+            }
+          : undefined
+      })
 
     watch(isFaceSeen, isSeen => {
       if (isSeen) {
@@ -94,7 +141,10 @@ export default defineComponent({
     watch(isFaceIdentified, isIdentified => {
       if (isIdentified) {
         identificationTimer.stop()
-      } else if (identificationTimer.status !== 'active' && detectionTimer.status === 'stopped') {
+      } else if (
+        identificationTimer.status !== 'active' &&
+        detectionTimer.status === 'stopped'
+      ) {
         identificationTimer.start()
       }
     })
@@ -104,7 +154,6 @@ export default defineComponent({
         video.value.addEventListener('play', startDetection(video.value))
       }
 
-      await startVideo()
       detectionTimer.start()
     })
 

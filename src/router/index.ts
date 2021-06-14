@@ -97,20 +97,20 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: ':courseSlug/:examSlug',
             props: true,
-            meta: {
-              title: createTitle('Attempts')
-            },
-            component: () =>
-              import('../views/courses/AttemptsPage/AttemptsPage.vue')
-          },
-          {
-            path: ':courseSlug/:examSlug/attempt',
-            name: 'Exam',
-            props: true,
-            meta: {
-              title: createTitle('Exam')
-            },
-            component: () => import('../views/courses/ExamPage.vue')
+            component: () => import('../views/ExamView.vue'),
+            children: [
+              {
+                path: 'attempts',
+                alias: '',
+                props: true,
+                component: () => import('../views/AttemptsPage.vue')
+              },
+              {
+                path: 'attempt/:id',
+                props: true,
+                component: () => import('../views/ExamPage.vue')
+              }
+            ]
           }
         ],
         component: () => import('../views/Courses.vue')

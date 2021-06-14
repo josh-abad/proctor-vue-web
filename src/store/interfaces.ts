@@ -1,4 +1,4 @@
-import { AuthenticatedUser, Role, Submission } from '@/types'
+import { AuthenticatedUser, Role } from '@/types'
 import { ActionContext } from 'vuex'
 import * as ActionTypes from './action-types'
 import * as MutationTypes from './mutation-types'
@@ -27,18 +27,6 @@ export interface Actions {
   [ActionTypes.VERIFY](
     { commit, dispatch }: AugmentedActionContext,
     token: string
-  ): Promise<void>
-  [ActionTypes.DELETE_EXAM](
-    { commit, dispatch }: AugmentedActionContext,
-    examId: string
-  ): Promise<void>
-  [ActionTypes.START_ATTEMPT](
-    { commit, dispatch }: AugmentedActionContext,
-    examId: string
-  ): Promise<void>
-  [ActionTypes.SUBMIT_EXAM](
-    { commit }: AugmentedActionContext,
-    payload: Submission
   ): Promise<void>
 }
 
