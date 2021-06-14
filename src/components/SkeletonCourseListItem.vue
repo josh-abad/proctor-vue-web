@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between pt-3 mt-3" v-once>
+  <div class="flex items-center justify-between py-3" v-once>
     <div class="flex">
       <AppSkeleton class="w-16 h-16 sm:w-32 sm:h-20" />
       <div class="ml-3 space-y-2">
