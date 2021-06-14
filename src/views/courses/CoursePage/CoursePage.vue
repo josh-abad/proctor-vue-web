@@ -130,7 +130,6 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import { defineComponent, ref } from 'vue'
 import coursesService from '@/services/courses'
 import useFetch from '@/composables/use-fetch'
-import { DELETE_COURSE } from '@/store/action-types'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
 import CoursePageAbout from './components/CoursePageAbout.vue'
@@ -155,6 +154,7 @@ import {
 } from '@heroicons/vue/solid'
 import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
 import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -188,6 +188,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { setSnackbarMessage } = useSnackbar()
+
     const deleteCourseModal = ref(false)
 
     const [course, fetchCourse, loading, error] = useFetch(() =>
@@ -210,7 +212,8 @@ export default defineComponent({
       course,
       loading,
       error,
-      deleteCourseModal
+      deleteCourseModal,
+      setSnackbarMessage
     }
   },
   async mounted() {
@@ -222,9 +225,14 @@ export default defineComponent({
     }
   },
   methods: {
-    deleteCourse() {
-      this.$store.dispatch(DELETE_COURSE, this.slug)
-      this.$router.push('/courses')
+    async deleteCourse() {
+      try {
+        await coursesService.deleteCourse(this.slug)
+        this.setSnackbarMessage('Course successfully deleted', 'success')
+        this.$router.push('/courses')
+      } catch (error) {
+        this.setSnackbarMessage('Could not delete course', 'error')
+      }
     },
     editCourse() {
       // TODO: implement editing courses

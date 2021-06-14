@@ -4,50 +4,19 @@ import * as MutationTypes from './mutation-types'
 import examAttemptsService from '@/services/exam-attempts'
 import examsService from '@/services/exams'
 import verifyService from '@/services/verify'
-import cookie from '@/utils/cookie'
 import { State, Actions } from '@/store/interfaces'
-import coursesService from '@/services/courses'
 import examResultsService from '@/services/exam-results'
 import useSnackbar from '@/composables/use-snackbar'
 
 const { setSnackbarMessage } = useSnackbar()
 
 export default {
-  async [ActionTypes.LOG_OUT]({ commit }) {
-    localStorage.clear()
-    cookie.remove('loggedAppUser')
-    commit(MutationTypes.SET_USER, null)
-  },
   async [ActionTypes.VERIFY]({ commit }, token) {
     try {
       const verifiedUser = await verifyService.verify(token)
       commit(MutationTypes.SET_VERIFIED, verifiedUser.id)
     } catch (error) {
       setSnackbarMessage(error.response.data.error, 'error')
-    }
-  },
-  async [ActionTypes.ENROLL_STUDENT](_, { studentId, courseId }) {
-    try {
-      await coursesService.enrollUser(studentId, courseId)
-      setSnackbarMessage('Student successfully enrolled.', 'success')
-    } catch (error) {
-      setSnackbarMessage(error.response.data.error, 'error')
-    }
-  },
-  async [ActionTypes.ENROLL_STUDENTS](_, { userIds, courseId }) {
-    try {
-      await coursesService.enrollUsers(userIds, courseId)
-      setSnackbarMessage('Students successfully added to course.', 'success')
-    } catch (error) {
-      setSnackbarMessage(error.response.data.error, 'error')
-    }
-  },
-  async [ActionTypes.DELETE_COURSE](_, courseId) {
-    try {
-      await coursesService.deleteCourse(courseId)
-      setSnackbarMessage('Course successfully deleted', 'success')
-    } catch (error) {
-      setSnackbarMessage('Could not delete course', 'error')
     }
   },
   async [ActionTypes.DELETE_EXAM](_, examId) {

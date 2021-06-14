@@ -24,22 +24,9 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, State>, 'commit' | 'dispatch'>
 
 export interface Actions {
-  [ActionTypes.LOG_OUT]({ commit }: AugmentedActionContext): Promise<void>
   [ActionTypes.VERIFY](
     { commit, dispatch }: AugmentedActionContext,
     token: string
-  ): Promise<void>
-  [ActionTypes.ENROLL_STUDENT](
-    { commit, dispatch }: AugmentedActionContext,
-    { studentId, courseId }: { studentId: string; courseId: string }
-  ): Promise<void>
-  [ActionTypes.ENROLL_STUDENTS](
-    { commit, dispatch }: AugmentedActionContext,
-    { userIds, courseId }: { userIds: string[]; courseId: string }
-  ): Promise<void>
-  [ActionTypes.DELETE_COURSE](
-    { commit, dispatch }: AugmentedActionContext,
-    courseId: string
   ): Promise<void>
   [ActionTypes.DELETE_EXAM](
     { commit, dispatch }: AugmentedActionContext,

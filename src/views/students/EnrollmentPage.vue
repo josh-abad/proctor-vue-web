@@ -19,7 +19,6 @@ import AppButton from '@/components/ui/AppButton.vue'
 import AppDropdown from '@/components/ui/AppDropdown.vue'
 import AppPanel from '@/components/ui/AppPanel.vue'
 import Center from '@/components/Center.vue'
-import { ENROLL_STUDENT } from '@/store/action-types'
 import { User } from '@/types'
 import { computed, defineComponent } from 'vue'
 import useFetch from '@/composables/use-fetch'
@@ -78,11 +77,8 @@ export default defineComponent({
   methods: {
     async handleEnroll() {
       try {
-        const payload = {
-          studentId: this.studentId,
-          courseId: this.selectedCourse
-        }
-        await this.$store.dispatch(ENROLL_STUDENT, payload)
+        await coursesService.enrollUser(this.studentId, this.selectedCourse)
+        this.setSnackbarMessage('Student successfully enrolled.', 'success')
         this.$router.push('/students')
       } catch (error) {
         this.setSnackbarMessage(error.response.data.error, 'error')
