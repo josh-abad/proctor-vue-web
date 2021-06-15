@@ -30,6 +30,7 @@ import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
 import StudentList from '@/components/StudentList.vue'
 import PageHeading from '../../components/PageHeading.vue'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'StudentsPage',
@@ -40,7 +41,8 @@ export default defineComponent({
       []
     )
 
-    fetchStudents()
+    NProgress.start()
+    fetchStudents().finally(NProgress.done)
 
     const handleDeleteStudent = (id: string) => {
       students.value = students.value.filter(student => {

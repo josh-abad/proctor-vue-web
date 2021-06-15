@@ -85,6 +85,7 @@ import useTheme from '@/composables/use-theme'
 import useSnackbar from '@/composables/use-snackbar'
 import PageHeading from '@/components/PageHeading.vue'
 import Subheading from '@/components/Subheading.vue'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -143,11 +144,12 @@ export default defineComponent({
       this.deleteAccountModal = false
       if (this.$store.state.user) {
         try {
+          NProgress.start()
           await usersService.deleteUser(this.$store.state.user.id)
-          this.$router.push('/login')
-          this.setSnackbarMessage('Student removed', 'success')
+          await this.$router.push('/login')
         } catch (error) {
-          this.setSnackbarMessage('Could not delete student.', 'error')
+        } finally {
+          NProgress.done()
         }
       }
     }

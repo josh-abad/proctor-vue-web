@@ -61,6 +61,7 @@ import useFetch from '@/composables/use-fetch'
 import { UserCircleIcon } from '@heroicons/vue/solid'
 import ActivityList from '@/components/ActivityList.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
+import NProgress from 'nprogress'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -87,8 +88,8 @@ export default defineComponent({
       []
     )
 
-    fetchUser()
-    fetchAttempts()
+    NProgress.start()
+    Promise.all([fetchUser(), fetchAttempts()]).finally(NProgress.done)
 
     return {
       user,

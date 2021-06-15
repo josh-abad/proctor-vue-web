@@ -42,6 +42,7 @@ import { XIcon } from '@heroicons/vue/solid'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import examAttemptsService from '@/services/exam-attempts'
+import NProgress from 'nprogress'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -66,8 +67,10 @@ export default defineComponent({
       return dayjs(d).fromNow()
     },
     async deleteAttempt() {
+      NProgress.start()
       await examAttemptsService.deleteAttempt(this.attempt.id)
       this.$emit('delete', this.attempt.id)
+      NProgress.done()
     }
   }
 })

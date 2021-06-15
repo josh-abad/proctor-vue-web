@@ -124,6 +124,7 @@ import useTitle from '@/composables/use-title'
 import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
 import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import NProgress from 'nprogress'
 
 dayjs.extend(duration)
 
@@ -167,6 +168,7 @@ export default defineComponent({
     )
     const { setTitle } = useTitle()
 
+    NProgress.start()
     fetchExam()
       .then(() => {
         if (exam.value) {
@@ -176,13 +178,17 @@ export default defineComponent({
       .catch(() => {
         setTitle('Invalid Exam - Proctor Vue')
       })
+      .finally(NProgress.done)
 
     const deleteExam = async () => {
       try {
+        NProgress.start()
         await examsService.deleteExam(exam.value.id)
         setSnackbarMessage('Exam successfully deleted', 'success')
       } catch (error) {
         setSnackbarMessage('Could not delete exam', 'error')
+      } finally {
+        NProgress.done()
       }
       router.replace(`/courses/${props.courseSlug}`)
     }

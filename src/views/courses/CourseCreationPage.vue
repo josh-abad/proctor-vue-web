@@ -66,6 +66,7 @@ import usersService from '@/services/users'
 import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
 import PageHeading from '@/components/PageHeading.vue'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'CourseCreationPage',
@@ -112,6 +113,7 @@ export default defineComponent({
   methods: {
     async saveCourse() {
       try {
+        NProgress.start()
         await coursesService.create({
           name: this.courseName,
           description: this.courseDescription,
@@ -125,6 +127,8 @@ export default defineComponent({
           `${this.courseName} already is already taken.`,
           'error'
         )
+      } finally {
+        NProgress.done()
       }
     }
   }
