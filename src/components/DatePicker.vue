@@ -1,11 +1,11 @@
 <template>
   <div class="date-picker" v-click-outside="closeModal">
-    <AppButton class="date-picker-btn" @click="isOpen = !isOpen">
-      <CalendarIcon class="date-picker-btn__icon" />
+    <button class="date-picker-btn" @click="isOpen = !isOpen">
       <div class="date-picker-btn__selected">
-        {{ dateSelected ? formattedDate : "Select Date" }}
+        {{ dateSelected ? formattedDate : 'Select Date' }}
       </div>
-    </AppButton>
+      <CalendarIcon class="date-picker-btn__icon" />
+    </button>
     <transition name="dropdown-fade">
       <Calendar
         :model-value="modelValue"
@@ -22,13 +22,12 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import { defineComponent } from 'vue'
-import AppButton from './ui/AppButton.vue'
 import Calendar from '@/components/Calendar/Calendar.vue'
-import { CalendarIcon } from '@heroicons/vue/solid'
+import { CalendarIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'DatePicker',
-  components: { AppButton, Calendar, CalendarIcon },
+  components: { Calendar, CalendarIcon },
   props: {
     modelValue: {
       type: String,
@@ -36,24 +35,24 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  data () {
+  data() {
     return {
       isOpen: false
     }
   },
   computed: {
-    formattedDate (): string {
+    formattedDate(): string {
       return dayjs(this.modelValue).format('D MMM YYYY')
     },
-    dateSelected (): boolean {
+    dateSelected(): boolean {
       return this.formattedDate !== 'Invalid Date'
     }
   },
   methods: {
-    closeModal () {
+    closeModal() {
       this.isOpen = false
     },
-    handleUpdate ($event: string | undefined) {
+    handleUpdate($event: string | undefined) {
       if ($event !== undefined) {
         this.$emit('update:modelValue', $event)
       }
@@ -68,11 +67,11 @@ export default defineComponent({
 }
 
 .date-picker-btn {
-  @apply flex items-center space-x-1 font-semibold text-base shadow bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2;
+  @apply rounded-lg focus:outline-none flex items-center text-sm shadow bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 px-3 py-2;
 }
 
 .date-picker-btn__icon {
-  @apply w-4 h-4 fill-current;
+  @apply w-4 h-4 ml-4;
 }
 
 .date-picker__dropdown {
