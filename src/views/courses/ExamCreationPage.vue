@@ -74,6 +74,7 @@
           v-model:answer="examItem.answer"
           v-model:question-type="examItem.questionType"
           v-model:choices="examItem.choices"
+          v-model:shuffleChoices="examItem.shuffleChoices"
           v-for="(examItem, i) in examItems"
           :count="i + 1"
           :key="i"
@@ -116,7 +117,7 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { CourseWithExams, ExamItem, QuestionType } from '@/types'
+import { CourseWithExams, ExamItem } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
@@ -180,7 +181,8 @@ export default defineComponent({
           question: '',
           answer: [''],
           choices: [],
-          questionType: 'text' as QuestionType
+          questionType: 'text',
+          shuffleChoices: false
         }
       ] as ExamItem[],
       openCalendar: false
@@ -252,7 +254,8 @@ export default defineComponent({
         question: '',
         answer: [''],
         choices: [],
-        questionType: 'text'
+        questionType: 'text',
+        shuffleChoices: false
       }
       if (i) {
         this.examItems.splice(i, 0, newExamItem)

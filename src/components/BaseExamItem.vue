@@ -19,7 +19,7 @@
             class="space-y-2"
           >
             <RadioButton
-              v-for="(choice, i) in examItem.choices"
+              v-for="(choice, i) in choices"
               :key="i"
               :value="choice"
               v-model="answer"
@@ -28,7 +28,7 @@
         </div>
         <div v-else class="space-y-2">
           <AppCheckbox
-            v-for="(choice, i) in examItem.choices"
+            v-for="(choice, i) in choices"
             :key="i"
             :value="choice"
             v-model="answer"
@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import { Answer, ExamItem } from '@/types'
+import { shuffle } from '@/utils/helper'
 import { defineComponent, PropType } from 'vue'
 import AppCheckbox from './ui/AppCheckbox.vue'
 import AppInput from './ui/AppInput.vue'
@@ -102,6 +103,14 @@ export default defineComponent({
           }
         ])
       }
+    }
+  },
+  computed: {
+    choices(): string[] {
+      if (this.examItem.shuffleChoices) {
+        return shuffle([...this.examItem.choices])
+      }
+      return this.examItem.choices
     }
   }
 })
