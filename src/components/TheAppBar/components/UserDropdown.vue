@@ -57,7 +57,6 @@ import {
   LogoutIcon
 } from '@heroicons/vue/outline'
 import { SET_USER } from '@/store/mutation-types'
-import cookie from '@/utils/cookie'
 
 export default defineComponent({
   name: 'UserDropdown',
@@ -80,7 +79,6 @@ export default defineComponent({
   methods: {
     async handleLogOut() {
       localStorage.clear()
-      cookie.remove('loggedAppUser')
       this.$store.commit(SET_USER, null)
       this.$router.push('/login')
     }

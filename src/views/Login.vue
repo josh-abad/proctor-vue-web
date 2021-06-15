@@ -73,7 +73,6 @@ import authService from '@/services/auth'
 import { useStore } from '@/store'
 import { SET_USER } from '@/store/mutation-types'
 import { useRouter } from 'vue-router'
-import cookie from '@/utils/cookie'
 import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
@@ -103,7 +102,7 @@ export default defineComponent({
           password: password.value
         })
         store.commit(SET_USER, user)
-        cookie.set('loggedAppUser', JSON.stringify(user))
+        localStorage.setItem('loggedAppUser', JSON.stringify(user))
         authService.setToken(user.token)
         router.push((router.currentRoute.value.query.redirect as string) || '/')
       } catch (error) {
