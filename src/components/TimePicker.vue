@@ -22,26 +22,26 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  data () {
+  data() {
     return {
       hour: 1,
       minute: 0
     }
   },
   computed: {
-    seconds (): number {
+    seconds(): number {
       return this.hour * 3600 + this.minute * 60
     }
   },
   watch: {
-    seconds (newValue: number) {
+    seconds(newValue: number) {
       this.$emit('update:modelValue', newValue)
     }
   },
-  created () {
+  created() {
     if (this.modelValue !== 0) {
       this.hour = Math.floor(this.modelValue / 3600)
-      this.minute = Math.floor(this.modelValue % 3600 / 60)
+      this.minute = Math.floor((this.modelValue % 3600) / 60)
     }
   }
 })

@@ -4,7 +4,7 @@
       v-if="on"
       :class="{
         'icon-detected': detected,
-        'icon-identified': identified,
+        'icon-identified': identified
       }"
     />
     <EyeOffIcon v-else />

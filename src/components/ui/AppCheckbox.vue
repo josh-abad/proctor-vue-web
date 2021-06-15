@@ -2,9 +2,9 @@
   <div class="flex items-center">
     <button :id="value" class="focus:outline-none" @click="handleClick">
       <div
-        class="box-border w-5 h-5 border-2 border-gray-400 rounded  dark:border-gray-600"
+        class="box"
         :class="{
-          'bg-green-500 border-green-500 dark:border-green-500': isSelected
+          checked: isSelected
         }"
       >
         <CheckIcon
@@ -67,3 +67,13 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.box {
+  @apply box-border w-5 h-5 border-2 border-gray-400 rounded  dark:border-gray-600;
+}
+
+.box.checked {
+  @apply bg-green-500 border-green-500 dark:border-green-500;
+}
+</style>

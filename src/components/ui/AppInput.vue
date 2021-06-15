@@ -1,7 +1,7 @@
 <template>
   <input
-    class="px-3 py-2 bg-gray-100 border-gray-300 rounded-lg shadow appearance-none focus:outline-none dark:bg-gray-800 focus:ring-0 dark:border-gray-700 focus:border-green-500"
-    :class="{ 'focus:border-red-500 border-red-500': error }"
+    class="bg-gray-100 border-gray-300 dark:bg-gray-800 dark:border-gray-700"
+    :class="{ error }"
     :value="modelValue"
     @input="handleInput"
   />
@@ -26,7 +26,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleInput ($event: Event) {
+    handleInput($event: Event) {
       if ($event.target instanceof HTMLInputElement) {
         this.$emit('update:modelValue', $event.target.value)
       }
@@ -34,3 +34,13 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+input {
+  @apply px-3 py-2 rounded-lg focus:ring-0 focus:border-green-500;
+}
+
+.error {
+  @apply focus:border-red-500 border-red-500;
+}
+</style>

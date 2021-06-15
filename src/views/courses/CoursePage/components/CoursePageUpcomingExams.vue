@@ -41,16 +41,16 @@ export default defineComponent({
       required: true
     }
   },
-  data () {
+  data() {
     return {
       upcomingExams: [] as Exam[]
     }
   },
-  async created () {
+  async created() {
     this.upcomingExams = await coursesService.getUpcomingExams(this.courseId)
   },
   methods: {
-    relativeDate (event: Exam): string {
+    relativeDate(event: Exam): string {
       return dayjs(event.startDate).fromNow()
     }
   }

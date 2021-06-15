@@ -33,7 +33,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   methods: {
-    handleSelect ($event: string | undefined) {
+    handleSelect($event: string | undefined) {
       if ($event !== undefined) {
         this.$emit('update:modelValue', $event)
       }

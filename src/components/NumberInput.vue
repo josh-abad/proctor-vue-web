@@ -57,32 +57,32 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  data () {
+  data() {
     return {
       value: 0
     }
   },
   computed: {
-    paddedValue (): string {
+    paddedValue(): string {
       return this.value.toString().padStart(2, '0')
     },
-    maxValueReached (): boolean {
+    maxValueReached(): boolean {
       return !(this.value < this.max)
     },
-    minValueReached (): boolean {
+    minValueReached(): boolean {
       return !(this.value > this.min)
     }
   },
-  created () {
+  created() {
     this.value = this.modelValue
   },
   methods: {
-    handleIncrement () {
+    handleIncrement() {
       if (!this.maxValueReached) {
         this.$emit('update:modelValue', ++this.value)
       }
     },
-    handleDecrement () {
+    handleDecrement() {
       if (!this.minValueReached) {
         this.$emit('update:modelValue', --this.value)
       }
