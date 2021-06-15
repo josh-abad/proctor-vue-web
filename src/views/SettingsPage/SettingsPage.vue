@@ -140,6 +140,9 @@ export default defineComponent({
     }
   },
   methods: {
+    /**
+     * NOTE: this actually deletes the account
+     */
     async deactivateAccount() {
       this.deleteAccountModal = false
       if (this.$store.state.user) {
@@ -147,7 +150,9 @@ export default defineComponent({
           NProgress.start()
           await usersService.deleteUser(this.$store.state.user.id)
           await this.$router.push('/login')
+          this.setSnackbarMessage('Account deactivated.', 'success')
         } catch (error) {
+          this.setSnackbarMessage('Could not deactivate account.', 'error')
         } finally {
           NProgress.done()
         }
