@@ -155,6 +155,7 @@ import {
 import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
 import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import useSnackbar from '@/composables/use-snackbar'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -198,15 +199,18 @@ export default defineComponent({
 
     const { setTitle } = useTitle()
 
-    fetchCourse().then(() => {
-      setTitle(
-        course.value
-          ? `${course.value.name} - Proctor Vue`
-          : 'Course Not Found - Proctor Vue'
-      )
+    NProgress.start()
+    fetchCourse()
+      .then(() => {
+        setTitle(
+          course.value
+            ? `${course.value.name} - Proctor Vue`
+            : 'Course Not Found - Proctor Vue'
+        )
 
-      userService.addRecentCourse(course.value.id)
-    })
+        userService.addRecentCourse(course.value.id)
+      })
+      .finally(NProgress.done)
 
     return {
       course,
@@ -227,11 +231,14 @@ export default defineComponent({
   methods: {
     async deleteCourse() {
       try {
+        NProgress.start()
         await coursesService.deleteCourse(this.slug)
         this.setSnackbarMessage('Course successfully deleted', 'success')
-        this.$router.push('/courses')
+        await this.$router.push('/courses')
       } catch (error) {
         this.setSnackbarMessage('Could not delete course', 'error')
+      } finally {
+        NProgress.done()
       }
     },
     editCourse() {

@@ -13,7 +13,6 @@ import { defineComponent } from 'vue'
 import { SET_USER } from '@/store/mutation-types'
 import { AuthenticatedUser } from '@/types'
 import authService from '@/services/auth'
-import cookie from '@/utils/cookie'
 import useTheme from '@/composables/use-theme'
 import { useStore } from '@/store'
 import Snackbar from './components/Snackbar.vue'
@@ -24,9 +23,8 @@ export default defineComponent({
     const store = useStore()
     const { initTheme } = useTheme()
     initTheme()
-    const loggedUserJSON = cookie.get('loggedAppUser')
+    const loggedUserJSON = localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
-      cookie.set('loggedAppUser', loggedUserJSON)
       const user: AuthenticatedUser = JSON.parse(loggedUserJSON)
       store.commit(SET_USER, user)
       authService.setToken(user.token)

@@ -16,11 +16,7 @@
         />
         <div v-else>
           <div class="w-56 h-56 bg-gray-700 rounded-lg">
-            <div
-              class="flex items-center justify-center h-full font-semibold tracking-wider text-gray-500 uppercase "
-            >
-              No image
-            </div>
+            <div class="empty">No image</div>
           </div>
         </div>
       </div>
@@ -38,9 +34,7 @@
       @submit.prevent="handleSubmit"
     >
       <div class="flex items-end justify-between">
-        <label
-          class="flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer  hover:text-white hover:bg-green-500 focus:outline-none"
-        >
+        <label class="image-upload">
           <PhotographIcon class="w-5 h-5 fill-current" />
           <span class="text-sm">Select Image</span>
           <input
@@ -142,3 +136,13 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.empty {
+  @apply flex items-center justify-center h-full font-semibold tracking-wider text-gray-500 uppercase;
+}
+
+.image-upload {
+  @apply flex flex-col items-center px-4 py-2 text-green-500 border border-green-500 rounded-lg cursor-pointer hover:text-white hover:bg-green-500 focus:outline-none;
+}
+</style>

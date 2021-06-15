@@ -10,7 +10,7 @@ import useTheme from '@/composables/use-theme'
 
 export default defineComponent({
   name: 'AppLogo',
-  setup () {
+  setup() {
     const { isDarkTheme } = useTheme()
 
     const logoFilename = computed(() => {

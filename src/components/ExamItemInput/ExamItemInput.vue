@@ -10,7 +10,7 @@
             "
           />
         </div>
-        <div class="w-full mt-2 sm:flex-grow">
+        <div class="flex w-full mt-2 sm:flex-grow">
           <AppInput
             placeholder="Question"
             class="w-full"
@@ -30,38 +30,31 @@
           />
         </div>
         <div class="mt-4" v-else>
-          <div
-            v-for="(choice, i) in choices"
-            :key="i"
-            class="flex items-center space-y-2"
-          >
-            <div>
-              <input
-                type="radio"
-                :value="choice"
-                :checked="answer?.[0] === choice"
-                @change="$emit('update:answer', [choice])"
-                v-if="questionType === 'multiple choice'"
-              />
-              <input
-                type="checkbox"
-                :value="choice"
-                :model-value="answer"
-                @change="handleRadioChange($event, choice)"
-                v-else-if="questionType === 'multiple answers'"
-              />
-            </div>
-            <div class="ml-2">
-              <AppInput
-                type="text"
-                :model-value="choices[i]"
-                @update:modelValue="handleUpdateChoices($event, i)"
-                class="text-sm"
-              />
-            </div>
-          </div>
-          <div class="mt-2">
-            <AppButton @click="$emit('add-choice')">Add choice</AppButton>
+          <ul class="space-y-2">
+            <ChoiceInput
+              v-for="(choice, i) in choices"
+              :key="i"
+              :value="choice"
+              :answer="answer"
+              :choices="choices"
+              :type="questionType === 'multiple choice' ? 'radio' : 'checkbox'"
+              @update:answer="newAnswer => $emit('update:answer', newAnswer)"
+              @update:choices="
+                newChoices => $emit('update:choices', newChoices)
+              "
+            />
+          </ul>
+          <div class="flex items-center mt-4">
+            <AppButton @click="$emit('add-choice')"> Add choice </AppButton>
+            <AppSwitch
+              :model-value="shuffleChoices"
+              @update:modelValue="
+                newValue => $emit('update:shuffleChoices', newValue)
+              "
+              class="ml-4"
+            >
+              Shuffle Choices
+            </AppSwitch>
           </div>
         </div>
       </div>
@@ -80,9 +73,18 @@ import AppButton from '@/components/ui/AppButton.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import QuestionTypeInput from './components/QuestionTypeInput.vue'
 import SideMenu from './components/SideMenu.vue'
+import AppSwitch from '../ui/AppSwitch.vue'
+import ChoiceInput from '../ChoiceInput.vue'
 
 export default defineComponent({
-  components: { AppInput, AppButton, QuestionTypeInput, SideMenu },
+  components: {
+    AppInput,
+    AppButton,
+    QuestionTypeInput,
+    SideMenu,
+    AppSwitch,
+    ChoiceInput
+  },
   name: 'ExamItemInput',
   props: {
     question: {
@@ -108,6 +110,11 @@ export default defineComponent({
     count: {
       type: Number,
       required: true
+    },
+
+    shuffleChoices: {
+      type: Boolean,
+      required: true
     }
   },
   emits: [
@@ -116,6 +123,7 @@ export default defineComponent({
     'update:answer',
     'update:questionType',
     'update:choices',
+    'update:shuffleChoices',
     'discard',
     'add-choice',
     'add-question'

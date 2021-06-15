@@ -74,6 +74,7 @@
           v-model:answer="examItem.answer"
           v-model:question-type="examItem.questionType"
           v-model:choices="examItem.choices"
+          v-model:shuffleChoices="examItem.shuffleChoices"
           v-for="(examItem, i) in examItems"
           :count="i + 1"
           :key="i"
@@ -116,7 +117,7 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { CourseWithExams, ExamItem, NewExam, QuestionType } from '@/types'
+import { CourseWithExams, ExamItem } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
@@ -125,6 +126,7 @@ import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
 import List from '@/components/List.vue'
 import PageHeading from '@/components/PageHeading.vue'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'ExamCreationPage',
@@ -179,7 +181,8 @@ export default defineComponent({
           question: '',
           answer: [''],
           choices: [],
-          questionType: 'text' as QuestionType
+          questionType: 'text',
+          shuffleChoices: false
         }
       ] as ExamItem[],
       openCalendar: false
@@ -251,7 +254,8 @@ export default defineComponent({
         question: '',
         answer: [''],
         choices: [],
-        questionType: 'text'
+        questionType: 'text',
+        shuffleChoices: false
       }
       if (i) {
         this.examItems.splice(i, 0, newExamItem)
@@ -264,7 +268,8 @@ export default defineComponent({
     },
     async saveExam() {
       try {
-        const newExam: NewExam = {
+        NProgress.start()
+        await examsService.create({
           label: this.examName,
           random: this.random,
           length: this.examItems.length,
@@ -275,10 +280,9 @@ export default defineComponent({
           week: this.week,
           startDate: new Date(this.startDate),
           endDate: new Date(this.endDate)
-        }
-        await examsService.create(newExam)
+        })
         this.setSnackbarMessage('Exam successfully created', 'success')
-        this.$router.push(`/courses/${this.slug}`)
+        await this.$router.push(`/courses/${this.slug}`)
       } catch (error) {
         this.setSnackbarMessage(
           `${this.examName} already exists in ${
@@ -286,6 +290,8 @@ export default defineComponent({
           }.`,
           'error'
         )
+      } finally {
+        NProgress.done()
       }
     }
   }

@@ -73,8 +73,8 @@ import authService from '@/services/auth'
 import { useStore } from '@/store'
 import { SET_USER } from '@/store/mutation-types'
 import { useRouter } from 'vue-router'
-import cookie from '@/utils/cookie'
 import useSnackbar from '@/composables/use-snackbar'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'Login',
@@ -97,18 +97,22 @@ export default defineComponent({
 
     const handleLogin = async () => {
       try {
+        NProgress.start()
         isLoading.value = true
         const user = await loginService.login({
           email: email.value,
           password: password.value
         })
         store.commit(SET_USER, user)
-        cookie.set('loggedAppUser', JSON.stringify(user))
+        localStorage.setItem('loggedAppUser', JSON.stringify(user))
         authService.setToken(user.token)
-        router.push((router.currentRoute.value.query.redirect as string) || '/')
+        await router.push(
+          (router.currentRoute.value.query.redirect as string) || '/'
+        )
       } catch (error) {
         setSnackbarMessage('Incorrect email or password', 'error')
       } finally {
+        NProgress.done()
         isLoading.value = false
         password.value = ''
       }

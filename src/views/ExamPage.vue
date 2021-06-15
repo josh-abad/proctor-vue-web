@@ -50,6 +50,7 @@ import examAttemptsService from '@/services/exam-attempts'
 import Timer from '@/components/Timer.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import List from '@/components/List.vue'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -111,11 +112,13 @@ export default defineComponent({
 
     const handleSubmit = async () => {
       if (attempt.value) {
+        NProgress.start()
         await examResultsService.submit({
           answers: answers.value,
           examId: attempt.value.exam.id
         })
         await router.replace(`/courses/${props.courseSlug}/${props.examSlug}`)
+        NProgress.done()
         emit('update:active', false)
         emit('update:starting', false)
       }

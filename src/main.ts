@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import store from './store'
+import 'nprogress/nprogress.css'
 import './assets/styles/index.css'
 import router from './router'
 import clickOutside from './library/click-outside'

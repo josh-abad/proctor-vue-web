@@ -31,7 +31,7 @@ export default defineComponent({
   },
   emits: ['item-click'],
   methods: {
-    handleClick () {
+    handleClick() {
       this.$emit('item-click')
       if (this.path) {
         this.$router.push(this.path)

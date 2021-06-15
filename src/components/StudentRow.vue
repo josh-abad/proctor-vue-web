@@ -81,6 +81,7 @@ import AppModal from './ui/AppModal.vue'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
 import useSnackbar from '@/composables/use-snackbar'
+import NProgress from 'nprogress'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -122,22 +123,28 @@ export default defineComponent({
     async deleteStudent() {
       this.deleteStudentModal = false
       try {
+        NProgress.start()
         await usersService.deleteUser(this.student.id)
         this.setSnackbarMessage('Student removed', 'success')
         this.$emit('delete-student')
       } catch (error) {
         this.setSnackbarMessage('Could not delete student.', 'error')
+      } finally {
+        NProgress.done()
       }
     },
     async unenrollStudent() {
       this.unenrollStudentModal = false
       if (this.courseSlug) {
         try {
+          NProgress.start()
           await courses.unenrollUser(this.courseSlug, this.student.id)
           this.setSnackbarMessage('Student un-enrolled from course.', 'success')
           this.$emit('delete-student')
         } catch (error) {
           this.setSnackbarMessage('Could not un-enroll student.', 'error')
+        } finally {
+          NProgress.done()
         }
       }
     }

@@ -29,7 +29,7 @@ export default defineComponent({
     }
   },
   emits: {
-    ['update:modelValue'] (option: string) {
+    ['update:modelValue'](option: string) {
       return option
     }
   }

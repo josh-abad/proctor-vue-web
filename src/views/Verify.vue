@@ -34,7 +34,7 @@ import AppLogo from '@/components/AppLogo.vue'
 export default defineComponent({
   name: 'Verify',
   components: { Center, AppButton, AppLogo },
-  data () {
+  data() {
     return {
       message: 'Verifying...',
       success: false
@@ -46,7 +46,7 @@ export default defineComponent({
       required: true
     }
   },
-  async mounted () {
+  async mounted() {
     try {
       const verifiedUser = await verifyService.verify(this.token)
       this.$store.commit(SET_VERIFIED, verifiedUser.id)

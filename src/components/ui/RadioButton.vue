@@ -1,15 +1,11 @@
 <template>
   <div class="flex items-center">
-    <button
-      :id="value"
-      class="focus:outline-none"
-      @click="handleClick"
-    >
-      <div class="flex items-center justify-center w-5 h-5 bg-gray-700 rounded-full shadow-inner">
+    <button :id="value" class="focus:outline-none" @click="handleClick">
+      <div class="circle">
         <div v-if="isSelected" class="w-3 h-3 bg-green-500 rounded-full" />
       </div>
     </button>
-    <label :for="value" class="ml-3">{{ value }}</label>
+    <label :for="value" class="ml-3" v-if="!noLabel">{{ value }}</label>
   </div>
 </template>
 
@@ -27,18 +23,29 @@ export default defineComponent({
     value: {
       type: String,
       required: true
+    },
+
+    noLabel: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],
   computed: {
-    isSelected (): boolean {
+    isSelected(): boolean {
       return this.modelValue === this.value
     }
   },
   methods: {
-    handleClick () {
+    handleClick() {
       this.$emit('update:modelValue', this.value)
     }
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.circle {
+  @apply flex items-center justify-center w-5 h-5 bg-gray-700 rounded-full shadow-inner;
+}
+</style>

@@ -124,6 +124,7 @@ import useTitle from '@/composables/use-title'
 import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
 import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import NProgress from 'nprogress'
 
 dayjs.extend(duration)
 
@@ -167,6 +168,7 @@ export default defineComponent({
     )
     const { setTitle } = useTitle()
 
+    NProgress.start()
     fetchExam()
       .then(() => {
         if (exam.value) {
@@ -176,13 +178,17 @@ export default defineComponent({
       .catch(() => {
         setTitle('Invalid Exam - Proctor Vue')
       })
+      .finally(NProgress.done)
 
     const deleteExam = async () => {
       try {
+        NProgress.start()
         await examsService.deleteExam(exam.value.id)
         setSnackbarMessage('Exam successfully deleted', 'success')
       } catch (error) {
         setSnackbarMessage('Could not delete exam', 'error')
+      } finally {
+        NProgress.done()
       }
       router.replace(`/courses/${props.courseSlug}`)
     }
@@ -282,11 +288,16 @@ export default defineComponent({
       return this.exam ? isExamLocked(this.exam) : 0
     },
     duration(): string {
-      return this.exam
-        ? dayjs
-            .duration({ hours: this.exam.duration / (60 * 60) })
-            .format('H [hour]')
-        : ''
+      const d = Math.floor(this.exam.duration / (3600 * 24))
+      const h = Math.floor((this.exam.duration % (3600 * 24)) / 3600)
+      const m = Math.floor((this.exam.duration % 3600) / 60)
+      const s = Math.floor(this.exam.duration % 60)
+
+      const dDisplay = d > 0 ? d + (d === 1 ? ' day, ' : ' days, ') : ''
+      const hDisplay = h > 0 ? h + (h === 1 ? ' hour, ' : ' hours, ') : ''
+      const mDisplay = m > 0 ? m + (m === 1 ? ' minute, ' : ' minutes, ') : ''
+      const sDisplay = s > 0 ? s + (s === 1 ? ' second' : ' seconds') : ''
+      return (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, '')
     },
     date(): string {
       const format = (d?: Date) => {
