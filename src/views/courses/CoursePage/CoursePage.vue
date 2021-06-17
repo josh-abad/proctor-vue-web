@@ -82,14 +82,19 @@
                 <UserGroupIcon />
               </template>
               <template #content>
-                {{ course.studentsEnrolled.length }} students
+                {{ course.studentsEnrolled.length }}
+                {{
+                  course.studentsEnrolled.length !== 1 ? 'students' : 'student'
+                }}
               </template>
             </PageHeadingMetaItem>
             <PageHeadingMetaItem>
               <template #icon>
                 <CalendarIcon />
               </template>
-              <template #content> {{ course.weeks }} weeks </template>
+              <template #content>
+                {{ course.weeks }} {{ course.weeks !== 1 ? 'weeks' : 'week' }}
+              </template>
             </PageHeadingMetaItem>
             <PageHeadingMetaItem>
               <template #icon>

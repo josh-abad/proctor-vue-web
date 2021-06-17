@@ -49,7 +49,12 @@
                 <template #icon>
                   <DocumentDuplicateIcon />
                 </template>
-                <template #content>{{ exam.maxAttempts }} attempts</template>
+                <template #content
+                  >{{ exam.maxAttempts }}
+                  {{
+                    exam.maxAttempts !== 1 ? 'attempts' : 'attempt'
+                  }}</template
+                >
               </PageHeadingMetaItem>
             </PageHeadingMeta>
           </template>
