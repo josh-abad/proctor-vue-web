@@ -4,10 +4,7 @@
     :class="{ 'opacity-50 cursor-default': disabled }"
   >
     <span class="relative">
-      <span
-        class="track"
-        :class="{ 'bg-green-500 dark:bg-green-500': modelValue }"
-      />
+      <span class="track" :class="{ active: modelValue }" />
       <span class="thumb" :class="{ 'transform translate-x-full': modelValue }">
         <input
           @change="handleChange"
@@ -53,6 +50,10 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .track {
   @apply block w-10 h-6 bg-gray-400 rounded-full shadow-inner  dark:bg-gray-600;
+}
+
+.track.active {
+  @apply bg-green-500 dark:bg-green-500;
 }
 
 .thumb {

@@ -43,7 +43,7 @@
           <button
             id="btn-open"
             class="text-red-500 focus:outline-none"
-            @click="deleteAccountModal = true"
+            @click="deactivateAccountModal = true"
           >
             <div class="flex items-center pointer-events-none">
               <TrashIcon class="w-5 h-5 pointer-events-none fill-current" />
@@ -53,7 +53,7 @@
             </div>
           </button>
           <teleport to="#modals">
-            <AppModal v-model="deleteAccountModal">
+            <AppModal v-model="deactivateAccountModal">
               <template #header> Deactivate Account </template>
               <template #body>
                 Are you sure you want to deactivate your account?
@@ -77,7 +77,7 @@ import AppPanel from '@/components/ui/AppPanel.vue'
 import AppSwitch from '@/components/ui/AppSwitch.vue'
 import { defineComponent, ref } from 'vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import usersService from '@/services/users'
+import userService from '@/services/user'
 import AppModal from '@/components/ui/AppModal.vue'
 import SettingsItem from './components/SettingsItem.vue'
 import { TrashIcon } from '@heroicons/vue/solid'
@@ -86,6 +86,7 @@ import useSnackbar from '@/composables/use-snackbar'
 import PageHeading from '@/components/PageHeading.vue'
 import Subheading from '@/components/Subheading.vue'
 import NProgress from 'nprogress'
+import { SET_USER } from '@/store/mutation-types'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -104,14 +105,14 @@ export default defineComponent({
     const { theme, isSystemTheme, setTheme } = useTheme()
     const { setSnackbarMessage } = useSnackbar()
 
-    const deleteAccountModal = ref(false)
+    const deactivateAccountModal = ref(false)
 
     return {
       theme,
       isSystemTheme,
       setTheme,
       setSnackbarMessage,
-      deleteAccountModal
+      deactivateAccountModal
     }
   },
   data() {
@@ -140,22 +141,20 @@ export default defineComponent({
     }
   },
   methods: {
-    /**
-     * NOTE: this actually deletes the account
-     */
     async deactivateAccount() {
-      this.deleteAccountModal = false
-      if (this.$store.state.user) {
-        try {
-          NProgress.start()
-          await usersService.deleteUser(this.$store.state.user.id)
-          await this.$router.push('/login')
-          this.setSnackbarMessage('Account deactivated.', 'success')
-        } catch (error) {
-          this.setSnackbarMessage('Could not deactivate account.', 'error')
-        } finally {
-          NProgress.done()
-        }
+      this.deactivateAccountModal = false
+      try {
+        NProgress.start()
+        await userService.deactivateAccount()
+        this.$store.commit(SET_USER, null)
+        localStorage.clear()
+        await this.$router.push('/login')
+        this.setSnackbarMessage('Account deactivated.', 'success')
+      } catch (error) {
+        console.log(error)
+        this.setSnackbarMessage('Could not deactivate account.', 'error')
+      } finally {
+        NProgress.done()
       }
     }
   }

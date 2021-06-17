@@ -5,22 +5,27 @@
       <template #header>Choose Students</template>
       <template #body>
         <div class="mt-4">
-          <AppInput type="text" v-model="searchFilter" placeholder="Search" />
+          <AppInput
+            class="dark:bg-transparent dark:border-gray-600"
+            type="text"
+            v-model="searchFilter"
+            placeholder="Search"
+          />
         </div>
         <div class="mt-4">
           <div
             v-for="student in filteredStudents"
             :key="student.id"
-            class="py-2"
+            class="flex py-2"
           >
-            <input
-              type="checkbox"
+            <AppCheckbox
               :id="student.fullName"
               :value="student.id"
               v-model="checkedNames"
+              no-label
             />
             <label :for="student.fullName" class="ml-2"
-              ><div class="inline-block">
+              ><div class="inline-block text-gray-900 dark:text-white">
                 {{ student.fullName }}
               </div>
             </label>
@@ -50,10 +55,11 @@ import useFetch from '@/composables/use-fetch'
 import usersService from '@/services/users'
 import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
+import AppCheckbox from '@/components/ui/AppCheckbox.vue'
 
 export default defineComponent({
   name: 'AddStudentModal',
-  components: { AppButton, AppInput, AppModal },
+  components: { AppButton, AppInput, AppModal, AppCheckbox },
   props: {
     courseSlug: {
       type: String,

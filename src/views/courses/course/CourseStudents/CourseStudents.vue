@@ -11,10 +11,6 @@
         :course-slug="slug"
       />
     </div>
-    <div class="mt-2 text-lg font-semibold">
-      <div v-if="searchFilter">Search for "{{ searchFilter }}"</div>
-      <div v-else>Students</div>
-    </div>
     <StudentList
       :students="filteredStudents"
       :loading="loading"

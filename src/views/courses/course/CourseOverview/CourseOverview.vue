@@ -22,9 +22,10 @@
           :exams="exams"
         />
       </div>
-      <div class="flex items-center justify-center py-5" v-else>
-        <span class="text-gray-500">No exams found.</span>
-      </div>
+      <EmptyState v-else>
+        <template #icon><DocumentTextIcon /></template>
+        <template #content>No exams found.</template>
+      </EmptyState>
     </div>
   </transition>
 </template>
@@ -39,6 +40,8 @@ import { computed, defineComponent, ref } from 'vue'
 import Week from './components/Week/Week.vue'
 import userService from '@/services/user'
 import Subheading from '@/components/Subheading.vue'
+import EmptyState from '@/components/EmptyState.vue'
+import { DocumentTextIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'CourseOverview',
@@ -46,7 +49,9 @@ export default defineComponent({
     Week,
     AppSkeleton,
     SVGCheckbox,
-    Subheading
+    Subheading,
+    EmptyState,
+    DocumentTextIcon
   },
   props: {
     slug: {
