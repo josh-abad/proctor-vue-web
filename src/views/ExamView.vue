@@ -134,7 +134,7 @@ import NProgress from 'nprogress'
 dayjs.extend(duration)
 
 export default defineComponent({
-  name: 'AttemptsView',
+  name: 'ExamView',
   components: {
     ErrorLoading,
     SkeletonPageHeading,
