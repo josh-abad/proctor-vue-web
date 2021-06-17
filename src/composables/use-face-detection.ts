@@ -18,7 +18,7 @@ const getFaceMatcher = async (referenceImageUrl: string, name: string) => {
     detection.descriptor
   ])
 
-  return new faceapi.FaceMatcher(labeledDescriptor, 0.8)
+  return new faceapi.FaceMatcher(labeledDescriptor)
 }
 
 interface FaceDetectionOptions {
