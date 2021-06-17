@@ -16,29 +16,31 @@
         @delete-student="$emit('delete-student', student.id)"
       />
     </List>
-    <div
-      v-else
-      class="flex items-center justify-center w-full py-5 text-gray-500"
-    >
-      <ExclamationCircleIcon class="w-5 h-5 fill-current" />
-      <div class="ml-2 text-lg font-semibold">
-        There are no students enrolled in this course.
-      </div>
-    </div>
+    <EmptyState v-else>
+      <template #icon><UserGroupIcon /></template>
+      <template #content> No students found. </template>
+    </EmptyState>
   </transition>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import { UserGroupIcon } from '@heroicons/vue/outline'
 import StudentRow from './StudentRow.vue'
 import AppSkeleton from './ui/AppSkeleton.vue'
 import { User } from '@/types'
 import List from './List.vue'
+import EmptyState from './EmptyState.vue'
 
 export default defineComponent({
   name: 'StudentList',
-  components: { ExclamationCircleIcon, StudentRow, AppSkeleton, List },
+  components: {
+    UserGroupIcon,
+    StudentRow,
+    AppSkeleton,
+    List,
+    EmptyState
+  },
   props: {
     students: {
       type: Array as PropType<User[]>,
