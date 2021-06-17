@@ -15,6 +15,10 @@ const addRecentCourse = async (courseId: string) => {
   return response.data
 }
 
+const deactivateAccount = async () => {
+  await axios.post(`${baseUrl}/deactivate`, {}, config)
+}
+
 const getAttempts = async (limit = 0) => {
   const response = await axios.get<Attempt[]>(`${baseUrl}/attempts`, {
     ...config,
@@ -100,6 +104,7 @@ const uploadReferenceImage = async (data: FormData) => {
 
 export default {
   addRecentCourse,
+  deactivateAccount,
   getAttempts,
   getAttemptsByExam,
   getCourses,
