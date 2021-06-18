@@ -1,7 +1,7 @@
 <template>
   <aside
-    class="transform navigation-drawer"
-    :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
+    class="transform navigation-drawer top-14"
+    :class="{ '-translate-x-full': !isOpen, 'top-28': banner }"
   >
     <nav class="flex flex-col space-y-1">
       <slot></slot>
@@ -15,7 +15,12 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'NavigationDrawer',
   props: {
-    isOpen: Boolean
+    isOpen: Boolean,
+
+    banner: {
+      type: Boolean,
+      default: false
+    }
   }
 })
 </script>

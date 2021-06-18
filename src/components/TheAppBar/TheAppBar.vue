@@ -1,7 +1,7 @@
 <template>
   <header
-    class="sticky top-0 z-20 w-full bg-gray-100 h-14 animate dark:bg-gray-900"
-    :class="isPageStart ? 'shadow dark:shadow-none' : 'shadow-xl'"
+    class="sticky top-0 z-20 w-full shadow-xl h-14 animate"
+    :class="{ 'shadow dark:shadow-none': isPageStart, 'top-14': banner }"
   >
     <div class="flex items-center justify-between px-6 py-1">
       <div class="flex items-center">
@@ -42,6 +42,12 @@ import useTitle from '@/composables/use-title'
 export default defineComponent({
   name: 'TheAppBar',
   components: { UserDropdown, Search, AppLogo, MenuIcon },
+  props: {
+    banner: {
+      type: Boolean,
+      default: false
+    }
+  },
   emits: ['toggle'],
   setup() {
     const isPageStart = ref(true)
@@ -72,6 +78,10 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
+header {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
 .animate {
   @apply transition-shadow duration-300 ease-in-out;
 }
