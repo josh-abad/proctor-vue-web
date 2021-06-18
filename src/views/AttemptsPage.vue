@@ -78,7 +78,7 @@
         </AppModal>
       </teleport>
       <AppButton
-        v-if="locked !== 0"
+        v-if="locked !== 0 || attemptsLeft === 0"
         @click="$router.push(`/courses/${courseSlug}`)"
         prominent
       >
