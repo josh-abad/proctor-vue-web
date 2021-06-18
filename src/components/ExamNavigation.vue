@@ -4,7 +4,7 @@
     <div class="grid grid-cols-10 pr-4 mt-3 gap-y-2 gap-x-6">
       <router-link
         v-for="examItem in questions"
-        :key="examItem.questionNumber"
+        :key="examItem.id"
         :to="`#question${examItem.questionNumber}`"
       >
         <QuestionNumber

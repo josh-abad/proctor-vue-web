@@ -117,7 +117,7 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { CourseWithExams, ExamItem } from '@/types'
+import { CourseWithExams, NewExamItem } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
@@ -184,7 +184,7 @@ export default defineComponent({
           questionType: 'text',
           shuffleChoices: false
         }
-      ] as ExamItem[],
+      ] as NewExamItem[],
       openCalendar: false
     }
   },
@@ -250,7 +250,7 @@ export default defineComponent({
   },
   methods: {
     addExamItem(i?: number) {
-      const newExamItem: ExamItem = {
+      const newExamItem: NewExamItem = {
         question: '',
         answer: [''],
         choices: [],

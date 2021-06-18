@@ -76,21 +76,13 @@ export default defineComponent({
   },
   watch: {
     answer(newAnswer: string | string[]) {
-      if (
-        this.modelValue.some(
-          ({ question, questionNumber }) =>
-            questionNumber === this.questionNumber &&
-            question === this.examItem.question
-        )
-      ) {
+      if (this.modelValue.some(({ id }) => id === this.examItem.id)) {
         this.$emit(
           'update:modelValue',
           this.modelValue.map(item =>
-            item.questionNumber === this.questionNumber &&
-            item.question === this.examItem.question
+            item.id === this.examItem.id
               ? {
-                  questionNumber: this.questionNumber,
-                  question: item.question,
+                  id: item.id,
                   answer: newAnswer
                 }
               : item
@@ -100,8 +92,7 @@ export default defineComponent({
         this.$emit('update:modelValue', [
           ...this.modelValue,
           {
-            questionNumber: this.questionNumber,
-            question: this.examItem.question,
+            id: this.examItem.id,
             answer: newAnswer
           }
         ])

@@ -16,7 +16,7 @@
           :id="`question${i + 1}`"
           v-for="(item, i) in examItems"
           class="py-6 first:pt-0"
-          :key="i"
+          :key="item.id"
           :exam-item="item"
           :question-number="i + 1"
           v-model="answers"
@@ -172,11 +172,9 @@ export default defineComponent({
       return shuffledExamItems.value.map((examItem, index) => {
         return {
           questionNumber: index + 1,
+          id: examItem.id,
           answered: answers.value.some(
-            answer =>
-              answer.questionNumber === index + 1 &&
-              answer.question === examItem.question &&
-              answer.answer.length
+            answer => answer.id === examItem.id && answer.answer.length
           )
         }
       })

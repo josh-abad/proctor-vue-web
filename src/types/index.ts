@@ -69,13 +69,15 @@ export interface Exam {
   slug: string
 }
 
-export interface NewExam extends Omit<Exam, 'id' | 'course' | 'slug'> {
+export type NewExamItem = Omit<ExamItem, 'id'> & { answer: string[] }
+
+export type NewExam = Omit<Exam, 'id' | 'course' | 'slug' | 'examItems'> & {
+  examItems: NewExamItem[]
   courseId: string
 }
 
 export interface Answer {
-  questionNumber: number
-  question: string
+  id: string
   answer: string
 }
 
@@ -99,9 +101,9 @@ export interface Attempt {
 }
 
 export interface ExamItem {
+  id: string
   question: string
   questionType: QuestionType
-  answer: string[]
   choices: string[]
   shuffleChoices: boolean
 }
@@ -168,5 +170,6 @@ export interface CourseGrades {
 
 export interface ExamNavigationItem {
   questionNumber: number
+  id: string
   answered: boolean
 }
