@@ -227,6 +227,12 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        top: 56 // the height of TheAppBar is h-14 (3.5rem/56px)
+      }
+    }
     if (savedPosition) {
       return savedPosition
     } else {

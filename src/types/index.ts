@@ -74,6 +74,7 @@ export interface NewExam extends Omit<Exam, 'id' | 'course' | 'slug'> {
 }
 
 export interface Answer {
+  questionNumber: number
   question: string
   answer: string
 }
@@ -163,4 +164,9 @@ export interface CourseGrades {
     grade: number
   }[]
   courseTotal: number
+}
+
+export interface ExamNavigationItem {
+  questionNumber: number
+  answered: boolean
 }

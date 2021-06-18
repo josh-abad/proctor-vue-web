@@ -10,23 +10,33 @@
     </div>
   </List>
   <div v-else-if="attempt">
-    <List>
-      <BaseExamItem
-        v-for="(item, i) in examItems"
-        class="first:mt-0"
-        :key="i"
-        :exam-item="item"
-        :question-number="i + 1"
-        v-model="answers"
-      />
-    </List>
+    <div>
+      <List>
+        <BaseExamItem
+          :id="`question${i + 1}`"
+          v-for="(item, i) in examItems"
+          class="py-6 first:pt-0"
+          :key="i"
+          :exam-item="item"
+          :question-number="i + 1"
+          v-model="answers"
+        />
+      </List>
+      <teleport to="#quiz-navigation">
+        <ExamNavigation :questions="progress" class="ml-4" />
+      </teleport>
+    </div>
     <div class="flex items-center justify-between mt-4">
       <teleport to="#timer">
         <Timer :end="attempt.endDate" @timer-ended="handleSubmit" />
       </teleport>
       <ModalButton
         header="Submit Answers"
-        message="Are you sure you want to submit your answers?"
+        :message="
+          allQuestionsAnswered
+            ? 'Are you sure you want to submit your answers?'
+            : 'You have not answered all questions.'
+        "
         action-label="Submit"
         @confirm="handleSubmit"
         prominent
@@ -51,10 +61,18 @@ import Timer from '@/components/Timer.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import List from '@/components/List.vue'
 import NProgress from 'nprogress'
+import ExamNavigation from '@/components/ExamNavigation.vue'
 
 export default defineComponent({
   name: 'ExamPage',
-  components: { BaseExamItem, ModalButton, Timer, AppSkeleton, List },
+  components: {
+    BaseExamItem,
+    ModalButton,
+    Timer,
+    AppSkeleton,
+    List,
+    ExamNavigation
+  },
   props: {
     courseSlug: {
       type: String,
@@ -150,13 +168,36 @@ export default defineComponent({
       }
     )
 
+    const progress = computed(() => {
+      return shuffledExamItems.value.map((examItem, index) => {
+        return {
+          questionNumber: index + 1,
+          answered: answers.value.some(
+            answer =>
+              answer.questionNumber === index + 1 &&
+              answer.question === examItem.question &&
+              answer.answer.length
+          )
+        }
+      })
+    })
+
+    const allQuestionsAnswered = computed(() => {
+      return (
+        progress.value.filter(({ answered }) => answered).length ===
+        shuffledExamItems.value.length
+      )
+    })
+
     return {
       answers,
       attempt,
       isLoading,
       hasError,
       handleSubmit,
-      examItems: shuffledExamItems
+      examItems: shuffledExamItems,
+      progress,
+      allQuestionsAnswered
     }
   }
 })

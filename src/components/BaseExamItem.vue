@@ -1,11 +1,9 @@
 <template>
-  <div class="flex mt-3">
-    <div
-      class="flex items-center justify-center w-6 h-6 mt-4 bg-gray-700 rounded"
-    >
+  <div class="flex">
+    <QuestionNumber>
       {{ questionNumber }}
-    </div>
-    <div class="py-3 pl-4 select-none">
+    </QuestionNumber>
+    <div class="pl-4 select-none">
       {{ examItem.question }}
       <div class="mt-4">
         <div v-if="typeof answer === 'string'">
@@ -46,10 +44,11 @@ import { defineComponent, PropType } from 'vue'
 import AppCheckbox from './ui/AppCheckbox.vue'
 import AppInput from './ui/AppInput.vue'
 import RadioButton from './ui/RadioButton.vue'
+import QuestionNumber from './QuestionNumber.vue'
 
 export default defineComponent({
   name: 'BaseExamItem',
-  components: { AppInput, RadioButton, AppCheckbox },
+  components: { AppInput, RadioButton, AppCheckbox, QuestionNumber },
   props: {
     examItem: {
       type: Object as PropType<ExamItem>,
@@ -77,17 +76,20 @@ export default defineComponent({
   },
   watch: {
     answer(newAnswer: string | string[]) {
-      // FIXME: duplicate questions don't get counted
       if (
         this.modelValue.some(
-          ({ question }) => question === this.examItem.question
+          ({ question, questionNumber }) =>
+            questionNumber === this.questionNumber &&
+            question === this.examItem.question
         )
       ) {
         this.$emit(
           'update:modelValue',
           this.modelValue.map(item =>
+            item.questionNumber === this.questionNumber &&
             item.question === this.examItem.question
               ? {
+                  questionNumber: this.questionNumber,
                   question: item.question,
                   answer: newAnswer
                 }
@@ -98,6 +100,7 @@ export default defineComponent({
         this.$emit('update:modelValue', [
           ...this.modelValue,
           {
+            questionNumber: this.questionNumber,
             question: this.examItem.question,
             answer: newAnswer
           }

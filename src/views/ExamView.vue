@@ -61,15 +61,18 @@
         </PageHeading>
       </div>
     </transition>
-    <AppPanel class="mt-8">
-      <router-view
-        v-model:starting="isSetup"
-        :camera-status="cameraStatus"
-        v-model:active="isActive"
-        v-model:examSubmittedModal="examSubmittedModal"
-        v-model:warnings="warnings"
-      />
-    </AppPanel>
+    <div class="flex mt-8">
+      <AppPanel class="w-full">
+        <router-view
+          v-model:starting="isSetup"
+          :camera-status="cameraStatus"
+          v-model:active="isActive"
+          v-model:examSubmittedModal="examSubmittedModal"
+          v-model:warnings="warnings"
+        />
+      </AppPanel>
+      <div id="quiz-navigation"></div>
+    </div>
     <div>
       <IndicatorBar :class="isActive ? 'block' : 'hidden'">
         <div id="timer"></div>
