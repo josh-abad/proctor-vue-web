@@ -41,7 +41,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .navigation-item {
-  @apply mx-3 text-gray-600 text-sm dark:text-gray-400 font-medium hover:text-green-500 dark:hover:text-green-400;
+  @apply mx-3 text-gray-700 text-sm dark:text-gray-400 font-medium hover:text-green-500 dark:hover:text-green-400;
 }
 
 .router-link-active,
@@ -58,6 +58,6 @@ export default defineComponent({
 }
 
 .icon {
-  @apply w-6 h-6 text-gray-500 group-hover:text-green-500 dark:group-hover:text-green-400;
+  @apply w-6 h-6 text-gray-400 dark:text-gray-500 group-hover:text-green-500 dark:group-hover:text-green-400;
 }
 </style>

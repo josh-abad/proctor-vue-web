@@ -22,6 +22,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .navigation-drawer {
-  @apply fixed z-10 w-full min-h-full pt-4 overflow-y-auto duration-300 transition-transform ease-in-out bg-gray-200 sm:w-56 dark:bg-gray-900;
+  @apply fixed z-10 w-full min-h-full pt-4 overflow-y-auto duration-300 transition-transform ease-in-out bg-gray-100 sm:w-56 dark:bg-gray-900;
+  @apply shadow-lg dark:shadow-none;
 }
 </style>

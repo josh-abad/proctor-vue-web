@@ -18,9 +18,7 @@
         </div>
         <div v-else-if="user" class="user-page__header">
           <div class="user-page__user">
-            <UserCircleIcon
-              class="w-20 h-20 text-gray-400 dark:text-gray-600"
-            />
+            <Avatar :user="user" class="w-20 h-20 text-2xl" />
             <div class="user-page__info">
               <div class="user-page__name">
                 {{ user.fullName }}
@@ -62,6 +60,7 @@ import { UserCircleIcon } from '@heroicons/vue/solid'
 import ActivityList from '@/components/ActivityList.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import NProgress from 'nprogress'
+import Avatar from '@/components/Avatar.vue'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -71,7 +70,8 @@ export default defineComponent({
     UserPageStat,
     UserCircleIcon,
     ActivityList,
-    AppSkeleton
+    AppSkeleton,
+    Avatar
   },
   props: {
     userId: {

@@ -1,12 +1,10 @@
 <template>
   <header
-    class="sticky top-0 z-20 w-full bg-gray-200 animate h-14 dark:bg-gray-900"
-    :class="{
-      'shadow-xl': !isPageStart
-    }"
+    class="sticky top-0 z-20 w-full bg-gray-100 h-14 animate dark:bg-gray-900"
+    :class="isPageStart ? 'shadow dark:shadow-none' : 'shadow-xl'"
   >
-    <div class="flex items-center justify-between">
-      <div class="flex items-center pl-6">
+    <div class="flex items-center justify-between px-6 py-1">
+      <div class="flex items-center">
         <button
           class="block text-gray-500 focus:outline-none focus:ring-0"
           @click="$emit('toggle')"
@@ -23,11 +21,11 @@
           {{ title }}
         </div>
       </div>
-      <div class="flex items-center pr-6">
-        <div class="hidden mr-5 sm:block">
+      <div class="flex items-center">
+        <div class="hidden sm:block">
           <Search />
         </div>
-        <UserDropdown />
+        <UserDropdown class="mt-1 ml-5" />
       </div>
     </div>
   </header>

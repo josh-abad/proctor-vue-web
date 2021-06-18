@@ -6,9 +6,9 @@
     id="btn-open"
     role="menuitem"
   >
-    <div class="flex items-center space-x-2 pointer-events-none">
+    <div class="flex items-center space-x-4 pointer-events-none">
       <slot name="icon" />
-      <span><slot name="label" /></span>
+      <span class="font-medium"><slot name="label" /></span>
     </div>
   </button>
 </template>

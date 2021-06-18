@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between py-3">
     <div class="flex items-center">
-      <UserCircleIcon class="w-10 h-10 text-gray-400" />
+      <Avatar class="w-10 h-10" :user="student" />
       <div class="ml-4">
         <router-link :to="`/user/${student.id}`">{{
           student.fullName
@@ -76,7 +76,7 @@ import { defineComponent, PropType, ref } from 'vue'
 import MenuDropdown from './MenuDropdown.vue'
 import MenuDropdownItem from './MenuDropdownItem.vue'
 import AppButton from './ui/AppButton.vue'
-import { UserCircleIcon } from '@heroicons/vue/solid'
+import Avatar from './Avatar.vue'
 import AppModal from './ui/AppModal.vue'
 import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
@@ -90,7 +90,7 @@ export default defineComponent({
     AppModal,
     MenuDropdown,
     MenuDropdownItem,
-    UserCircleIcon,
+    Avatar,
     DotsVerticalIcon
   },
   props: {
