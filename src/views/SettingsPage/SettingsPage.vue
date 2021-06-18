@@ -151,7 +151,6 @@ export default defineComponent({
         await this.$router.push('/login')
         this.setSnackbarMessage('Account deactivated.', 'success')
       } catch (error) {
-        console.log(error)
         this.setSnackbarMessage('Could not deactivate account.', 'error')
       } finally {
         NProgress.done()
