@@ -94,6 +94,7 @@ export interface Attempt {
   examResult?: string
   score: number
   examTotal: number
+  warnings: number
 }
 
 export interface ExamItem {

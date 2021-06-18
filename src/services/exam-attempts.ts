@@ -4,6 +4,10 @@ import { config } from './auth'
 import { API_URL } from './helper'
 const baseUrl = `${API_URL}/exam-attempts`
 
+const addWarning = async (id: string) => {
+  await axios.post(`${baseUrl}/${id}/warnings`, {}, config)
+}
+
 const deleteAttempt = async (id: string) => {
   await axios.delete(`${baseUrl}/${id}`)
 }
@@ -33,4 +37,4 @@ const getAll = async () => {
   return response.data
 }
 
-export default { deleteAttempt, start, getAttempt, getAll }
+export default { addWarning, deleteAttempt, start, getAttempt, getAll }

@@ -91,7 +91,12 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['update:active', 'update:starting', 'update:examSubmittedModal'],
+  emits: [
+    'update:active',
+    'update:starting',
+    'update:examSubmittedModal',
+    'update:warnings'
+  ],
   setup(props, { emit }) {
     const router = useRouter()
 
@@ -104,6 +109,9 @@ export default defineComponent({
 
     fetchAttempt().then(() => {
       emit('update:active', true)
+      if (attempt.value) {
+        emit('update:warnings', attempt.value.warnings)
+      }
     })
 
     const shuffledExamItems = computed<ExamItem[]>(() => {
@@ -132,9 +140,12 @@ export default defineComponent({
     watch(
       () => props.warnings,
       async warnings => {
-        if (warnings === 5) {
-          await handleSubmit()
-          emit('update:examSubmittedModal', true)
+        if (attempt.value) {
+          await examAttemptsService.addWarning(attempt.value.id)
+          if (warnings === 5) {
+            await handleSubmit()
+            emit('update:examSubmittedModal', true)
+          }
         }
       }
     )

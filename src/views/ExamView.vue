@@ -67,7 +67,7 @@
         :camera-status="cameraStatus"
         v-model:active="isActive"
         v-model:examSubmittedModal="examSubmittedModal"
-        :warnings="warnings"
+        v-model:warnings="warnings"
       />
     </AppPanel>
     <div>
