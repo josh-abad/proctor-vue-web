@@ -69,6 +69,7 @@ import Preview from './components/Preview.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
 import { PhotographIcon } from '@heroicons/vue/solid'
 import useSnackbar from '@/composables/use-snackbar'
+import NProgress from 'nprogress'
 
 const MODELS_URL = '/models'
 
@@ -106,11 +107,23 @@ export default defineComponent({
       const data = new FormData()
       data.append('image', this.image)
 
-      const updatedUser = await userService.uploadReferenceImage(data)
-      this.$store.commit(SET_USER, { token, ...updatedUser })
-      this.previewImage = null
-      this.image = null
-      this.validImage = false
+      try {
+        NProgress.start()
+        const updatedUser = await userService.uploadReferenceImage(data)
+        this.$store.commit(SET_USER, { token, ...updatedUser })
+        this.setSnackbarMessage('Reference image uploaded.', 'success')
+        localStorage.setItem(
+          'loggedAppUser',
+          JSON.stringify({ token, ...updatedUser })
+        )
+        this.previewImage = null
+        this.image = null
+        this.validImage = false
+      } catch (error) {
+        this.setSnackbarMessage('Could not upload image.', 'error')
+      } finally {
+        NProgress.done()
+      }
     },
     async handleChange(event: Event) {
       this.loading = true
@@ -121,14 +134,15 @@ export default defineComponent({
         reader.addEventListener('load', async e => {
           this.previewImage = e.target?.result as string
 
-          const input = await faceapi.fetchImage(this.previewImage)
-          const options = new TinyFaceDetectorOptions()
           try {
+            const input = await faceapi.fetchImage(this.previewImage)
+            const options = new TinyFaceDetectorOptions()
             const detection = await faceapi.detectSingleFace(input, options)
-            this.loading = false
             this.validImage = !!detection
           } catch (error) {
             this.setSnackbarMessage('Something went wrong.', 'error')
+          } finally {
+            this.loading = false
           }
         })
       }

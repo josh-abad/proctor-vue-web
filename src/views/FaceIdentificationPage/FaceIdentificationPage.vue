@@ -26,12 +26,6 @@ import PageHeading from '@/components/PageHeading.vue'
 
 export default defineComponent({
   name: 'FaceIdentificationPage',
-  components: { ImageUpload, AppPanel, PageHeading },
-  props: {
-    userId: {
-      type: String,
-      required: true
-    }
-  }
+  components: { ImageUpload, AppPanel, PageHeading }
 })
 </script>
