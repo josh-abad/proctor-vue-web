@@ -19,14 +19,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  onUnmounted,
-  watch,
-  watchEffect
-} from 'vue'
+import { computed, defineComponent, onUnmounted, watch, watchEffect } from 'vue'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
 import useFaceDetection from '@/composables/use-face-detection'
@@ -93,11 +86,13 @@ export default defineComponent({
           if (video.value) {
             video.value.addEventListener('play', startDetection(video.value))
           }
+          detectionTimer.start()
         } else {
           stopVideo()
           if (video.value) {
             video.value.removeEventListener('play', startDetection(video.value))
           }
+          detectionTimer.stop()
         }
       }
     )
@@ -147,14 +142,6 @@ export default defineComponent({
       ) {
         identificationTimer.start()
       }
-    })
-
-    onMounted(async () => {
-      if (video.value) {
-        video.value.addEventListener('play', startDetection(video.value))
-      }
-
-      detectionTimer.start()
     })
 
     return {
