@@ -66,6 +66,7 @@
         v-model:starting="isSetup"
         :camera-status="cameraStatus"
         v-model:active="isActive"
+        v-model:examSubmittedModal="examSubmittedModal"
         :warnings="warnings"
       />
     </AppPanel>
@@ -92,8 +93,19 @@
       <AppModal v-model="warningModal">
         <template #header> Warning </template>
         <template #body>
-          Please refrain from leaving this page during the exam.
+          <p>Please refrain from leaving this page during the exam.</p>
+          <p>
+            You have
+            {{ warningsLeft }}
+            {{ warningsLeft === 1 ? 'warning' : 'warnings' }} left.
+          </p>
         </template>
+      </AppModal>
+    </teleport>
+    <teleport to="#modals">
+      <AppModal v-model="examSubmittedModal">
+        <template #header>Exam Submitted</template>
+        <template #body> You exceeded the number of warnings. </template>
       </AppModal>
     </teleport>
   </div>
@@ -220,6 +232,9 @@ export default defineComponent({
     const warningModal = ref(false)
     const warnings = ref(0)
 
+    // TODO: set max warnings per exam
+    const maxWarnings = ref(5)
+
     const handleNoFaceSeen = () => {
       if (isActive.value) {
         warnings.value++
@@ -243,15 +258,19 @@ export default defineComponent({
         )
       },
       onLeaveFocus: () => {
-        warnings.value++
-        if (!warningModal.value) {
-          warningModal.value = true
+        if (isActive.value) {
+          warnings.value++
+          if (!warningModal.value && warnings.value < maxWarnings.value) {
+            warningModal.value = true
+          }
         }
       },
       onLeaveTimeout: () => {
-        warnings.value++
-        if (!warningModal.value) {
-          warningModal.value = true
+        if (isActive.value) {
+          warnings.value++
+          if (!warningModal.value && warnings.value < maxWarnings.value) {
+            warningModal.value = true
+          }
         }
       }
     })
@@ -269,8 +288,11 @@ export default defineComponent({
       if (!active) {
         warnings.value = 0
         cameraStatus.value = 'disabled'
+        warningModal.value = false
       }
     })
+
+    const examSubmittedModal = ref(false)
 
     return {
       isActive,
@@ -285,10 +307,15 @@ export default defineComponent({
       isLoading,
       hasError,
       links,
-      isSetup
+      isSetup,
+      examSubmittedModal,
+      maxWarnings
     }
   },
   computed: {
+    warningsLeft(): number {
+      return this.maxWarnings - this.warnings
+    },
     locked(): number {
       return this.exam ? isExamLocked(this.exam) : 0
     },

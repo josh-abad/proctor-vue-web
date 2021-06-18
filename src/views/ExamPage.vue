@@ -84,9 +84,14 @@ export default defineComponent({
     warnings: {
       type: Number,
       default: 0
+    },
+
+    examSubmittedModal: {
+      type: Boolean,
+      default: false
     }
   },
-  emits: ['update:active', 'update:starting'],
+  emits: ['update:active', 'update:starting', 'update:examSubmittedModal'],
   setup(props, { emit }) {
     const router = useRouter()
 
@@ -126,9 +131,10 @@ export default defineComponent({
 
     watch(
       () => props.warnings,
-      warnings => {
+      async warnings => {
         if (warnings === 5) {
-          handleSubmit()
+          await handleSubmit()
+          emit('update:examSubmittedModal', true)
         }
       }
     )
