@@ -7,13 +7,13 @@
           <NavigationItem href="/" @mobile-nav="isOpen = false">
             <template #label> Home </template>
             <template #icon>
-              <HomeIcon class="w-6 h-6" />
+              <HomeIcon />
             </template>
           </NavigationItem>
           <NavigationItem href="/courses" @mobile-nav="isOpen = false">
             <template #label> Courses </template>
             <template #icon>
-              <BookOpenIcon class="w-6 h-6" />
+              <BookOpenIcon />
             </template>
           </NavigationItem>
           <NavigationItem
@@ -23,19 +23,19 @@
           >
             <template #label> Students </template>
             <template #icon>
-              <UsersIcon class="w-6 h-6" />
+              <UsersIcon />
             </template>
           </NavigationItem>
           <NavigationItem href="/calendar" @mobile-nav="isOpen = false">
             <template #label> Calendar </template>
             <template #icon>
-              <CalendarIcon class="w-6 h-6" />
+              <CalendarIcon />
             </template>
           </NavigationItem>
           <NavigationItem href="/settings" @mobile-nav="isOpen = false">
             <template #label> Settings </template>
             <template #icon>
-              <CogIcon class="w-6 h-6" />
+              <CogIcon />
             </template>
           </NavigationItem>
         </NavigationDrawer>

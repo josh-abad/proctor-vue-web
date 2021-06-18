@@ -1,13 +1,17 @@
 <template>
-  <router-link :to="href" class="navigation-item">
+  <router-link :to="href" class="navigation-item group" v-slot="{ isActive }">
     <div class="flex content sm:hidden" @click="handleMobileNav">
-      <slot name="icon" />
+      <div class="icon" :class="{ isActive }">
+        <slot name="icon" />
+      </div>
       <div class="ml-6">
         <slot name="label" />
       </div>
     </div>
     <div class="hidden content sm:flex">
-      <slot name="icon" />
+      <div class="icon" :class="{ isActive }">
+        <slot name="icon" />
+      </div>
       <div class="ml-6">
         <slot name="label" />
       </div>
@@ -37,14 +41,23 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .navigation-item {
-  @apply mx-2 text-gray-600  dark:text-gray-400 font-medium hover:text-green-500 dark:hover:text-green-400;
+  @apply mx-3 text-gray-600 text-sm dark:text-gray-400 font-medium hover:text-green-500 dark:hover:text-green-400;
+}
+
+.router-link-active,
+.icon.isActive {
+  @apply text-green-500 dark:text-green-400;
 }
 
 .router-link-active {
-  @apply bg-green-300 dark:bg-green-900 rounded-lg bg-opacity-30 dark:bg-opacity-30 text-green-500 dark:text-green-400;
+  @apply bg-green-300 dark:bg-green-900 rounded-lg bg-opacity-20 dark:bg-opacity-30;
 }
 
 .content {
-  @apply items-center px-4 py-2 my-1;
+  @apply items-center px-3 py-1 my-1;
+}
+
+.icon {
+  @apply w-6 h-6 text-gray-500 group-hover:text-green-500 dark:group-hover:text-green-400;
 }
 </style>
