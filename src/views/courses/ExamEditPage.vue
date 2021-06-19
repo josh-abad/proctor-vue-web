@@ -1,13 +1,14 @@
 <template>
-  <div v-if="course" class="form">
+  <div v-if="exam" class="form">
     <PageHeading
       :links="[
         { name: 'Home', url: '/' },
         { name: 'Courses', url: '/courses' },
-        { name: course.name, url: `/courses/${course.slug}` }
+        { name: exam.course.name, url: `/courses/${courseSlug}` },
+        { name: exam.label, url: `/courses/${examSlug}` }
       ]"
     >
-      <template #label>Create exam</template>
+      <template #label>Edit exam</template>
     </PageHeading>
     <AppPanel class="form__panel">
       <div class="form__details">
@@ -44,7 +45,7 @@
             <NumberInput
               v-model.number="week"
               :min="1"
-              :max="course.weeks"
+              :max="exam.course.weeks"
               id="week"
             />
           </div>
@@ -53,13 +54,21 @@
           <label for="startDate">
             <AppLabel>Start Date</AppLabel>
           </label>
-          <DatePicker id="startDate" v-model="startDate" />
+          <DatePicker
+            id="startDate"
+            v-if="typeof startDate === 'string'"
+            v-model="startDate"
+          />
         </div>
         <div class="form__detail">
           <label for="endDate">
             <AppLabel>End Date</AppLabel>
           </label>
-          <DatePicker id="endDate" v-model="endDate" />
+          <DatePicker
+            id="endDate"
+            v-if="typeof endDate === 'string'"
+            v-model="endDate"
+          />
         </div>
         <div class="form__detail">
           <label for="shuffle">
@@ -118,19 +127,19 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { CourseWithExams, NewExamItem } from '@/types'
-import { defineComponent } from 'vue'
+import { ExamWithAnswers, NewExamItem } from '@/types'
+import { defineComponent, reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
 import useFetch from '@/composables/use-fetch'
-import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
 import List from '@/components/List.vue'
 import PageHeading from '@/components/PageHeading.vue'
 import NProgress from 'nprogress'
+import userService from '@/services/user'
 
 export default defineComponent({
-  name: 'ExamCreationPage',
+  name: 'ExamEditPage',
   components: {
     AppButton,
     AppPanel,
@@ -146,7 +155,12 @@ export default defineComponent({
     PageHeading
   },
   props: {
-    slug: {
+    courseSlug: {
+      type: String,
+      required: true
+    },
+
+    examSlug: {
       type: String,
       required: true
     }
@@ -154,29 +168,18 @@ export default defineComponent({
   setup(props) {
     const { setSnackbarMessage } = useSnackbar()
 
-    const [course, fetchCourse, loading, error] =
-      useFetch<CourseWithExams | null>(() =>
-        coursesService.getCourse(props.slug)
-      )
+    const [exam, fetchExam, loading, error] = useFetch<ExamWithAnswers | null>(
+      () => userService.getExam(props.courseSlug, props.examSlug)
+    )
 
-    fetchCourse()
-
-    return {
-      course,
-      loading,
-      error,
-      setSnackbarMessage
-    }
-  },
-  data() {
-    return {
+    const formDetails = reactive({
       examName: '',
       examSeconds: 3600,
       maxAttempts: 3,
       random: false,
       week: 1,
-      startDate: '',
-      endDate: '',
+      startDate: '' as string | Date,
+      endDate: '' as string | Date,
       examItems: [
         {
           question: '',
@@ -187,6 +190,27 @@ export default defineComponent({
           caseSensitive: true
         }
       ] as NewExamItem[]
+    })
+
+    fetchExam().then(() => {
+      if (exam.value) {
+        formDetails.examName = exam.value.label
+        formDetails.examSeconds = exam.value.duration
+        formDetails.maxAttempts = exam.value.maxAttempts
+        formDetails.random = exam.value.random
+        formDetails.week = exam.value.week
+        formDetails.startDate = exam.value.startDate
+        formDetails.endDate = exam.value.endDate
+        formDetails.examItems = exam.value.examItems
+      }
+    })
+
+    return {
+      exam,
+      loading,
+      error,
+      setSnackbarMessage,
+      ...toRefs(formDetails)
     }
   },
   computed: {
@@ -271,27 +295,22 @@ export default defineComponent({
     async saveExam() {
       try {
         NProgress.start()
-        await examsService.create({
+        await examsService.edit(this.exam?.id ?? '', {
           label: this.examName,
           random: this.random,
           length: this.examItems.length,
           duration: this.examSeconds,
-          courseId: this.course?.id ?? '',
+          courseId: this.exam?.course.id ?? '',
           maxAttempts: this.maxAttempts,
           examItems: this.examItems,
           week: this.week,
           startDate: new Date(this.startDate),
           endDate: new Date(this.endDate)
         })
-        this.setSnackbarMessage('Exam successfully created', 'success')
-        await this.$router.push(`/courses/${this.slug}`)
+        await this.$router.push(`/courses/${this.courseSlug}`)
+        this.setSnackbarMessage('Exam successfully updated', 'success')
       } catch (error) {
-        this.setSnackbarMessage(
-          `${this.examName} already exists in ${
-            this.course?.name ?? 'this course'
-          }.`,
-          'error'
-        )
+        this.setSnackbarMessage('Could not update exam', 'error')
       } finally {
         NProgress.done()
       }

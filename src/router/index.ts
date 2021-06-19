@@ -95,6 +95,15 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../views/courses/ExamCreationPage.vue')
           },
           {
+            path: ':courseSlug/:examSlug/edit',
+            props: true,
+            meta: {
+              title: createTitle('Edit Exam'),
+              authorize: ['coordinator', 'admin'] as Role[]
+            },
+            component: () => import('../views/courses/ExamEditPage.vue')
+          },
+          {
             path: ':courseSlug/:examSlug',
             props: true,
             component: () => import('../views/ExamView.vue'),

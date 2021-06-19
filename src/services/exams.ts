@@ -13,6 +13,11 @@ const create = async (newExam: NewExam) => {
   return response.data
 }
 
+const edit = async (id: string, newExam: NewExam) => {
+  const response = await axios.put<Exam>(`${baseUrl}/${id}`, newExam, config)
+  return response.data
+}
+
 /**
  * Gets all exams from all courses
  */
@@ -54,6 +59,7 @@ const isExamTaken = async (id: string, userId: string) => {
 
 export default {
   create,
+  edit,
   getAll,
   getExam,
   deleteExam,

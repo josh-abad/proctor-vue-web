@@ -76,6 +76,10 @@ export type NewExam = Omit<Exam, 'id' | 'course' | 'slug' | 'examItems'> & {
   courseId: string
 }
 
+export type ExamWithAnswers = Omit<Exam, 'examItems'> & {
+  examItems: (ExamItem & { answer: string[] })[]
+}
+
 export interface Answer {
   id: string
   answer: string

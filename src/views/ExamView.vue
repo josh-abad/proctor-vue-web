@@ -12,18 +12,34 @@
             #actions
             v-if="$store.getters.permissions(['coordinator', 'admin'])"
           >
-            <ModalButton
-              :header="`Delete ${exam.label}`"
-              :message="`Are you sure you want to delete ${exam.label}?`"
-              action-label="Delete"
-              @confirm="deleteExam"
-              danger
-            >
-              <span class="flex items-center">
-                <TrashIcon class="w-5 h-5" />
-                <span class="ml-1.5">Delete</span>
-              </span>
-            </ModalButton>
+            <div class="flex items-center">
+              <router-link
+                :to="`/courses/${courseSlug}/${examSlug}/edit`"
+                v-if="locked === -1"
+              >
+                <AppButton>
+                  <span class="flex items-center">
+                    <PencilIcon class="w-5 h-5" />
+                    <span class="flex items-center">
+                      <span class="ml-1.5">Edit Exam</span>
+                    </span>
+                  </span>
+                </AppButton>
+              </router-link>
+              <ModalButton
+                :header="`Delete ${exam.label}`"
+                :message="`Are you sure you want to delete ${exam.label}?`"
+                action-label="Delete"
+                @confirm="deleteExam"
+                class="ml-2"
+                danger
+              >
+                <span class="flex items-center">
+                  <TrashIcon class="w-5 h-5" />
+                  <span class="ml-1.5">Delete</span>
+                </span>
+              </ModalButton>
+            </div>
           </template>
           <template #meta>
             <PageHeadingMeta>
@@ -132,6 +148,7 @@ import {
   CalendarIcon,
   LockClosedIcon,
   ClockIcon,
+  PencilIcon,
   DocumentDuplicateIcon
 } from '@heroicons/vue/solid'
 import { ExclamationIcon } from '@heroicons/vue/outline'
@@ -146,6 +163,7 @@ import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
 import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import NProgress from 'nprogress'
+import AppButton from '@/components/ui/AppButton.vue'
 
 dayjs.extend(duration)
 
@@ -167,7 +185,9 @@ export default defineComponent({
     Webcam,
     PageHeadingMetaItem,
     PageHeadingMeta,
-    AppModal
+    AppModal,
+    PencilIcon,
+    AppButton
   },
   props: {
     courseSlug: {

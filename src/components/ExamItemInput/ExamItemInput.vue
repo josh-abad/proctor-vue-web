@@ -145,9 +145,11 @@ export default defineComponent({
   watch: {
     questionType(newValue: string) {
       if (newValue === 'multiple answers') {
-        this.$emit('update:answer', [])
+        if (!this.choices.includes(this.answer[0])) {
+          this.$emit('update:answer', [])
+        }
       } else {
-        this.$emit('update:answer', [''])
+        this.$emit('update:answer', [this.answer[0]])
       }
     }
   },

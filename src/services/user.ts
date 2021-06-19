@@ -1,4 +1,11 @@
-import { Attempt, Course, CourseGrades, Exam, User } from '@/types'
+import {
+  Attempt,
+  Course,
+  CourseGrades,
+  Exam,
+  ExamWithAnswers,
+  User
+} from '@/types'
 import axios from 'axios'
 import { config } from './auth'
 import { API_URL } from './helper'
@@ -39,6 +46,14 @@ const getCourses = async () => {
   type CourseWithProgress = Course & { progress: number }
   const response = await axios.get<CourseWithProgress[]>(
     `${baseUrl}/courses`,
+    config
+  )
+  return response.data
+}
+
+const getExam = async (courseSlug: string, examSlug: string) => {
+  const response = await axios.get<ExamWithAnswers>(
+    `${baseUrl}/${courseSlug}/${examSlug}`,
     config
   )
   return response.data
@@ -108,6 +123,7 @@ export default {
   getAttempts,
   getAttemptsByExam,
   getCourses,
+  getExam,
   getExams,
   getExamsTaken,
   getGradesForCourse,
