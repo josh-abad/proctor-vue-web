@@ -43,11 +43,20 @@ export default defineComponent({
     on: {
       type: Boolean,
       default: true
+    },
+
+    examStarted: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['no-face-seen', 'unidentified-face', 'camera-status-change'],
   setup(props, { emit }) {
     const store = useStore()
+
+    if (!store.state.user) {
+      throw new Error('User not logged in')
+    }
 
     const detectionTimer = useTimer(() => {
       emit('no-face-seen')
@@ -61,8 +70,25 @@ export default defineComponent({
 
     const { video, startVideo, stopVideo, isEnabled, isLoading } = useVideo()
 
+    const {
+      isFaceSeen,
+      isFaceIdentified,
+      startDetection,
+      stopDetection,
+      loadFaceDetection,
+      isLoadingModels,
+      hasLoadedModels
+    } = useFaceDetection({
+      faceRecognition: store.state.user.referenceImageUrl
+        ? {
+            name: store.state.user.fullName,
+            referenceImageUrl: store.state.user.referenceImageUrl
+          }
+        : undefined
+    })
+
     const cameraStatus = computed(() => {
-      if (isLoading.value) {
+      if (isLoading.value || isLoadingModels.value) {
         return 'loading'
       } else if (isEnabled.value) {
         return 'enabled'
@@ -76,21 +102,33 @@ export default defineComponent({
     })
 
     watch(
+      () => props.examStarted,
+      isExamStarted => {
+        if (isExamStarted) {
+          detectionTimer.start()
+        }
+      }
+    )
+
+    const handleDetection = computed(() => {
+      return video.value && hasLoadedModels ? startDetection(video.value) : null
+    })
+
+    watch(
       () => props.on,
       isOn => {
         if (isOn) {
-          startVideo().then(() => {
-            loadFaceDetection()
-          })
+          startVideo().then(loadFaceDetection)
 
-          if (video.value) {
-            video.value.addEventListener('play', startDetection(video.value))
+          if (video.value && handleDetection.value) {
+            video.value.addEventListener('play', handleDetection.value)
           }
-          detectionTimer.start()
+          // detectionTimer.start()
         } else {
           stopVideo()
-          if (video.value) {
-            video.value.removeEventListener('play', startDetection(video.value))
+          stopDetection()
+          if (video.value && handleDetection.value) {
+            video.value.removeEventListener('play', handleDetection.value)
           }
           detectionTimer.stop()
         }
@@ -99,27 +137,14 @@ export default defineComponent({
 
     onUnmounted(() => {
       stopVideo()
+      stopDetection()
       detectionTimer.stop()
       identificationTimer.stop()
 
-      if (video.value) {
-        video.value.removeEventListener('play', startDetection(video.value))
+      if (video.value && handleDetection.value) {
+        video.value.removeEventListener('play', handleDetection.value)
       }
     })
-
-    if (!store.state.user) {
-      throw new Error('User not logged in')
-    }
-
-    const { isFaceSeen, isFaceIdentified, startDetection, loadFaceDetection } =
-      useFaceDetection({
-        faceRecognition: store.state.user.referenceImageUrl
-          ? {
-              name: store.state.user.fullName,
-              referenceImageUrl: store.state.user.referenceImageUrl
-            }
-          : undefined
-      })
 
     watch(isFaceSeen, isSeen => {
       if (isSeen) {

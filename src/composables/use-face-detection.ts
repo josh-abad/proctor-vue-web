@@ -38,8 +38,11 @@ export default function useFaceDetection({
   const isFaceSeen = ref(false)
   const isFaceIdentified = ref(false)
   const isLoading = ref(false)
+  const hasLoaded = ref(false)
   const error = ref(false)
   const faceMatcher = ref() as Ref<faceapi.FaceMatcher | undefined>
+  const handleDetection = ref<() => void>()
+  const interval = ref<number>()
 
   const loadModels = async () => {
     try {
@@ -49,6 +52,7 @@ export default function useFaceDetection({
         faceapi.loadFaceLandmarkTinyModel(MODELS_URL),
         faceapi.loadFaceRecognitionModel(MODELS_URL)
       ])
+      hasLoaded.value = true
     } catch (_error) {
       error.value = true
     } finally {
@@ -68,35 +72,46 @@ export default function useFaceDetection({
   }
 
   const startDetection = (video: HTMLMediaElement) => {
-    return () => {
-      setInterval(async () => {
-        const detections = await faceapi
-          .detectAllFaces(
-            video as faceapi.TNetInput,
-            new faceapi.TinyFaceDetectorOptions({ inputSize })
-          )
-          .withFaceLandmarks(true)
-          .withFaceDescriptors()
+    if (!handleDetection.value) {
+      handleDetection.value = () => {
+        interval.value = setInterval(async () => {
+          const detections = await faceapi
+            .detectAllFaces(
+              video as faceapi.TNetInput,
+              new faceapi.TinyFaceDetectorOptions({ inputSize })
+            )
+            .withFaceLandmarks(true)
+            .withFaceDescriptors()
 
-        isFaceSeen.value = detections.length !== 0
+          isFaceSeen.value = detections.length !== 0
 
-        if (faceRecognition) {
-          const [identifiedFace] = detections.map(({ descriptor }) =>
-            faceMatcher.value?.findBestMatch(descriptor).toString()
-          )
-          const { name } = faceRecognition
-          isFaceIdentified.value = identifiedFace
-            ? identifiedFace.includes(name)
-            : false
-        }
-      }, intervalDuration)
+          if (faceRecognition) {
+            const [identifiedFace] = detections.map(({ descriptor }) =>
+              faceMatcher.value?.findBestMatch(descriptor).toString()
+            )
+            const { name } = faceRecognition
+            isFaceIdentified.value = identifiedFace
+              ? identifiedFace.includes(name)
+              : false
+          }
+        }, intervalDuration)
+      }
     }
+    return handleDetection.value
+  }
+
+  const stopDetection = () => {
+    clearInterval(interval.value)
+    interval.value = undefined
   }
 
   return {
     isFaceSeen,
     isFaceIdentified,
+    isLoadingModels: isLoading,
+    hasLoadedModels: hasLoaded,
     startDetection,
+    stopDetection,
     loadFaceDetection
   }
 }
