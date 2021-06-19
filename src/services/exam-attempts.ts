@@ -24,7 +24,7 @@ const start = async (examId: string) => {
 const getAttempt = async (id: string, status?: AttemptStatus) => {
   const response = await axios.get<Attempt>(
     `${baseUrl}/${id}`,
-    status ? { params: { status } } : undefined
+    status ? { ...config, params: { status } } : config
   )
   return response.data
 }
