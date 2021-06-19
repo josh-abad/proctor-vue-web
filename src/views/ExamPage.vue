@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, onUnmounted, ref, watch } from 'vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
 import { Answer, Attempt, ExamItem } from '@/types'
@@ -161,6 +161,11 @@ export default defineComponent({
         emit('update:starting', false)
       }
     }
+
+    onUnmounted(() => {
+      emit('update:active', false)
+      emit('update:starting', false)
+    })
 
     watch(
       () => props.warnings,
