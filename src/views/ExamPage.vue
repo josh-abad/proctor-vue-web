@@ -39,7 +39,8 @@
         "
         action-label="Submit"
         @confirm="handleSubmit"
-        prominent
+        :prominent="allQuestionsAnswered"
+        :danger="!allQuestionsAnswered"
       >
         Submit
       </ModalButton>
