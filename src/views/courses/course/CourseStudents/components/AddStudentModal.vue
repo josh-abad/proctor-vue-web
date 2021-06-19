@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, PropType } from 'vue'
 import { CourseWithExams, User } from '@/types'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppInput from '@/components/ui/AppInput.vue'
@@ -64,8 +64,14 @@ export default defineComponent({
     courseSlug: {
       type: String,
       required: true
+    },
+
+    enrolledStudents: {
+      type: Array as PropType<User[]>,
+      required: true
     }
   },
+  emits: ['new-students'],
   setup(props) {
     const modal = ref(false)
 
@@ -105,8 +111,8 @@ export default defineComponent({
   computed: {
     unenrolledStudents(): User[] {
       const unenrolledStudents = (student: User): boolean => {
-        return (
-          !!this.course && !this.course.studentsEnrolled.includes(student.id)
+        return !this.enrolledStudents.some(
+          enrolledStudent => enrolledStudent.id === student.id
         )
       }
       return this.students.filter(unenrolledStudents)
@@ -128,6 +134,7 @@ export default defineComponent({
             'Students successfully added to course.',
             'success'
           )
+          this.$emit('new-students')
         } catch (error) {
           this.setSnackbarMessage(error.response.data.error, 'error')
         } finally {

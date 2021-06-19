@@ -8,6 +8,8 @@
       />
       <AddStudentModal
         v-if="$store.getters.permissions(['coordinator', 'admin'])"
+        @new-students="fetchStudents"
+        :enrolled-students="students"
         :course-slug="slug"
       />
     </div>
@@ -64,6 +66,7 @@ export default defineComponent({
 
     return {
       students,
+      fetchStudents,
       loading,
       error,
       handleDeleteStudent
