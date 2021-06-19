@@ -62,6 +62,7 @@ import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import List from '@/components/List.vue'
 import NProgress from 'nprogress'
 import ExamNavigation from '@/components/ExamNavigation.vue'
+import useTitle from '@/composables/use-title'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -125,12 +126,18 @@ export default defineComponent({
         examAttemptsService.getAttempt(props.id, 'in-progress')
       )
 
-    fetchAttempt().then(() => {
-      emit('update:active', true)
-      if (attempt.value) {
-        emit('update:warnings', attempt.value.warnings)
-      }
-    })
+    const { setTitle } = useTitle()
+
+    NProgress.start()
+    fetchAttempt()
+      .then(() => {
+        emit('update:active', true)
+        if (attempt.value) {
+          emit('update:warnings', attempt.value.warnings)
+          setTitle(`${attempt.value.exam.label} - Proctor Vue`)
+        }
+      })
+      .finally(NProgress.done)
 
     const shuffledExamItems = computed<ExamItem[]>(() => {
       if (!attempt.value) {
