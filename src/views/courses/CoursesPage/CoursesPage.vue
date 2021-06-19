@@ -2,7 +2,10 @@
   <div class="p-4">
     <PageHeading>
       <template #label>Courses</template>
-      <template #actions v-if="$store.getters.permissions(['admin'])">
+      <template
+        #actions
+        v-if="$store.getters.permissions(['coordinator', 'admin'])"
+      >
         <router-link to="/courses/new">
           <AppButton prominent>
             <span class="flex items-center">

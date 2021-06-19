@@ -47,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
             path: 'new',
             name: 'Course Creation Page',
             meta: {
-              authorize: ['admin'] as Role[],
+              authorize: ['coordinator', 'admin'] as Role[],
               title: createTitle('New Course')
             },
             component: () => import('../views/courses/CourseCreationPage.vue')
