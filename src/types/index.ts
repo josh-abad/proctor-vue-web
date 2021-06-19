@@ -106,6 +106,7 @@ export interface ExamItem {
   questionType: QuestionType
   choices: string[]
   shuffleChoices: boolean
+  caseSensitive: boolean
 }
 
 export type QuestionType = 'multiple choice' | 'text' | 'multiple answers'

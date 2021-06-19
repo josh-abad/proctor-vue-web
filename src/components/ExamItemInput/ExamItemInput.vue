@@ -20,7 +20,7 @@
           />
         </div>
         <div class="mt-4"></div>
-        <div class="mt-4" v-if="questionType === 'text'">
+        <div class="flex items-center mt-4" v-if="questionType === 'text'">
           <AppInput
             placeholder="Text answer"
             class="w-full text-sm sm:w-1/2"
@@ -28,6 +28,14 @@
             @update:modelValue="newValue => $emit('update:answer', [newValue])"
             type="text"
           />
+          <AppSwitch
+            :model-value="caseSensitive"
+            @update:modelValue="
+              newValue => $emit('update:caseSensitive', newValue)
+            "
+            class="ml-4"
+            >Case Sensitive</AppSwitch
+          >
         </div>
         <div class="mt-4" v-else>
           <ul class="space-y-2">
@@ -115,6 +123,11 @@ export default defineComponent({
     shuffleChoices: {
       type: Boolean,
       required: true
+    },
+
+    caseSensitive: {
+      type: Boolean,
+      required: true
     }
   },
   emits: [
@@ -124,6 +137,7 @@ export default defineComponent({
     'update:questionType',
     'update:choices',
     'update:shuffleChoices',
+    'update:caseSensitive',
     'discard',
     'add-choice',
     'add-question'

@@ -75,6 +75,7 @@
           v-model:question-type="examItem.questionType"
           v-model:choices="examItem.choices"
           v-model:shuffleChoices="examItem.shuffleChoices"
+          v-model:caseSensitive="examItem.caseSensitive"
           v-for="(examItem, i) in examItems"
           :count="i + 1"
           :key="i"
@@ -182,7 +183,8 @@ export default defineComponent({
           answer: [''],
           choices: [],
           questionType: 'text',
-          shuffleChoices: false
+          shuffleChoices: false,
+          caseSensitive: true
         }
       ] as NewExamItem[],
       openCalendar: false
@@ -255,7 +257,8 @@ export default defineComponent({
         answer: [''],
         choices: [],
         questionType: 'text',
-        shuffleChoices: false
+        shuffleChoices: false,
+        caseSensitive: true
       }
       if (i) {
         this.examItems.splice(i, 0, newExamItem)
