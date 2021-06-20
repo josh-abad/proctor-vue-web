@@ -57,6 +57,7 @@
           <template #header>{{ exam?.label }}</template>
           <template #body>
             <p>Are your sure your want to attempt this quiz?</p>
+            <p>Make sure you are in a well-lit room during the exam.</p>
             <ul class="mt-4 space-y-2">
               <AttemptChecklistItem
                 :loading="cameraStatus === 'loading'"
