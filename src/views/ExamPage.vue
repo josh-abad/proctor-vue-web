@@ -106,6 +106,11 @@ export default defineComponent({
       default: 0
     },
 
+    isSetupComplete: {
+      type: Boolean,
+      default: true
+    },
+
     examSubmittedModal: {
       type: Boolean,
       default: false
@@ -129,16 +134,29 @@ export default defineComponent({
 
     const { setTitle } = useTitle()
 
+    emit('update:starting', true)
     NProgress.start()
     fetchAttempt()
       .then(() => {
         emit('update:active', true)
+        if (props.isSetupComplete) {
+          emit('update:starting', false)
+        }
         if (attempt.value) {
           emit('update:warnings', attempt.value.warnings)
           setTitle(`${attempt.value.exam.label} - Proctor Vue`)
         }
       })
       .finally(NProgress.done)
+
+    watch(
+      () => props.isSetupComplete,
+      isComplete => {
+        if (isComplete) {
+          emit('update:starting', false)
+        }
+      }
+    )
 
     const shuffledExamItems = computed<ExamItem[]>(() => {
       if (!attempt.value) {

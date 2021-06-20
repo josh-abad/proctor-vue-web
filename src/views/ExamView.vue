@@ -75,13 +75,20 @@
             </PageHeadingMeta>
           </template>
         </PageHeading>
+        <SetupModal
+          v-model="setupModal"
+          :camera-status="cameraStatus"
+          :course-slug="courseSlug"
+          :exam-slug="examSlug"
+          :exam="exam"
+        />
       </div>
     </transition>
     <div class="flex mt-8">
       <AppPanel class="w-full">
         <router-view
-          v-model:starting="isSetup"
-          :camera-status="cameraStatus"
+          :is-setup-complete="cameraStatus === 'enabled'"
+          v-model:starting="setupModal"
           v-model:active="isActive"
           v-model:examSubmittedModal="examSubmittedModal"
           v-model:warnings="warnings"
@@ -94,7 +101,7 @@
         <div id="timer"></div>
         <Webcam
           :duration="10"
-          :on="isSetup || isActive"
+          :on="setupModal || isActive"
           :exam-started="isActive"
           @no-face-seen="handleNoFaceSeen"
           @unidentified-face="handleUnidentifiedFace"
@@ -164,6 +171,7 @@ import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import NProgress from 'nprogress'
 import AppButton from '@/components/ui/AppButton.vue'
+import SetupModal from '@/components/SetupModal.vue'
 
 dayjs.extend(duration)
 
@@ -187,7 +195,8 @@ export default defineComponent({
     PageHeadingMeta,
     AppModal,
     PencilIcon,
-    AppButton
+    AppButton,
+    SetupModal
   },
   props: {
     courseSlug: {
@@ -299,14 +308,14 @@ export default defineComponent({
       }
     })
 
-    const cameraStatus = ref('disabled')
+    const cameraStatus = ref<'loading' | 'enabled' | 'disabled'>('disabled')
     const handleCameraStatusChange = (
       status: 'loading' | 'enabled' | 'disabled'
     ) => {
       cameraStatus.value = status
     }
 
-    const isSetup = ref(false)
+    const setupModal = ref(false)
 
     watch(isActive, active => {
       if (!active) {
@@ -331,7 +340,7 @@ export default defineComponent({
       isLoading,
       hasError,
       links,
-      isSetup,
+      setupModal,
       examSubmittedModal,
       maxWarnings
     }

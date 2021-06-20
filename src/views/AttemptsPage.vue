@@ -43,41 +43,11 @@
           $store.state.user?.referenceImageUrl
         "
         id="btn-open"
-        @click="openStartingModal"
+        @click="$emit('update:starting', true)"
         prominent
       >
         {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
       </AppButton>
-      <teleport to="#modals">
-        <AppModal
-          v-model="startingModal"
-          class="w-96"
-          @close="$emit('update:starting', false)"
-        >
-          <template #header>{{ exam?.label }}</template>
-          <template #body>
-            <p>Are your sure your want to attempt this quiz?</p>
-            <p>Make sure you are in a well-lit room during the exam.</p>
-            <ul class="mt-4 space-y-2">
-              <AttemptChecklistItem
-                :loading="cameraStatus === 'loading'"
-                :enabled="cameraStatus === 'enabled'"
-              >
-                Webcam enabled
-              </AttemptChecklistItem>
-            </ul>
-          </template>
-          <template #action>
-            <AppButton
-              @click="startAttempt"
-              prominent
-              :disabled="cameraStatus !== 'enabled'"
-            >
-              Start Quiz
-            </AppButton>
-          </template>
-        </AppModal>
-      </teleport>
       <AppButton
         v-if="locked !== 0 || attemptsLeft === 0"
         @click="$router.push(`/courses/${courseSlug}`)"
@@ -92,8 +62,7 @@
 <script lang="ts">
 import AttemptItem from '@/components/AttemptItem.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import examAttemptsService from '@/services/exam-attempts'
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -105,11 +74,8 @@ import userService from '@/services/user'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import SkeletonAttemptsList from '@/components/SkeletonAttemptsList.vue'
 import List from '@/components/List.vue'
-import AppModal from '@/components/ui/AppModal.vue'
-import useSnackbar from '@/composables/use-snackbar'
 import coursesService from '@/services/courses'
 import EmptyState from '@/components/EmptyState.vue'
-import AttemptChecklistItem from '@/components/AttemptChecklistItem.vue'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -125,9 +91,7 @@ export default defineComponent({
     ErrorLoading,
     SkeletonAttemptsList,
     List,
-    AppModal,
-    EmptyState,
-    AttemptChecklistItem
+    EmptyState
   },
   props: {
     courseSlug: {
@@ -143,15 +107,10 @@ export default defineComponent({
     starting: {
       type: Boolean,
       default: false
-    },
-
-    cameraStatus: {
-      type: String as PropType<'enabled' | 'loading' | 'disabled'>,
-      default: 'disabled'
     }
   },
   emits: ['update:starting'],
-  setup(props, { emit }) {
+  setup(props) {
     const [exam, fetchExam, isLoadingExam, hasErrorExam] = useFetch(() =>
       coursesService.getExam(props.courseSlug, props.examSlug)
     )
@@ -171,23 +130,11 @@ export default defineComponent({
       fetchAttempts()
     })
 
-    const startingModal = ref(false)
-
-    const openStartingModal = () => {
-      startingModal.value = true
-      emit('update:starting', true)
-    }
-
-    const { setSnackbarMessage } = useSnackbar()
-
     return {
       exam,
       attempts,
       isLoading,
-      hasError,
-      startingModal,
-      openStartingModal,
-      setSnackbarMessage
+      hasError
     }
   },
   computed: {
@@ -207,18 +154,6 @@ export default defineComponent({
     }
   },
   methods: {
-    async startAttempt() {
-      if (this.exam) {
-        try {
-          const attempt = await examAttemptsService.start(this.exam.id)
-          this.$router.push(
-            `/courses/${this.courseSlug}/${this.examSlug}/attempt/${attempt.id}`
-          )
-        } catch (error) {
-          this.setSnackbarMessage('Attempt could not be started', 'error')
-        }
-      }
-    },
     handleDelete(id: string) {
       this.attempts = this.attempts.filter(attempt => attempt.id !== id)
     }
