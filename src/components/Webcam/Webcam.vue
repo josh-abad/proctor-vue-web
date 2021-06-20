@@ -121,6 +121,16 @@ export default defineComponent({
       return video.value && hasLoadedModels ? startDetection(video.value) : null
     })
 
+    const closeWebcam = () => {
+      stopVideo()
+      stopDetection()
+      if (video.value && handleDetection.value) {
+        video.value.removeEventListener('play', handleDetection.value)
+      }
+      detectionTimer.stop()
+      identificationTimer.stop()
+    }
+
     watch(
       () => props.on,
       async isOn => {
@@ -133,28 +143,13 @@ export default defineComponent({
           if (video.value && handleDetection.value) {
             video.value.addEventListener('play', handleDetection.value)
           }
-          // detectionTimer.start()
         } else {
-          stopVideo()
-          stopDetection()
-          if (video.value && handleDetection.value) {
-            video.value.removeEventListener('play', handleDetection.value)
-          }
-          detectionTimer.stop()
+          closeWebcam()
         }
       }
     )
 
-    onUnmounted(() => {
-      stopVideo()
-      stopDetection()
-      detectionTimer.stop()
-      identificationTimer.stop()
-
-      if (video.value && handleDetection.value) {
-        video.value.removeEventListener('play', handleDetection.value)
-      }
-    })
+    onUnmounted(closeWebcam)
 
     watch(isFaceSeen, isSeen => {
       if (isSeen) {
