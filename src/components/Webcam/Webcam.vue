@@ -101,14 +101,14 @@ export default defineComponent({
       emit('camera-status-change', cameraStatus.value)
     })
 
-    watch(
-      () => props.examStarted,
-      isExamStarted => {
-        if (isExamStarted) {
-          detectionTimer.start()
-        }
-      }
-    )
+    // watch(
+    //   () => props.examStarted,
+    //   isExamStarted => {
+    //     if (isExamStarted) {
+    //       detectionTimer.start()
+    //     }
+    //   }
+    // )
 
     const handleDetection = computed(() => {
       return video.value && hasLoadedModels ? startDetection(video.value) : null
@@ -123,7 +123,7 @@ export default defineComponent({
           if (video.value && handleDetection.value) {
             video.value.addEventListener('play', handleDetection.value)
           }
-          // detectionTimer.start()
+          detectionTimer.start()
         } else {
           stopVideo()
           stopDetection()
