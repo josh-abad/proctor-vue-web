@@ -3,7 +3,7 @@
     <div id="modals" />
     <router-view />
     <div>
-      <Snackbar />
+      <Snackbar class="mt-10" />
     </div>
   </div>
 </template>
