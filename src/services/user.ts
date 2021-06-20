@@ -53,7 +53,7 @@ const getCourses = async () => {
 
 const getExam = async (courseSlug: string, examSlug: string) => {
   const response = await axios.get<ExamWithAnswers>(
-    `${baseUrl}/${courseSlug}/${examSlug}`,
+    `${baseUrl}/courses/${courseSlug}/exams/${examSlug}`,
     config
   )
   return response.data
