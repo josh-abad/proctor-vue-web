@@ -50,6 +50,10 @@ export default defineComponent({
     activities(): ExamActivity[] {
       const activities: ExamActivity[] = []
       for (const attempt of this.attempts) {
+        if (attempt.exam === null) {
+          continue
+        }
+
         if (activities.length === this.attempts.length) {
           break
         }
