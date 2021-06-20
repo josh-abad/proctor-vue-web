@@ -60,12 +60,15 @@ export default function useFaceDetection({
     }
   }
 
-  const loadFaceDetection = async () => {
-    await loadModels()
-    if (faceRecognition) {
-      const { name, referenceImageUrl } = faceRecognition
-      faceMatcher.value = await getFaceMatcher(referenceImageUrl, name)
-    }
+  const loadFaceDetection = () => {
+    loadModels().then(() => {
+      if (faceRecognition) {
+        const { name, referenceImageUrl } = faceRecognition
+        getFaceMatcher(referenceImageUrl, name).then(createdFaceMatcher => {
+          faceMatcher.value = createdFaceMatcher
+        })
+      }
+    })
   }
 
   const startDetection = (video: HTMLMediaElement) => {
