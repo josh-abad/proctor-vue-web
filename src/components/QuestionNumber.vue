@@ -6,6 +6,6 @@
 
 <style lang="postcss" scoped>
 div {
-  @apply flex items-center justify-center w-6 h-6 text-sm rounded;
+  @apply flex items-center justify-center w-6 h-6 text-xs rounded;
 }
 </style>
