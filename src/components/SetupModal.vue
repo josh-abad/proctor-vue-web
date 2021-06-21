@@ -21,13 +21,27 @@
                 : 'Webcam disabled'
             }}
           </AttemptChecklistItem>
+          <AttemptChecklistItem
+            :loading="identification.isIdentifying"
+            :enabled="identification.isIdentified"
+          >
+            {{
+              identification.isIdentifying
+                ? 'Identifying face'
+                : identification.isIdentified
+                ? 'Face identified'
+                : cameraStatus === 'enabled'
+                ? 'No face identified'
+                : 'Waiting for webcam'
+            }}
+          </AttemptChecklistItem>
         </ul>
       </template>
       <template #action>
         <AppButton
           @click="startAttempt"
           prominent
-          :disabled="cameraStatus !== 'enabled'"
+          :disabled="!identification.isIdentified"
         >
           {{ inProgressAttempt ? 'Continue Quiz' : 'Start Quiz' }}
         </AppButton>
@@ -82,6 +96,14 @@ export default defineComponent({
     inProgressAttempt: {
       type: String,
       required: false
+    },
+
+    identification: {
+      type: Object as PropType<{
+        isIdentified: boolean
+        isIdentifying: boolean
+      }>,
+      default: () => ({ isIdentified: false, isIdentifying: false })
     }
   },
   emits: ['update:modelValue'],

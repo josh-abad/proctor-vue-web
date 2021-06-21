@@ -50,9 +50,19 @@ export default defineComponent({
     on: {
       type: Boolean,
       default: true
+    },
+
+    identified: {
+      type: Boolean,
+      default: false
     }
   },
-  emits: ['no-face-seen', 'unidentified-face', 'camera-status-change'],
+  emits: [
+    'no-face-seen',
+    'unidentified-face',
+    'camera-status-change',
+    'update:identified'
+  ],
   setup(props, { emit }) {
     const store = useStore()
 
@@ -161,6 +171,7 @@ export default defineComponent({
       ) {
         identificationTimer.start()
       }
+      emit('update:identified', isIdentified)
     })
 
     return {

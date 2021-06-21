@@ -82,13 +82,14 @@
           :exam-slug="examSlug"
           :exam="exam"
           :in-progress-attempt="inProgressAttempt"
+          :identification="{ isIdentified, isIdentifying }"
         />
       </div>
     </transition>
     <div class="flex mt-8">
       <AppPanel class="w-full">
         <router-view
-          :is-setup-complete="cameraStatus === 'enabled'"
+          :is-setup-complete="isIdentified"
           v-model:setup="setupModal"
           v-model:active="isActive"
           v-model:examSubmittedModal="examSubmittedModal"
@@ -107,6 +108,7 @@
           @no-face-seen="handleNoFaceSeen"
           @unidentified-face="handleUnidentifiedFace"
           @camera-status-change="handleCameraStatusChange"
+          v-model:identified="identified"
         />
         <div class="flex items-center">
           <ExclamationIcon
@@ -173,6 +175,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import NProgress from 'nprogress'
 import AppButton from '@/components/ui/AppButton.vue'
 import SetupModal from '@/components/SetupModal.vue'
+import useIdentify from '@/composables/use-identify'
 
 dayjs.extend(duration)
 
@@ -330,6 +333,16 @@ export default defineComponent({
 
     const inProgressAttempt = ref<string>()
 
+    const identified = ref(false)
+
+    const { isIdentified, isIdentifying, reset } = useIdentify(identified)
+
+    watch(setupModal, isOpen => {
+      if (!isOpen) {
+        reset()
+      }
+    })
+
     return {
       isActive,
       cameraStatus,
@@ -346,7 +359,10 @@ export default defineComponent({
       setupModal,
       examSubmittedModal,
       maxWarnings,
-      inProgressAttempt
+      inProgressAttempt,
+      identified,
+      isIdentified,
+      isIdentifying
     }
   },
   computed: {
