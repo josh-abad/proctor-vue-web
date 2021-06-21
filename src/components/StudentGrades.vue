@@ -12,12 +12,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import useFetch from '@/composables/use-fetch'
-import userService from '@/services/user'
 import { CourseGrades } from '@/types'
-import LoadingWheel from '../../../../components/LoadingWheel.vue'
-import ErrorLoading from '../../../../components/ui/ErrorLoading.vue'
+import LoadingWheel from '@/components/LoadingWheel.vue'
+import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import Grades from '@/components/Grades.vue'
+import useFetch from '@/composables/use-fetch'
+import coursesService from '@/services/courses'
 
 export default defineComponent({
   name: 'CourseGrades',
@@ -26,12 +26,17 @@ export default defineComponent({
     slug: {
       type: String,
       required: true
+    },
+
+    userId: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
     const [courseGrades, fetchCourseGrades, loading, error] =
       useFetch<CourseGrades | null>(() =>
-        userService.getGradesForCourse(props.slug)
+        coursesService.getUserGrades(props.slug, props.userId)
       )
 
     fetchCourseGrades()
@@ -44,47 +49,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-table {
-  @apply w-full;
-}
-
-td {
-  @apply py-2;
-}
-
-.table-data {
-  @apply text-right text-gray-600 dark:text-gray-400;
-}
-
-tbody {
-  @apply divide-y divide-gray-300 dark:divide-gray-700;
-}
-
-.table-header {
-  @apply border-b;
-}
-
-.table-header,
-.table-footer > td {
-  @apply w-3 font-semibold;
-}
-
-.table-footer {
-  @apply border-t;
-}
-
-.table-header,
-.table-footer {
-  @apply border-gray-300 dark:border-gray-700;
-}
-
-.prominent {
-  @apply text-gray-900 dark:text-white;
-}
-
-.course-total-value {
-  @apply text-xl tracking-wide;
-}
-</style>

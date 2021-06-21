@@ -23,6 +23,14 @@
           <template #label> View Student </template>
         </MenuDropdownItem>
         <MenuDropdownItem
+          @item-click="studentGradesModal = true"
+          v-if="
+            courseSlug && $store.getters.permissions(['admin', 'coordinator'])
+          "
+        >
+          <template #label> View Grades </template>
+        </MenuDropdownItem>
+        <MenuDropdownItem
           @item-click="unenrollStudentModal = true"
           separator
           v-if="
@@ -65,6 +73,16 @@
           <AppButton @click="unenrollStudent" prominent> Un-enroll </AppButton>
         </template>
       </AppModal>
+      <AppModal
+        v-model="studentGradesModal"
+        v-if="courseSlug"
+        class="w-1/2 max-h-screen"
+      >
+        <template #header>Grades for {{ student.fullName }}</template>
+        <template #body>
+          <StudentGrades :slug="courseSlug" :userId="student.id" />
+        </template>
+      </AppModal>
     </teleport>
   </div>
 </template>
@@ -82,6 +100,7 @@ import courses from '@/services/courses'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
 import useSnackbar from '@/composables/use-snackbar'
 import NProgress from 'nprogress'
+import StudentGrades from './StudentGrades.vue'
 
 export default defineComponent({
   name: 'StudentRow',
@@ -91,7 +110,8 @@ export default defineComponent({
     MenuDropdown,
     MenuDropdownItem,
     Avatar,
-    DotsVerticalIcon
+    DotsVerticalIcon,
+    StudentGrades
   },
   props: {
     student: {
@@ -110,12 +130,14 @@ export default defineComponent({
 
     const deleteStudentModal = ref(false)
     const unenrollStudentModal = ref(false)
+    const studentGradesModal = ref(false)
     const menuDropdown = ref(false)
 
     return {
       setSnackbarMessage,
       deleteStudentModal,
       unenrollStudentModal,
+      studentGradesModal,
       menuDropdown
     }
   },

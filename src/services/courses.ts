@@ -116,9 +116,9 @@ const getExamsByWeek = async (id: string, week: number) => {
   return response.data
 }
 
-const getUserGrades = async (id: string, userId: string) => {
+const getUserGrades = async (slug: string, userId: string) => {
   const response = await axios.get<CourseGrades>(
-    `${baseUrl}/${id}/grades/${userId}`
+    `${baseUrl}/${slug}/grades/${userId}`
   )
   return response.data
 }
