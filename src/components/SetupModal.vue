@@ -24,7 +24,7 @@
           prominent
           :disabled="cameraStatus !== 'enabled'"
         >
-          Start Quiz
+          {{ inProgressAttempt ? 'Continue Quiz' : 'Start Quiz' }}
         </AppButton>
       </template>
     </AppModal>
@@ -72,6 +72,11 @@ export default defineComponent({
     exam: {
       type: Object as PropType<Exam>,
       required: true
+    },
+
+    inProgressAttempt: {
+      type: String,
+      required: false
     }
   },
   emits: ['update:modelValue'],
@@ -82,10 +87,16 @@ export default defineComponent({
 
     const startAttempt = async () => {
       try {
-        const attempt = await examAttemptsService.start(props.exam.id)
-        router.push(
-          `/courses/${props.courseSlug}/${props.examSlug}/attempt/${attempt.id}`
-        )
+        if (!props.inProgressAttempt) {
+          const attempt = await examAttemptsService.start(props.exam.id)
+          router.push(
+            `/courses/${props.courseSlug}/${props.examSlug}/attempt/${attempt.id}`
+          )
+        } else {
+          router.push(
+            `/courses/${props.courseSlug}/${props.examSlug}/attempt/${props.inProgressAttempt}`
+          )
+        }
       } catch (error) {
         setSnackbarMessage('Attempt could not be started', 'error')
       }

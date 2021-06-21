@@ -81,6 +81,7 @@
           :course-slug="courseSlug"
           :exam-slug="examSlug"
           :exam="exam"
+          :in-progress-attempt="inProgressAttempt"
         />
       </div>
     </transition>
@@ -92,6 +93,7 @@
           v-model:active="isActive"
           v-model:examSubmittedModal="examSubmittedModal"
           v-model:warnings="warnings"
+          v-model:inProgressAttempt="inProgressAttempt"
         />
       </AppPanel>
       <div id="quiz-navigation"></div>
@@ -326,6 +328,8 @@ export default defineComponent({
 
     const examSubmittedModal = ref(false)
 
+    const inProgressAttempt = ref<string>()
+
     return {
       isActive,
       cameraStatus,
@@ -341,7 +345,8 @@ export default defineComponent({
       links,
       setupModal,
       examSubmittedModal,
-      maxWarnings
+      maxWarnings,
+      inProgressAttempt
     }
   },
   computed: {

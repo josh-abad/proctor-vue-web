@@ -37,6 +37,19 @@
         Set up Face ID
       </AppButton>
       <AppButton
+        v-else-if="locked === 0 && inProgress !== undefined"
+        id="btn-open"
+        @click="
+          () => {
+            $emit('update:inProgressAttempt', inProgress)
+            $emit('update:setup', true)
+          }
+        "
+        prominent
+      >
+        Continue quiz
+      </AppButton>
+      <AppButton
         v-else-if="
           locked === 0 &&
           attemptsLeft > 0 &&
@@ -49,7 +62,7 @@
         {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
       </AppButton>
       <AppButton
-        v-if="locked !== 0 || attemptsLeft === 0"
+        v-else-if="locked !== 0 || attemptsLeft === 0"
         @click="$router.push(`/courses/${courseSlug}`)"
         prominent
       >
@@ -107,9 +120,14 @@ export default defineComponent({
     setup: {
       type: Boolean,
       default: false
+    },
+
+    inProgressAttempt: {
+      type: String,
+      required: false
     }
   },
-  emits: ['update:setup'],
+  emits: ['update:setup', 'update:inProgressAttempt'],
   setup(props) {
     const [exam, fetchExam, isLoadingExam, hasErrorExam] = useFetch(() =>
       coursesService.getExam(props.courseSlug, props.examSlug)
@@ -138,6 +156,9 @@ export default defineComponent({
     }
   },
   computed: {
+    inProgress(): string | undefined {
+      return this.attempts.find(attempt => attempt.status === 'in-progress')?.id
+    },
     locked(): number {
       return this.exam ? isExamLocked(this.exam) : 0
     },
