@@ -88,7 +88,7 @@
       <AppPanel class="w-full">
         <router-view
           :is-setup-complete="cameraStatus === 'enabled'"
-          v-model:starting="setupModal"
+          v-model:setup="setupModal"
           v-model:active="isActive"
           v-model:examSubmittedModal="examSubmittedModal"
           v-model:warnings="warnings"

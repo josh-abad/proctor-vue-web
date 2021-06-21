@@ -43,7 +43,7 @@
           $store.state.user?.referenceImageUrl
         "
         id="btn-open"
-        @click="$emit('update:starting', true)"
+        @click="$emit('update:setup', true)"
         prominent
       >
         {{ attempts.length > 0 ? 'Re-attempt quiz' : 'Attempt quiz' }}
@@ -104,12 +104,12 @@ export default defineComponent({
       required: true
     },
 
-    starting: {
+    setup: {
       type: Boolean,
       default: false
     }
   },
-  emits: ['update:starting'],
+  emits: ['update:setup'],
   setup(props) {
     const [exam, fetchExam, isLoadingExam, hasErrorExam] = useFetch(() =>
       coursesService.getExam(props.courseSlug, props.examSlug)

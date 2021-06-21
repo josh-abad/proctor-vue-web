@@ -96,7 +96,7 @@ export default defineComponent({
       default: false
     },
 
-    starting: {
+    setup: {
       type: Boolean,
       default: true
     },
@@ -118,7 +118,7 @@ export default defineComponent({
   },
   emits: [
     'update:active',
-    'update:starting',
+    'update:setup',
     'update:examSubmittedModal',
     'update:warnings'
   ],
@@ -134,13 +134,13 @@ export default defineComponent({
 
     const { setTitle } = useTitle()
 
-    emit('update:starting', true)
+    emit('update:setup', true)
     NProgress.start()
     fetchAttempt()
       .then(() => {
         emit('update:active', true)
         if (props.isSetupComplete) {
-          emit('update:starting', false)
+          emit('update:setup', false)
         }
         if (attempt.value) {
           emit('update:warnings', attempt.value.warnings)
@@ -153,7 +153,7 @@ export default defineComponent({
       () => props.isSetupComplete,
       isComplete => {
         if (isComplete) {
-          emit('update:starting', false)
+          emit('update:setup', false)
         }
       }
     )
@@ -177,13 +177,13 @@ export default defineComponent({
         await router.replace(`/courses/${props.courseSlug}/${props.examSlug}`)
         NProgress.done()
         emit('update:active', false)
-        emit('update:starting', false)
+        emit('update:setup', false)
       }
     }
 
     onUnmounted(() => {
       emit('update:active', false)
-      emit('update:starting', false)
+      emit('update:setup', false)
     })
 
     watch(

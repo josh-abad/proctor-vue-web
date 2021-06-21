@@ -64,11 +64,6 @@ export default defineComponent({
       required: true
     },
 
-    starting: {
-      type: Boolean,
-      default: false
-    },
-
     cameraStatus: {
       type: String as PropType<'enabled' | 'loading' | 'disabled'>,
       default: 'disabled'
