@@ -119,12 +119,14 @@ export default defineComponent({
 
     watch(
       () => props.on,
-      async isOn => {
+      isOn => {
         if (isOn) {
           isLoading.value = true
-          await startVideo()
-          await loadFaceDetection()
-          isLoading.value = false
+          startVideo()
+            .then(loadFaceDetection)
+            .finally(() => {
+              isLoading.value = false
+            })
 
           if (video.value && handleDetection.value) {
             video.value.addEventListener('play', handleDetection.value)
