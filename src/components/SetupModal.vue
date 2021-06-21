@@ -7,14 +7,19 @@
     >
       <template #header>{{ exam.label }}</template>
       <template #body>
-        <p>Are your sure your want to attempt this quiz?</p>
         <p>Make sure you are in a well-lit room during the exam.</p>
-        <ul class="mt-4 space-y-2">
+        <ul class="mt-4 space-y-3">
           <AttemptChecklistItem
             :loading="cameraStatus === 'loading'"
             :enabled="cameraStatus === 'enabled'"
           >
-            Webcam enabled
+            {{
+              cameraStatus === 'loading'
+                ? 'Enabling webcam'
+                : cameraStatus === 'enabled'
+                ? 'Webcam enabled'
+                : 'Webcam disabled'
+            }}
           </AttemptChecklistItem>
         </ul>
       </template>
