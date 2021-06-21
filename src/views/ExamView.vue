@@ -102,7 +102,6 @@
         <Webcam
           :duration="10"
           :on="setupModal || isActive"
-          :exam-started="isActive"
           @no-face-seen="handleNoFaceSeen"
           @unidentified-face="handleUnidentifiedFace"
           @camera-status-change="handleCameraStatusChange"

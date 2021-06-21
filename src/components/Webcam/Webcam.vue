@@ -50,11 +50,6 @@ export default defineComponent({
     on: {
       type: Boolean,
       default: true
-    },
-
-    examStarted: {
-      type: Boolean,
-      default: false
     }
   },
   emits: ['no-face-seen', 'unidentified-face', 'camera-status-change'],
@@ -108,15 +103,6 @@ export default defineComponent({
       emit('camera-status-change', cameraStatus.value)
     })
 
-    watch(
-      () => props.examStarted,
-      isExamStarted => {
-        if (isExamStarted) {
-          detectionTimer.start()
-        }
-      }
-    )
-
     const handleDetection = computed(() => {
       return video.value && hasLoadedModels ? startDetection(video.value) : null
     })
@@ -143,6 +129,7 @@ export default defineComponent({
           if (video.value && handleDetection.value) {
             video.value.addEventListener('play', handleDetection.value)
           }
+          detectionTimer.start()
         } else {
           closeWebcam()
         }
