@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, watch } from 'vue'
 import { CourseGrades } from '@/types'
 import LoadingWheel from '@/components/LoadingWheel.vue'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
@@ -31,6 +31,11 @@ export default defineComponent({
     userId: {
       type: String,
       required: true
+    },
+
+    on: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props) {
@@ -39,7 +44,14 @@ export default defineComponent({
         coursesService.getUserGrades(props.slug, props.userId)
       )
 
-    fetchCourseGrades()
+    watch(
+      () => props.on,
+      isOn => {
+        if (isOn) {
+          fetchCourseGrades()
+        }
+      }
+    )
 
     return {
       courseGrades,

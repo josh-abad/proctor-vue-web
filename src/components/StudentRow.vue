@@ -80,7 +80,11 @@
       >
         <template #header>Grades for {{ student.fullName }}</template>
         <template #body>
-          <StudentGrades :slug="courseSlug" :userId="student.id" />
+          <StudentGrades
+            :on="studentGradesModal"
+            :slug="courseSlug"
+            :userId="student.id"
+          />
         </template>
       </AppModal>
     </teleport>
