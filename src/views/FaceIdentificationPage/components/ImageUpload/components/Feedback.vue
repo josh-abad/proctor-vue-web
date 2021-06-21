@@ -2,7 +2,7 @@
   <div>
     <div v-if="loading">
       <div class="inline-flex items-center text-sm">
-        <LoadingWheel class="mr-1" />
+        <LoadingWheel class="w-4 h-4 mr-1" />
         Detecting face
       </div>
     </div>
