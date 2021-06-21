@@ -1,6 +1,6 @@
 <template>
   <li class="flex items-center">
-    <LoadingWheel class="w-5 h-5" v-if="loading" />
+    <LoadingWheel class="w-6 h-6" v-if="loading" />
     <div class="circle" :class="{ enabled }" v-else>
       <CheckIcon class="w-4 h-4 text-white" v-if="enabled" />
     </div>
@@ -32,7 +32,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .circle {
-  @apply flex items-center justify-center w-5 h-5 bg-gray-500 rounded-full;
+  @apply flex items-center justify-center w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full;
 }
 
 .circle.enabled {

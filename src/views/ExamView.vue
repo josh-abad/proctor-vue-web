@@ -75,16 +75,26 @@
             </PageHeadingMeta>
           </template>
         </PageHeading>
+        <SetupModal
+          v-model="setupModal"
+          :camera-status="cameraStatus"
+          :course-slug="courseSlug"
+          :exam-slug="examSlug"
+          :exam="exam"
+          :in-progress-attempt="inProgressAttempt"
+          :identification="{ isIdentified, isIdentifying }"
+        />
       </div>
     </transition>
     <div class="flex mt-8">
       <AppPanel class="w-full">
         <router-view
-          v-model:starting="isSetup"
-          :camera-status="cameraStatus"
+          :is-setup-complete="isIdentified"
+          v-model:setup="setupModal"
           v-model:active="isActive"
           v-model:examSubmittedModal="examSubmittedModal"
           v-model:warnings="warnings"
+          v-model:inProgressAttempt="inProgressAttempt"
         />
       </AppPanel>
       <div id="quiz-navigation"></div>
@@ -93,12 +103,12 @@
       <IndicatorBar :class="isActive ? 'block' : 'hidden'">
         <div id="timer"></div>
         <Webcam
-          :duration="10"
-          :on="isSetup || isActive"
-          :exam-started="isActive"
+          :duration="detectionDuration"
+          :on="setupModal || isActive"
           @no-face-seen="handleNoFaceSeen"
           @unidentified-face="handleUnidentifiedFace"
           @camera-status-change="handleCameraStatusChange"
+          v-model:identified="identified"
         />
         <div class="flex items-center">
           <ExclamationIcon
@@ -164,6 +174,8 @@ import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 import NProgress from 'nprogress'
 import AppButton from '@/components/ui/AppButton.vue'
+import SetupModal from '@/components/SetupModal.vue'
+import useIdentify from '@/composables/use-identify'
 
 dayjs.extend(duration)
 
@@ -187,7 +199,8 @@ export default defineComponent({
     PageHeadingMeta,
     AppModal,
     PencilIcon,
-    AppButton
+    AppButton,
+    SetupModal
   },
   props: {
     courseSlug: {
@@ -259,17 +272,25 @@ export default defineComponent({
     // TODO: set max warnings per exam
     const maxWarnings = ref(5)
 
+    const detectionDuration = ref(10)
+
     const handleNoFaceSeen = () => {
       if (isActive.value) {
         warnings.value++
-        setSnackbarMessage('No face seen for 10 seconds.', 'warning')
+        setSnackbarMessage(
+          `No face seen for ${detectionDuration.value} seconds.`,
+          'warning'
+        )
       }
     }
 
     const handleUnidentifiedFace = () => {
       if (isActive.value) {
         warnings.value++
-        setSnackbarMessage('Face unidentified for 10 seconds', 'warning')
+        setSnackbarMessage(
+          `Face unidentified for ${detectionDuration.value} seconds`,
+          'warning'
+        )
       }
     }
 
@@ -299,14 +320,14 @@ export default defineComponent({
       }
     })
 
-    const cameraStatus = ref('disabled')
+    const cameraStatus = ref<'loading' | 'enabled' | 'disabled'>('disabled')
     const handleCameraStatusChange = (
       status: 'loading' | 'enabled' | 'disabled'
     ) => {
       cameraStatus.value = status
     }
 
-    const isSetup = ref(false)
+    const setupModal = ref(false)
 
     watch(isActive, active => {
       if (!active) {
@@ -317,6 +338,18 @@ export default defineComponent({
     })
 
     const examSubmittedModal = ref(false)
+
+    const inProgressAttempt = ref<string>()
+
+    const identified = ref(false)
+
+    const { isIdentified, isIdentifying, reset } = useIdentify(identified)
+
+    watch(setupModal, isOpen => {
+      if (!isOpen) {
+        reset()
+      }
+    })
 
     return {
       isActive,
@@ -331,9 +364,14 @@ export default defineComponent({
       isLoading,
       hasError,
       links,
-      isSetup,
+      setupModal,
       examSubmittedModal,
-      maxWarnings
+      maxWarnings,
+      inProgressAttempt,
+      identified,
+      isIdentified,
+      isIdentifying,
+      detectionDuration
     }
   },
   computed: {

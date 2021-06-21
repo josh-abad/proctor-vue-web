@@ -45,12 +45,17 @@ export default defineComponent({
       default: true
     },
 
-    examStarted: {
+    identified: {
       type: Boolean,
       default: false
     }
   },
-  emits: ['no-face-seen', 'unidentified-face', 'camera-status-change'],
+  emits: [
+    'no-face-seen',
+    'unidentified-face',
+    'camera-status-change',
+    'update:identified'
+  ],
   setup(props, { emit }) {
     const store = useStore()
 
@@ -101,50 +106,42 @@ export default defineComponent({
       emit('camera-status-change', cameraStatus.value)
     })
 
-    // watch(
-    //   () => props.examStarted,
-    //   isExamStarted => {
-    //     if (isExamStarted) {
-    //       detectionTimer.start()
-    //     }
-    //   }
-    // )
-
     const handleDetection = computed(() => {
       return video.value && hasLoadedModels ? startDetection(video.value) : null
     })
+
+    const closeWebcam = () => {
+      stopVideo()
+      stopDetection()
+      if (video.value && handleDetection.value) {
+        video.value.removeEventListener('play', handleDetection.value)
+      }
+      detectionTimer.stop()
+      identificationTimer.stop()
+    }
 
     watch(
       () => props.on,
       isOn => {
         if (isOn) {
-          startVideo().then(loadFaceDetection)
+          isLoading.value = true
+          startVideo()
+            .then(loadFaceDetection)
+            .finally(() => {
+              isLoading.value = false
+            })
 
           if (video.value && handleDetection.value) {
             video.value.addEventListener('play', handleDetection.value)
           }
           detectionTimer.start()
         } else {
-          stopVideo()
-          stopDetection()
-          if (video.value && handleDetection.value) {
-            video.value.removeEventListener('play', handleDetection.value)
-          }
-          detectionTimer.stop()
+          closeWebcam()
         }
       }
     )
 
-    onUnmounted(() => {
-      stopVideo()
-      stopDetection()
-      detectionTimer.stop()
-      identificationTimer.stop()
-
-      if (video.value && handleDetection.value) {
-        video.value.removeEventListener('play', handleDetection.value)
-      }
-    })
+    onUnmounted(closeWebcam)
 
     watch(isFaceSeen, isSeen => {
       if (isSeen) {
@@ -161,17 +158,17 @@ export default defineComponent({
     watch(isFaceIdentified, isIdentified => {
       if (isIdentified) {
         identificationTimer.stop()
+        detectionTimer.stop()
       } else if (
         identificationTimer.status !== 'active' &&
         detectionTimer.status === 'stopped'
       ) {
         identificationTimer.start()
       }
+      emit('update:identified', isIdentified)
     })
 
     return {
-      detectionTimer,
-      identificationTimer,
       video,
       isFaceSeen,
       isFaceIdentified,
@@ -180,9 +177,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.timer-header {
-  @apply font-semibold;
-}
-</style>

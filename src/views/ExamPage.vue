@@ -96,7 +96,7 @@ export default defineComponent({
       default: false
     },
 
-    starting: {
+    setup: {
       type: Boolean,
       default: true
     },
@@ -106,6 +106,11 @@ export default defineComponent({
       default: 0
     },
 
+    isSetupComplete: {
+      type: Boolean,
+      default: true
+    },
+
     examSubmittedModal: {
       type: Boolean,
       default: false
@@ -113,7 +118,7 @@ export default defineComponent({
   },
   emits: [
     'update:active',
-    'update:starting',
+    'update:setup',
     'update:examSubmittedModal',
     'update:warnings'
   ],
@@ -129,16 +134,29 @@ export default defineComponent({
 
     const { setTitle } = useTitle()
 
+    emit('update:setup', true)
     NProgress.start()
     fetchAttempt()
       .then(() => {
         emit('update:active', true)
+        if (props.isSetupComplete) {
+          emit('update:setup', false)
+        }
         if (attempt.value) {
           emit('update:warnings', attempt.value.warnings)
           setTitle(`${attempt.value.exam.label} - Proctor Vue`)
         }
       })
       .finally(NProgress.done)
+
+    watch(
+      () => props.isSetupComplete,
+      isComplete => {
+        if (isComplete) {
+          emit('update:setup', false)
+        }
+      }
+    )
 
     const shuffledExamItems = computed<ExamItem[]>(() => {
       if (!attempt.value) {
@@ -159,13 +177,13 @@ export default defineComponent({
         await router.replace(`/courses/${props.courseSlug}/${props.examSlug}`)
         NProgress.done()
         emit('update:active', false)
-        emit('update:starting', false)
+        emit('update:setup', false)
       }
     }
 
     onUnmounted(() => {
       emit('update:active', false)
-      emit('update:starting', false)
+      emit('update:setup', false)
     })
 
     watch(
