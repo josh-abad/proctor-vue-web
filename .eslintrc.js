@@ -2,7 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true,
+    webextensions: true,
+    node: true
   },
   extends: [
     'eslint:recommended',
@@ -14,12 +15,12 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
     parser: '@typescript-eslint/parser',
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['vue', '@typescript-eslint'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off'
-  },
+  }
 }
