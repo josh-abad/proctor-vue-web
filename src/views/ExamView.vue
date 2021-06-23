@@ -320,6 +320,13 @@ export default defineComponent({
       }
     })
 
+    window.addEventListener('keyup', e => {
+      if (isActive.value && e.code === 'PrintScreen') {
+        warnings.value++
+        setSnackbarMessage('Please refrain from screen capturing.', 'warning')
+      }
+    })
+
     const cameraStatus = ref<'loading' | 'enabled' | 'disabled'>('disabled')
     const handleCameraStatusChange = (
       status: 'loading' | 'enabled' | 'disabled'
