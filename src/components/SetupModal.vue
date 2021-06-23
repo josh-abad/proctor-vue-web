@@ -35,6 +35,9 @@
                 : 'Waiting for webcam'
             }}
           </AttemptChecklistItem>
+          <AttemptChecklistItem :enabled="tracking">
+            {{ tracking ? 'Tracking on' : 'Tracking off' }}
+          </AttemptChecklistItem>
         </ul>
       </template>
       <template #action>
@@ -86,6 +89,11 @@ export default defineComponent({
     cameraStatus: {
       type: String as PropType<'enabled' | 'loading' | 'disabled'>,
       default: 'disabled'
+    },
+
+    tracking: {
+      type: Boolean,
+      default: false
     },
 
     exam: {

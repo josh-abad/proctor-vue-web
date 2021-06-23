@@ -83,6 +83,7 @@
           :exam="exam"
           :in-progress-attempt="inProgressAttempt"
           :identification="{ isIdentified, isIdentifying }"
+          :tracking="isTrackingOn"
         />
       </div>
     </transition>
@@ -176,6 +177,7 @@ import NProgress from 'nprogress'
 import AppButton from '@/components/ui/AppButton.vue'
 import SetupModal from '@/components/SetupModal.vue'
 import useIdentify from '@/composables/use-identify'
+import useExtension from '@/composables/use-extension'
 
 dayjs.extend(duration)
 
@@ -351,6 +353,13 @@ export default defineComponent({
       }
     })
 
+    const id = 'plcaollkdcilnjnibcijlpleadniggbp'
+    const flaggedSites = ['reddit', 'coursehero', 'facebook', 'scribd']
+
+    const { isTrackingOn } = useExtension(id, flaggedSites, () => {
+      warnings.value++
+    })
+
     return {
       isActive,
       cameraStatus,
@@ -371,7 +380,8 @@ export default defineComponent({
       identified,
       isIdentified,
       isIdentifying,
-      detectionDuration
+      detectionDuration,
+      isTrackingOn
     }
   },
   computed: {
