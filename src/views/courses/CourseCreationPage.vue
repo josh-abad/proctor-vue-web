@@ -19,11 +19,10 @@
           </div>
           <div class="ml-4">
             <label for="courseWeeks"><AppLabel>Course Weeks</AppLabel></label>
-            <input
-              type="number"
+            <NumberInput
               id="courseWeeks"
-              min="4"
-              max="10"
+              :min="4"
+              :max="10"
               v-model.number="courseWeeks"
             />
           </div>
@@ -67,6 +66,7 @@ import coursesService from '@/services/courses'
 import useSnackbar from '@/composables/use-snackbar'
 import PageHeading from '@/components/PageHeading.vue'
 import NProgress from 'nprogress'
+import NumberInput from '@/components/ui/NumberInput.vue'
 
 export default defineComponent({
   name: 'CourseCreationPage',
@@ -77,7 +77,8 @@ export default defineComponent({
     AppDropdown,
     AppLabel,
     AppPanel,
-    PageHeading
+    PageHeading,
+    NumberInput
   },
   setup() {
     const { setSnackbarMessage } = useSnackbar()
@@ -134,10 +135,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-#courseWeeks {
-  @apply px-3 py-2 appearance-none focus:outline-none focus:ring-0 focus:border-green-500;
-  @apply bg-gray-100 border-gray-300 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700;
-}
-</style>
