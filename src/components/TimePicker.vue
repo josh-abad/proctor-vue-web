@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import NumberInput from './NumberInput.vue'
+import NumberInput from './ui/NumberInput.vue'
 
 export default defineComponent({
   components: { NumberInput },
