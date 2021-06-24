@@ -13,9 +13,36 @@
             v-if="$store.getters.permissions(['coordinator', 'admin'])"
           >
             <div class="flex items-center">
+              <ModalButton
+                v-if="!exam.startDate"
+                :header="`Open ${exam.label}`"
+                :message="`Are you sure you want to open ${exam.label}?`"
+                action-label="Open"
+                @confirm="openExam"
+                prominent
+              >
+                <span class="flex items-center">
+                  <LockOpenIcon class="w-5 h-5" />
+                  <span class="ml-1.5">Open Exam</span>
+                </span>
+              </ModalButton>
+              <ModalButton
+                v-else-if="locked === 0 && !exam.endDate"
+                :header="`Close ${exam.label}`"
+                :message="`Are you sure you want to close ${exam.label}?`"
+                action-label="Close"
+                @confirm="closeExam"
+                danger
+              >
+                <span class="flex items-center">
+                  <LockClosedIcon class="w-5 h-5" />
+                  <span class="ml-1.5">Close Exam</span>
+                </span>
+              </ModalButton>
               <router-link
                 :to="`/courses/${courseSlug}/${examSlug}/edit`"
                 v-if="locked === -1"
+                class="ml-2"
               >
                 <AppButton>
                   <span class="flex items-center">
@@ -49,7 +76,7 @@
                 </template>
                 <template #content> Locked </template>
               </PageHeadingMetaItem>
-              <PageHeadingMetaItem>
+              <PageHeadingMetaItem v-if="date">
                 <template #icon>
                   <CalendarIcon />
                 </template>
@@ -142,8 +169,6 @@
 </template>
 
 <script lang="ts">
-import useFetch from '@/composables/use-fetch'
-import coursesService from '@/services/courses'
 import { computed, defineComponent, ref, watch } from 'vue'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import SkeletonPageHeading from '@/components/SkeletonPageHeading.vue'
@@ -156,6 +181,7 @@ import ModalButton from '@/components/ui/ModalButton.vue'
 import {
   TrashIcon,
   CalendarIcon,
+  LockOpenIcon,
   LockClosedIcon,
   ClockIcon,
   PencilIcon,
@@ -176,6 +202,7 @@ import NProgress from 'nprogress'
 import AppButton from '@/components/ui/AppButton.vue'
 import SetupModal from '@/components/SetupModal.vue'
 import useIdentify from '@/composables/use-identify'
+import useExam from '@/composables/use-exam'
 
 dayjs.extend(duration)
 
@@ -189,6 +216,7 @@ export default defineComponent({
     ModalButton,
     TrashIcon,
     CalendarIcon,
+    LockOpenIcon,
     LockClosedIcon,
     ClockIcon,
     DocumentDuplicateIcon,
@@ -217,8 +245,9 @@ export default defineComponent({
 
     const { setSnackbarMessage } = useSnackbar()
 
-    const [exam, fetchExam, isLoading, hasError] = useFetch(() =>
-      coursesService.getExam(props.courseSlug, props.examSlug)
+    const { exam, fetchExam, isLoading, hasError } = useExam(
+      props.courseSlug,
+      props.examSlug
     )
     const { setTitle } = useTitle()
 
@@ -235,16 +264,46 @@ export default defineComponent({
       .finally(NProgress.done)
 
     const deleteExam = async () => {
-      try {
-        NProgress.start()
-        await examsService.deleteExam(exam.value.id)
-        setSnackbarMessage('Exam successfully deleted', 'success')
-      } catch (error) {
-        setSnackbarMessage('Could not delete exam', 'error')
-      } finally {
-        NProgress.done()
+      if (exam.value) {
+        try {
+          NProgress.start()
+          await examsService.deleteExam(exam.value.id)
+          setSnackbarMessage('Exam successfully deleted', 'success')
+        } catch (error) {
+          setSnackbarMessage('Could not delete exam', 'error')
+        } finally {
+          NProgress.done()
+        }
+        router.replace(`/courses/${props.courseSlug}`)
       }
-      router.replace(`/courses/${props.courseSlug}`)
+    }
+
+    const openExam = async () => {
+      if (exam.value) {
+        try {
+          NProgress.start()
+          exam.value = await examsService.openExam(exam.value.id)
+          setSnackbarMessage('The exam is now open.', 'success')
+        } catch (error) {
+          setSnackbarMessage('Could not open exam', 'error')
+        } finally {
+          NProgress.done()
+        }
+      }
+    }
+
+    const closeExam = async () => {
+      if (exam.value) {
+        try {
+          NProgress.start()
+          exam.value = await examsService.closeExam(exam.value.id)
+          setSnackbarMessage('The exam is now closed.', 'success')
+        } catch (error) {
+          setSnackbarMessage('Could not close exam', 'error')
+        } finally {
+          NProgress.done()
+        }
+      }
     }
 
     const links = computed(() => {
@@ -366,6 +425,8 @@ export default defineComponent({
       handleUnidentifiedFace,
       warningModal,
       warnings,
+      openExam,
+      closeExam,
       deleteExam,
       exam,
       isLoading,
@@ -389,6 +450,10 @@ export default defineComponent({
       return this.exam ? isExamLocked(this.exam) : 0
     },
     duration(): string {
+      if (!this.exam) {
+        return ''
+      }
+
       const d = Math.floor(this.exam.duration / (3600 * 24))
       const h = Math.floor((this.exam.duration % (3600 * 24)) / 3600)
       const m = Math.floor((this.exam.duration % 3600) / 60)
@@ -401,6 +466,9 @@ export default defineComponent({
       return (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, '')
     },
     date(): string {
+      if (!this.exam?.endDate || !this.exam?.startDate) {
+        return ''
+      }
       const format = (d?: Date) => {
         return d ? dayjs(d).format('MMMM D, YYYY') : ''
       }
@@ -409,8 +477,10 @@ export default defineComponent({
         return `Closed on ${format(this.exam.endDate)}`
       } else if (this.locked === -1) {
         return `Opening on ${format(this.exam.startDate)}`
+      } else if (this.exam.endDate) {
+        return `Closing on ${format(this.exam.endDate)}`
       }
-      return `Closing on ${format(this.exam.endDate)}`
+      return ''
     }
   }
 })

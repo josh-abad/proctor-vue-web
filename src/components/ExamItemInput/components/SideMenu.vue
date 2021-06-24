@@ -1,15 +1,11 @@
 <template>
-  <div class="p-2 bg-gray-100 rounded-lg shadow-md dark:bg-gray-700">
-    <div>
-      <button class="button-input" @click="$emit('discard')">
-        <TrashIcon class="w-5 h-5 stroke-current" />
-      </button>
-    </div>
-    <div>
-      <button class="button-input" @click="$emit('add-question')">
-        <PlusCircleIcon class="w-5 h-5 stroke-current" />
-      </button>
-    </div>
+  <div class="space-y-2">
+    <button @click="$emit('discard')">
+      <TrashIcon class="w-5 h-5" />
+    </button>
+    <button @click="$emit('add-question')">
+      <PlusCircleIcon class="w-5 h-5" />
+    </button>
   </div>
 </template>
 
@@ -25,7 +21,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.button-input {
-  @apply focus:outline-none text-gray-500;
+button {
+  @apply block focus:outline-none text-gray-500;
 }
 </style>

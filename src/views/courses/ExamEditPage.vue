@@ -11,24 +11,30 @@
       <template #label>Edit exam</template>
     </PageHeading>
     <AppPanel class="form__panel">
-      <div class="form__details">
-        <div class="form__detail">
-          <label for="name">
-            <AppLabel>Name</AppLabel>
-          </label>
-          <AppInput type="text" id="name" v-model="examName" />
+      <div class="space-y-4">
+        <div>
+          <label for="name"><AppLabel> Name </AppLabel></label>
+          <p class="text-sm text-gray-500">
+            The name should be unique for this course.
+          </p>
+          <AppInput
+            class="w-1/2 mt-1"
+            type="text"
+            id="name"
+            v-model="examName"
+          />
         </div>
-        <div class="form__detail">
-          <label for="duration">
-            <AppLabel>Duration</AppLabel>
-          </label>
-          <TimePicker id="duration" v-model.number="examSeconds" />
+        <div>
+          <label for="duration"><AppLabel> Duration </AppLabel></label>
+          <p class="text-sm text-gray-500">How long the exam will last.</p>
+          <TimePicker class="mt-1" id="duration" v-model.number="examSeconds" />
         </div>
-        <div class="form__detail">
-          <label for="attempts">
-            <AppLabel>Attempts</AppLabel>
-          </label>
-          <div class="inline-block">
+        <div>
+          <label for="attempts"><AppLabel> Attempts </AppLabel></label>
+          <p class="text-sm text-gray-500">
+            The number of attempts every user is allowed.
+          </p>
+          <div class="inline-block mt-1">
             <NumberInput
               v-model.number="maxAttempts"
               :min="1"
@@ -37,11 +43,12 @@
             />
           </div>
         </div>
-        <div class="form__detail">
-          <label for="week">
-            <AppLabel>Week</AppLabel>
-          </label>
-          <div class="inline-block">
+        <div>
+          <label for="week"><AppLabel> Week </AppLabel></label>
+          <p class="text-sm text-gray-500">
+            The week the exam will appear under in Overview.
+          </p>
+          <div class="inline-block mt-1">
             <NumberInput
               v-model.number="week"
               :min="1"
@@ -50,31 +57,30 @@
             />
           </div>
         </div>
-        <div class="form__detail">
-          <label for="startDate">
-            <AppLabel>Start Date</AppLabel>
-          </label>
-          <DatePicker
-            id="startDate"
-            v-if="typeof startDate === 'string'"
-            v-model="startDate"
-          />
+        <div>
+          <label for="setDate"><AppLabel>Set Date</AppLabel></label>
+          <p class="text-sm text-gray-500">
+            Turn on to set in advance when the exam will open and close.
+          </p>
+          <AppSwitch id="setDate" class="mt-1" v-model="setDate" />
         </div>
-        <div class="form__detail">
-          <label for="endDate">
-            <AppLabel>End Date</AppLabel>
-          </label>
-          <DatePicker
-            id="endDate"
-            v-if="typeof endDate === 'string'"
-            v-model="endDate"
-          />
+        <div v-if="setDate">
+          <label for="startDate"><AppLabel> Start Date </AppLabel></label>
+          <p class="text-sm text-gray-500">The date the exam will open.</p>
+          <DatePicker class="mt-1" id="startDate" v-model="startDate" />
         </div>
-        <div class="form__detail">
-          <label for="shuffle">
-            <AppLabel>Shuffle Questions</AppLabel>
-          </label>
-          <AppSwitch v-model="random" />
+        <div v-if="setDate">
+          <label for="endDate"><AppLabel> End Date </AppLabel></label>
+          <p class="text-sm text-gray-500">The date the exam will close.</p>
+          <DatePicker class="mt-1" id="endDate" v-model="endDate" />
+        </div>
+
+        <div>
+          <label for="shuffle"><AppLabel> Shuffle Questions </AppLabel></label>
+          <p class="text-sm text-gray-500">
+            Turn on to shuffle the order of the questions during exams.
+          </p>
+          <AppSwitch class="mt-1" v-model="random" />
         </div>
       </div>
       <List class="form__exam-items">
@@ -178,8 +184,9 @@ export default defineComponent({
       maxAttempts: 3,
       random: false,
       week: 1,
-      startDate: '' as string | Date,
-      endDate: '' as string | Date,
+      setDate: true,
+      startDate: undefined as string | undefined,
+      endDate: undefined as string | undefined,
       examItems: [
         {
           question: '',
@@ -199,8 +206,10 @@ export default defineComponent({
         formDetails.maxAttempts = exam.value.maxAttempts
         formDetails.random = exam.value.random
         formDetails.week = exam.value.week
-        formDetails.startDate = exam.value.startDate
-        formDetails.endDate = exam.value.endDate
+        formDetails.setDate =
+          exam.value.startDate !== undefined && exam.value.endDate !== undefined
+        formDetails.startDate = exam.value.startDate?.toString()
+        formDetails.endDate = exam.value.endDate?.toString()
         formDetails.examItems = exam.value.examItems
       }
     })
@@ -243,14 +252,16 @@ export default defineComponent({
       return error
     },
     dateInvalid(): string {
-      if (!this.startDate || !this.endDate) {
-        return 'Please set the start and end dates for the exam.'
-      }
-      if (!dayjs(this.startDate).isBefore(this.endDate)) {
-        return 'The start date must be before the end date.'
-      }
-      if (!dayjs().isBefore(this.endDate)) {
-        return 'The end date must be set after today.'
+      if (this.setDate) {
+        if (!this.startDate || !this.endDate) {
+          return 'Please set the start and end dates for the exam.'
+        }
+        if (!dayjs(this.startDate).isBefore(this.endDate)) {
+          return 'The start date must be before the end date.'
+        }
+        if (!dayjs().isBefore(this.endDate)) {
+          return 'The end date must be set after today.'
+        }
       }
       return ''
     },
@@ -304,8 +315,12 @@ export default defineComponent({
           maxAttempts: this.maxAttempts,
           examItems: this.examItems,
           week: this.week,
-          startDate: new Date(this.startDate),
-          endDate: new Date(this.endDate)
+          startDate:
+            this.setDate && this.startDate
+              ? new Date(this.startDate)
+              : undefined,
+          endDate:
+            this.setDate && this.endDate ? new Date(this.endDate) : undefined
         })
         await this.$router.push(`/courses/${this.courseSlug}`)
         this.setSnackbarMessage('Exam successfully updated', 'success')

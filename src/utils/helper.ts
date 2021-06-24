@@ -4,10 +4,17 @@ import isBetween from 'dayjs/plugin/isBetween'
 dayjs.extend(isBetween)
 
 export function isExamLocked(exam: Exam): number {
-  if (dayjs().isBetween(exam.startDate, exam.endDate, null, '[)')) {
+  if (exam.startDate && !exam.endDate) {
     return 0
   }
-  return dayjs().isAfter(exam.endDate) ? 1 : -1
+  if (
+    exam.startDate &&
+    exam.endDate &&
+    dayjs().isBetween(exam.startDate, exam.endDate, null, '[)')
+  ) {
+    return 0
+  }
+  return exam.endDate && dayjs().isAfter(exam.endDate) ? 1 : -1
 }
 
 /**
