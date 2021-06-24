@@ -146,11 +146,15 @@ export default defineComponent({
       return hasErrorExam.value || hasErrorAttempts.value
     })
 
-    watch(isLoadingExam, loading => {
-      if (!loading) {
-        fetchAttempts()
-      }
-    })
+    watch(
+      isLoadingExam,
+      loading => {
+        if (!loading) {
+          fetchAttempts()
+        }
+      },
+      { immediate: true }
+    )
 
     return {
       exam,
