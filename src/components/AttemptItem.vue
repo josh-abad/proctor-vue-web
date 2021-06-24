@@ -29,7 +29,7 @@
         class="ml-6 focus:outline-none"
         v-if="$store.getters.permissions(['coordinator', 'admin'])"
       >
-        <XIcon class="w-5 h-5" />
+        <XIcon class="w-5 h-5 text-gray-500" />
       </button>
     </div>
   </li>

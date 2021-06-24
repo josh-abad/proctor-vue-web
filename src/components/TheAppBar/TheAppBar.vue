@@ -53,15 +53,7 @@ export default defineComponent({
     const isPageStart = ref(true)
 
     window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 0) {
-        if (isPageStart.value) {
-          isPageStart.value = false
-        }
-      } else {
-        if (!isPageStart.value) {
-          isPageStart.value = true
-        }
-      }
+      isPageStart.value = document.documentElement.scrollTop < 80
     })
 
     const { title } = useTitle()
