@@ -72,6 +72,9 @@ export default function useFaceDetection({
     if (!handleDetection.value) {
       handleDetection.value = () => {
         interval.value = setInterval(async () => {
+          if (!hasLoaded.value) {
+            return
+          }
           const detections = await faceapi
             .detectAllFaces(
               video as faceapi.TNetInput,
