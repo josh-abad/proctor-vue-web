@@ -35,7 +35,7 @@
                 : 'Waiting for webcam'
             }}
           </AttemptChecklistItem>
-          <AttemptChecklistItem :enabled="tracking">
+          <AttemptChecklistItem :enabled="tracking" v-if="extension">
             {{ tracking ? 'Tracking on' : 'Tracking off' }}
           </AttemptChecklistItem>
         </ul>
@@ -92,6 +92,11 @@ export default defineComponent({
     },
 
     tracking: {
+      type: Boolean,
+      default: false
+    },
+
+    extension: {
       type: Boolean,
       default: false
     },

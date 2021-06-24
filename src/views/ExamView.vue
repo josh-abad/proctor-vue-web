@@ -111,6 +111,7 @@
           :in-progress-attempt="inProgressAttempt"
           :identification="{ isIdentified, isIdentifying }"
           :tracking="isTrackingOn"
+          :extension="isInstalled"
         />
       </div>
     </transition>
@@ -355,8 +356,36 @@ export default defineComponent({
       }
     }
 
+    const id = 'plcaollkdcilnjnibcijlpleadniggbp'
+    const flaggedSites = ['reddit', 'coursehero', 'facebook', 'scribd']
+
+    const { isTrackingOn, isInstalled, enableTracking, disableTracking } =
+      useExtension(
+        id,
+        flaggedSites,
+        site => {
+          if (isActive.value) {
+            warnings.value++
+            setSnackbarMessage(`${site} is a restricted site.`, 'warning')
+          }
+        },
+        site => {
+          if (isActive.value) {
+            warnings.value++
+            setSnackbarMessage(
+              `Please refrain from staying in ${site}`,
+              'warning'
+            )
+          }
+        }
+      )
+
+    const strictMode = computed(() => {
+      return !isTrackingOn.value && isActive.value
+    })
+
     useKeepOnPage({
-      preventLeave: isActive,
+      preventLeave: strictMode,
       onLeaveAttempt: () => {
         setSnackbarMessage(
           'You cannot leave until you have finished the exam',
@@ -402,6 +431,9 @@ export default defineComponent({
         warnings.value = 0
         cameraStatus.value = 'disabled'
         warningModal.value = false
+        if (isTrackingOn.value) {
+          disableTracking()
+        }
       }
     })
 
@@ -416,14 +448,11 @@ export default defineComponent({
     watch(setupModal, isOpen => {
       if (!isOpen) {
         reset()
+      } else {
+        if (isInstalled.value) {
+          enableTracking()
+        }
       }
-    })
-
-    const id = 'plcaollkdcilnjnibcijlpleadniggbp'
-    const flaggedSites = ['reddit', 'coursehero', 'facebook', 'scribd']
-
-    const { isTrackingOn } = useExtension(id, flaggedSites, () => {
-      warnings.value++
     })
 
     return {
@@ -449,7 +478,8 @@ export default defineComponent({
       isIdentified,
       isIdentifying,
       detectionDuration,
-      isTrackingOn
+      isTrackingOn,
+      isInstalled
     }
   },
   computed: {
