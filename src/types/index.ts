@@ -63,8 +63,8 @@ export interface Exam {
   course: Course
   maxAttempts: number
   week: number
-  startDate: Date
-  endDate: Date
+  startDate?: Date
+  endDate?: Date
   id: string
   slug: string
 }

@@ -43,6 +43,16 @@ const deleteExam = async (id: string) => {
   await axios.delete(`${baseUrl}/${id}`)
 }
 
+const openExam = async (id: string) => {
+  const response = await axios.put<Exam>(`${baseUrl}/${id}/open`, {}, config)
+  return response.data
+}
+
+const closeExam = async (id: string) => {
+  const response = await axios.put<Exam>(`${baseUrl}/${id}/close`, {}, config)
+  return response.data
+}
+
 const getAttemptsByUser = async (id: string, userId: string) => {
   const response = await axios.get<Attempt[]>(
     `${baseUrl}/${id}/attempts/${userId}`
@@ -63,6 +73,8 @@ export default {
   getAll,
   getExam,
   deleteExam,
+  openExam,
+  closeExam,
   getAttemptsByUser,
   isExamTaken
 }

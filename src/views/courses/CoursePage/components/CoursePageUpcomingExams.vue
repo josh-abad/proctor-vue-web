@@ -51,7 +51,7 @@ export default defineComponent({
   },
   methods: {
     relativeDate(event: Exam): string {
-      return dayjs(event.startDate).fromNow()
+      return event.startDate ? dayjs(event.startDate).fromNow() : 'soon'
     }
   }
 })

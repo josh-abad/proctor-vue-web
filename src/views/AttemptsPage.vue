@@ -75,7 +75,7 @@
 <script lang="ts">
 import AttemptItem from '@/components/AttemptItem.vue'
 import AppLabel from '@/components/ui/AppLabel.vue'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, watch } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -87,8 +87,8 @@ import userService from '@/services/user'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import SkeletonAttemptsList from '@/components/SkeletonAttemptsList.vue'
 import List from '@/components/List.vue'
-import coursesService from '@/services/courses'
 import EmptyState from '@/components/EmptyState.vue'
+import useExam from '@/composables/use-exam'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -129,12 +129,14 @@ export default defineComponent({
   },
   emits: ['update:setup', 'update:inProgressAttempt'],
   setup(props) {
-    const [exam, fetchExam, isLoadingExam, hasErrorExam] = useFetch(() =>
-      coursesService.getExam(props.courseSlug, props.examSlug)
-    )
+    const {
+      exam,
+      isLoading: isLoadingExam,
+      hasError: hasErrorExam
+    } = useExam(props.courseSlug, props.examSlug)
 
     const [attempts, fetchAttempts, isLoadingAttempts, hasErrorAttempts] =
-      useFetch(() => userService.getAttemptsByExam(exam.value.id), [])
+      useFetch(() => userService.getAttemptsByExam(exam.value?.id ?? ''), [])
 
     const isLoading = computed(() => {
       return isLoadingExam.value || isLoadingAttempts.value
@@ -144,8 +146,10 @@ export default defineComponent({
       return hasErrorExam.value || hasErrorAttempts.value
     })
 
-    fetchExam().then(() => {
-      fetchAttempts()
+    watch(isLoadingExam, loading => {
+      if (!loading) {
+        fetchAttempts()
+      }
     })
 
     return {

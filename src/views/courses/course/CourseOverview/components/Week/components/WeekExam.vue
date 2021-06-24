@@ -53,7 +53,8 @@ export default defineComponent({
 }
 
 .week-exam__link--locked {
-  @apply text-gray-500 pointer-events-none;
+  @apply text-gray-500 hover:text-gray-900 dark:hover:text-white;
+  @apply transition-colors ease-in-out duration-200;
 }
 
 .week-exam__icon {

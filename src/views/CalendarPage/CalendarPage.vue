@@ -43,7 +43,10 @@ export default defineComponent({
   computed: {
     examsOnDate(): Exam[] {
       return this.events.filter(
-        event => this.dateSame(event.startDate) || this.dateSame(event.endDate)
+        event =>
+          event.startDate &&
+          event.endDate &&
+          (this.dateSame(event.startDate) || this.dateSame(event.endDate))
       )
     },
     formattedDate(): string {

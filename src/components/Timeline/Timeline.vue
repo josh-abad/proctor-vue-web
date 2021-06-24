@@ -18,8 +18,16 @@
         </div>
         <List v-else>
           <li v-for="(date, i) in eventsByDate" :key="i" class="py-3 last:pb-0">
-            <div class="item__date" v-if="!hideDate">
-              {{ getFormattedDate(date?.[0]) }}
+            <div class="item__date">
+              {{
+                date?.[0].startDate && date?.[0].endDate
+                  ? `${isOpen ? 'Closes on' : 'Opens on'} ${getFormattedDate(
+                      date?.[0]
+                    )}`
+                  : isOpen
+                  ? 'Open indefinitely'
+                  : 'Opens soon'
+              }}
             </div>
             <ul class="w-full sm:w-64">
               <Item :event="event" v-for="event in date" :key="event.id" />
@@ -81,11 +89,6 @@ export default defineComponent({
     },
 
     isLoading: {
-      type: Boolean,
-      default: false
-    },
-
-    hideDate: {
       type: Boolean,
       default: false
     }
