@@ -19,7 +19,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onUnmounted, watch, watchEffect } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onUnmounted,
+  ref,
+  watch,
+  watchEffect
+} from 'vue'
 import DetectionIndicator from './components/DetectionIndicator.vue'
 import useTimer from '@/composables/use-timer'
 import useFaceDetection from '@/composables/use-face-detection'
@@ -73,7 +80,7 @@ export default defineComponent({
       identificationTimer.start()
     }, props.duration * 1000)
 
-    const { video, startVideo, stopVideo, isEnabled, isLoading } = useVideo()
+    const { video, startVideo, stopVideo, isEnabled } = useVideo()
 
     const {
       isFaceSeen,
@@ -81,7 +88,6 @@ export default defineComponent({
       startDetection,
       stopDetection,
       loadFaceDetection,
-      isLoadingModels,
       hasLoadedModels
     } = useFaceDetection({
       faceRecognition: store.state.user.referenceImageUrl
@@ -92,8 +98,9 @@ export default defineComponent({
         : undefined
     })
 
+    const isLoading = ref(false)
     const cameraStatus = computed(() => {
-      if (isLoading.value || isLoadingModels.value) {
+      if (isLoading.value) {
         return 'loading'
       } else if (isEnabled.value) {
         return 'enabled'
