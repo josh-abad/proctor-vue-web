@@ -5,14 +5,11 @@
         class="box-border w-5 h-5 border-2 rounded"
         :class="
           isSelected
-            ? 'bg-green-500 border-green-500'
+            ? 'bg-indigo-500 border-indigo-500'
             : 'border-gray-400 dark:border-gray-600'
         "
       >
-        <CheckIcon
-          class="w-4 h-4 text-green-200 stroke-current stroke-2"
-          v-show="isSelected"
-        />
+        <CheckIcon class="w-4 h-4 text-white" v-show="isSelected" />
       </div>
     </button>
     <label :for="value" class="ml-3" v-if="!noLabel">{{ value }}</label>

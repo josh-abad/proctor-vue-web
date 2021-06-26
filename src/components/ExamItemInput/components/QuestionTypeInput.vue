@@ -4,9 +4,9 @@
       value="text"
       :model-value="modelValue"
       @update:modelValue="handleUpdate"
-      class="text-sm px-2 hover:text-green-500"
+      class="text-sm px-2 hover:text-indigo-500"
       :class="{
-        'font-semibold text-green-500 bg-green-300/20 dark:bg-green-900/30 rounded':
+        'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
           modelValue === 'text'
       }"
       >Text</ViewToggle
@@ -15,9 +15,9 @@
       value="multiple choice"
       :model-value="modelValue"
       @update:modelValue="handleUpdate"
-      class="text-sm px-2 hover:text-green-500"
+      class="text-sm px-2 hover:text-indigo-500"
       :class="{
-        'font-semibold text-green-500 bg-green-300/20 dark:bg-green-900/30 rounded':
+        'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
           modelValue === 'multiple choice'
       }"
       >Multiple Choice</ViewToggle
@@ -26,9 +26,9 @@
       value="multiple answers"
       :model-value="modelValue"
       @update:modelValue="handleUpdate"
-      class="text-sm px-2 hover:text-green-500"
+      class="text-sm px-2 hover:text-indigo-500"
       :class="{
-        'font-semibold text-green-500 bg-green-300/20 dark:bg-green-900/30 rounded':
+        'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
           modelValue === 'multiple answers'
       }"
       >Checkbox</ViewToggle

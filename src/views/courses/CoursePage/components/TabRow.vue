@@ -4,7 +4,7 @@
       relative
       flex
       text-gray-500
-      bg-gray-100
+      bg-white
       border-b border-gray-300
       rounded-t-lg
       shadow
@@ -22,7 +22,7 @@
         w-full
         h-[35px]
         duration-200
-        border-b-2 border-green-500
+        border-b-2 border-indigo-400
       "
     ></span>
   </nav>

@@ -1,5 +1,5 @@
 <template>
-  <Center>
+  <Center class="bg-gradient-to-b from-indigo-500/30">
     <AppPanel class="flex overflow-hidden">
       <div class="-mb-12">
         <img

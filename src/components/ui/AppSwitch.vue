@@ -6,7 +6,7 @@
     <span class="relative">
       <span
         class="block w-10 h-6 rounded-full shadow-inner"
-        :class="modelValue ? 'bg-green-500' : 'bg-gray-400 dark:bg-gray-600'"
+        :class="modelValue ? 'bg-indigo-500' : 'bg-gray-400 dark:bg-gray-600'"
       />
       <span
         class="

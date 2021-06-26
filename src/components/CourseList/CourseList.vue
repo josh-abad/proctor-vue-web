@@ -14,33 +14,31 @@
           <SkeletonCourseListItem :key="i" v-for="i in 10" />
         </List>
       </div>
-      <div v-else>
-        <section
-          v-if="!courses.length"
-          class="flex justify-center py-4 mt-8 text-gray-500"
-        >
-          You don't have any courses.
-        </section>
-        <section
-          v-else-if="viewMode === 'card'"
-          class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2"
-        >
-          <CoursesPageCard
-            class="w-full"
-            :course="course"
-            :key="course.id"
-            v-for="course in courses"
-          />
-        </section>
-        <List v-else-if="viewMode === 'list'">
-          <CoursesPageListItem
-            :course="course"
-            :key="course.id"
-            :percentage="course.progress"
-            v-for="course in courses"
-          />
-        </List>
+      <div
+        v-else-if="!courses.length"
+        class="flex justify-center py-4 mt-8 text-gray-500"
+      >
+        You don't have any courses.
       </div>
+      <section
+        v-else-if="viewMode === 'card'"
+        class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2"
+      >
+        <CoursesPageCard
+          class="w-full"
+          :course="course"
+          :key="course.id"
+          v-for="course in courses"
+        />
+      </section>
+      <List v-else-if="viewMode === 'list'">
+        <CoursesPageListItem
+          :course="course"
+          :key="course.id"
+          :percentage="course.progress"
+          v-for="course in courses"
+        />
+      </List>
     </FadeTransition>
   </div>
 </template>
