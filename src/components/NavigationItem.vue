@@ -24,7 +24,11 @@
           group-hover:text-green-500
           dark:group-hover:text-green-400
         "
-        :class="{ 'text-green-500 dark:text-green-400': isActive }"
+        :class="
+          isActive
+            ? 'text-green-500 dark:text-green-400'
+            : 'text-gray-400 dark:text-gray-400/50'
+        "
       >
         <slot name="icon" />
       </div>
@@ -37,12 +41,14 @@
         class="
           w-6
           h-6
-          text-gray-400
-          dark:text-gray-400/50
           group-hover:text-green-500
           dark:group-hover:text-green-400
         "
-        :class="{ 'text-green-500 dark:text-green-400': isActive }"
+        :class="
+          isActive
+            ? 'text-green-500 dark:text-green-400'
+            : 'text-gray-400 dark:text-gray-400/50'
+        "
       >
         <slot name="icon" />
       </div>
