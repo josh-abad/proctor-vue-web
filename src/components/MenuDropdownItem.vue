@@ -1,8 +1,20 @@
 <template>
   <button
     @click="handleClick"
-    class="w-full text-left dropdown-item focus:outline-none"
-    :class="{ 'dropdown-item--separator': separator }"
+    class="
+      block
+      w-full
+      px-4
+      py-2
+      text-sm text-left text-gray-900
+      dark:text-white
+      hover:bg-gray-800/5
+      dark:hover:bg-gray-100/10
+      focus:outline-none
+    "
+    :class="{
+      'border-t border-gray-800/10 dark:border-gray-100/10': separator
+    }"
     id="btn-open"
     role="menuitem"
   >
@@ -40,13 +52,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.dropdown-item {
-  @apply block px-4 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-100 hover:bg-opacity-10 dark:hover:bg-opacity-10;
-}
-
-.dropdown-item--separator {
-  @apply border-t border-gray-800 dark:border-gray-100 border-opacity-10 dark:border-opacity-10;
-}
-</style>

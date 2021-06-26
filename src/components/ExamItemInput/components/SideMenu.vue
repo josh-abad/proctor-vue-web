@@ -1,9 +1,15 @@
 <template>
   <div class="space-y-2">
-    <button @click="$emit('discard')">
+    <button
+      class="block text-gray-500 focus:outline-none"
+      @click="$emit('discard')"
+    >
       <TrashIcon class="w-5 h-5" />
     </button>
-    <button @click="$emit('add-question')">
+    <button
+      class="block text-gray-500 focus:outline-none"
+      @click="$emit('add-question')"
+    >
       <PlusCircleIcon class="w-5 h-5" />
     </button>
   </div>
@@ -19,9 +25,3 @@ export default defineComponent({
   emits: ['discard', 'add-question']
 })
 </script>
-
-<style lang="postcss" scoped>
-button {
-  @apply block focus:outline-none text-gray-500;
-}
-</style>

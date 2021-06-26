@@ -4,7 +4,17 @@
     :class="{ 'cursor-default pointer-events-none': staticCheck }"
     @click="handleToggle"
   >
-    <div class="box" :class="{ checked: modelValue }">
+    <div
+      class="
+        box-border
+        w-5
+        h-5
+        border-2 border-gray-400
+        rounded
+        dark:border-gray-600
+      "
+      :class="{ 'border-green-500 dark:border-green-500': modelValue }"
+    >
       <CheckIcon
         class="w-4 h-4 text-green-500 stroke-current stroke-2"
         v-show="modelValue"
@@ -41,13 +51,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.box {
-  @apply box-border w-5 h-5 border-2 border-gray-400 rounded dark:border-gray-600;
-}
-
-.box.checked {
-  @apply border-green-500 dark:border-green-500;
-}
-</style>

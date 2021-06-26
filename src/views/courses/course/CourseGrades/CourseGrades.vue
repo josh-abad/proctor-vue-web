@@ -5,7 +5,7 @@
   <div v-else-if="loading" class="flex items-center justify-center h-32">
     <LoadingWheel class="w-8 h-8" />
   </div>
-  <div v-else-if="courseGrades" class="table-bg">
+  <div v-else-if="courseGrades">
     <Grades :grades="courseGrades" />
   </div>
 </template>
@@ -44,47 +44,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-table {
-  @apply w-full;
-}
-
-td {
-  @apply py-2;
-}
-
-.table-data {
-  @apply text-right text-gray-600 dark:text-gray-400;
-}
-
-tbody {
-  @apply divide-y divide-gray-300 dark:divide-gray-700;
-}
-
-.table-header {
-  @apply border-b;
-}
-
-.table-header,
-.table-footer > td {
-  @apply w-3 font-semibold;
-}
-
-.table-footer {
-  @apply border-t;
-}
-
-.table-header,
-.table-footer {
-  @apply border-gray-300 dark:border-gray-700;
-}
-
-.prominent {
-  @apply text-gray-900 dark:text-white;
-}
-
-.course-total-value {
-  @apply text-xl tracking-wide;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <div
     class="fixed top-0 right-0 overflow-hidden duration-300 ease-in-out"
-    :class="message ? 'transform translate-y-0' : 'transform translate-x-52'"
+    :class="message ? 'translate-y-0' : 'translate-x-52'"
   >
     <div class="flex m-10 bg-gray-700 rounded-lg shadow-lg dark:bg-white">
       <div class="flex items-center object-cover pl-5">

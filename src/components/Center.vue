@@ -1,12 +1,5 @@
 <template>
-  <div class="center">
+  <div class="flex justify-center items-center min-h-[95vh]">
     <slot></slot>
   </div>
 </template>
-
-<style lang="postcss" scoped>
-.center {
-  @apply flex justify-center items-center;
-  min-height: 95vh;
-}
-</style>

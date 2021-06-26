@@ -8,9 +8,9 @@
           <TabRow :course-slug="slug" />
           <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component }">
-              <transition name="fade" mode="out-in">
+              <FadeTransition>
                 <component :is="Component" />
-              </transition>
+              </FadeTransition>
             </router-view>
           </AppPanel>
         </div>
@@ -112,11 +112,11 @@
           <TabRow :course-slug="slug" />
           <AppPanel class="rounded-t-none">
             <router-view v-slot="{ Component }">
-              <transition name="fade" mode="out-in">
+              <FadeTransition>
                 <keep-alive>
                   <component :is="Component" />
                 </keep-alive>
-              </transition>
+              </FadeTransition>
             </router-view>
           </AppPanel>
         </div>
@@ -161,6 +161,7 @@ import PageHeadingMetaItem from '@/components/PageHeadingMetaItem.vue'
 import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import useSnackbar from '@/composables/use-snackbar'
 import NProgress from 'nprogress'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -185,7 +186,8 @@ export default defineComponent({
     UserGroupIcon,
     CalendarIcon,
     PageHeadingMetaItem,
-    PageHeadingMeta
+    PageHeadingMeta,
+    FadeTransition
   },
   props: {
     slug: {

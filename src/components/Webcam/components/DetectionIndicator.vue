@@ -1,10 +1,10 @@
 <template>
-  <div class="icon">
+  <div class="w-10 h-10 text-gray-500">
     <EyeIcon
       v-if="on"
       :class="{
-        'icon-detected': detected,
-        'icon-identified': identified
+        'text-white': detected,
+        'text-green-500': identified
       }"
     />
     <EyeOffIcon v-else />
@@ -36,17 +36,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.icon {
-  @apply w-10 h-10 text-gray-500;
-}
-
-.icon-detected {
-  @apply text-white;
-}
-
-.icon-identified {
-  @apply text-green-500;
-}
-</style>

@@ -1,18 +1,19 @@
 <template>
-  <div class="week-exam">
+  <li class="flex items-center justify-between text-base font-normal">
     <router-link
       :to="`/courses/${courseSlug}/${exam.slug}`"
-      class="week-exam__link"
+      class="flex items-center transition-colors duration-200 ease-in-out"
       :class="{
-        'week-exam__link--locked': locked && !exam.isTaken
+        'text-gray-500 hover:text-gray-900 dark:hover:text-white':
+          locked && !exam.isTaken
       }"
     >
-      <DocumentTextIcon class="week-exam__icon" v-if="!locked" />
-      <LockClosedIcon class="week-exam__icon" v-else />
+      <DocumentTextIcon class="w-5 h-5 mr-2" v-if="!locked" />
+      <LockClosedIcon class="w-5 h-5 mr-2" v-else />
       {{ exam.label }}
     </router-link>
     <SVGCheckbox :model-value="exam.isTaken" static-check />
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
@@ -43,21 +44,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.week-exam {
-  @apply text-base font-normal flex justify-between items-center;
-}
-.week-exam__link {
-  @apply flex items-center;
-}
-
-.week-exam__link--locked {
-  @apply text-gray-500 hover:text-gray-900 dark:hover:text-white;
-  @apply transition-colors ease-in-out duration-200;
-}
-
-.week-exam__icon {
-  @apply mr-2 w-5 h-5;
-}
-</style>

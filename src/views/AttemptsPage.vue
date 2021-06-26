@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="fade" mode="out-in">
+    <FadeTransition>
       <EmptyState v-if="!$store.state.user?.referenceImageUrl">
         <template #icon><UserIcon class="w-12 h-12" /></template>
         <template #content>
@@ -27,7 +27,7 @@
         <template #icon><DocumentDuplicateIcon class="w-12 h-12" /></template>
         <template #content>You don't have any attempts for this quiz.</template>
       </EmptyState>
-    </transition>
+    </FadeTransition>
     <div class="flex justify-center mt-4">
       <AppButton
         @click="$router.push('/settings/face-id')"
@@ -89,6 +89,7 @@ import SkeletonAttemptsList from '@/components/SkeletonAttemptsList.vue'
 import List from '@/components/List.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import useExam from '@/composables/use-exam'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -104,7 +105,8 @@ export default defineComponent({
     ErrorLoading,
     SkeletonAttemptsList,
     List,
-    EmptyState
+    EmptyState,
+    FadeTransition
   },
   props: {
     courseSlug: {

@@ -12,13 +12,43 @@
         </div>
         <div class="flex-shrink-0 order-2 w-auto mt-0">
           <span @click="$emit('update:modelValue', false)">
-            <router-link to="/settings/face-id">
+            <router-link
+              to="/settings/face-id"
+              class="
+                flex
+                items-center
+                justify-center
+                px-4
+                py-2
+                text-sm
+                font-medium
+                text-green-600
+                bg-white
+                border border-transparent
+                rounded-md
+                shadow-sm
+                hover:bg-green-50
+              "
+            >
               Setup face identification
             </router-link>
           </span>
         </div>
         <div class="flex-shrink-0 order-3 ml-3">
-          <button type="button" @click="$emit('update:modelValue', false)">
+          <button
+            type="button"
+            @click="$emit('update:modelValue', false)"
+            class="
+              flex
+              p-2
+              -mr-1
+              rounded-md
+              hover:bg-green-500
+              focus:outline-none
+              focus:ring-2 focus:ring-white
+              sm:-mr-2
+            "
+          >
             <XIcon class="w-6 h-6 text-white" />
           </button>
         </div>
@@ -46,13 +76,3 @@ export default defineComponent({
   emits: ['update:modelValue']
 })
 </script>
-
-<style lang="postcss" scoped>
-a {
-  @apply flex items-center justify-center px-4 py-2 text-sm font-medium text-green-600 bg-white border border-transparent rounded-md shadow-sm hover:bg-green-50;
-}
-
-button {
-  @apply flex p-2 -mr-1 rounded-md hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2;
-}
-</style>

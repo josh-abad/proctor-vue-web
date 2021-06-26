@@ -1,7 +1,22 @@
 <template>
-  <div class="form-error form-error--border">
-    <ExclamationIcon class="form-error__icon" />
-    <div class="form-error__message"><slot /></div>
+  <div
+    class="
+      flex
+      items-center
+      px-2
+      py-1
+      text-red-600
+      border
+      rounded-md
+      bg-red-400/20
+      dark:bg-red-800/10
+      border-red-600/20
+      dark:border-red-300/10
+      dark:text-red-300
+    "
+  >
+    <ExclamationIcon class="w-4 h-4 fill-current" />
+    <div class="ml-1 text-sm"><slot /></div>
   </div>
 </template>
 
@@ -14,26 +29,3 @@ export default defineComponent({
   components: { ExclamationIcon }
 })
 </script>
-
-<style lang="postcss" scoped>
-.form-error {
-  @apply flex items-center bg-red-400 dark:bg-red-800 bg-opacity-20 dark:bg-opacity-10 px-2 py-1 rounded-md;
-}
-
-.form-error--border {
-  @apply border border-red-600 dark:border-red-300 border-opacity-20 dark:border-opacity-10;
-}
-
-.form-error__icon {
-  @apply w-4 h-4 fill-current mr-1;
-}
-
-.form-error__icon,
-.form-error__message {
-  @apply text-red-600 dark:text-red-300;
-}
-
-.form-error__message {
-  @apply text-sm;
-}
-</style>

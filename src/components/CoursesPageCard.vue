@@ -1,5 +1,18 @@
 <template>
-  <div class="card">
+  <div
+    class="
+      overflow-hidden
+      duration-500
+      ease-in-out
+      bg-white
+      rounded-lg
+      shadow
+      hover:shadow-lg
+      dark:bg-gray-700
+      hover:bg-white
+      dark:hover:bg-gray-600
+    "
+  >
     <router-link :to="`/courses/${course.slug}`">
       <img
         src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
@@ -29,9 +42,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.card {
-  @apply overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600;
-}
-</style>

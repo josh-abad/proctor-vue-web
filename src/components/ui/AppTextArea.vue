@@ -1,5 +1,24 @@
 <template>
-  <textarea name="" id="" :value="modelValue" @input="handleInput"></textarea>
+  <textarea
+    :value="modelValue"
+    @input="handleInput"
+    class="
+      px-3
+      py-2
+      bg-gray-100
+      border-gray-300
+      rounded-lg
+      shadow
+      appearance-none
+      resize-none
+      focus:outline-none
+      dark:bg-gray-800
+      focus:ring-0
+      dark:border-gray-700
+      focus:border-indigo-600
+      dark:focus:border-indigo-400
+    "
+  ></textarea>
 </template>
 
 <script lang="ts">
@@ -24,9 +43,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-textarea {
-  @apply px-3 py-2 bg-gray-100 border-gray-300 rounded-lg shadow appearance-none resize-none focus:outline-none dark:bg-gray-800 focus:ring-0 dark:border-gray-700 focus:border-green-500;
-}
-</style>

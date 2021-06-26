@@ -1,42 +1,62 @@
 <template>
-  <div class="user-page">
+  <div class="p-6">
     <AppPanel>
-      <transition name="fade" mode="out-in">
+      <FadeTransition>
         <div v-if="errorUser">Something went wrong.</div>
-        <div v-else-if="loadingUser" class="user-page__header">
-          <div class="user-page__user">
+        <div v-else-if="loadingUser" class="flex items-start justify-between">
+          <div class="flex items-center space-x-4">
             <UserCircleIcon
               class="w-20 h-20 text-gray-400 dark:text-gray-600"
             />
-            <div class="user-page__info">
-              <div class="user-page__name">
+            <div class="flex flex-col items-start space-y-2">
+              <div class="text-2xl font-semibold">
                 <AppSkeleton class="h-5 w-60" />
               </div>
               <AppSkeleton class="w-20 h-6 rounded-full" />
             </div>
           </div>
         </div>
-        <div v-else-if="user" class="user-page__header">
-          <div class="user-page__user">
+        <div v-else-if="user" class="flex items-start justify-between">
+          <div class="flex items-center space-x-4">
             <Avatar :user="user" class="w-20 h-20 text-2xl" />
-            <div class="user-page__info">
-              <div class="user-page__name">
+            <div class="flex flex-col items-start space-y-2">
+              <div class="text-2xl font-semibold">
                 {{ user.fullName }}
               </div>
-              <div class="user-page__role">
+              <div
+                class="
+                  px-3
+                  py-1
+                  text-xs
+                  font-semibold
+                  tracking-widest
+                  text-green-500
+                  uppercase
+                  border border-green-500
+                  rounded-full
+                "
+              >
                 {{ user.role }}
               </div>
             </div>
           </div>
-          <div class="user-page__stats">
+          <div
+            class="
+              hidden
+              mt-3
+              divide-x divide-gray-300
+              dark:divide-gray-700
+              sm:flex
+            "
+          >
             <UserPageStat :count="user.courses.length ?? 0">
               {{ user.courses.length !== 1 ? 'Courses' : 'Course' }}
             </UserPageStat>
           </div>
         </div>
-      </transition>
-      <div class="user-page__content">
-        <h3 class="user-page__activity-header">Activity</h3>
+      </FadeTransition>
+      <div class="mt-7">
+        <h3 class="text-xl font-semibold">Activity</h3>
         <ActivityList
           :attempts="attempts"
           :is-loading="loadingAttempts"
@@ -61,6 +81,7 @@ import ActivityList from '@/components/ActivityList.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
 import NProgress from 'nprogress'
 import Avatar from '@/components/Avatar.vue'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -71,7 +92,8 @@ export default defineComponent({
     UserCircleIcon,
     ActivityList,
     AppSkeleton,
-    Avatar
+    Avatar,
+    FadeTransition
   },
   props: {
     userId: {
@@ -102,45 +124,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.user-page {
-  @apply p-6;
-}
-
-.user-page__header {
-  @apply flex justify-between items-start;
-}
-
-.user-page__content {
-  @apply mt-7;
-}
-
-.user-page__stats {
-  @apply divide-x divide-gray-300 dark:divide-gray-700 mt-3 hidden sm:flex;
-}
-
-.user-page__avatar {
-  @apply w-20 h-20 object-cover rounded-full;
-}
-
-.user-page__user {
-  @apply flex items-center space-x-4;
-}
-
-.user-page__info {
-  @apply flex flex-col items-start space-y-2;
-}
-
-.user-page__name {
-  @apply text-2xl font-semibold;
-}
-
-.user-page__role {
-  @apply px-3 py-1 uppercase text-xs font-semibold tracking-widest border border-green-500 text-green-500 rounded-full;
-}
-
-.user-page__activity-header {
-  @apply text-xl font-semibold;
-}
-</style>

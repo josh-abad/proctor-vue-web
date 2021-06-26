@@ -1,7 +1,25 @@
 <template>
   <header
-    class="sticky top-0 z-20 w-full shadow-xl h-14 animate"
-    :class="{ 'shadow dark:shadow-none': isPageStart, 'top-14': banner }"
+    class="
+      sticky
+      top-0
+      z-20
+      w-full
+      transition-shadow
+      duration-300
+      ease-in-out
+      border-b
+      shadow-lg
+      h-14
+      backdrop-blur
+      bg-gray-100/80
+      dark:bg-gray-900/80
+      border-white/10
+    "
+    :class="{
+      'shadow dark:shadow-none': isPageStart,
+      'top-14': banner
+    }"
   >
     <div class="flex items-center justify-between px-6 py-1">
       <div class="flex items-center">
@@ -15,7 +33,14 @@
           <AppLogo class="ml-6 h-7" @click="$router.push('/')" />
         </router-link>
         <div
-          class="ml-6 transition-opacity duration-300 ease-in-out"
+          class="
+            ml-6
+            transition-opacity
+            duration-300
+            ease-in-out
+            text-gray-700
+            dark:text-gray-300
+          "
           :class="isPageStart ? 'opacity-0' : 'opacity-100'"
         >
           {{ title }}
@@ -68,13 +93,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-header {
-  @apply bg-gray-100 dark:bg-gray-900;
-}
-
-.animate {
-  @apply transition-shadow duration-300 ease-in-out;
-}
-</style>

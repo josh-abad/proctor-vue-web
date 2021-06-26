@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
+  <FadeTransition>
     <div v-if="hasError" class="flex justify-center pt-8 text-gray-500">
       Could not load activities
     </div>
@@ -14,12 +14,13 @@
         v-for="(event, i) of activities"
         :key="i"
         :activity="event"
+        class="last:pb-0"
       />
     </List>
     <div v-else class="flex justify-center py-8 text-gray-500">
       No activity to display.
     </div>
-  </transition>
+  </FadeTransition>
 </template>
 
 <script lang="ts">
@@ -28,10 +29,11 @@ import { defineComponent, PropType } from '@vue/runtime-core'
 import AppSkeleton from './ui/AppSkeleton.vue'
 import ActivityRow from './ActivityRow.vue'
 import List from './List.vue'
+import FadeTransition from './transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'ActivityList',
-  components: { AppSkeleton, ActivityRow, List },
+  components: { AppSkeleton, ActivityRow, List, FadeTransition },
   props: {
     attempts: {
       type: Array as PropType<Attempt[]>,

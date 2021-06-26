@@ -27,7 +27,7 @@ export default function useTheme() {
    * Call this method only once, at the start of the application.
    */
   function initTheme() {
-    document.body.classList.add('bg-gray-200', 'dark:bg-gray-900')
+    document.body.classList.add('bg-gray-100', 'dark:bg-gray-900')
 
     if (matchMedia(QUERY).matches) {
       systemTheme.value = 'dark'

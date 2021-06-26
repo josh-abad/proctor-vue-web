@@ -1,13 +1,19 @@
 <template>
-  <li class="flex py-2">
-    <LockClosedIcon v-if="status === 'close'" class="w-5 h-5 icon" />
-    <LockOpenIcon v-else class="w-5 h-5 icon" />
+  <li class="flex py-2 text-gray-900 dark:text-white">
+    <LockClosedIcon v-if="status === 'close'" class="w-5 h-5" />
+    <LockOpenIcon v-else class="w-5 h-5" />
     <span class="ml-2">
-      <router-link :to="`/courses/${event.course.id}/${event.id}`">
+      <router-link
+        :to="`/courses/${event.course.id}/${event.id}`"
+        class="text-indigo-700 dark:text-indigo-300 hover:underline"
+      >
         {{ event.label }}
       </router-link>
       in
-      <router-link :to="`/courses/${event.course.id}`">
+      <router-link
+        :to="`/courses/${event.course.id}`"
+        class="text-indigo-700 dark:text-indigo-300 hover:underline"
+      >
         {{ event.course.name }}
       </router-link>
       <span class="ml-1">{{
@@ -50,14 +56,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-span,
-.icon {
-  @apply text-gray-900 dark:text-white;
-}
-
-a {
-  @apply text-indigo-700 dark:text-indigo-300 hover:underline;
-}
-</style>

@@ -1,10 +1,13 @@
 <template>
-  <AppPanel>
+  <AppPanel class="px-4 py-4">
     <Subheading>
       <AppLabel emphasis>{{ name }}</AppLabel>
-      <span>{{ events.length }}</span>
+      <span
+        class="px-2 text-xs font-semibold bg-gray-300 rounded dark:bg-gray-700"
+        >{{ events.length }}</span
+      >
     </Subheading>
-    <transition name="fade" mode="out-in">
+    <FadeTransition>
       <div v-if="hasError"><ErrorLoading /></div>
       <List v-else-if="isLoading">
         <div class="py-3 last:pb-0" v-for="i in 3" :key="i">
@@ -18,7 +21,7 @@
         </div>
         <List v-else>
           <li v-for="(date, i) in eventsByDate" :key="i" class="py-3 last:pb-0">
-            <div class="item__date">
+            <div class="text-xs text-gray-600 dark:text-gray-400">
               {{
                 date?.[0].startDate && date?.[0].endDate
                   ? `${isOpen ? 'Closes on' : 'Opens on'} ${getFormattedDate(
@@ -29,13 +32,13 @@
                   : 'Opens soon'
               }}
             </div>
-            <ul class="w-full sm:w-64">
+            <ul class="w-full sm:w-64 space-y-1">
               <Item :event="event" v-for="event in date" :key="event.id" />
             </ul>
           </li>
         </List>
       </div>
-    </transition>
+    </FadeTransition>
   </AppPanel>
 </template>
 
@@ -50,6 +53,7 @@ import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import AppSkeleton from '../ui/AppSkeleton.vue'
 import List from '../List.vue'
 import Subheading from '../Subheading.vue'
+import FadeTransition from '../transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'Timeline',
@@ -60,7 +64,8 @@ export default defineComponent({
     ErrorLoading,
     AppSkeleton,
     List,
-    Subheading
+    Subheading,
+    FadeTransition
   },
   props: {
     name: {
@@ -127,13 +132,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.item__date {
-  @apply text-gray-600 dark:text-gray-400 text-xs;
-}
-
-header span {
-  @apply px-2 text-xs font-semibold bg-gray-300 dark:bg-gray-700 rounded;
-}
-</style>

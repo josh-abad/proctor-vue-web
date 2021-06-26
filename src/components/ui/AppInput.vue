@@ -1,7 +1,11 @@
 <template>
   <input
-    class="bg-gray-100 border-gray-300 dark:bg-gray-800 dark:border-gray-700"
-    :class="{ error }"
+    class="px-3 py-2 bg-gray-100 rounded-lg dark:bg-gray-800 focus:ring-0"
+    :class="
+      error
+        ? 'focus:border-red-500 border-red-500'
+        : 'border-gray-300 dark:border-gray-700 focus:border-indigo-600 dark:focus:border-indigo-400'
+    "
     :value="modelValue"
     @input="handleInput"
   />
@@ -34,13 +38,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-input {
-  @apply px-3 py-2 rounded-lg focus:ring-0 focus:border-green-500;
-}
-
-.error {
-  @apply focus:border-red-500 border-red-500;
-}
-</style>

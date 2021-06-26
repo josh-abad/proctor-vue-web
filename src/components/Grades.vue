@@ -1,14 +1,14 @@
 <template>
-  <table>
-    <tr class="table-header">
-      <td>Test</td>
-      <td class="table-data prominent">Weight</td>
-      <td class="table-data prominent">Grade</td>
-      <td class="table-data prominent">Total</td>
+  <table class="w-full">
+    <tr class="w-3 font-semibold border-b border-gray-300 dark:border-gray-700">
+      <td class="py-2">Test</td>
+      <td class="py-2 text-right text-gray-900 dark:text-white">Weight</td>
+      <td class="py-2 text-right text-gray-900 dark:text-white">Grade</td>
+      <td class="py-2 text-right text-gray-900 dark:text-white">Total</td>
     </tr>
-    <tbody>
+    <tbody class="divide-y divide-gray-300 dark:divide-gray-700">
       <tr v-for="exam in grades.exams" :key="exam.id">
-        <td>
+        <td class="py-2">
           <router-link
             :to="`/courses/${grades.courseSlug}/${exam.slug}`"
             class="inline-flex items-center"
@@ -17,21 +17,37 @@
             {{ exam.label }}
           </router-link>
         </td>
-        <td class="table-data">{{ exam.weightPercentage }}%</td>
-        <td class="table-data prominent">{{ exam.grade }}</td>
-        <td class="table-data">{{ Math.floor(exam.grade * exam.weight) }}%</td>
+        <td class="py-2 text-right text-gray-600 dark:text-gray-400">
+          {{ exam.weightPercentage }}%
+        </td>
+        <td class="py-2 text-right text-gray-900 dark:text-white">
+          {{ exam.grade }}
+        </td>
+        <td class="py-2 text-right text-gray-600 dark:text-gray-400">
+          {{ Math.floor(exam.grade * exam.weight) }}%
+        </td>
       </tr>
     </tbody>
-    <tr class="table-footer">
-      <td>
+    <tr class="border-t border-gray-300 dark:border-gray-700">
+      <td class="w-3 py-2 font-semibold">
         Total
         <div class="hidden text-sm font-normal text-gray-500 sm:block">
           Weighted mean of grades
         </div>
       </td>
-      <td />
-      <td />
-      <td class="table-data prominent course-total-value">
+      <td class="w-3 py-2" />
+      <td class="w-3 py-2" />
+      <td
+        class="
+          w-3
+          py-2
+          text-xl
+          font-semibold
+          tracking-wide
+          text-right text-gray-900
+          dark:text-white
+        "
+      >
         {{ grades.courseTotal }}%
       </td>
     </tr>
@@ -54,47 +70,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-table {
-  @apply w-full;
-}
-
-td {
-  @apply py-2;
-}
-
-.table-data {
-  @apply text-right text-gray-600 dark:text-gray-400;
-}
-
-tbody {
-  @apply divide-y divide-gray-300 dark:divide-gray-700;
-}
-
-.table-header {
-  @apply border-b;
-}
-
-.table-header,
-.table-footer > td {
-  @apply w-3 font-semibold;
-}
-
-.table-footer {
-  @apply border-t;
-}
-
-.table-header,
-.table-footer {
-  @apply border-gray-300 dark:border-gray-700;
-}
-
-.prominent {
-  @apply text-gray-900 dark:text-white;
-}
-
-.course-total-value {
-  @apply text-xl tracking-wide;
-}
-</style>

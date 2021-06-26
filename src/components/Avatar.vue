@@ -5,7 +5,17 @@
     :alt="`${user.fullName} avatar`"
     v-if="user.referenceImageUrl"
   />
-  <div class="fallback" v-else>
+  <div
+    class="
+      flex
+      items-center
+      justify-center
+      bg-gray-300
+      rounded-full
+      dark:bg-gray-700
+    "
+    v-else
+  >
     {{ `${user.name.first[0]}${user.name.last[0]}` }}
   </div>
 </template>
@@ -15,7 +25,7 @@ import { User } from '@/types'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
-  name: 'StudentRow',
+  name: 'Avatar',
   props: {
     user: {
       type: Object as PropType<User>,
@@ -24,9 +34,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.fallback {
-  @apply flex items-center justify-center bg-gray-300 rounded-full dark:bg-gray-700;
-}
-</style>

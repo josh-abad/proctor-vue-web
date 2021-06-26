@@ -1,5 +1,20 @@
 <template>
-  <li id="listbox-item-0" role="option" @click="$emit('result-click')">
+  <li
+    class="
+      relative
+      py-2
+      pl-3
+      text-gray-900
+      cursor-pointer
+      select-none
+      dark:text-white
+      pr-9
+      hover:bg-gray-100
+      dark:hover:bg-gray-600
+    "
+    role="option"
+    @click="$emit('result-click')"
+  >
     <span class="block ml-3 truncate">
       <slot></slot>
     </span>
@@ -14,9 +29,3 @@ export default defineComponent({
   emits: ['result-click']
 })
 </script>
-
-<style lang="postcss" scoped>
-li {
-  @apply relative py-2 pl-3 text-gray-900 cursor-pointer select-none dark:text-white pr-9 hover:bg-gray-100 dark:hover:bg-gray-600;
-}
-</style>

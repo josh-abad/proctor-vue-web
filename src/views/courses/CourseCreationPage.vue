@@ -9,8 +9,8 @@
       <template #label>Create a course</template>
     </PageHeading>
     <AppPanel class="mt-8">
-      <div class="flex flex-col items-start">
-        <div class="flex mt-4">
+      <form class="flex flex-col items-start" @submit="saveCourse">
+        <div class="flex">
           <div>
             <label for="courseName">
               <AppLabel>Course name</AppLabel>
@@ -31,6 +31,7 @@
               <AppLabel>Coordinator</AppLabel>
             </label>
             <AppDropdown
+              class="w-60"
               v-if="coordinators.length"
               id="coordinator"
               :options="coordinators"
@@ -44,10 +45,10 @@
             <AppTextArea v-model="courseDescription" class="w-full h-20" />
           </label>
         </div>
-      </div>
-      <div class="flex justify-end mt-4">
-        <AppButton @click="saveCourse" prominent>Create</AppButton>
-      </div>
+        <div class="flex justify-end w-full mt-4">
+          <AppButton type="submit" prominent> Create </AppButton>
+        </div>
+      </form>
     </AppPanel>
   </div>
 </template>

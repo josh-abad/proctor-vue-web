@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
+  <FadeTransition>
     <div v-if="error">Could not load course.</div>
     <div v-else-if="loading" class="space-y-2">
       <div v-for="i in 8" :key="i">
@@ -27,7 +27,7 @@
         <template #content>No exams found.</template>
       </EmptyState>
     </div>
-  </transition>
+  </FadeTransition>
 </template>
 
 <script lang="ts">
@@ -42,6 +42,7 @@ import userService from '@/services/user'
 import Subheading from '@/components/Subheading.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { DocumentTextIcon } from '@heroicons/vue/outline'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'CourseOverview',
@@ -51,7 +52,8 @@ export default defineComponent({
     SVGCheckbox,
     Subheading,
     EmptyState,
-    DocumentTextIcon
+    DocumentTextIcon,
+    FadeTransition
   },
   props: {
     slug: {

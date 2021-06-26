@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between py-2">
     <span>
       <div>{{ name }}</div>
-      <div class="text-xs text-gray-500" v-if="description">
+      <div class="text-xs text-gray-500 font-semibold" v-if="description">
         {{ description }}
       </div>
     </span>

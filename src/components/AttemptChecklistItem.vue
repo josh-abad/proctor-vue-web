@@ -1,10 +1,22 @@
 <template>
   <li class="flex items-center">
     <LoadingWheel class="w-6 h-6" v-if="loading" />
-    <div class="circle" :class="{ enabled }" v-else>
+    <div
+      class="flex items-center justify-center w-6 h-6 rounded-full"
+      :class="enabled ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'"
+      v-else
+    >
       <CheckIcon class="w-4 h-4 text-white" v-if="enabled" />
     </div>
-    <span class="ml-4" :class="{ loading, enabled }"><slot></slot></span>
+    <span
+      class="ml-4"
+      :class="{
+        'text-gray-500': loading,
+        'text-gray-900 dark:text-white': enabled
+      }"
+    >
+      <slot></slot>
+    </span>
   </li>
 </template>
 
@@ -29,21 +41,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.circle {
-  @apply flex items-center justify-center w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full;
-}
-
-.circle.enabled {
-  @apply bg-green-500;
-}
-
-span.loading {
-  @apply text-gray-500;
-}
-
-span.enabled {
-  @apply text-gray-900 dark:text-white;
-}
-</style>

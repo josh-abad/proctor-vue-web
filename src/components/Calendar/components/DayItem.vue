@@ -73,9 +73,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.day-item--border {
-  @apply border-t border-gray-800 border-opacity-10 dark:border-gray-100 dark:border-opacity-10;
-}
-</style>

@@ -1,18 +1,18 @@
 <template>
-  <div class="options">
+  <div class="flex items-center space-x-3">
     <ViewToggle
       :model-value="modelValue"
       @update:modelValue="handleSelect"
       value="card"
     >
-      <ViewGridIcon class="options__icon" />
+      <ViewGridIcon class="w-5 h-5" />
     </ViewToggle>
     <ViewToggle
       :model-value="modelValue"
       @update:modelValue="handleSelect"
       value="list"
     >
-      <ViewListIcon class="options__icon" />
+      <ViewListIcon class="w-5 h-5" />
     </ViewToggle>
   </div>
 </template>
@@ -41,13 +41,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.options {
-  @apply flex items-center space-x-3;
-}
-
-.options__icon {
-  @apply w-5 h-5 fill-current;
-}
-</style>

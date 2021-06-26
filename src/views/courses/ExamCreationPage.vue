@@ -1,5 +1,5 @@
 <template>
-  <div v-if="course" class="form">
+  <div v-if="course" class="p-4">
     <PageHeading
       :links="[
         { name: 'Home', url: '/' },
@@ -9,7 +9,7 @@
     >
       <template #label>Create exam</template>
     </PageHeading>
-    <AppPanel class="form__panel">
+    <AppPanel class="flex flex-col mt-8">
       <div class="space-y-4">
         <div>
           <label for="name"><AppLabel> Name </AppLabel></label>
@@ -83,7 +83,7 @@
           <AppSwitch class="mt-1" v-model="random" />
         </div>
       </div>
-      <List class="form__exam-items">
+      <List class="mt-4">
         <ExamItemInput
           v-model:question="examItem.question"
           v-model:answer="examItem.answer"
@@ -102,10 +102,10 @@
           class="flex mb-4"
         />
       </List>
-      <footer class="form__footer">
+      <footer class="flex justify-between">
         <AppButton @click="addExamItem()">Add Question</AppButton>
         <div class="flex items-baseline">
-          <FormError class="form__error" v-show="formError">
+          <FormError class="self-start" v-show="formError">
             {{ formError }}
           </FormError>
           <AppButton
@@ -321,25 +321,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.form {
-  @apply p-4;
-}
-
-.form__panel {
-  @apply mt-8 flex flex-col;
-}
-
-.form__error {
-  @apply self-start;
-}
-
-.form__footer {
-  @apply flex justify-between;
-}
-
-.form__exam-items {
-  @apply mt-4;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
+  <FadeTransition>
     <div v-if="error">Error loading students</div>
     <List class="mt-4" v-else-if="loading">
       <li class="flex items-center py-3" v-for="i in 5" :key="i">
@@ -20,7 +20,7 @@
       <template #icon><UserGroupIcon /></template>
       <template #content> No students found. </template>
     </EmptyState>
-  </transition>
+  </FadeTransition>
 </template>
 
 <script lang="ts">
@@ -31,6 +31,7 @@ import AppSkeleton from './ui/AppSkeleton.vue'
 import { User } from '@/types'
 import List from './List.vue'
 import EmptyState from './EmptyState.vue'
+import FadeTransition from './transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'StudentList',
@@ -39,7 +40,8 @@ export default defineComponent({
     StudentRow,
     AppSkeleton,
     List,
-    EmptyState
+    EmptyState,
+    FadeTransition
   },
   props: {
     students: {

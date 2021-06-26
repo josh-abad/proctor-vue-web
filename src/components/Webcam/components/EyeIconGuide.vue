@@ -1,21 +1,21 @@
 <template>
-  <div class="guide-item">
-    <DetectionIndicator class="small-icon" />
-    <p class="description">Camera disabled</p>
+  <div class="flex">
+    <DetectionIndicator class="w-5 h-5" />
+    <p class="ml-2 text-sm text-gray-300">Camera disabled</p>
   </div>
-  <div class="guide-item">
-    <DetectionIndicator class="small-icon" on />
-    <p class="description">Camera enabled</p>
+  <div class="flex">
+    <DetectionIndicator class="w-5 h-5" on />
+    <p class="ml-2 text-sm text-gray-300">Camera enabled</p>
   </div>
-  <div class="guide-item">
-    <DetectionIndicator class="small-icon" on detected />
-    <p class="description">
+  <div class="flex">
+    <DetectionIndicator class="w-5 h-5" on detected />
+    <p class="ml-2 text-sm text-gray-300">
       Camera <span class="text-white">detects</span> a person
     </p>
   </div>
-  <div class="guide-item">
-    <DetectionIndicator class="small-icon" on detected identified />
-    <p class="description">
+  <div class="flex">
+    <DetectionIndicator class="w-5 h-5" on detected identified />
+    <p class="ml-2 text-sm text-gray-300">
       Camera <span class="text-green-400">identifies</span> you
     </p>
   </div>
@@ -30,17 +30,3 @@ export default defineComponent({
   components: { DetectionIndicator }
 })
 </script>
-
-<style lang="postcss" scoped>
-.guide-item {
-  @apply flex;
-}
-
-.small-icon {
-  @apply w-5 h-5;
-}
-
-.description {
-  @apply text-sm text-gray-300 ml-2;
-}
-</style>

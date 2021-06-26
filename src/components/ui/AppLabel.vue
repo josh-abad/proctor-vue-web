@@ -1,5 +1,8 @@
 <template>
-  <div class="app-label" :class="{ 'app-label--emphasized': emphasis }">
+  <div
+    class="text-xs font-semibold text-gray-600 dark:text-gray-400"
+    :class="emphasis ? 'uppercase tracking-wider' : 'capitalize'"
+  >
     <slot></slot>
   </div>
 </template>
@@ -17,13 +20,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.app-label {
-  @apply text-xs text-gray-600 dark:text-gray-400 font-semibold capitalize;
-}
-
-.app-label--emphasized {
-  @apply uppercase tracking-wider;
-}
-</style>

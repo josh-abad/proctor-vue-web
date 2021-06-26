@@ -24,19 +24,19 @@
         @item-click="menuDropdown = false"
       >
         <template #icon>
-          <UserCircleIcon class="dropdown-item__icon" />
+          <UserCircleIcon class="w-6 h-6 text-gray-400" />
         </template>
         <template #label>Profile</template>
       </MenuDropdownItem>
       <MenuDropdownItem path="/settings" @item-click="menuDropdown = false">
         <template #icon>
-          <CogIcon class="dropdown-item__icon" />
+          <CogIcon class="w-6 h-6 text-gray-400" />
         </template>
         <template #label>Settings</template>
       </MenuDropdownItem>
       <MenuDropdownItem @item-click="handleLogOut" separator>
         <template #icon>
-          <LogoutIcon class="dropdown-item__icon" />
+          <LogoutIcon class="w-6 h-6 text-gray-400" />
         </template>
         <template #label>Log out</template>
       </MenuDropdownItem>
@@ -78,9 +78,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.dropdown-item__icon {
-  @apply w-6 h-6 text-gray-400;
-}
-</style>

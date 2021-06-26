@@ -1,0 +1,16 @@
+<template>
+  <button
+    class="
+      flex
+      items-center
+      justify-center
+      text-indigo-600
+      focus:outline-none
+      dark:text-indigo-400
+      disabled:opacity-50
+      disabled:pointer-events-none
+    "
+  >
+    <slot></slot>
+  </button>
+</template>

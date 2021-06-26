@@ -1,13 +1,13 @@
 <template>
   <AppAccordion v-if="exams.length" :label="`Week ${week}`">
-    <div class="week__exams">
+    <ul class="space-y-2">
       <WeekExam
         v-for="exam in exams"
         :key="exam.id"
         :exam="exam"
         :course-slug="courseSlug"
       />
-    </div>
+    </ul>
   </AppAccordion>
 </template>
 
@@ -38,9 +38,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.week__exams {
-  @apply space-y-2;
-}
-</style>

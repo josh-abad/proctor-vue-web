@@ -4,24 +4,33 @@
       value="text"
       :model-value="modelValue"
       @update:modelValue="handleUpdate"
-      class="toggle"
-      :class="{ 'toggle-selected': modelValue === 'text' }"
+      class="text-sm px-2 hover:text-green-500"
+      :class="{
+        'font-semibold text-green-500 bg-green-300/20 dark:bg-green-900/30 rounded':
+          modelValue === 'text'
+      }"
       >Text</ViewToggle
     >
     <ViewToggle
       value="multiple choice"
       :model-value="modelValue"
       @update:modelValue="handleUpdate"
-      class="toggle"
-      :class="{ 'toggle-selected': modelValue === 'multiple choice' }"
+      class="text-sm px-2 hover:text-green-500"
+      :class="{
+        'font-semibold text-green-500 bg-green-300/20 dark:bg-green-900/30 rounded':
+          modelValue === 'multiple choice'
+      }"
       >Multiple Choice</ViewToggle
     >
     <ViewToggle
       value="multiple answers"
       :model-value="modelValue"
       @update:modelValue="handleUpdate"
-      class="toggle"
-      :class="{ 'toggle-selected': modelValue === 'multiple answers' }"
+      class="text-sm px-2 hover:text-green-500"
+      :class="{
+        'font-semibold text-green-500 bg-green-300/20 dark:bg-green-900/30 rounded':
+          modelValue === 'multiple answers'
+      }"
       >Checkbox</ViewToggle
     >
   </div>
@@ -50,13 +59,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.toggle {
-  @apply text-sm px-2 hover:text-green-500;
-}
-
-.toggle-selected {
-  @apply font-semibold text-green-500 bg-green-400 dark:bg-green-600 bg-opacity-40 dark:bg-opacity-40 rounded;
-}
-</style>

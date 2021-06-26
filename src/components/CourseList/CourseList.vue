@@ -4,7 +4,7 @@
       <AppLabel emphasis>Your Courses</AppLabel>
       <ViewOptions v-model="viewMode" />
     </Subheading>
-    <transition name="fade" mode="out-in">
+    <FadeTransition>
       <div v-if="error" class="mt-8"><ErrorLoading /></div>
       <div v-else-if="loading">
         <section v-if="viewMode === 'card'" class="course-list--card-view">
@@ -21,7 +21,10 @@
         >
           You don't have any courses.
         </section>
-        <section v-else-if="viewMode === 'card'" class="course-list--card-view">
+        <section
+          v-else-if="viewMode === 'card'"
+          class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2"
+        >
           <CoursesPageCard
             class="w-full"
             :course="course"
@@ -38,7 +41,7 @@
           />
         </List>
       </div>
-    </transition>
+    </FadeTransition>
   </div>
 </template>
 
@@ -56,6 +59,7 @@ import CoursesPageListItem from '../CoursesPageListItem.vue'
 import ErrorLoading from '../ui/ErrorLoading.vue'
 import List from '../List.vue'
 import Subheading from '../Subheading.vue'
+import FadeTransition from '../transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'CourseList',
@@ -68,7 +72,8 @@ export default defineComponent({
     SkeletonCourseListItem,
     ErrorLoading,
     List,
-    Subheading
+    Subheading,
+    FadeTransition
   },
   setup() {
     const viewMode = useLocalStorage<'card' | 'list'>(
@@ -92,9 +97,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.course-list--card-view {
-  @apply mt-8 grid grid-cols-1 gap-4 md:grid-cols-2;
-}
-</style>

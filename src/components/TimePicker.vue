@@ -1,10 +1,10 @@
 <template>
   <div class="flex items-center space-x-1">
     <NumberInput id="hour" v-model.number="hour" :min="0" :max="2" pad />
-    <label for="hour" class="input-label">H</label>
+    <label for="hour" class="text-xs font-semibold text-gray-500">H</label>
     <div>:</div>
     <NumberInput id="minute" v-model.number="minute" :min="0" :max="59" pad />
-    <label for="minute" class="input-label">M</label>
+    <label for="minute" class="text-xs font-semibold text-gray-500">M</label>
   </div>
 </template>
 
@@ -46,9 +46,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.input-label {
-  @apply font-semibold text-gray-500 text-xs;
-}
-</style>

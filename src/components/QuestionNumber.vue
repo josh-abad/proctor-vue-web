@@ -1,11 +1,17 @@
 <template>
-  <div class="bg-gray-300 dark:bg-gray-700">
+  <div
+    class="
+      flex
+      items-center
+      justify-center
+      w-6
+      h-6
+      text-xs
+      bg-gray-300
+      rounded
+      dark:bg-gray-700
+    "
+  >
     <slot></slot>
   </div>
 </template>
-
-<style lang="postcss" scoped>
-div {
-  @apply flex items-center justify-center w-6 h-6 text-xs rounded;
-}
-</style>

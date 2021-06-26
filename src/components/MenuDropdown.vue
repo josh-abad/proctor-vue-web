@@ -1,6 +1,19 @@
 <template>
-  <transition name="dropdown-fade" v-show="modelValue">
-    <div class="dropdown-menu" v-click-outside="handleClickOutside">
+  <DropdownFadeTransition v-show="modelValue">
+    <div
+      class="
+        absolute
+        right-0
+        z-30
+        w-56
+        origin-top-right
+        bg-white
+        rounded-lg
+        shadow-lg
+        dark:bg-gray-700
+      "
+      v-click-outside="handleClickOutside"
+    >
       <div
         class="py-1"
         role="menu"
@@ -10,15 +23,17 @@
         <slot />
       </div>
     </div>
-  </transition>
+  </DropdownFadeTransition>
 </template>
 
 <script lang="ts">
 import useClickOutside from '@/composables/use-click-outside'
 import { defineComponent } from 'vue'
+import DropdownFadeTransition from './transitions/DropdownFadeTransition.vue'
 
 export default defineComponent({
   name: 'MenuDropdown',
+  components: { DropdownFadeTransition },
   props: {
     modelValue: {
       type: Boolean,
@@ -34,16 +49,9 @@ export default defineComponent({
     const handleClickOutside = useClickOutside(() => {
       emit('update:modelValue', false)
     }, props.toggleId)
-
     return {
       handleClickOutside
     }
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.dropdown-menu {
-  @apply origin-top-right z-30 absolute right-0 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-700;
-}
-</style>

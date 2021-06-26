@@ -1,5 +1,5 @@
 <template>
-  <AppPanel class="px-3 py-4 space-y-2">
+  <AppPanel class="px-3 py-3 space-y-2">
     <AppSkeleton class="w-32 h-3" />
     <AppSkeleton class="w-full h-2 rounded-full" />
     <AppSkeleton class="w-20 h-2" />

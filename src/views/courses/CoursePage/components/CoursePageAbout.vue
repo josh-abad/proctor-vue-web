@@ -1,9 +1,9 @@
 <template>
-  <AppPanel class="px-4 py-5">
+  <AppPanel class="px-4 py-4">
     <AppLabel emphasis>About course</AppLabel>
-    <div class="text-sm">
+    <p class="mt-2 text-sm">
       <slot></slot>
-    </div>
+    </p>
   </AppPanel>
 </template>
 

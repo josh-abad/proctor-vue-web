@@ -7,7 +7,15 @@
         v-model="searchFilter"
         @focus="open = true"
         v-click-outside="handleClickOutside"
-        class="search-bar"
+        class="
+          text-gray-900
+          border-0
+          shadow-none
+          bg-gray-900/10
+          w-80
+          dark:text-white
+          dark:bg-white/5
+        "
       />
       <button
         type="submit"
@@ -24,8 +32,19 @@
         />
       </button>
     </div>
-    <transition name="dropdown-fade">
-      <div class="search-dropdown" v-show="open && filteredCourses.length">
+    <DropdownFadeTransition>
+      <div
+        class="
+          absolute
+          w-full
+          mt-2
+          bg-white
+          rounded-lg
+          shadow-lg
+          dark:bg-gray-700
+        "
+        v-show="open && filteredCourses.length"
+      >
         <ul class="py-1 overflow-auto rounded-lg max-h-56 sm:text-sm">
           <Result
             @result-click="$router.push(`/courses/${option.slug}`)"
@@ -36,7 +55,7 @@
           </Result>
         </ul>
       </div>
-    </transition>
+    </DropdownFadeTransition>
   </div>
 </template>
 
@@ -48,10 +67,11 @@ import Result from './components/Result.vue'
 import { SearchIcon, XIcon } from '@heroicons/vue/solid'
 import useClickOutside from '@/composables/use-click-outside'
 import userService from '@/services/user'
+import DropdownFadeTransition from '@/components/transitions/DropdownFadeTransition.vue'
 
 export default defineComponent({
   name: 'Search',
-  components: { AppInput, Result, SearchIcon, XIcon },
+  components: { AppInput, Result, SearchIcon, XIcon, DropdownFadeTransition },
   data() {
     return {
       searchFilter: ''
@@ -90,13 +110,5 @@ export default defineComponent({
 <style lang="postcss" scoped>
 ::-webkit-scrollbar {
   @apply w-1;
-}
-
-.search-bar {
-  @apply text-gray-900 bg-gray-900 border-0 shadow-none  w-80 dark:text-white dark:bg-white bg-opacity-10 dark:bg-opacity-5;
-}
-
-.search-dropdown {
-  @apply absolute w-full mt-2 bg-white rounded-lg shadow-lg dark:bg-gray-700;
 }
 </style>

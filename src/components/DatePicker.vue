@@ -22,7 +22,7 @@
       </div>
       <CalendarIcon class="w-4 h-4 ml-4" />
     </button>
-    <transition name="dropdown-fade">
+    <DropdownFadeTransition>
       <Calendar
         :model-value="modelValue"
         @update:modelValue="handleUpdate"
@@ -31,7 +31,7 @@
         v-show="isOpen"
         compact
       />
-    </transition>
+    </DropdownFadeTransition>
   </div>
 </template>
 
@@ -40,10 +40,11 @@ import dayjs from 'dayjs'
 import { defineComponent } from 'vue'
 import Calendar from '@/components/Calendar/Calendar.vue'
 import { CalendarIcon } from '@heroicons/vue/outline'
+import DropdownFadeTransition from './transitions/DropdownFadeTransition.vue'
 
 export default defineComponent({
   name: 'DatePicker',
-  components: { Calendar, CalendarIcon },
+  components: { Calendar, CalendarIcon, DropdownFadeTransition },
   props: {
     modelValue: {
       type: String,

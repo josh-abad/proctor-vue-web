@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <transition name="fade" mode="out-in">
+    <FadeTransition>
       <div v-if="hasError"><ErrorLoading /></div>
       <div v-else-if="isLoading">
         <SkeletonPageHeading />
@@ -112,7 +112,7 @@
           :identification="{ isIdentified, isIdentifying }"
         />
       </div>
-    </transition>
+    </FadeTransition>
     <div class="flex mt-8">
       <AppPanel class="w-full">
         <router-view
@@ -203,6 +203,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import SetupModal from '@/components/SetupModal.vue'
 import useIdentify from '@/composables/use-identify'
 import useExam from '@/composables/use-exam'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 
 dayjs.extend(duration)
 
@@ -228,7 +229,8 @@ export default defineComponent({
     AppModal,
     PencilIcon,
     AppButton,
-    SetupModal
+    SetupModal,
+    FadeTransition
   },
   props: {
     courseSlug: {

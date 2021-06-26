@@ -4,7 +4,7 @@
       <AppLabel emphasis>Recent Courses</AppLabel>
     </Subheading>
     <div class="mt-4">
-      <transition name="fade" mode="out-in">
+      <FadeTransition>
         <div v-if="error">
           <ErrorLoading />
         </div>
@@ -19,7 +19,7 @@
             v-for="course in recentCourses"
           />
         </div>
-      </transition>
+      </FadeTransition>
     </div>
   </div>
 </template>
@@ -33,6 +33,7 @@ import CoursesPageCard from '@/components/CoursesPageCard.vue'
 import SkeletonCourseCard from '@/components/SkeletonCourseCard.vue'
 import ErrorLoading from '@/components/ui/ErrorLoading.vue'
 import Subheading from '@/components/Subheading.vue'
+import FadeTransition from '@/components/transitions/FadeTransition.vue'
 
 export default defineComponent({
   name: 'RecentCourses',
@@ -41,7 +42,8 @@ export default defineComponent({
     CoursesPageCard,
     SkeletonCourseCard,
     ErrorLoading,
-    Subheading
+    Subheading,
+    FadeTransition
   },
   setup() {
     const [recentCourses, fetchRecentCourses, loading, error] = useFetch(
