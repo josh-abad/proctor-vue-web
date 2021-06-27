@@ -1,6 +1,6 @@
 <template>
-  <div v-if="error">Could not load course.</div>
-  <div v-else-if="loading">
+  <div v-if="hasError">Could not load course.</div>
+  <div v-else-if="isLoading">
     <div class="p-4">
       <SkeletonPageHeading />
       <div class="flex flex-col mt-8 sm:flex-row">
@@ -124,6 +124,12 @@
           <CoursePageAbout>{{ course.description }}</CoursePageAbout>
           <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
           <CoursePageProgress class="mt-4" :course-slug="slug" />
+          <AppPanel
+            class="px-3 py-3 mt-4"
+            v-if="$store.getters.permissions(['coordinator', 'admin'])"
+          >
+            <AddExternalLinkModal class="w-full" @add="addExternalLink" />
+          </AppPanel>
         </div>
       </div>
     </div>
@@ -134,7 +140,6 @@
 import AppPanel from '@/components/ui/AppPanel.vue'
 import { defineComponent, ref } from 'vue'
 import coursesService from '@/services/courses'
-import useFetch from '@/composables/use-fetch'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
 import CoursePageAbout from './components/CoursePageAbout.vue'
@@ -162,6 +167,9 @@ import PageHeadingMeta from '@/components/PageHeadingMeta.vue'
 import useSnackbar from '@/composables/use-snackbar'
 import NProgress from 'nprogress'
 import FadeTransition from '@/components/transitions/FadeTransition.vue'
+import AddExternalLinkModal from '@/components/AddExternalLinkModal.vue'
+import { NewExternalLink } from '@/types'
+import useCourse from '@/composables/use-course'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -187,7 +195,8 @@ export default defineComponent({
     CalendarIcon,
     PageHeadingMetaItem,
     PageHeadingMeta,
-    FadeTransition
+    FadeTransition,
+    AddExternalLinkModal
   },
   props: {
     slug: {
@@ -200,29 +209,29 @@ export default defineComponent({
 
     const deleteCourseModal = ref(false)
 
-    const [course, fetchCourse, loading, error] = useFetch(() =>
-      coursesService.getCourse(props.slug)
-    )
+    const { course, fetchCourse, isLoading, hasError } = useCourse(props.slug)
 
     const { setTitle } = useTitle()
 
     NProgress.start()
     fetchCourse()
       .then(() => {
-        setTitle(
-          course.value
-            ? `${course.value.name} - Proctor Vue`
-            : 'Course Not Found - Proctor Vue'
-        )
+        if (course.value) {
+          setTitle(
+            course.value
+              ? `${course.value.name} - Proctor Vue`
+              : 'Course Not Found - Proctor Vue'
+          )
 
-        userService.addRecentCourse(course.value.id)
+          userService.addRecentCourse(course.value.id)
+        }
       })
       .finally(NProgress.done)
 
     return {
       course,
-      loading,
-      error,
+      isLoading,
+      hasError,
       deleteCourseModal,
       setSnackbarMessage
     }
@@ -250,6 +259,29 @@ export default defineComponent({
     },
     editCourse() {
       // TODO: implement editing courses
+    },
+    async addExternalLink(externalLink: NewExternalLink) {
+      if (this.course) {
+        try {
+          NProgress.start()
+          const updatedCourse = await coursesService.addExternalLink(
+            this.course.id,
+            {
+              ...externalLink,
+              description: externalLink.description || undefined
+            }
+          )
+          this.course = {
+            ...this.course,
+            externalLinks: updatedCourse.externalLinks
+          }
+          this.setSnackbarMessage('External link successfully added', 'success')
+        } catch (error) {
+          this.setSnackbarMessage('Could not add external link', 'error')
+        } finally {
+          NProgress.done()
+        }
+      }
     }
   }
 })

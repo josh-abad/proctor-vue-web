@@ -1,7 +1,7 @@
 <template>
   <FadeTransition>
-    <div v-if="error">Could not load course.</div>
-    <div v-else-if="loading" class="space-y-2">
+    <div v-if="hasError">Could not load course.</div>
+    <div v-else-if="isLoading" class="space-y-2">
       <div v-for="i in 8" :key="i">
         <Subheading class="pb-3">
           <AppSkeleton class="h-2 w-28" />
@@ -12,8 +12,46 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <div class="flex flex-col space-y-2" v-if="course?.exams.length">
+    <div v-else-if="course">
+      <section v-if="course.externalLinks.length > 0">
+        <Subheading>
+          <AppLabel emphasis>Pinned Links</AppLabel>
+          <button
+            class="focus:outline-none"
+            @click="editPinnedLinks = !editPinnedLinks"
+          >
+            <AppLabel
+              class="text-indigo-600 dark:text-indigo-400"
+              v-if="$store.getters.permissions(['admin', 'coordinator'])"
+            >
+              {{ editPinnedLinks ? 'Cancel' : 'Edit' }}
+            </AppLabel>
+          </button>
+        </Subheading>
+        <ul class="py-3 space-y-2">
+          <li
+            class="flex items-start"
+            v-for="externalLink in course.externalLinks"
+            :key="externalLink._id"
+          >
+            <button
+              v-if="editPinnedLinks"
+              class="mt-1 focus:outline-none"
+              @click="deleteExternalLink(externalLink._id)"
+            >
+              <MinusCircleIcon class="w-5 h-5 text-red-500" />
+            </button>
+            <ExternalLinkItem
+              class="ml-4 duration-200 ease-out first:ml-0"
+              :external-link="externalLink"
+            />
+          </li>
+        </ul>
+      </section>
+      <div
+        class="flex flex-col mt-2 first:mt-0 space-y-2"
+        v-if="course.exams.length"
+      >
         <Week
           v-for="exams in examsByWeek"
           :key="exams[0].week"
@@ -33,16 +71,21 @@
 <script lang="ts">
 import SVGCheckbox from '@/components/SVGCheckbox.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
-import useFetch from '@/composables/use-fetch'
-import coursesService from '@/services/courses'
 import { ExamWithTaken } from '@/types'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import Week from './components/Week/Week.vue'
 import userService from '@/services/user'
 import Subheading from '@/components/Subheading.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { DocumentTextIcon } from '@heroicons/vue/outline'
+import { MinusCircleIcon } from '@heroicons/vue/solid'
 import FadeTransition from '@/components/transitions/FadeTransition.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import ExternalLinkItem from '@/components/ExternalLinkItem.vue'
+import useCourse from '@/composables/use-course'
+import NProgress from 'nprogress'
+import coursesService from '@/services/courses'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'CourseOverview',
@@ -53,7 +96,10 @@ export default defineComponent({
     Subheading,
     EmptyState,
     DocumentTextIcon,
-    FadeTransition
+    FadeTransition,
+    AppLabel,
+    ExternalLinkItem,
+    MinusCircleIcon
   },
   props: {
     slug: {
@@ -62,15 +108,19 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const [course, fetchCourse, loading, error] = useFetch(() =>
-      coursesService.getCourse(props.slug)
-    )
+    const { course, isLoading, hasError } = useCourse(props.slug)
 
-    fetchCourse().then(() => {
-      userService.getExamsTaken(course.value.id).then(fetchedExamsTaken => {
-        examsTaken.value = fetchedExamsTaken
-      })
-    })
+    watch(
+      course,
+      loadedCourse => {
+        if (loadedCourse) {
+          userService.getExamsTaken(loadedCourse.id).then(fetchedExamsTaken => {
+            examsTaken.value = fetchedExamsTaken
+          })
+        }
+      },
+      { immediate: true }
+    )
 
     const examsTaken = ref<{ exam: string; isTaken: boolean }[]>([])
 
@@ -97,12 +147,40 @@ export default defineComponent({
       return Array.from(map.values())
     })
 
+    const editPinnedLinks = ref(false)
+    const { setSnackbarMessage } = useSnackbar()
+
+    const deleteExternalLink = async (externalLinkId: string) => {
+      if (course.value) {
+        try {
+          NProgress.start()
+          await coursesService.deleteExternalLink(
+            course.value.id,
+            externalLinkId
+          )
+          course.value = {
+            ...course.value,
+            externalLinks: course.value.externalLinks.filter(externalLink => {
+              return externalLink._id !== externalLinkId
+            })
+          }
+          setSnackbarMessage('Removed link', 'info')
+        } catch (error) {
+          setSnackbarMessage('Could not delete external link', 'error')
+        } finally {
+          NProgress.done()
+        }
+      }
+    }
+
     return {
       course,
-      loading,
-      error,
+      isLoading,
+      hasError,
       examsByWeek,
-      examsTaken
+      examsTaken,
+      editPinnedLinks,
+      deleteExternalLink
     }
   }
 })

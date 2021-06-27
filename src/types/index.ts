@@ -35,6 +35,15 @@ export interface UserCredentials {
   password: string
 }
 
+export interface ExternalLink {
+  title: string
+  url: string
+  description?: string
+  _id: string
+}
+
+export type NewExternalLink = Omit<ExternalLink, '_id'>
+
 export interface Course {
   id: string
   name: string
@@ -44,12 +53,18 @@ export interface Course {
   studentsEnrolled: string[]
   weeks: number
   slug: string
+  externalLinks: ExternalLink[]
 }
 
 export interface NewCourse
   extends Omit<
     Course,
-    'id' | 'coordinator' | 'studentsEnrolled' | 'exams' | 'slug'
+    | 'id'
+    | 'coordinator'
+    | 'studentsEnrolled'
+    | 'exams'
+    | 'slug'
+    | 'externalLinks'
   > {
   coordinatorId: string
 }

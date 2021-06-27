@@ -3,10 +3,12 @@ import {
   CourseGrades,
   CourseWithExams,
   Exam,
+  NewExternalLink,
   NewCourse,
   User
 } from '@/types'
 import axios from 'axios'
+import { config } from './auth'
 import { API_URL } from './helper'
 const baseUrl = `${API_URL}/courses`
 
@@ -123,6 +125,22 @@ const getUserGrades = async (slug: string, userId: string) => {
   return response.data
 }
 
+const addExternalLink = async (id: string, externalLink: NewExternalLink) => {
+  const response = await axios.put<Course>(
+    `${baseUrl}/${id}/external-links`,
+    externalLink,
+    config
+  )
+  return response.data
+}
+
+const deleteExternalLink = async (id: string, externalLinkId: string) => {
+  await axios.delete(
+    `${baseUrl}/${id}/external-links/${externalLinkId}`,
+    config
+  )
+}
+
 export default {
   create,
   getAll,
@@ -138,5 +156,7 @@ export default {
   getStudents,
   getCourseProgressByUser,
   getExamsByWeek,
-  getUserGrades
+  getUserGrades,
+  addExternalLink,
+  deleteExternalLink
 }
