@@ -91,6 +91,7 @@
           v-model:choices="examItem.choices"
           v-model:shuffleChoices="examItem.shuffleChoices"
           v-model:caseSensitive="examItem.caseSensitive"
+          v-model:points="examItem.points"
           v-for="(examItem, i) in examItems"
           :count="i + 1"
           :key="i"
@@ -194,7 +195,8 @@ export default defineComponent({
           choices: [],
           questionType: 'text',
           shuffleChoices: false,
-          caseSensitive: true
+          caseSensitive: true,
+          points: 1
         }
       ] as NewExamItem[]
     })
@@ -292,7 +294,8 @@ export default defineComponent({
         choices: [],
         questionType: 'text',
         shuffleChoices: false,
-        caseSensitive: true
+        caseSensitive: true,
+        points: 1
       }
       if (i) {
         this.examItems.splice(i, 0, newExamItem)

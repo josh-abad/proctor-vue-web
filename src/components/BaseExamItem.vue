@@ -3,8 +3,16 @@
     <QuestionNumber>
       {{ questionNumber }}
     </QuestionNumber>
-    <div class="pl-4 select-none">
-      {{ examItem.question }}
+    <div class="pl-4 select-none w-full">
+      <div class="flex justify-between items-center">
+        <div>{{ examItem.question }}</div>
+        <div class="text-gray-500 text-sm">
+          <span>
+            {{ examItem.points }}
+            {{ examItem.points === 1 ? 'pt' : 'pts' }}
+          </span>
+        </div>
+      </div>
       <div class="mt-4">
         <div v-if="typeof answer === 'string'">
           <AppInput

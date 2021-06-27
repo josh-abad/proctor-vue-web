@@ -7,6 +7,7 @@
       @input="handleInput"
       :min="min"
       :max="max"
+      v-bind="$attrs"
       class="
         bg-gray-100
         border-r-0 border-gray-300
@@ -67,6 +68,7 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
+  inheritAttrs: false,
   computed: {
     isMax(): boolean {
       return this.modelValue === this.max
@@ -93,7 +95,7 @@ export default defineComponent({
 
 <style scoped>
 input[type='number']::-webkit-inner-spin-button {
-  appearance: none;
   -webkit-appearance: none;
+  appearance: none;
 }
 </style>

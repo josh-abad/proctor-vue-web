@@ -1,8 +1,8 @@
 <template>
-  <div class="flex py-2" ref="input">
+  <li class="flex py-2" ref="input">
     <div class="flex flex-grow overflow-hidden">
       <div class="flex-grow pr-4">
-        <div class="w-full">
+        <div class="flex items-center">
           <QuestionTypeInput
             :model-value="questionType"
             @update:modelValue="
@@ -19,50 +19,74 @@
             type="text"
           />
         </div>
-        <div class="mt-4"></div>
-        <div class="flex items-center mt-4" v-if="questionType === 'text'">
-          <AppInput
-            placeholder="Text answer"
-            class="w-full text-sm sm:w-1/2"
-            :model-value="answer?.[0] || ''"
-            @update:modelValue="newValue => $emit('update:answer', [newValue])"
-            type="text"
-          />
-          <AppSwitch
-            :model-value="caseSensitive"
-            @update:modelValue="
-              newValue => $emit('update:caseSensitive', newValue)
-            "
-            class="ml-4"
-            >Case Sensitive</AppSwitch
-          >
-        </div>
-        <div class="mt-4" v-else>
-          <ul class="space-y-2">
-            <ChoiceInput
-              v-for="(choice, i) in choices"
-              :key="i"
-              :value="choice"
-              :answer="answer"
-              :choices="choices"
-              :type="questionType === 'multiple choice' ? 'radio' : 'checkbox'"
-              @update:answer="newAnswer => $emit('update:answer', newAnswer)"
-              @update:choices="
-                newChoices => $emit('update:choices', newChoices)
-              "
-            />
-          </ul>
-          <div class="flex items-center mt-4">
-            <AppButton @click="$emit('add-choice')"> Add choice </AppButton>
-            <AppSwitch
-              :model-value="shuffleChoices"
+        <div class="flex items-start mt-4">
+          <div class="flex items-center -mr-10" v-if="questionType === 'text'">
+            <AppInput
+              placeholder="Text answer"
+              class="w-full sm:w-1/2"
+              :model-value="answer?.[0] || ''"
               @update:modelValue="
-                newValue => $emit('update:shuffleChoices', newValue)
+                newValue => $emit('update:answer', [newValue])
+              "
+              type="text"
+            />
+            <AppSwitch
+              :model-value="caseSensitive"
+              @update:modelValue="
+                newValue => $emit('update:caseSensitive', newValue)
               "
               class="ml-4"
+              >Case Sensitive</AppSwitch
             >
-              Shuffle Choices
-            </AppSwitch>
+          </div>
+          <div v-else class="flex items-start">
+            <ul class="space-y-2" v-if="choices.length">
+              <ChoiceInput
+                v-for="(choice, i) in choices"
+                :key="i"
+                :value="choice"
+                :answer="answer"
+                :choices="choices"
+                :type="
+                  questionType === 'multiple choice' ? 'radio' : 'checkbox'
+                "
+                @update:answer="
+                  newAnswer => {
+                    $emit('update:answer', newAnswer)
+                    $emit('update:points', newAnswer.length)
+                  }
+                "
+                @update:choices="
+                  newChoices => $emit('update:choices', newChoices)
+                "
+              />
+            </ul>
+            <div class="ml-4 first:ml-0 flex items-center">
+              <AppButton @click="$emit('add-choice')"> Add choice </AppButton>
+              <AppSwitch
+                :model-value="shuffleChoices"
+                @update:modelValue="
+                  newValue => $emit('update:shuffleChoices', newValue)
+                "
+                class="ml-4"
+              >
+                Shuffle Choices
+              </AppSwitch>
+            </div>
+          </div>
+          <div
+            class="flex items-center ml-4"
+            v-if="questionType !== 'multiple answers'"
+          >
+            <NumberInput
+              class="w-12"
+              id="points"
+              :min="1"
+              :max="10"
+              :model-value="points"
+              @update:modelValue="newValue => $emit('update:points', newValue)"
+            />
+            <label for="points" class="ml-2">Points</label>
           </div>
         </div>
       </div>
@@ -73,7 +97,7 @@
       @discard="$emit('discard')"
       @add-question="$emit('add-question', count)"
     />
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
@@ -84,6 +108,7 @@ import QuestionTypeInput from './components/QuestionTypeInput.vue'
 import SideMenu from './components/SideMenu.vue'
 import AppSwitch from '../ui/AppSwitch.vue'
 import ChoiceInput from '../ChoiceInput.vue'
+import NumberInput from '../ui/NumberInput.vue'
 
 export default defineComponent({
   components: {
@@ -92,7 +117,8 @@ export default defineComponent({
     QuestionTypeInput,
     SideMenu,
     AppSwitch,
-    ChoiceInput
+    ChoiceInput,
+    NumberInput
   },
   name: 'ExamItemInput',
   props: {
@@ -129,6 +155,11 @@ export default defineComponent({
     caseSensitive: {
       type: Boolean,
       required: true
+    },
+
+    points: {
+      type: Number,
+      default: 1
     }
   },
   emits: [
@@ -139,6 +170,7 @@ export default defineComponent({
     'update:choices',
     'update:shuffleChoices',
     'update:caseSensitive',
+    'update:points',
     'discard',
     'add-choice',
     'add-question'
