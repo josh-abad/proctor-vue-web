@@ -48,6 +48,10 @@ export default defineComponent({
     choices: {
       type: Array as PropType<string[]>,
       required: true
+    },
+    position: {
+      type: Number,
+      required: true
     }
   },
   emits: ['update:answer', 'update:choices'],
@@ -74,8 +78,8 @@ export default defineComponent({
       if (typeof newChoice === 'string') {
         this.$emit(
           'update:choices',
-          this.choices.map(choice => {
-            return choice === this.value ? newChoice : choice
+          this.choices.map((choice, index) => {
+            return index === this.position ? newChoice : choice
           })
         )
       }

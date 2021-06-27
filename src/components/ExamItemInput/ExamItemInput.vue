@@ -43,6 +43,7 @@
             <ul class="space-y-2" v-if="choices.length">
               <ChoiceInput
                 v-for="(choice, i) in choices"
+                :position="i"
                 :key="i"
                 :value="choice"
                 :answer="answer"
