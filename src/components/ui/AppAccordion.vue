@@ -23,7 +23,7 @@
           :class="expanded ? 'rotate-90' : 'rotate-0'"
         />
       </button>
-      <AppLabel emphasis class="ml-2">
+      <AppLabel emphasis class="ml-4">
         {{ label }}
       </AppLabel>
     </header>

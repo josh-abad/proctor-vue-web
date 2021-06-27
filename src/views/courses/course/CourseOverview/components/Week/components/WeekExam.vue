@@ -8,8 +8,8 @@
           locked && !exam.isTaken
       }"
     >
-      <DocumentTextIcon class="w-5 h-5 mr-2" v-if="!locked" />
-      <LockClosedIcon class="w-5 h-5 mr-2" v-else />
+      <DocumentTextIcon class="w-5 h-5 mr-4" v-if="!locked" />
+      <LockClosedIcon class="w-5 h-5 mr-4" v-else />
       {{ exam.label }}
     </router-link>
     <SVGCheckbox :model-value="exam.isTaken" static-check />
