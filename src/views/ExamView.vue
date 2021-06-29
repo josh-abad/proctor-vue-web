@@ -188,7 +188,7 @@ import {
   DocumentDuplicateIcon
 } from '@heroicons/vue/solid'
 import { ExclamationIcon } from '@heroicons/vue/outline'
-import { isExamLocked } from '@/utils/helper'
+import { formatDuration, isExamLocked } from '@/utils/helper'
 import dayjs from 'dayjs'
 import useKeepOnPage from '@/composables/use-keep-on-page'
 import IndicatorBar from '@/components/IndicatorBar.vue'
@@ -455,17 +455,7 @@ export default defineComponent({
       if (!this.exam) {
         return ''
       }
-
-      const d = Math.floor(this.exam.duration / (3600 * 24))
-      const h = Math.floor((this.exam.duration % (3600 * 24)) / 3600)
-      const m = Math.floor((this.exam.duration % 3600) / 60)
-      const s = Math.floor(this.exam.duration % 60)
-
-      const dDisplay = d > 0 ? d + (d === 1 ? ' day, ' : ' days, ') : ''
-      const hDisplay = h > 0 ? h + (h === 1 ? ' hour, ' : ' hours, ') : ''
-      const mDisplay = m > 0 ? m + (m === 1 ? ' minute, ' : ' minutes, ') : ''
-      const sDisplay = s > 0 ? s + (s === 1 ? ' second' : ' seconds') : ''
-      return (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, '')
+      return formatDuration(this.exam.duration)
     },
     date(): string {
       if (!this.exam?.endDate || !this.exam?.startDate) {

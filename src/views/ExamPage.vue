@@ -52,7 +52,7 @@
 import { computed, defineComponent, onUnmounted, ref, watch } from 'vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
-import { Answer, Attempt, ExamItem } from '@/types'
+import { Answer, AttemptWithResult, ExamItem } from '@/types'
 import useFetch from '@/composables/use-fetch'
 import { shuffle } from '@/utils/helper'
 import { useRouter } from 'vue-router'
@@ -129,7 +129,7 @@ export default defineComponent({
     const answers = ref<Answer[]>([])
 
     const [attempt, fetchAttempt, isLoading, hasError] =
-      useFetch<Attempt | null>(() =>
+      useFetch<AttemptWithResult | null>(() =>
         examAttemptsService.getAttempt(props.id, 'in-progress')
       )
 

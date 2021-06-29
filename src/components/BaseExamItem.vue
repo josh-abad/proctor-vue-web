@@ -9,9 +9,17 @@
           {{ examItem.question }}
         </div>
         <div class="text-sm text-gray-500">
-          <span>
+          <span class="flex items-center">
+            <span v-if="score">{{ score }}/</span>
             {{ examItem.points }}
             {{ examItem.points === 1 ? 'pt' : 'pts' }}
+            <span v-if="score" class="ml-2">
+              <CheckIcon
+                class="dark:text-green-400 w-5 h-5"
+                v-if="score === examItem.points"
+              />
+              <XIcon class="dark:text-red-400 w-5 h-5" v-else />
+            </span>
           </span>
         </div>
       </div>
@@ -48,6 +56,7 @@
             :key="i"
             :value="choice"
             v-model="answer"
+            :readonly="readonly"
           >
             {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
           </AppCheckbox>
@@ -66,6 +75,7 @@ import AppInput from './ui/AppInput.vue'
 import RadioButton from './ui/RadioButton.vue'
 import QuestionNumber from './QuestionNumber.vue'
 import AppTextArea from './ui/AppTextArea.vue'
+import { CheckIcon, XIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'BaseExamItem',
@@ -74,7 +84,9 @@ export default defineComponent({
     RadioButton,
     AppCheckbox,
     QuestionNumber,
-    AppTextArea
+    AppTextArea,
+    CheckIcon,
+    XIcon
   },
   props: {
     examItem: {
@@ -91,6 +103,11 @@ export default defineComponent({
     readonly: {
       type: Boolean,
       default: false
+    },
+
+    score: {
+      type: Number,
+      required: false
     }
   },
   emits: ['update:modelValue'],

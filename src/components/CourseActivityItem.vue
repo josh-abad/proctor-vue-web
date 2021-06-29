@@ -14,28 +14,7 @@
         <DocumentTextIcon class="w-4 h-4" />
         <span class="ml-1.5">{{ attempt.exam.label }}</span>
       </div>
-      <span v-if="attempt.status === 'completed'">
-        <Badge
-          v-if="attempt.pendingGrade"
-          class="text-yellow-500 bg-yellow-500/10"
-        >
-          Grade Pending
-        </Badge>
-        <Badge
-          v-else-if="attempt.warnings >= 5"
-          class="text-red-500 bg-red-500/10"
-        >
-          Stopped
-        </Badge>
-        <Badge v-else class="text-green-500 bg-green-500/10">Complete</Badge>
-      </span>
-      <Badge
-        v-else-if="attempt.status === 'in-progress'"
-        class="text-white bg-white/10"
-      >
-        In-Progress
-      </Badge>
-      <Badge v-else class="text-red-500 bg-red-500/10"> Expired </Badge>
+      <AttemptStatusBadge :attempt="attempt" />
     </div>
     <div
       class="flex items-center mt-1 text-gray-400"
@@ -85,7 +64,6 @@
 <script lang="ts">
 import { Attempt, Score } from '@/types'
 import { computed, defineComponent, PropType } from 'vue'
-import Badge from '@/components/Badge.vue'
 import {
   ClockIcon,
   DocumentTextIcon,
@@ -99,19 +77,21 @@ import GradeEssayModal from './GradeEssayModal.vue'
 import examAttemptsService from '@/services/exam-attempts'
 import NProgress from 'nprogress'
 import useSnackbar from '@/composables/use-snackbar'
+import AttemptStatusBadge from './AttemptStatusBadge.vue'
+import { formatDuration } from '@/utils/helper'
 
 dayjs.extend(relativeTime)
 
 export default defineComponent({
   name: 'CourseActivityItem',
   components: {
-    Badge,
     ClockIcon,
     DocumentTextIcon,
     ExclamationIcon,
     Avatar,
     AppButton,
-    GradeEssayModal
+    GradeEssayModal,
+    AttemptStatusBadge
   },
   props: {
     attempt: {
@@ -126,21 +106,12 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const attemptDuration = computed(() => {
-      const duration = dayjs(props.attempt.submittedDate).diff(
-        dayjs(props.attempt.startDate),
-        'seconds'
+      return formatDuration(
+        dayjs(props.attempt.submittedDate).diff(
+          dayjs(props.attempt.startDate),
+          'seconds'
+        )
       )
-
-      const d = Math.floor(duration / (3600 * 24))
-      const h = Math.floor((duration % (3600 * 24)) / 3600)
-      const m = Math.floor((duration % 3600) / 60)
-      const s = Math.floor(duration % 60)
-
-      const dDisplay = d > 0 ? d + (d === 1 ? ' day, ' : ' days, ') : ''
-      const hDisplay = h > 0 ? h + (h === 1 ? ' hour, ' : ' hours, ') : ''
-      const mDisplay = m > 0 ? m + (m === 1 ? ' minute, ' : ' minutes, ') : ''
-      const sDisplay = s > 0 ? s + (s === 1 ? ' second' : ' seconds') : ''
-      return (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, '')
     })
 
     const startDate = computed(() => {

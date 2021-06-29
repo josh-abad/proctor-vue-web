@@ -14,30 +14,68 @@
       <List>
         <BaseExamItem
           :id="`question${i + 1}`"
-          v-for="(item, i) in attempt.exam.examItems"
+          v-for="(item, i) in examItems"
           class="py-6 first:pt-0"
           :key="item.id"
           :exam-item="item"
           :question-number="i + 1"
           :model-value="attempt.answers"
+          :score="item.score"
           readonly
         />
       </List>
       <teleport to="#quiz-navigation">
         <ExamNavigation :questions="progress" class="ml-4" />
+        <AppPanel class="ml-4 mt-4 px-3 py-3">
+          <Subheading>
+            <AppLabel emphasis>Attempt Details</AppLabel>
+          </Subheading>
+          <div class="mt-3">
+            <div class="flex items-center">
+              <Avatar :user="attempt.user" class="w-6 h-6" />
+              <span class="ml-2 text-lg font-medium">
+                {{ attempt.user.fullName }}
+              </span>
+            </div>
+            <div
+              class="flex items-center mt-2 text-gray-400"
+              v-if="!['expired', 'in-progress'].includes(attempt.status)"
+            >
+              <ClockIcon class="w-4 h-4" />
+              <span class="ml-1.5 text-sm"
+                >Completed in {{ attemptDuration }}</span
+              >
+            </div>
+            <div
+              class="
+                mt-1
+                text-gray-400
+                font-semibold
+                text-sm
+                space-x-1.5
+                flex
+                items-center
+              "
+            >
+              <ExclamationIcon class="w-4 h-4" />
+              <span v-if="attempt.warnings > 0">
+                {{ attempt.warnings }}
+                {{ attempt.warnings === 1 ? 'warning' : 'warnings' }} out of 5
+              </span>
+              <span v-else>No warnings</span>
+            </div>
+            <div class="flex items-center mt-5">
+              <div class="text-xl">
+                {{ attempt.score }}/{{ attempt.examTotal }}
+              </div>
+              <AttemptStatusBadge class="ml-2" :attempt="attempt" />
+            </div>
+          </div>
+        </AppPanel>
       </teleport>
     </div>
     <div class="flex justify-end mt-4">
       <AppButton type="button" @click="$router.back">Go Back</AppButton>
-      <ModalButton
-        class="ml-4"
-        header="Grade Essay"
-        message="Are you sure you want to submit this grade?"
-        action-label="Submit"
-        prominent
-      >
-        Grade
-      </ModalButton>
     </div>
   </div>
 </template>
@@ -45,17 +83,38 @@
 <script lang="ts">
 import useFetch from '@/composables/use-fetch'
 import examAttemptsService from '@/services/exam-attempts'
-import { Attempt } from '@/types'
+import { AttemptWithResult } from '@/types'
 import { computed, defineComponent } from 'vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
-import ModalButton from '@/components/ui/ModalButton.vue'
 import ExamNavigation from '@/components/ExamNavigation.vue'
 import List from '@/components/List.vue'
 import AppButton from '@/components/ui/AppButton.vue'
+import AppPanel from '@/components/ui/AppPanel.vue'
+import Avatar from '@/components/Avatar.vue'
+import Subheading from '@/components/Subheading.vue'
+import AppLabel from '@/components/ui/AppLabel.vue'
+import dayjs from 'dayjs'
+import AttemptStatusBadge from '@/components/AttemptStatusBadge.vue'
+import { formatDuration } from '@/utils/helper'
+import { ClockIcon, ExclamationIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'ReviewExamPage',
+  components: {
+    BaseExamItem,
+    AppSkeleton,
+    ExamNavigation,
+    List,
+    AppButton,
+    AppPanel,
+    Avatar,
+    Subheading,
+    AppLabel,
+    AttemptStatusBadge,
+    ClockIcon,
+    ExclamationIcon
+  },
   props: {
     courseSlug: {
       type: String,
@@ -74,7 +133,9 @@ export default defineComponent({
   },
   setup(props) {
     const [attempt, fetchAttempt, isLoading, hasError] =
-      useFetch<Attempt | null>(() => examAttemptsService.getAttempt(props.id))
+      useFetch<AttemptWithResult | null>(() =>
+        examAttemptsService.getAttempt(props.id)
+      )
 
     fetchAttempt()
 
@@ -94,20 +155,40 @@ export default defineComponent({
       })
     })
 
+    const examItems = computed(() => {
+      return (
+        attempt.value?.exam.examItems.map(examItem => {
+          return {
+            ...examItem,
+            score:
+              attempt.value?.examResult?.scores.find(
+                score => score.examItem === examItem.id
+              )?.points ?? 0
+          }
+        }) ?? []
+      )
+    })
+
+    const attemptDuration = computed(() => {
+      if (!attempt.value) {
+        return ''
+      }
+      return formatDuration(
+        dayjs(attempt.value.submittedDate).diff(
+          dayjs(attempt.value.startDate),
+          'seconds'
+        )
+      )
+    })
+
     return {
       attempt,
+      attemptDuration,
       isLoading,
       hasError,
-      progress
+      progress,
+      examItems
     }
-  },
-  components: {
-    BaseExamItem,
-    AppSkeleton,
-    ModalButton,
-    ExamNavigation,
-    List,
-    AppButton
   }
 })
 </script>

@@ -6,6 +6,10 @@ export type ExamWithTaken = Exam & { isTaken: boolean }
 
 export type CourseWithExams = Omit<Course, 'exams'> & { exams: Exam[] }
 
+export type AttemptWithResult = Omit<Attempt, 'examResult'> & {
+  examResult?: ExamResult
+}
+
 export interface User {
   id: string
   name: {

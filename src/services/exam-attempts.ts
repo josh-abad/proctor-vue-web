@@ -1,4 +1,4 @@
-import { Attempt, AttemptStatus, Score } from '@/types'
+import { Attempt, AttemptStatus, AttemptWithResult, Score } from '@/types'
 import axios from 'axios'
 import { config } from './auth'
 import { API_URL } from './helper'
@@ -27,7 +27,7 @@ const start = async (examId: string) => {
 }
 
 const getAttempt = async (id: string, status?: AttemptStatus) => {
-  const response = await axios.get<Attempt>(
+  const response = await axios.get<AttemptWithResult>(
     `${baseUrl}/${id}`,
     status ? { ...config, params: { status } } : config
   )
