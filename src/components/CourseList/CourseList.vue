@@ -7,7 +7,10 @@
     <FadeTransition>
       <div v-if="error" class="mt-8"><ErrorLoading /></div>
       <div v-else-if="loading">
-        <section v-if="viewMode === 'card'" class="course-list--card-view">
+        <section
+          v-if="viewMode === 'card'"
+          class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2"
+        >
           <SkeletonCourseCard :key="i" v-for="i in 10" />
         </section>
         <List v-else-if="viewMode === 'list'">
