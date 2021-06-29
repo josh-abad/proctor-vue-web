@@ -11,10 +11,9 @@
       dark:bg-gray-800
       dark:border-gray-700
     "
+    ref="nav"
   >
-    <Tab :to="`/courses/${courseSlug}`"> Overview </Tab>
-    <Tab :to="`/courses/${courseSlug}/students`"> Students </Tab>
-    <Tab :to="`/courses/${courseSlug}/grades`"> Grades </Tab>
+    <slot></slot>
     <span
       class="
         absolute
@@ -29,35 +28,48 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Tab from './Tab.vue'
+import { defineComponent, onMounted, ref } from 'vue'
 
 export default defineComponent({
   name: 'TabRow',
-  components: { Tab },
-  props: {
-    courseSlug: {
-      type: String,
-      required: true
+  setup() {
+    const nav = ref<HTMLElement | null>(null)
+
+    onMounted(() => {
+      if (nav.value) {
+        const tabCount = nav.value.getElementsByTagName('a').length
+        document.documentElement.style.setProperty(
+          '--tab-width',
+          `${(1 / tabCount) * 100}%`
+        )
+      }
+    })
+
+    return {
+      nav
     }
   }
 })
 </script>
 
-<style lang="postcss" scoped>
+<style scoped>
 span {
   transform-origin: 0 0;
 }
 
 a:first-child.active ~ span {
-  transform: translateX(0) scaleX(0.333);
+  transform: translateX(0) scaleX(var(--tab-width));
 }
 
 a:nth-child(2).active ~ span {
-  transform: translateX(33.333%) scaleX(0.333);
+  transform: translateX(var(--tab-width)) scaleX(var(--tab-width));
 }
 
 a:nth-child(3).active ~ span {
-  transform: translateX(calc(33.333% * 2)) scaleX(0.333);
+  transform: translateX(calc(var(--tab-width) * 2)) scaleX(var(--tab-width));
+}
+
+a:nth-child(4).active ~ span {
+  transform: translateX(calc(var(--tab-width) * 3)) scaleX(var(--tab-width));
 }
 </style>

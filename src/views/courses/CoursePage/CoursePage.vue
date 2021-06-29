@@ -5,7 +5,16 @@
       <SkeletonPageHeading />
       <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
-          <TabRow :course-slug="slug" />
+          <TabRow>
+            <Tab :to="`/courses/${slug}`"> Overview </Tab>
+            <Tab :to="`/courses/${slug}/students`"> Students </Tab>
+            <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
+            <Tab
+              v-if="$store.getters.permissions(['coordinator', 'admin'])"
+              :to="`/courses/${slug}/activity`"
+              >Activity</Tab
+            >
+          </TabRow>
           <AppPanel class="border-t-0 rounded-t-none">
             <router-view v-slot="{ Component }">
               <FadeTransition>
@@ -109,7 +118,16 @@
       </PageHeading>
       <div class="flex flex-col mt-8 sm:flex-row">
         <div class="flex-grow mr-0 sm:mr-4">
-          <TabRow :course-slug="slug" />
+          <TabRow>
+            <Tab :to="`/courses/${slug}`"> Overview </Tab>
+            <Tab :to="`/courses/${slug}/students`"> Students </Tab>
+            <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
+            <Tab
+              v-if="$store.getters.permissions(['coordinator', 'admin'])"
+              :to="`/courses/${slug}/activity`"
+              >Activity</Tab
+            >
+          </TabRow>
           <AppPanel class="rounded-t-none">
             <router-view v-slot="{ Component }">
               <FadeTransition>
@@ -170,6 +188,7 @@ import FadeTransition from '@/components/transitions/FadeTransition.vue'
 import AddExternalLinkModal from '@/components/AddExternalLinkModal.vue'
 import { NewExternalLink } from '@/types'
 import useCourse from '@/composables/use-course'
+import Tab from './components/Tab.vue'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -196,7 +215,8 @@ export default defineComponent({
     PageHeadingMetaItem,
     PageHeadingMeta,
     FadeTransition,
-    AddExternalLinkModal
+    AddExternalLinkModal,
+    Tab
   },
   props: {
     slug: {
