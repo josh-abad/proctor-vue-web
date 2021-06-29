@@ -1,33 +1,47 @@
 <template>
   <div
-    class="fixed top-0 right-0 overflow-hidden duration-300 ease-in-out"
-    :class="message ? 'translate-y-0' : 'translate-x-52'"
+    class="fixed top-0 right-0 overflow-hidden duration-200 ease-in-out"
+    :class="isVisible ? 'translate-y-0' : 'translate-x-full'"
   >
-    <div class="flex m-10 bg-gray-700 rounded-lg shadow-lg dark:bg-white">
+    <div
+      class="
+        flex
+        m-10
+        bg-gray-900/70
+        rounded-lg
+        shadow-lg
+        dark:bg-gray-700/60
+        dark:border dark:border-white/10
+        backdrop-blur
+      "
+    >
       <div class="flex items-center object-cover pl-5">
         <InformationCircleIcon
-          class="text-gray-500 dark:text-gray-400 w-7 h-7"
+          class="text-indigo-400 w-7 h-7"
           v-if="alertType === 'info'"
         />
+
         <CheckCircleIcon
-          class="text-green-500 w-7 h-7"
+          class="text-green-400 w-7 h-7"
           v-else-if="alertType === 'success'"
         />
+
         <ExclamationIcon
-          class="text-[#f7d71e] w-7 h-7"
+          class="text-yellow-400 w-7 h-7"
           v-else-if="alertType === 'warning'"
         />
+
         <ExclamationCircleIcon
-          class="text-red-500 w-7 h-7"
+          class="text-red-400 w-7 h-7"
           v-else-if="alertType === 'error'"
         />
       </div>
       <div class="flex items-center px-5 py-4">
-        <div class="font-semibold text-white dark:text-gray-900">
+        <div class="font-semibold text-white">
           {{ message }}
         </div>
         <button @click="clearSnackbarMessage" class="ml-12 focus:outline-none">
-          <XIcon class="w-5 h-5 text-gray-500 fill-current" />
+          <XIcon class="w-5 h-5 text-white/50 fill-current" />
         </button>
       </div>
     </div>
@@ -43,7 +57,7 @@ import {
   CheckCircleIcon,
   ExclamationIcon,
   ExclamationCircleIcon
-} from '@heroicons/vue/solid'
+} from '@heroicons/vue/outline'
 
 export default defineComponent({
   name: 'Snackbar',
@@ -55,11 +69,13 @@ export default defineComponent({
     ExclamationCircleIcon
   },
   setup() {
-    const { message, alertType, clearSnackbarMessage } = useSnackbar()
+    const { message, alertType, clearSnackbarMessage, isVisible } =
+      useSnackbar()
 
     return {
       message,
       alertType,
+      isVisible,
       clearSnackbarMessage
     }
   }

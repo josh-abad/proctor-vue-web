@@ -2,8 +2,9 @@ import { readonly, ref } from 'vue'
 
 type AlertType = 'info' | 'success' | 'warning' | 'error' | null
 
-const message = ref<null | string>()
+const message = ref<null | string>(null)
 const alertType = ref<AlertType>(null)
+const isVisible = ref(false)
 
 export default function useSnackbar() {
   /**
@@ -15,6 +16,7 @@ export default function useSnackbar() {
     type: AlertType = 'info',
     ms = 5000
   ) {
+    isVisible.value = true
     message.value = value
     alertType.value = type
     if (ms !== 0) {
@@ -28,14 +30,14 @@ export default function useSnackbar() {
    * Hide the snackbar
    */
   function clearSnackbarMessage() {
-    message.value = null
-    alertType.value = null
+    isVisible.value = false
   }
 
   return {
     message: readonly(message),
     alertType: readonly(alertType),
     setSnackbarMessage,
-    clearSnackbarMessage
+    clearSnackbarMessage,
+    isVisible
   }
 }
