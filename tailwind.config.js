@@ -1,13 +1,8 @@
-const colors = require('tailwindcss/colors')
-const plugin = require('tailwindcss/plugin')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   mode: 'jit',
-  purge: [
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}'
-  ],
+  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
@@ -16,7 +11,5 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ]
+  plugins: [require('@tailwindcss/forms')]
 }
