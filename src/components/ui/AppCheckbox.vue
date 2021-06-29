@@ -12,7 +12,9 @@
         <CheckIcon class="w-4 h-4 text-white" v-show="isSelected" />
       </div>
     </button>
-    <label :for="value" class="ml-3" v-if="!noLabel">{{ value }}</label>
+    <label :for="value" class="ml-3" v-if="!noLabel">
+      <slot>{{ value }}</slot>
+    </label>
   </div>
 </template>
 

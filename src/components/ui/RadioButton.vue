@@ -17,7 +17,9 @@
         <div v-if="isSelected" class="w-3 h-3 bg-indigo-500 rounded-full" />
       </div>
     </button>
-    <label :for="value" class="ml-3" v-if="!noLabel">{{ value }}</label>
+    <label :for="value" class="ml-3" v-if="!noLabel">
+      <slot>{{ value }}</slot>
+    </label>
   </div>
 </template>
 
