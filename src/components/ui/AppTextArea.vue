@@ -43,3 +43,17 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+textarea::-webkit-scrollbar {
+  @apply w-1;
+}
+
+textarea::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  @apply bg-clip-padding rounded-lg bg-white/20;
+}
+</style>

@@ -25,6 +25,7 @@
             bg-gray-100
             rounded-lg
             shadow-2xl
+            modal
             dark:bg-gray-700
           "
           v-bind="$attrs"
@@ -93,3 +94,17 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="postcss" scoped>
+.modal::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.modal::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  @apply bg-clip-padding rounded-lg bg-white/20;
+}
+</style>
