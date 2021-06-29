@@ -9,26 +9,23 @@
       :max="max"
       v-bind="$attrs"
       class="
-        bg-gray-100
+        bg-transparent
         border-r-0 border-gray-300
         rounded-l-lg
         focus:border-indigo-600
         dark:focus:border-indigo-400
-        dark:bg-gray-800
         focus:ring-0
         focus:border-r-0
-        dark:border-gray-700
+        dark:border-white/20
         peer
       "
     />
     <div
       class="
         overflow-hidden
-        bg-gray-100
         border border-l-0 border-gray-300
         rounded-r-lg
-        dark:bg-gray-800
-        dark:border-gray-700
+        dark:border-white/20
         peer-focus:border-indigo-600
         dark:peer-focus:border-indigo-400
       "

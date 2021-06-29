@@ -1,10 +1,10 @@
 <template>
   <input
-    class="px-3 py-2 bg-gray-100 rounded-lg dark:bg-gray-800 focus:ring-0"
+    class="px-3 py-2 bg-gray-100 rounded-lg dark:bg-transparent focus:ring-0"
     :class="
       error
         ? 'focus:border-red-500 border-red-500'
-        : 'border-gray-300 dark:border-gray-700 focus:border-indigo-600 dark:focus:border-indigo-400'
+        : 'border-gray-300 dark:border-white/20 focus:border-indigo-600 dark:focus:border-indigo-400'
     "
     :value="modelValue"
     @input="handleInput"

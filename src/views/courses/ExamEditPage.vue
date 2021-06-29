@@ -237,11 +237,14 @@ export default defineComponent({
           error = `Please enter a question for number ${i + 1}`
           return
         }
-        if (!item.answer.length || item.answer.includes('')) {
+        if (
+          item.questionType !== 'essay' &&
+          (!item.answer.length || item.answer.includes(''))
+        ) {
           error = `Please enter an answer for number ${i + 1}`
           return
         }
-        if (item.questionType !== 'text') {
+        if (!['text', 'essay'].includes(item.questionType)) {
           if (!item.choices.length) {
             error = `Please create choices for number ${i + 1}`
             return

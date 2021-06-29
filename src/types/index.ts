@@ -96,13 +96,14 @@ export type ExamWithAnswers = Omit<Exam, 'examItems'> & {
 }
 
 export interface Answer {
-  id: string
-  answer: string
+  examItem: string
+  answer: string[]
 }
 
 export interface Submission {
   answers: Answer[]
   examId: string
+  attemptId: string
 }
 
 export interface Attempt {
@@ -117,6 +118,8 @@ export interface Attempt {
   score: number
   examTotal: number
   warnings: number
+  answers: Answer[]
+  pendingGrade: boolean
 }
 
 export interface ExamItem {
@@ -129,7 +132,11 @@ export interface ExamItem {
   points: number
 }
 
-export type QuestionType = 'multiple choice' | 'text' | 'multiple answers'
+export type QuestionType =
+  | 'multiple choice'
+  | 'text'
+  | 'multiple answers'
+  | 'essay'
 
 export interface Score {
   examItem: string

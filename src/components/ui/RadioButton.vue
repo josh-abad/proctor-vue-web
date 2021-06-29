@@ -42,6 +42,11 @@ export default defineComponent({
     noLabel: {
       type: Boolean,
       default: false
+    },
+
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],
@@ -52,6 +57,9 @@ export default defineComponent({
   },
   methods: {
     handleClick() {
+      if (this.readonly) {
+        return
+      }
       this.$emit('update:modelValue', this.value)
     }
   }

@@ -1,4 +1,4 @@
-import { Attempt, AttemptStatus } from '@/types'
+import { Attempt, AttemptStatus, Score } from '@/types'
 import axios from 'axios'
 import { config } from './auth'
 import { API_URL } from './helper'
@@ -10,6 +10,11 @@ const addWarning = async (id: string) => {
 
 const deleteAttempt = async (id: string) => {
   await axios.delete(`${baseUrl}/${id}`)
+}
+
+const getPendingGradeAttempts = async () => {
+  const response = await axios.get<Attempt[]>(`${baseUrl}/pending`, config)
+  return response.data
 }
 
 /**
@@ -29,6 +34,15 @@ const getAttempt = async (id: string, status?: AttemptStatus) => {
   return response.data
 }
 
+const submitPendingGrade = async (id: string, scores: Score[]) => {
+  const response = await axios.put<Attempt>(
+    `${baseUrl}/${id}/score`,
+    { scores },
+    config
+  )
+  return response.data
+}
+
 /**
  * Gets all attempts from every user in the server
  */
@@ -37,4 +51,12 @@ const getAll = async () => {
   return response.data
 }
 
-export default { addWarning, deleteAttempt, start, getAttempt, getAll }
+export default {
+  addWarning,
+  deleteAttempt,
+  getPendingGradeAttempts,
+  start,
+  getAttempt,
+  submitPendingGrade,
+  getAll
+}

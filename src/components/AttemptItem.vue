@@ -7,6 +7,24 @@
       <div class="mr-12">
         <div class="capitalize">
           {{ attempt.status }}
+          <span
+            v-if="attempt.pendingGrade"
+            title="This exam contains one or more essay questions that have yet to be graded by the course's coordinator."
+            class="
+              px-2
+              py-1
+              ml-2
+              text-xs
+              font-semibold
+              tracking-wider
+              text-yellow-400
+              uppercase
+              rounded-full
+              bg-yellow-500/20
+            "
+          >
+            full grade pending
+          </span>
         </div>
         <div class="text-sm text-gray-400">
           <div v-if="attempt.status === 'in-progress'">

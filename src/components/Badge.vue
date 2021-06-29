@@ -1,0 +1,15 @@
+<template>
+  <span
+    class="
+      px-2
+      py-1
+      text-xs
+      font-semibold
+      tracking-wider
+      uppercase
+      rounded-full
+    "
+  >
+    <slot></slot>
+  </span>
+</template>

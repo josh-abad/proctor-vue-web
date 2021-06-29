@@ -214,7 +214,7 @@ export default defineComponent({
           questionNumber: index + 1,
           id: examItem.id,
           answered: answers.value.some(
-            answer => answer.id === examItem.id && answer.answer.length
+            answer => answer.examItem === examItem.id && answer.answer.length
           )
         }
       })

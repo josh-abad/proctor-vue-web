@@ -80,6 +80,11 @@ const routes: Array<RouteRecordRaw> = [
                   import(
                     '../views/courses/course/CourseGrades/CourseGrades.vue'
                   )
+              },
+              {
+                path: 'activity',
+                props: true,
+                component: () => import('../views/CourseActivity.vue')
               }
             ],
             component: () =>
@@ -118,6 +123,14 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'attempt/:id',
                 props: true,
                 component: () => import('../views/ExamPage.vue')
+              },
+              {
+                path: 'review/:id',
+                props: true,
+                meta: {
+                  authorize: ['coordinator', 'admin'] as Role[]
+                },
+                component: () => import('../views/ReviewExamPage.vue')
               }
             ]
           }

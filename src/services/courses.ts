@@ -1,4 +1,5 @@
 import {
+  Attempt,
   Course,
   CourseGrades,
   CourseWithExams,
@@ -141,6 +142,14 @@ const deleteExternalLink = async (id: string, externalLinkId: string) => {
   )
 }
 
+const getAttemptsInCourse = async (id: string) => {
+  const response = await axios.get<Attempt[]>(
+    `${baseUrl}/${id}/attempts`,
+    config
+  )
+  return response.data
+}
+
 export default {
   create,
   getAll,
@@ -158,5 +167,6 @@ export default {
   getExamsByWeek,
   getUserGrades,
   addExternalLink,
-  deleteExternalLink
+  deleteExternalLink,
+  getAttemptsInCourse
 }

@@ -39,7 +39,7 @@
               >Case Sensitive</AppSwitch
             >
           </div>
-          <div v-else class="flex items-start">
+          <div v-else-if="questionType !== 'essay'" class="flex items-start">
             <ul class="space-y-2" v-if="choices.length">
               <ChoiceInput
                 v-for="(choice, i) in choices"
@@ -62,7 +62,7 @@
                 "
               />
             </ul>
-            <div class="ml-4 first:ml-0 flex items-center">
+            <div class="flex items-center ml-4 first:ml-0">
               <AppButton @click="$emit('add-choice')"> Add choice </AppButton>
               <AppSwitch
                 :model-value="shuffleChoices"
@@ -76,7 +76,7 @@
             </div>
           </div>
           <div
-            class="flex items-center ml-4"
+            class="flex items-center ml-4 first:ml-0"
             v-if="questionType !== 'multiple answers'"
           >
             <NumberInput
@@ -110,6 +110,7 @@ import SideMenu from './components/SideMenu.vue'
 import AppSwitch from '../ui/AppSwitch.vue'
 import ChoiceInput from '../ChoiceInput.vue'
 import NumberInput from '../ui/NumberInput.vue'
+import { QuestionType } from '@/types'
 
 export default defineComponent({
   components: {
@@ -134,7 +135,7 @@ export default defineComponent({
     },
 
     questionType: {
-      type: String,
+      type: String as PropType<QuestionType>,
       default: 'text'
     },
 
@@ -203,6 +204,8 @@ export default defineComponent({
         if (!this.choices.includes(this.answer[0])) {
           this.$emit('update:answer', [])
         }
+      } else if (newValue === 'essay') {
+        this.$emit('update:answer', ['essay'])
       } else {
         this.$emit('update:answer', [this.answer[0]])
       }

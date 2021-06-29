@@ -3,10 +3,12 @@
     <QuestionNumber>
       {{ questionNumber }}
     </QuestionNumber>
-    <div class="pl-4 select-none w-full">
-      <div class="flex justify-between items-center">
-        <div>{{ examItem.question }}</div>
-        <div class="text-gray-500 text-sm">
+    <div class="w-full pl-4 select-none">
+      <div class="flex items-start justify-between">
+        <div class="w-3/4 leading-tight text-justify">
+          {{ examItem.question }}
+        </div>
+        <div class="text-sm text-gray-500">
           <span>
             {{ examItem.points }}
             {{ examItem.points === 1 ? 'pt' : 'pts' }}
@@ -14,31 +16,41 @@
         </div>
       </div>
       <div class="mt-4">
-        <div v-if="typeof answer === 'string'">
-          <AppInput
-            v-if="examItem.questionType === 'text'"
-            v-model="answer"
-            type="text"
-          />
-          <div
-            v-else-if="examItem.questionType === 'multiple choice'"
-            class="space-y-2"
+        <AppInput
+          v-if="examItem.questionType === 'text'"
+          v-model="answer[0]"
+          type="text"
+          :readonly="readonly"
+        />
+        <div
+          v-else-if="examItem.questionType === 'multiple choice'"
+          class="space-y-2"
+        >
+          <RadioButton
+            v-for="(choice, i) in choices"
+            :key="i"
+            :value="choice"
+            v-model="answer[0]"
+            :readonly="readonly"
           >
-            <RadioButton
-              v-for="(choice, i) in choices"
-              :key="i"
-              :value="choice"
-              v-model="answer"
-            />
-          </div>
+            {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
+          </RadioButton>
         </div>
+        <AppTextArea
+          v-else-if="examItem.questionType === 'essay'"
+          class="w-full h-40"
+          v-model="answer[0]"
+          :readonly="readonly"
+        />
         <div v-else class="space-y-2">
           <AppCheckbox
             v-for="(choice, i) in choices"
             :key="i"
             :value="choice"
             v-model="answer"
-          />
+          >
+            {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
+          </AppCheckbox>
         </div>
       </div>
     </div>
@@ -53,10 +65,17 @@ import AppCheckbox from './ui/AppCheckbox.vue'
 import AppInput from './ui/AppInput.vue'
 import RadioButton from './ui/RadioButton.vue'
 import QuestionNumber from './QuestionNumber.vue'
+import AppTextArea from './ui/AppTextArea.vue'
 
 export default defineComponent({
   name: 'BaseExamItem',
-  components: { AppInput, RadioButton, AppCheckbox, QuestionNumber },
+  components: {
+    AppInput,
+    RadioButton,
+    AppCheckbox,
+    QuestionNumber,
+    AppTextArea
+  },
   props: {
     examItem: {
       type: Object as PropType<ExamItem>,
@@ -68,44 +87,53 @@ export default defineComponent({
       default: () => []
     },
 
-    questionNumber: Number
+    questionNumber: Number,
+    readonly: {
+      type: Boolean,
+      default: false
+    }
   },
   emits: ['update:modelValue'],
   data() {
-    let answer: string | string[]
-    if (this.examItem.questionType !== 'multiple answers') {
-      answer = ''
-    } else {
-      answer = []
-    }
     return {
-      answer
+      answer: [] as string[]
     }
   },
   watch: {
-    answer(newAnswer: string | string[]) {
-      if (this.modelValue.some(({ id }) => id === this.examItem.id)) {
-        this.$emit(
-          'update:modelValue',
-          this.modelValue.map(item =>
-            item.id === this.examItem.id
-              ? {
-                  id: item.id,
-                  answer: newAnswer
-                }
-              : item
+    answer: {
+      handler(newAnswer: string[]) {
+        if (
+          this.modelValue.some(({ examItem }) => examItem === this.examItem.id)
+        ) {
+          this.$emit(
+            'update:modelValue',
+            this.modelValue.map(item =>
+              item.examItem === this.examItem.id
+                ? {
+                    examItem: item.examItem,
+                    answer: newAnswer
+                  }
+                : item
+            )
           )
-        )
-      } else {
-        this.$emit('update:modelValue', [
-          ...this.modelValue,
-          {
-            id: this.examItem.id,
-            answer: newAnswer
-          }
-        ])
-      }
+        } else {
+          this.$emit('update:modelValue', [
+            ...this.modelValue,
+            {
+              examItem: this.examItem.id,
+              answer: newAnswer
+            }
+          ])
+        }
+      },
+      deep: true
     }
+  },
+  created() {
+    this.answer =
+      this.modelValue.find(answer => {
+        return answer.examItem === this.examItem.id
+      })?.answer ?? []
   },
   computed: {
     choices(): string[] {
