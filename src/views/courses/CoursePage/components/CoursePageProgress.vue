@@ -17,7 +17,7 @@ export default defineComponent({
   name: 'CoursePageProgress',
   components: { AppPanel, AppLabel, ProgressBar },
   props: {
-    courseSlug: {
+    slug: {
       type: String,
       required: true
     }
@@ -31,7 +31,7 @@ export default defineComponent({
         return
       }
       const { percentage } = await coursesService.getCourseProgressByUser(
-        props.courseSlug,
+        props.slug,
         store.state.user.id
       )
       coursePercentage.value = percentage

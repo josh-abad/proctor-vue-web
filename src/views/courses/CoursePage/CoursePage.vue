@@ -1,39 +1,10 @@
 <template>
-  <div v-if="hasError">Could not load course.</div>
-  <div v-else-if="isLoading">
-    <div class="p-4">
-      <SkeletonPageHeading />
-      <div class="flex flex-col mt-8 sm:flex-row">
-        <div class="flex-grow mr-0 sm:mr-4">
-          <TabRow>
-            <Tab :to="`/courses/${slug}`"> Overview </Tab>
-            <Tab :to="`/courses/${slug}/students`"> Students </Tab>
-            <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
-            <Tab
-              v-if="$store.getters.permissions(['coordinator', 'admin'])"
-              :to="`/courses/${slug}/activity`"
-              >Activity</Tab
-            >
-          </TabRow>
-          <AppPanel class="border-t-0 rounded-t-none">
-            <router-view v-slot="{ Component }">
-              <FadeTransition>
-                <component :is="Component" />
-              </FadeTransition>
-            </router-view>
-          </AppPanel>
-        </div>
-        <div class="w-full mt-4 sm:w-72 sm:mt-0">
-          <About />
-          <UpcomingExams class="mt-4" />
-          <Progress class="mt-4" />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div v-else>
-    <div v-if="course" class="p-4">
+  <div class="p-4">
+    <FadeTransition>
+      <div v-if="hasError">Could not load course.</div>
+      <SkeletonPageHeading v-else-if="isLoading" />
       <PageHeading
+        v-else-if="course"
         :links="[
           {
             name: 'Home',
@@ -116,39 +87,40 @@
           </PageHeadingMeta>
         </template>
       </PageHeading>
-      <div class="flex flex-col mt-8 sm:flex-row">
-        <div class="flex-grow mr-0 sm:mr-4">
-          <TabRow>
-            <Tab :to="`/courses/${slug}`"> Overview </Tab>
-            <Tab :to="`/courses/${slug}/students`"> Students </Tab>
-            <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
-            <Tab
-              v-if="$store.getters.permissions(['coordinator', 'admin'])"
-              :to="`/courses/${slug}/activity`"
-              >Activity</Tab
-            >
-          </TabRow>
-          <AppPanel class="rounded-t-none">
-            <router-view v-slot="{ Component }">
-              <FadeTransition>
-                <keep-alive>
-                  <component :is="Component" />
-                </keep-alive>
-              </FadeTransition>
-            </router-view>
-          </AppPanel>
-        </div>
-        <div class="w-full mt-4 sm:w-72 sm:mt-0">
-          <CoursePageAbout>{{ course.description }}</CoursePageAbout>
-          <CoursePageUpcomingExams class="mt-4" :course-id="course.id" />
-          <CoursePageProgress class="mt-4" :course-slug="slug" />
-          <AppPanel
-            class="px-3 py-3 mt-4"
+    </FadeTransition>
+    <div class="flex flex-col mt-8 sm:flex-row">
+      <div class="flex-grow mr-0 sm:mr-4">
+        <TabRow>
+          <Tab :to="`/courses/${slug}`"> Overview </Tab>
+          <Tab :to="`/courses/${slug}/students`"> Students </Tab>
+          <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
+          <Tab
             v-if="$store.getters.permissions(['coordinator', 'admin'])"
+            :to="`/courses/${slug}/activity`"
           >
-            <AddExternalLinkModal class="w-full" @add="addExternalLink" />
-          </AppPanel>
-        </div>
+            Activity
+          </Tab>
+        </TabRow>
+        <AppPanel class="rounded-t-none">
+          <router-view v-slot="{ Component }">
+            <FadeTransition>
+              <keep-alive>
+                <component :is="Component" />
+              </keep-alive>
+            </FadeTransition>
+          </router-view>
+        </AppPanel>
+      </div>
+      <div class="w-full mt-4 sm:w-72 sm:mt-0">
+        <CoursePageAbout :slug="slug" />
+        <CoursePageUpcomingExams class="mt-4" :slug="slug" />
+        <CoursePageProgress class="mt-4" :slug="slug" />
+        <AppPanel
+          class="px-3 py-3 mt-4"
+          v-if="$store.getters.permissions(['coordinator', 'admin'])"
+        >
+          <AddExternalLinkModal class="w-full" @add="addExternalLink" />
+        </AppPanel>
       </div>
     </div>
   </div>
