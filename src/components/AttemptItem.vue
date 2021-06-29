@@ -42,6 +42,26 @@
       <div class="ml-6 text-xl">
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
+      <router-link
+        :to="`${$route.path}${$route.path.endsWith('/') ? '' : '/'}review/${
+          attempt.id
+        }`"
+      >
+        <button
+          class="
+            ml-6
+            text-indigo-600
+            dark:text-indigo-400
+            hover:underline
+            focus:outline-none
+          "
+          v-if="
+            isExamClosed || $store.getters.permissions(['coordinator', 'admin'])
+          "
+        >
+          Review
+        </button>
+      </router-link>
       <button
         @click="deleteAttempt"
         class="ml-6 focus:outline-none"
@@ -61,6 +81,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import examAttemptsService from '@/services/exam-attempts'
 import NProgress from 'nprogress'
+import { isExamLocked } from '@/utils/helper'
 dayjs.extend(relativeTime)
 
 export default defineComponent({
@@ -78,6 +99,9 @@ export default defineComponent({
   computed: {
     percentage(): number {
       return Math.floor((this.attempt.score / this.attempt.examTotal) * 100)
+    },
+    isExamClosed(): boolean {
+      return isExamLocked(this.attempt.exam) === 1
     }
   },
   methods: {
