@@ -46,7 +46,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 textarea::-webkit-scrollbar {
-  @apply w-1;
+  width: 14px;
 }
 
 textarea::-webkit-scrollbar-track {
@@ -54,6 +54,8 @@ textarea::-webkit-scrollbar-track {
 }
 
 textarea::-webkit-scrollbar-thumb {
-  @apply bg-clip-padding rounded-lg bg-white/20;
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
 }
 </style>

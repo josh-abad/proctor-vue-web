@@ -97,7 +97,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .modal::-webkit-scrollbar {
-  @apply w-1;
+  width: 14px;
 }
 
 .modal::-webkit-scrollbar-track {
@@ -105,6 +105,9 @@ export default defineComponent({
 }
 
 .modal::-webkit-scrollbar-thumb {
-  @apply bg-clip-padding rounded-lg bg-white/20;
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
+  @apply bg-white/20;
 }
 </style>
