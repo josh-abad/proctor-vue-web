@@ -108,7 +108,10 @@ export default defineComponent({
           return attempts.value.filter(attempt => attempt.pendingGrade)
         case 'complete':
           return attempts.value.filter(
-            attempt => attempt.status === 'completed'
+            attempt =>
+              attempt.status === 'completed' &&
+              attempt.warnings < 5 &&
+              !attempt.pendingGrade
           )
         case 'in-progress':
           return attempts.value.filter(
@@ -117,7 +120,9 @@ export default defineComponent({
         case 'expired':
           return attempts.value.filter(attempt => attempt.status === 'expired')
         case 'stopped':
-          return attempts.value.filter(attempt => attempt.warnings >= 5)
+          return attempts.value.filter(
+            attempt => attempt.warnings >= 5 && !attempt.pendingGrade
+          )
         default:
           return attempts.value
       }
