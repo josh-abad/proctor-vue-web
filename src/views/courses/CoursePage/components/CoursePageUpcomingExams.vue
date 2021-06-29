@@ -1,11 +1,18 @@
 <template>
-  <AppPanel class="px-3 py-4" v-if="upcomingExams.length">
+  <AppPanel class="px-3 py-3" v-if="upcomingExams.length">
     <AppLabel emphasis>Upcoming Exams</AppLabel>
     <div>
       <div
         v-for="event in upcomingExams"
         :key="event.id"
-        class="flex items-center py-1 text-sm text-gray-700 dark:text-gray-300"
+        class="
+          flex
+          items-center
+          py-1
+          text-sm text-gray-700
+          last:pb-0
+          dark:text-gray-300
+        "
       >
         <DocumentTextIcon class="w-4 h-4" />
         <div>
