@@ -92,7 +92,12 @@
       <div class="flex-grow mr-0 sm:mr-4">
         <TabRow>
           <Tab :to="`/courses/${slug}`"> Overview </Tab>
-          <Tab :to="`/courses/${slug}/students`"> Students </Tab>
+          <Tab
+            :to="`/courses/${slug}/students`"
+            v-if="$store.getters.permissions(['coordinator', 'admin'])"
+          >
+            Students
+          </Tab>
           <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
           <Tab
             v-if="$store.getters.permissions(['coordinator', 'admin'])"
