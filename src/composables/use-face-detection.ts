@@ -4,6 +4,13 @@ import * as faceapi from 'face-api.js'
 const MODELS_URL = '/models'
 
 const getFaceMatcher = async (referenceImageUrl: string, name: string) => {
+  const savedLabeledDescriptor = localStorage.getItem('labeledDescriptor')
+  if (savedLabeledDescriptor) {
+    const labeledDescriptor = faceapi.LabeledFaceDescriptors.fromJSON(
+      JSON.parse(savedLabeledDescriptor)
+    )
+    return new faceapi.FaceMatcher(labeledDescriptor)
+  }
   const img = await faceapi.fetchImage(encodeURI(referenceImageUrl))
   const detection = await faceapi
     .detectSingleFace(img, new faceapi.TinyFaceDetectorOptions())
@@ -17,6 +24,10 @@ const getFaceMatcher = async (referenceImageUrl: string, name: string) => {
   const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [
     detection.descriptor
   ])
+  localStorage.setItem(
+    'labeledDescriptor',
+    JSON.stringify(labeledDescriptor.toJSON())
+  )
 
   return new faceapi.FaceMatcher(labeledDescriptor)
 }
