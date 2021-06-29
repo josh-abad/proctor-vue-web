@@ -8,64 +8,67 @@
       <div v-else-if="exam">
         <PageHeading :links="links">
           <template #label>{{ exam.label }}</template>
-          <template
-            #actions
-            v-if="$store.getters.permissions(['coordinator', 'admin'])"
-          >
-            <div class="flex items-center">
-              <ModalButton
-                v-if="!exam.startDate"
-                :header="`Open ${exam.label}`"
-                :message="`Are you sure you want to open ${exam.label}?`"
-                action-label="Open"
-                @confirm="openExam"
-                prominent
+          <template #actions>
+            <div class="flex items-center space-x-2">
+              <DownloadEventButton :exam="exam" v-if="locked === -1" />
+              <div
+                class="flex items-center"
+                v-if="$store.getters.permissions(['coordinator', 'admin'])"
               >
-                <span class="flex items-center">
-                  <LockOpenIcon class="w-5 h-5" />
-                  <span class="ml-1.5">Open Exam</span>
-                </span>
-              </ModalButton>
-              <ModalButton
-                v-else-if="locked === 0 && !exam.endDate"
-                :header="`Close ${exam.label}`"
-                :message="`Are you sure you want to close ${exam.label}?`"
-                action-label="Close"
-                @confirm="closeExam"
-                danger
-              >
-                <span class="flex items-center">
-                  <LockClosedIcon class="w-5 h-5" />
-                  <span class="ml-1.5">Close Exam</span>
-                </span>
-              </ModalButton>
-              <router-link
-                :to="`/courses/${courseSlug}/${examSlug}/edit`"
-                v-if="locked === -1"
-                class="ml-2"
-              >
-                <AppButton>
+                <ModalButton
+                  v-if="!exam.startDate"
+                  :header="`Open ${exam.label}`"
+                  :message="`Are you sure you want to open ${exam.label}?`"
+                  action-label="Open"
+                  @confirm="openExam"
+                  prominent
+                >
                   <span class="flex items-center">
-                    <PencilIcon class="w-5 h-5" />
-                    <span class="flex items-center">
-                      <span class="ml-1.5">Edit Exam</span>
-                    </span>
+                    <LockOpenIcon class="w-5 h-5" />
+                    <span class="ml-1.5">Open Exam</span>
                   </span>
-                </AppButton>
-              </router-link>
-              <ModalButton
-                :header="`Delete ${exam.label}`"
-                :message="`Are you sure you want to delete ${exam.label}?`"
-                action-label="Delete"
-                @confirm="deleteExam"
-                class="ml-2"
-                danger
-              >
-                <span class="flex items-center">
-                  <TrashIcon class="w-5 h-5" />
-                  <span class="ml-1.5">Delete</span>
-                </span>
-              </ModalButton>
+                </ModalButton>
+                <ModalButton
+                  v-else-if="locked === 0 && !exam.endDate"
+                  :header="`Close ${exam.label}`"
+                  :message="`Are you sure you want to close ${exam.label}?`"
+                  action-label="Close"
+                  @confirm="closeExam"
+                  danger
+                >
+                  <span class="flex items-center">
+                    <LockClosedIcon class="w-5 h-5" />
+                    <span class="ml-1.5">Close Exam</span>
+                  </span>
+                </ModalButton>
+                <router-link
+                  :to="`/courses/${courseSlug}/${examSlug}/edit`"
+                  v-if="locked === -1"
+                  class="ml-2"
+                >
+                  <AppButton>
+                    <span class="flex items-center">
+                      <PencilIcon class="w-5 h-5" />
+                      <span class="flex items-center">
+                        <span class="ml-1.5">Edit Exam</span>
+                      </span>
+                    </span>
+                  </AppButton>
+                </router-link>
+                <ModalButton
+                  :header="`Delete ${exam.label}`"
+                  :message="`Are you sure you want to delete ${exam.label}?`"
+                  action-label="Delete"
+                  @confirm="deleteExam"
+                  class="ml-2"
+                  danger
+                >
+                  <span class="flex items-center">
+                    <TrashIcon class="w-5 h-5" />
+                    <span class="ml-1.5">Delete</span>
+                  </span>
+                </ModalButton>
+              </div>
             </div>
           </template>
           <template #meta>
@@ -204,6 +207,7 @@ import SetupModal from '@/components/SetupModal.vue'
 import useIdentify from '@/composables/use-identify'
 import useExam from '@/composables/use-exam'
 import FadeTransition from '@/components/transitions/FadeTransition.vue'
+import DownloadEventButton from '@/components/DownloadEventButton.vue'
 
 dayjs.extend(duration)
 
@@ -230,7 +234,8 @@ export default defineComponent({
     PencilIcon,
     AppButton,
     SetupModal,
-    FadeTransition
+    FadeTransition,
+    DownloadEventButton
   },
   props: {
     courseSlug: {
