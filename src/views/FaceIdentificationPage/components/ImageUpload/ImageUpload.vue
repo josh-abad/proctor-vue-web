@@ -143,6 +143,7 @@ export default defineComponent({
           'loggedAppUser',
           JSON.stringify({ token, ...updatedUser })
         )
+        localStorage.removeItem('labeledDescriptor')
         this.previewImage = null
         this.image = null
         this.validImage = false
