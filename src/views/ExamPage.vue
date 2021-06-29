@@ -64,6 +64,7 @@ import List from '@/components/List.vue'
 import NProgress from 'nprogress'
 import ExamNavigation from '@/components/ExamNavigation.vue'
 import useTitle from '@/composables/use-title'
+import useSnackbar from '@/composables/use-snackbar'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -167,17 +168,25 @@ export default defineComponent({
         : attempt.value.exam.examItems
     })
 
+    const { setSnackbarMessage } = useSnackbar()
+
     const handleSubmit = async () => {
       if (attempt.value) {
-        NProgress.start()
-        await examResultsService.submit({
-          answers: answers.value,
-          examId: attempt.value.exam.id
-        })
-        await router.replace(`/courses/${props.courseSlug}/${props.examSlug}`)
-        NProgress.done()
-        emit('update:active', false)
-        emit('update:setup', false)
+        try {
+          NProgress.start()
+          await examResultsService.submit({
+            answers: answers.value,
+            examId: attempt.value.exam.id,
+            attemptId: attempt.value.id
+          })
+          await router.replace(`/courses/${props.courseSlug}/${props.examSlug}`)
+          emit('update:active', false)
+          emit('update:setup', false)
+        } catch (error) {
+          setSnackbarMessage('Could not submit exam.', 'error')
+        } finally {
+          NProgress.done()
+        }
       }
     }
 
