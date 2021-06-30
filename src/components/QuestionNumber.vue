@@ -2,8 +2,8 @@
   <div
     class="
       flex
-      items-center
       justify-center
+      items-center
       w-6
       h-6
       text-xs

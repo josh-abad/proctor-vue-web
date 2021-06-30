@@ -3,20 +3,20 @@
     <AppPanel>
       <FadeTransition>
         <div v-if="errorUser">Something went wrong.</div>
-        <div v-else-if="loadingUser" class="flex items-start justify-between">
+        <div v-else-if="loadingUser" class="flex justify-between items-start">
           <div class="flex items-center space-x-4">
             <UserCircleIcon
               class="w-20 h-20 text-gray-400 dark:text-gray-600"
             />
             <div class="flex flex-col items-start space-y-2">
               <div class="text-2xl font-semibold">
-                <AppSkeleton class="h-5 w-60" />
+                <AppSkeleton class="w-60 h-5" />
               </div>
               <AppSkeleton class="w-20 h-6 rounded-full" />
             </div>
           </div>
         </div>
-        <div v-else-if="user" class="flex items-start justify-between">
+        <div v-else-if="user" class="flex justify-between items-start">
           <div class="flex items-center space-x-4">
             <Avatar :user="user" class="w-20 h-20 text-2xl" />
             <div class="flex flex-col items-start space-y-2">
@@ -25,15 +25,15 @@
               </div>
               <div
                 class="
-                  px-3
                   py-1
+                  px-3
                   text-xs
                   font-semibold
                   tracking-widest
                   text-green-500
                   uppercase
-                  border border-green-500
                   rounded-full
+                  border border-green-500
                 "
               >
                 {{ user.role }}
@@ -45,8 +45,8 @@
               hidden
               mt-3
               divide-x divide-gray-300
-              dark:divide-gray-700
               sm:flex
+              dark:divide-gray-700
             "
           >
             <UserPageStat :count="user.courses.length ?? 0">

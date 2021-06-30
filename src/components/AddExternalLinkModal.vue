@@ -13,12 +13,12 @@
             <AppInput
               id="title"
               class="
-                w-full
                 mt-1
+                w-full
                 text-gray-900
+                dark:text-white
                 dark:bg-transparent
                 dark:border-gray-600
-                dark:text-white
               "
               v-model="title"
               type="text"
@@ -30,12 +30,12 @@
             <AppInput
               id="url"
               class="
-                w-full
                 mt-1
+                w-full
                 text-gray-900
+                dark:text-white
                 dark:bg-transparent
                 dark:border-gray-600
-                dark:text-white
               "
               v-model="url"
               type="text"
@@ -47,12 +47,12 @@
             <AppInput
               id="description"
               class="
-                w-full
                 mt-1
+                w-full
                 text-gray-900
+                dark:text-white
                 dark:bg-transparent
                 dark:border-gray-600
-                dark:text-white
               "
               v-model="description"
               type="text"

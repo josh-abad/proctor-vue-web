@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex items-start justify-between">
+    <div class="flex justify-between items-start">
       <AppInput
         type="text"
         v-model="searchFilter"

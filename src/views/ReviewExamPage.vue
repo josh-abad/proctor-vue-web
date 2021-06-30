@@ -1,10 +1,10 @@
 <template>
   <div v-if="hasError">Invalid attempt</div>
   <List v-else-if="isLoading">
-    <div class="flex w-full mt-4 first:mt-0" v-for="i in 10" :key="i">
-      <AppSkeleton class="w-6 h-6 mt-4" />
+    <div class="flex mt-4 w-full first:mt-0" v-for="i in 10" :key="i">
+      <AppSkeleton class="mt-4 w-6 h-6" />
       <div class="py-4 pl-4">
-        <AppSkeleton class="h-5 w-52" />
+        <AppSkeleton class="w-52 h-5" />
         <AppSkeleton class="mt-4 w-60 h-7" />
       </div>
     </div>
@@ -25,7 +25,7 @@
     </List>
     <teleport to="#quiz-navigation">
       <ExamNavigation :questions="progress" class="ml-4" />
-      <AppPanel class="ml-4 mt-4 px-3 py-3">
+      <AppPanel class="py-3 px-3 mt-4 ml-4">
         <Subheading>
           <AppLabel emphasis>Attempt Details</AppLabel>
         </Subheading>
@@ -47,13 +47,13 @@
           </div>
           <div
             class="
-              mt-1
-              text-gray-400
-              font-semibold
-              text-sm
-              space-x-1.5
               flex
               items-center
+              mt-1
+              space-x-1.5
+              text-sm
+              font-semibold
+              text-gray-400
             "
           >
             <ExclamationIcon class="w-4 h-4" />

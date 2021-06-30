@@ -2,14 +2,14 @@
   <div
     class="
       overflow-hidden
-      duration-500
-      ease-in-out
       bg-white
       rounded-lg
       shadow
-      hover:shadow-lg
+      duration-500
+      ease-in-out
       dark:bg-gray-700
       hover:bg-white
+      hover:shadow-lg
       dark:hover:bg-gray-600
     "
   >
@@ -20,7 +20,7 @@
         class="object-cover w-full h-14"
       />
     </router-link>
-    <div class="px-4 py-3">
+    <div class="py-3 px-4">
       <router-link :to="`/courses/${course.slug}`">
         <h1 class="text-lg font-semibold truncate">{{ course.name }}</h1>
       </router-link>

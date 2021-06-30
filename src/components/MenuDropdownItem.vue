@@ -3,14 +3,14 @@
     @click="handleClick"
     class="
       block
-      w-full
-      px-4
       py-2
+      px-4
+      w-full
       text-sm text-left text-gray-900
       dark:text-white
-      hover:bg-gray-800/5
-      dark:hover:bg-gray-100/10
       focus:outline-none
+      dark:hover:bg-gray-100/10
+      hover:bg-gray-800/5
     "
     :class="{
       'border-t border-gray-800/10 dark:border-gray-100/10': separator

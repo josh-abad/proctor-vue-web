@@ -1,7 +1,7 @@
 <template>
-  <AppPanel class="px-3 py-3">
+  <AppPanel class="py-3 px-3">
     <Subheading><AppLabel emphasis>Exam Navigation</AppLabel></Subheading>
-    <div class="grid grid-cols-10 pr-4 mt-3 gap-y-2 gap-x-6">
+    <div class="grid grid-cols-10 gap-y-2 gap-x-6 pr-4 mt-3">
       <router-link
         v-for="examItem in questions"
         :key="examItem.id"

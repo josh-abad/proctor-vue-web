@@ -6,12 +6,12 @@
   >
     <div
       class="
-        box-border
         w-5
         h-5
-        border-2 border-gray-400
         rounded
+        border-2 border-gray-400
         dark:border-gray-600
+        box-border
       "
       :class="{ 'border-green-500 dark:border-green-500': modelValue }"
     >

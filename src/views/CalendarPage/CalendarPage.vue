@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <div class="block space-y-4 sm:space-y-0 sm:space-x-4 sm:flex">
+    <div class="block space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
       <div class="flex-grow">
         <CalendarMonth v-model="date" :events="events" />
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="flex justify-center items-center">
     <input
       ref="input"
       type="number"
@@ -10,23 +10,22 @@
       v-bind="$attrs"
       class="
         bg-transparent
-        border-r-0 border-gray-300
         rounded-l-lg
-        focus:border-indigo-600
-        dark:focus:border-indigo-400
+        border-r-0 border-gray-300
+        focus:border-r-0 focus:border-indigo-600
         focus:ring-0
-        focus:border-r-0
-        dark:border-white/20
         peer
+        dark:focus:border-indigo-400
+        dark:border-white/20
       "
     />
     <div
       class="
         overflow-hidden
-        border border-l-0 border-gray-300
         rounded-r-lg
-        dark:border-white/20
+        border border-l-0 border-gray-300
         peer-focus:border-indigo-600
+        dark:border-white/20
         dark:peer-focus:border-indigo-400
       "
     >

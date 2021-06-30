@@ -10,20 +10,20 @@
       />
       <span
         class="
+          block
           absolute
           inset-y-0
           left-0
-          block
-          w-4
-          h-4
           mt-1
           ml-1
-          transition-transform
-          duration-300
-          ease-in-out
+          w-4
+          h-4
           bg-white
           rounded-full
           shadow-lg
+          transition-transform
+          duration-300
+          ease-in-out
         "
         :class="{ 'translate-x-full': modelValue }"
       >

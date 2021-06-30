@@ -4,9 +4,9 @@
     <div v-else-if="isLoading" class="space-y-2">
       <div v-for="i in 8" :key="i">
         <Subheading class="pb-3">
-          <AppSkeleton class="h-2 w-28" />
+          <AppSkeleton class="w-28 h-2" />
         </Subheading>
-        <div class="flex items-center justify-between py-3">
+        <div class="flex justify-between items-center py-3">
           <AppSkeleton class="w-32 h-3" />
           <SVGCheckbox :model-value="false" static-check />
         </div>
@@ -49,7 +49,7 @@
         </ul>
       </section>
       <div
-        class="flex flex-col mt-2 first:mt-0 space-y-2"
+        class="flex flex-col mt-2 space-y-2 first:mt-0"
         v-if="course.exams.length"
       >
         <Week

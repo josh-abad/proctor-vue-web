@@ -9,7 +9,7 @@
           <button
             @click="page--"
             :disabled="page === 0"
-            class="disabled:opacity-50 focus:outline-none"
+            class="focus:outline-none disabled:opacity-50"
           >
             <ChevronLeftIcon class="w-6 h-6" />
           </button>
@@ -17,7 +17,7 @@
           <button
             @click="page++"
             :disabled="page === essays.length - 1"
-            class="disabled:opacity-50 focus:outline-none"
+            class="focus:outline-none disabled:opacity-50"
           >
             <ChevronRightIcon class="w-6 h-6" />
           </button>
@@ -25,7 +25,7 @@
       </template>
       <template #body>
         <div class="text-gray-900 dark:text-white">
-          <div class="flex items-start justify-between">
+          <div class="flex justify-between items-start">
             <p class="w-3/4 text-justify">{{ viewingEssay.question }}</p>
             <div class="text-gray-400">
               {{ viewingEssay.points }}
@@ -34,19 +34,19 @@
           </div>
           <p
             class="
-              px-3
               py-2
+              px-3
               mt-4
               text-justify
-              border border-gray-400
               rounded-lg
+              border border-gray-400
               dark:border-gray-600
               max-h-1/2
             "
           >
             {{ viewingEssay.answer[0] }}
           </p>
-          <div class="flex items-center justify-end mt-4">
+          <div class="flex justify-end items-center mt-4">
             <label for="points">Points</label>
             <NumberInput
               id="points"

@@ -8,7 +8,7 @@
         <div v-if="error">
           <ErrorLoading />
         </div>
-        <div v-else-if="loading" class="flex justify-start w-full space-x-4">
+        <div v-else-if="loading" class="flex justify-start space-x-4 w-full">
           <SkeletonCourseCard />
           <SkeletonCourseCard class="hidden sm:block" />
         </div>

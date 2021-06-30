@@ -2,32 +2,32 @@
   <div class="relative" v-click-outside="closeModal">
     <button
       class="
-        rounded-lg
-        focus:outline-none
         flex
         items-center
-        text-sm
-        shadow
-        bg-gray-100
-        dark:bg-gray-800
-        border border-gray-300
-        dark:border-gray-700
-        px-3
         py-2
+        px-3
+        text-sm
+        bg-gray-100
+        rounded-lg
+        border border-gray-300
+        shadow
+        dark:bg-gray-800
+        dark:border-gray-700
+        focus:outline-none
       "
       @click="isOpen = !isOpen"
     >
       <div class="date-picker-btn__selected">
         {{ dateSelected ? formattedDate : 'Select Date' }}
       </div>
-      <CalendarIcon class="w-4 h-4 ml-4" />
+      <CalendarIcon class="ml-4 w-4 h-4" />
     </button>
     <DropdownFadeTransition>
       <Calendar
         :model-value="modelValue"
         @update:modelValue="handleUpdate"
         @date-pick="closeModal"
-        class="mt-2 origin-top-right z-30 w-80 absolute shadow-xl"
+        class="absolute z-30 mt-2 w-80 shadow-xl origin-top-right"
         v-show="isOpen"
         compact
       />

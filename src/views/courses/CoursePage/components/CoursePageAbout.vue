@@ -1,5 +1,5 @@
 <template>
-  <AppPanel class="px-4 py-4">
+  <AppPanel class="py-4 px-4">
     <FadeTransition>
       <div v-if="isLoading">
         <AppSkeleton class="w-24 h-2" />

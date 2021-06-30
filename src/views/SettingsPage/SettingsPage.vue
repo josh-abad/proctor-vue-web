@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <PageHeading><template #label> Settings </template></PageHeading>
-    <AppPanel class="w-full mt-8 md:w-2/3">
+    <AppPanel class="mt-8 w-full md:w-2/3">
       <Subheading>
         <AppLabel emphasis>User</AppLabel>
       </Subheading>

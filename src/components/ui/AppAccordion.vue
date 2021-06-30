@@ -14,8 +14,8 @@
         class="
           text-gray-500
           hover:text-gray-900
-          dark:hover:text-white
           focus:outline-none
+          dark:hover:text-white
         "
       >
         <ChevronRightIcon

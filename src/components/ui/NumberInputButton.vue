@@ -2,11 +2,11 @@
   <button
     class="
       flex
-      items-center
       justify-center
+      items-center
       text-indigo-600
-      focus:outline-none
       dark:text-indigo-400
+      focus:outline-none
       disabled:opacity-50
       disabled:pointer-events-none
     "

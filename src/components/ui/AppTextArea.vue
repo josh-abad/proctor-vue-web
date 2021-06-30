@@ -3,19 +3,19 @@
     :value="modelValue"
     @input="handleInput"
     class="
-      px-3
       py-2
+      px-3
       bg-gray-100
-      border-gray-300
       rounded-lg
+      border-gray-300
       shadow
       appearance-none
       resize-none
-      focus:outline-none
       dark:bg-gray-800
-      focus:ring-0
       dark:border-gray-700
       focus:border-indigo-600
+      focus:ring-0
+      focus:outline-none
       dark:focus:border-indigo-400
     "
   ></textarea>

@@ -1,8 +1,8 @@
 <template>
-  <div class="sticky top-0 z-20 w-full bg-green-600 h-14" v-show="modelValue">
-    <div class="px-3 py-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div class="flex flex-wrap items-center justify-between">
-        <div class="flex items-center flex-1 w-0">
+  <div class="sticky top-0 z-20 w-full h-14 bg-green-600" v-show="modelValue">
+    <div class="py-2 px-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div class="flex flex-wrap justify-between items-center">
+        <div class="flex flex-1 items-center w-0">
           <span class="flex p-2 bg-green-800 rounded-lg">
             <SpeakerphoneIcon class="w-6 h-6 text-white" />
           </span>
@@ -10,22 +10,22 @@
             Welcome to Proctor Vue! Setup face identification to get started.
           </p>
         </div>
-        <div class="flex-shrink-0 order-2 w-auto mt-0">
+        <div class="flex-shrink-0 order-2 mt-0 w-auto">
           <span @click="$emit('update:modelValue', false)">
             <router-link
               to="/settings/face-id"
               class="
                 flex
-                items-center
                 justify-center
-                px-4
+                items-center
                 py-2
+                px-4
                 text-sm
                 font-medium
                 text-green-600
                 bg-white
-                border border-transparent
                 rounded-md
+                border border-transparent
                 shadow-sm
                 hover:bg-green-50
               "
@@ -43,10 +43,10 @@
               p-2
               -mr-1
               rounded-md
-              hover:bg-green-500
-              focus:outline-none
-              focus:ring-2 focus:ring-white
               sm:-mr-2
+              hover:bg-green-500
+              focus:ring-2 focus:ring-white
+              focus:outline-none
             "
           >
             <XIcon class="w-6 h-6 text-white" />

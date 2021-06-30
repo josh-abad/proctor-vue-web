@@ -1,6 +1,6 @@
 <template>
   <img
     alt="Preview Image"
-    class="object-cover w-56 h-56 overflow-hidden rounded-lg shadow"
+    class="object-cover overflow-hidden w-56 h-56 rounded-lg shadow"
   />
 </template>

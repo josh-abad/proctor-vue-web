@@ -1,19 +1,19 @@
 <template>
   <li class="py-2 last:pb-0">
-    <div class="flex items-start justify-between">
+    <div class="flex justify-between items-start">
       <div class="flex items-center">
-        <AppSkeleton class="w-6 h-6 rounded-l-full rounded-r-full" />
-        <AppSkeleton class="h-5 ml-2 first:ml-0 w-36" />
+        <AppSkeleton class="w-6 h-6 rounded-r-full rounded-l-full" />
+        <AppSkeleton class="ml-2 w-36 h-5 first:ml-0" />
       </div>
       <AppSkeleton class="w-32 h-3" />
     </div>
     <div class="flex items-center mt-2 space-x-2">
       <AppSkeleton class="flex items-center w-32 h-3" />
-      <AppSkeleton class="w-20 h-3 mt-1" />
+      <AppSkeleton class="mt-1 w-20 h-3" />
     </div>
-    <AppSkeleton class="h-3 mt-1 w-60" />
-    <AppSkeleton class="h-3 mt-1 w-52" />
-    <AppSkeleton class="w-20 h-6 mt-5" />
+    <AppSkeleton class="mt-1 w-60 h-3" />
+    <AppSkeleton class="mt-1 w-52 h-3" />
+    <AppSkeleton class="mt-5 w-20 h-6" />
   </li>
 </template>
 

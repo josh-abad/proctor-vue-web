@@ -2,14 +2,14 @@
   <ScrimFadeTransition v-show="modelValue">
     <div
       class="
+        flex
         fixed
         top-0
         bottom-0
         left-0
         z-30
-        flex
-        items-center
         justify-center
+        items-center
         w-full
         h-full
         transition-opacity
@@ -19,14 +19,15 @@
       <ModalFadeTransition v-show="modelValue">
         <div
           class="
-            flex flex-col
+            flex
             overflow-x-auto
-            transition-all
+            flex-col
             bg-gray-100
             rounded-lg
             shadow-2xl
-            modal
+            transition-all
             dark:bg-gray-700
+            modal
           "
           v-bind="$attrs"
           v-click-outside="handleClickOutside"

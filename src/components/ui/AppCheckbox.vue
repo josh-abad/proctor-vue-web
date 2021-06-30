@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <button :id="value" class="focus:outline-none" @click="handleClick">
       <div
-        class="box-border w-5 h-5 border-2 rounded"
+        class="w-5 h-5 rounded border-2 box-border"
         :class="
           isSelected
             ? 'bg-indigo-500 border-indigo-500'

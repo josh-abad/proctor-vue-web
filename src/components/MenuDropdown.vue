@@ -6,10 +6,10 @@
         right-0
         z-30
         w-56
-        origin-top-right
         bg-white
         rounded-lg
         shadow-lg
+        origin-top-right
         dark:bg-gray-700
       "
       v-click-outside="handleClickOutside"

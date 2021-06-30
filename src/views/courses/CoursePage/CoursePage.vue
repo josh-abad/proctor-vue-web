@@ -116,12 +116,12 @@
           </router-view>
         </AppPanel>
       </div>
-      <div class="w-full mt-4 sm:w-72 sm:mt-0">
+      <div class="mt-4 w-full sm:mt-0 sm:w-72">
         <CoursePageAbout :slug="slug" />
         <CoursePageUpcomingExams class="mt-4" :slug="slug" />
         <CoursePageProgress class="mt-4" :slug="slug" />
         <AppPanel
-          class="px-3 py-3 mt-4"
+          class="py-3 px-3 mt-4"
           v-if="$store.getters.permissions(['coordinator', 'admin'])"
         >
           <AddExternalLinkModal class="w-full" @add="addExternalLink" />

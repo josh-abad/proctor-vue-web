@@ -2,10 +2,10 @@
   <transition
     enter-active-class="transition-all duration-100 ease-out"
     leave-active-class="transition-all duration-75 ease-in"
-    enter-from-class="scale-95 opacity-0"
-    enter-to-class="scale-100 opacity-100"
-    leave-from-class="scale-100 opacity-100"
-    leave-to-class="scale-95 opacity-0"
+    enter-from-class="opacity-0 scale-95"
+    enter-to-class="opacity-100 scale-100"
+    leave-from-class="opacity-100 scale-100"
+    leave-to-class="opacity-0 scale-95"
   >
     <slot></slot>
   </transition>

@@ -9,19 +9,19 @@
       text-gray-700
       dark:text-gray-400
       hover:text-green-500
-      dark:hover:text-green-400
       group
+      dark:hover:text-green-400
     "
     v-slot="{ isActive }"
   >
-    <div class="flex content sm:hidden" @click="handleMobileNav">
+    <div class="flex sm:hidden content" @click="handleMobileNav">
       <div
         class="
           w-6
           h-6
           text-gray-400
-          dark:text-gray-400/50
           group-hover:text-green-500
+          dark:text-gray-400/50
           dark:group-hover:text-green-400
         "
         :class="
@@ -36,7 +36,7 @@
         <slot name="label" />
       </div>
     </div>
-    <div class="items-center hidden px-3 py-1 my-1 sm:flex">
+    <div class="hidden items-center py-1 px-3 my-1 sm:flex">
       <div
         class="
           w-6

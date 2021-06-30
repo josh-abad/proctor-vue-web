@@ -1,8 +1,8 @@
 <template>
   <router-link
     :to="href"
-    class="w-full py-2 text-center hover:text-gray-900 dark:hover:text-white"
-    active-class="font-semibold text-gray-900 active dark:text-white"
+    class="py-2 w-full text-center hover:text-gray-900 dark:hover:text-white"
+    active-class="font-semibold text-gray-900 dark:text-white active"
   >
     <slot></slot>
   </router-link>

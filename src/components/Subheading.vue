@@ -2,8 +2,8 @@
   <header
     class="
       flex
-      items-center
       justify-between
+      items-center
       pb-1
       border-b border-gray-300
       dark:border-gray-700

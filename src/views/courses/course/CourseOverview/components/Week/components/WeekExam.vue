@@ -1,5 +1,5 @@
 <template>
-  <li class="flex items-center justify-between text-base font-normal">
+  <li class="flex justify-between items-center text-base font-normal">
     <router-link
       :to="`/courses/${courseSlug}/${exam.slug}`"
       class="flex items-center transition-colors duration-200 ease-in-out"
@@ -8,8 +8,8 @@
           locked && !exam.isTaken
       }"
     >
-      <DocumentTextIcon class="w-5 h-5 mr-4" v-if="!locked" />
-      <LockClosedIcon class="w-5 h-5 mr-4" v-else />
+      <DocumentTextIcon class="mr-4 w-5 h-5" v-if="!locked" />
+      <LockClosedIcon class="mr-4 w-5 h-5" v-else />
       {{ exam.label }}
     </router-link>
     <SVGCheckbox :model-value="exam.isTaken" static-check />

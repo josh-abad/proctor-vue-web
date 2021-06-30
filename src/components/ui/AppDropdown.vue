@@ -3,23 +3,23 @@
     <button
       class="
         relative
-        w-full
         py-2
-        pl-3
         pr-10
+        pl-3
+        w-full
         text-left
         bg-gray-100
-        border border-gray-300
         rounded-md
+        border border-gray-300
         shadow-sm
         appearance-none
         cursor-default
-        dark:border-gray-700
-        dark:bg-gray-800
-        focus:outline-none
-        focus:ring-0 focus:ring-green-500
-        focus:border-green-500
         sm:text-sm
+        dark:bg-gray-800
+        dark:border-gray-700
+        focus:border-green-500
+        focus:ring-0 focus:ring-green-500
+        focus:outline-none
       "
       type="button"
       aria-haspopup="listbox"
@@ -32,10 +32,10 @@
       </span>
       <span
         class="
+          flex
           absolute
           inset-y-0
           right-0
-          flex
           items-center
           pr-2
           ml-3
@@ -49,8 +49,8 @@
       <div
         class="
           absolute
-          w-full
           mt-1
+          w-full
           bg-gray-100
           rounded-md
           shadow-lg
@@ -60,14 +60,14 @@
       >
         <ul
           class="
-            py-1
             overflow-auto
+            py-1
+            max-h-56
             text-base
             rounded-md
-            max-h-56
             ring-1 ring-gray-900 ring-opacity-5
-            focus:outline-none
             sm:text-sm
+            focus:outline-none
           "
           role="listbox"
           aria-labelledby="listbox-label"
@@ -77,17 +77,15 @@
             class="
               relative
               py-2
+              pr-9
               pl-3
               text-gray-900
               cursor-default
               select-none
-              group
               dark:text-white
-              pr-9
-              hover:bg-gray-300
-              dark:hover:bg-gray-600
-              hover:bg-opacity-40
-              dark:hover:bg-opacity-40
+              hover:bg-gray-300 hover:bg-opacity-40
+              group
+              dark:hover:bg-gray-600 dark:hover:bg-opacity-40
             "
             id="listbox-item-0"
             role="option"
@@ -105,10 +103,10 @@
             </div>
             <span
               class="
+                flex
                 absolute
                 inset-y-0
                 right-0
-                flex
                 items-center
                 pr-4
                 text-green-600

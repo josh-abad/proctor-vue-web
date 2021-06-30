@@ -5,26 +5,26 @@
       top-0
       z-20
       w-full
+      h-14
+      border-b
+      shadow-lg
       transition-shadow
       duration-300
       ease-in-out
-      border-b
-      shadow-lg
-      h-14
       backdrop-blur
       bg-gray-100/80
-      dark:bg-gray-900/80
       border-white/10
+      dark:bg-gray-900/80
     "
     :class="{
       'shadow dark:shadow-none': isPageStart,
       'top-14': banner
     }"
   >
-    <div class="flex items-center justify-between px-6 py-1">
+    <div class="flex justify-between items-center py-1 px-6">
       <div class="flex items-center">
         <button
-          class="block text-gray-500 focus:outline-none focus:ring-0"
+          class="block text-gray-500 focus:ring-0 focus:outline-none"
           @click="$emit('toggle')"
         >
           <MenuIcon class="w-6 h-6 fill-current" />
@@ -35,10 +35,10 @@
         <div
           class="
             ml-6
+            text-gray-700
             transition-opacity
             duration-300
             ease-in-out
-            text-gray-700
             dark:text-gray-300
           "
           :class="isPageStart ? 'opacity-0' : 'opacity-100'"

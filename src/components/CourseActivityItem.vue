@@ -1,6 +1,6 @@
 <template>
   <li class="py-2 last:pb-0">
-    <div class="flex items-start justify-between">
+    <div class="flex justify-between items-start">
       <div class="flex items-center">
         <Avatar :user="attempt.user" class="w-6 h-6" />
         <span class="ml-2 text-lg font-medium first:ml-0">{{
@@ -25,13 +25,13 @@
     </div>
     <div
       class="
-        mt-1
-        text-gray-400
-        font-semibold
-        text-sm
-        space-x-1.5
         flex
         items-center
+        mt-1
+        space-x-1.5
+        text-sm
+        font-semibold
+        text-gray-400
       "
     >
       <ExclamationIcon class="w-4 h-4" />
@@ -41,7 +41,7 @@
       </span>
       <span v-else>No warnings</span>
     </div>
-    <div class="flex items-end justify-between mt-5">
+    <div class="flex justify-between items-end mt-5">
       <div class="text-xl">{{ attempt.score }}/{{ attempt.examTotal }}</div>
       <div class="flex items-center">
         <GradeEssayModal

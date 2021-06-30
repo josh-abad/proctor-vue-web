@@ -3,12 +3,12 @@
     class="
       relative
       py-2
+      pr-9
       pl-3
       text-gray-900
       cursor-pointer
       select-none
       dark:text-white
-      pr-9
       hover:bg-gray-100
       dark:hover:bg-gray-600
     "

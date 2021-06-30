@@ -6,7 +6,7 @@
       <span class="ml-4">{{ externalLink.title }}</span>
     </a>
     <p
-      class="text-xs font-medium text-gray-600 ml-9 dark:text-gray-400"
+      class="ml-9 text-xs font-medium text-gray-600 dark:text-gray-400"
       v-if="externalLink.description"
     >
       {{ externalLink.description }}

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center w-full py-10 text-gray-500">
+  <div class="flex flex-col items-center py-10 w-full text-gray-500">
     <ExclamationIcon class="w-8 h-8" />
     <span class="mt-4">{{ message }}</span>
   </div>

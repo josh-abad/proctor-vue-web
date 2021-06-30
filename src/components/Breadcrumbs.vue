@@ -11,7 +11,7 @@
           {{ link.name }}
         </span>
       </router-link>
-      <ChevronRightIcon class="w-5 h-5 ml-2" />
+      <ChevronRightIcon class="ml-2 w-5 h-5" />
     </li>
     <li>
       <router-link :to="lastLink.url">

@@ -1,5 +1,5 @@
 <template>
-  <AppPanel class="px-3 py-3" v-if="isLoading || upcomingExams.length > 0">
+  <AppPanel class="py-3 px-3" v-if="isLoading || upcomingExams.length > 0">
     <FadeTransition>
       <div v-if="isLoading">
         <AppSkeleton class="w-24 h-2" />
@@ -19,8 +19,8 @@
               items-center
               py-1
               text-sm text-gray-700
-              last:pb-0
               dark:text-gray-300
+              last:pb-0
             "
           >
             <DocumentTextIcon class="w-4 h-4" />

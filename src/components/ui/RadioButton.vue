@@ -4,14 +4,14 @@
       <div
         class="
           flex
-          items-center
           justify-center
+          items-center
           w-5
           h-5
           bg-gray-300
-          dark:bg-gray-700
           rounded-full
           shadow-inner
+          dark:bg-gray-700
         "
       >
         <div v-if="isSelected" class="w-3 h-3 bg-indigo-500 rounded-full" />

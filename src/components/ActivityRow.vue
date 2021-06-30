@@ -1,5 +1,5 @@
 <template>
-  <li class="text-sm flex justify-between py-2">
+  <li class="flex justify-between py-2 text-sm">
     <div class="flex items-center space-x-1">
       <router-link
         :to="activity.user.url"

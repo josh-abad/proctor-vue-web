@@ -4,7 +4,7 @@
     :class="compact ? 'dark:bg-gray-700' : 'dark:bg-gray-800'"
   >
     <div
-      class="flex items-center justify-between bg-indigo-500"
+      class="flex justify-between items-center bg-indigo-500"
       :class="compact ? 'p-3' : 'p-6'"
     >
       <DateIndicator :selected-date="selectedDate" :compact="compact" />
@@ -15,7 +15,7 @@
       />
     </div>
     <Weekdays :compact="compact" />
-    <ol class="relative grid h-full grid-cols-7">
+    <ol class="grid relative grid-cols-7 h-full">
       <DayItem
         v-for="day in days"
         :compact="compact"

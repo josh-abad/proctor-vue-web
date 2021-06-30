@@ -1,5 +1,5 @@
 <template>
-  <div class="relative inline-block text-left">
+  <div class="inline-block relative text-left">
     <button
       @click="menuDropdown = !menuDropdown"
       type="button"

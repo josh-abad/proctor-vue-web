@@ -2,7 +2,7 @@
   <li class="flex items-center">
     <LoadingWheel class="w-6 h-6" v-if="loading" />
     <div
-      class="flex items-center justify-center w-6 h-6 rounded-full"
+      class="flex justify-center items-center w-6 h-6 rounded-full"
       :class="enabled ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'"
       v-else
     >

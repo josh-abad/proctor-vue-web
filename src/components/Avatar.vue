@@ -8,8 +8,8 @@
   <div
     class="
       flex
-      items-center
       justify-center
+      items-center
       bg-gray-300
       rounded-full
       dark:bg-gray-700

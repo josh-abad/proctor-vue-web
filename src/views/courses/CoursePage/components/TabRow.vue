@@ -1,12 +1,12 @@
 <template>
   <nav
     class="
-      relative
       flex
+      relative
       text-gray-500
       bg-white
-      border-b border-gray-300
       rounded-t-lg
+      border-b border-gray-300
       shadow
       dark:bg-gray-800
       dark:border-gray-700

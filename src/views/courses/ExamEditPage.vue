@@ -18,7 +18,7 @@
             The name should be unique for this course.
           </p>
           <AppInput
-            class="w-1/2 mt-1"
+            class="mt-1 w-1/2"
             type="text"
             id="name"
             v-model="examName"

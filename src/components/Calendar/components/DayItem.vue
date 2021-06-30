@@ -10,9 +10,9 @@
     }"
     @click="$emit('update:modelValue', day.date)"
   >
-    <div class="flex items-center justify-center pointer-events-none">
+    <div class="flex justify-center items-center pointer-events-none">
       <div
-        class="box-border flex items-center justify-center p-4 rounded-full"
+        class="flex justify-center items-center p-4 rounded-full box-border"
         :class="{
           'font-semibold text-white bg-green-500 bg-opacity-50':
             modelValue === day.date,

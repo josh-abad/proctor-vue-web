@@ -1,6 +1,6 @@
 <template>
   <input
-    class="px-3 py-2 bg-gray-100 rounded-lg dark:bg-transparent focus:ring-0"
+    class="py-2 px-3 bg-gray-100 rounded-lg dark:bg-transparent focus:ring-0"
     :class="
       error
         ? 'focus:border-red-500 border-red-500'

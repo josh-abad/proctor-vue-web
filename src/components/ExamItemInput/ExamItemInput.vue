@@ -1,6 +1,6 @@
 <template>
   <li class="flex py-2" ref="input">
-    <div class="flex flex-grow overflow-hidden">
+    <div class="flex overflow-hidden flex-grow">
       <div class="flex-grow pr-4">
         <div class="flex items-center">
           <QuestionTypeInput
@@ -10,7 +10,7 @@
             "
           />
         </div>
-        <div class="flex w-full mt-2 sm:flex-grow">
+        <div class="flex mt-2 w-full sm:flex-grow">
           <AppInput
             placeholder="Question"
             class="w-full"

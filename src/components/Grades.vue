@@ -13,7 +13,7 @@
             :to="`/courses/${grades.courseSlug}/${exam.slug}`"
             class="inline-flex items-center"
           >
-            <DocumentTextIcon class="w-5 h-5 mr-1 fill-current" />
+            <DocumentTextIcon class="mr-1 w-5 h-5 fill-current" />
             {{ exam.label }}
           </router-link>
         </td>
@@ -29,18 +29,18 @@
       </tr>
     </tbody>
     <tr class="border-t border-gray-300 dark:border-gray-700">
-      <td class="w-3 py-2 font-semibold">
+      <td class="py-2 w-3 font-semibold">
         Total
         <div class="hidden text-sm font-normal text-gray-500 sm:block">
           Weighted mean of grades
         </div>
       </td>
-      <td class="w-3 py-2" />
-      <td class="w-3 py-2" />
+      <td class="py-2 w-3" />
+      <td class="py-2 w-3" />
       <td
         class="
-          w-3
           py-2
+          w-3
           text-xl
           font-semibold
           tracking-wide

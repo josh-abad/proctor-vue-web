@@ -1,5 +1,5 @@
 <template>
-  <AppPanel class="px-4 py-4">
+  <AppPanel class="py-4 px-4">
     <Subheading>
       <AppLabel emphasis>{{ name }}</AppLabel>
       <span
@@ -12,11 +12,11 @@
       <List v-else-if="isLoading">
         <div class="py-3 last:pb-0" v-for="i in 3" :key="i">
           <AppSkeleton class="w-32 h-2" />
-          <AppSkeleton class="w-40 h-3 my-1" />
+          <AppSkeleton class="my-1 w-40 h-3" />
         </div>
       </List>
       <div v-else>
-        <div v-if="isEmpty" class="flex items-center justify-center py-5">
+        <div v-if="isEmpty" class="flex justify-center items-center py-5">
           <span class="text-gray-500">{{ emptyMessage }}</span>
         </div>
         <List v-else>
@@ -32,7 +32,7 @@
                   : 'Opens soon'
               }}
             </div>
-            <ul class="w-full sm:w-64 space-y-1">
+            <ul class="space-y-1 w-full sm:w-64">
               <Item :event="event" v-for="event in date" :key="event.id" />
             </ul>
           </li>

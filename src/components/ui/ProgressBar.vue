@@ -2,17 +2,17 @@
   <div class="flex flex-row-reverse sm:block">
     <div
       class="
-        bg-green-200
-        dark:bg-green-900
+        overflow-hidden
         w-full
         h-1.5
+        bg-green-200
         rounded-full
-        overflow-hidden
+        dark:bg-green-900
       "
     >
       <div
         :style="`width: ${percentage}%`"
-        class="h-full duration-500 ease-out bg-green-500 rounded-full"
+        class="h-full bg-green-500 rounded-full duration-500 ease-out"
       />
     </div>
     <div class="hidden mt-2 text-sm sm:block">

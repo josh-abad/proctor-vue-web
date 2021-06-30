@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between py-3">
+  <div class="flex justify-between items-center py-3">
     <div class="flex items-center">
       <Avatar class="w-10 h-10" :user="student" />
       <div class="ml-4">

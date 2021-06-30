@@ -1,5 +1,5 @@
 <template>
-  <AppPanel class="px-3 py-3">
+  <AppPanel class="py-3 px-3">
     <AppLabel emphasis>Course Progress</AppLabel>
     <ProgressBar class="mt-2" :percentage="percentage" />
   </AppPanel>

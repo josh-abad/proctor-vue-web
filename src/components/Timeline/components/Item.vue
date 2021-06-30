@@ -3,8 +3,8 @@
     class="
       flex
       items-start
-      w-full
       space-x-1
+      w-full
       text-sm text-gray-700
       dark:text-gray-300
     "

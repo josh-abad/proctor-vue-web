@@ -3,8 +3,8 @@
     <QuestionNumber>
       {{ questionNumber }}
     </QuestionNumber>
-    <div class="w-full pl-4 select-none">
-      <div class="flex items-start justify-between">
+    <div class="pl-4 w-full select-none">
+      <div class="flex justify-between items-start">
         <div class="w-3/4 leading-tight text-justify">
           {{ examItem.question }}
         </div>
@@ -15,10 +15,10 @@
             {{ examItem.points === 1 ? 'pt' : 'pts' }}
             <span v-if="score !== undefined" class="ml-2">
               <CheckIcon
-                class="dark:text-green-400 w-5 h-5"
+                class="w-5 h-5 dark:text-green-400"
                 v-if="score === examItem.points"
               />
-              <XIcon class="dark:text-red-400 w-5 h-5" v-else />
+              <XIcon class="w-5 h-5 dark:text-red-400" v-else />
             </span>
           </span>
         </div>

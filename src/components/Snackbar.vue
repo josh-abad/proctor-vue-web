@@ -1,47 +1,48 @@
 <template>
   <div
-    class="fixed top-0 right-0 overflow-hidden duration-200 ease-in-out"
+    class="overflow-hidden fixed top-0 right-0 duration-200 ease-in-out"
     :class="isVisible ? 'translate-y-0' : 'translate-x-full'"
   >
     <div
       class="
         flex
         m-10
-        bg-gray-900/70
         rounded-lg
         shadow-lg
-        dark:bg-gray-700/60
-        dark:border dark:border-white/10
+        dark:border
+        bg-gray-900/70
         backdrop-blur
+        dark:bg-gray-700/60
+        dark:border-white/10
       "
     >
-      <div class="flex items-center object-cover pl-5">
+      <div class="flex object-cover items-center pl-5">
         <InformationCircleIcon
-          class="text-indigo-400 w-7 h-7"
+          class="w-7 h-7 text-indigo-400"
           v-if="alertType === 'info'"
         />
 
         <CheckCircleIcon
-          class="text-green-400 w-7 h-7"
+          class="w-7 h-7 text-green-400"
           v-else-if="alertType === 'success'"
         />
 
         <ExclamationIcon
-          class="text-yellow-400 w-7 h-7"
+          class="w-7 h-7 text-yellow-400"
           v-else-if="alertType === 'warning'"
         />
 
         <ExclamationCircleIcon
-          class="text-red-400 w-7 h-7"
+          class="w-7 h-7 text-red-400"
           v-else-if="alertType === 'error'"
         />
       </div>
-      <div class="flex items-center px-5 py-4">
+      <div class="flex items-center py-4 px-5">
         <div class="font-semibold text-white">
           {{ message }}
         </div>
         <button @click="clearSnackbarMessage" class="ml-12 focus:outline-none">
-          <XIcon class="w-5 h-5 text-white/50 fill-current" />
+          <XIcon class="w-5 h-5 fill-current text-white/50" />
         </button>
       </div>
     </div>

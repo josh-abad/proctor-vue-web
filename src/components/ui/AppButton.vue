@@ -2,10 +2,10 @@
   <button
     :disabled="loading"
     class="
+      rounded-lg
       transition-colors
       duration-300
       ease-in-out
-      rounded-lg
       focus:outline-none
       disabled:opacity-50
       disabled:pointer-events-none
@@ -23,7 +23,7 @@
     </div>
     <div
       v-else
-      class="mx-4 my-2 text-sm font-semibold capitalize pointer-events-none"
+      class="my-2 mx-4 text-sm font-semibold capitalize pointer-events-none"
     >
       <slot></slot>
     </div>

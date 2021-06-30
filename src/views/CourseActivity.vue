@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border-b border-gray-300 dark:border-gray-700 pb-6">
+    <div class="pb-6 border-b border-gray-300 dark:border-gray-700">
       <div class="flex justify-between text-sm">
         <RadioButton v-model="statusFilter" value="all">All</RadioButton>
         <RadioButton v-model="statusFilter" value="pending"

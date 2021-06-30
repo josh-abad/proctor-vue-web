@@ -1,8 +1,8 @@
 <template>
   <div>
     <AppSkeleton class="w-56 h-4" />
-    <AppSkeleton class="w-48 h-8 mt-4" />
-    <AppSkeleton class="w-64 h-4 mt-4" />
+    <AppSkeleton class="mt-4 w-48 h-8" />
+    <AppSkeleton class="mt-4 w-64 h-4" />
   </div>
 </template>
 

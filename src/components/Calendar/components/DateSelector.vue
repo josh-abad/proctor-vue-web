@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between cursor-pointer">
+  <div class="flex justify-between items-center cursor-pointer">
     <span @click="selectPrevious">
       <ChevronLeftIcon class="w-5 h-5 text-indigo-200 hover:text-white" />
     </span>

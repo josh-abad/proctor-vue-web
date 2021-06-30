@@ -3,8 +3,8 @@
     <div v-if="error">Error loading students</div>
     <List class="mt-4" v-else-if="loading">
       <li class="flex items-center py-3" v-for="i in 5" :key="i">
-        <AppSkeleton class="rounded-t-full rounded-b-full w-9 h-9" />
-        <AppSkeleton class="w-32 h-3 ml-4" />
+        <AppSkeleton class="w-9 h-9 rounded-t-full rounded-b-full" />
+        <AppSkeleton class="ml-4 w-32 h-3" />
       </li>
     </List>
     <List class="mt-4" v-else-if="students.length">

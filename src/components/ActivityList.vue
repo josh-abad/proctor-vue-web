@@ -6,7 +6,7 @@
     <List v-else-if="isLoading">
       <div class="flex justify-between py-3" v-for="i in 5" :key="i">
         <AppSkeleton class="h-3" :class="i % 2 === 0 ? 'w-52' : 'w-60'" />
-        <AppSkeleton class="h-3 w-14" />
+        <AppSkeleton class="w-14 h-3" />
       </div>
     </List>
     <List v-else-if="activities.length">

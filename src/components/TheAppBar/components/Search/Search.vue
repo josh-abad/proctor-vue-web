@@ -8,12 +8,12 @@
         @focus="open = true"
         v-click-outside="handleClickOutside"
         class="
+          w-80
           text-gray-900
           border-0
           shadow-none
-          bg-gray-900/10
-          w-80
           dark:text-white
+          bg-gray-900/10
           dark:bg-white/5
         "
       />
@@ -36,8 +36,8 @@
       <div
         class="
           absolute
-          w-full
           mt-2
+          w-full
           bg-white
           rounded-lg
           shadow-lg
@@ -45,7 +45,7 @@
         "
         v-show="open && filteredCourses.length"
       >
-        <ul class="py-1 overflow-auto rounded-lg max-h-56 sm:text-sm">
+        <ul class="overflow-auto py-1 max-h-56 rounded-lg sm:text-sm">
           <Result
             @result-click="$router.push(`/courses/${option.slug}`)"
             v-for="(option, i) in filteredCourses"

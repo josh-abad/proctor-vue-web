@@ -19,8 +19,8 @@
             <div
               class="
                 flex
-                items-center
                 justify-center
+                items-center
                 h-full
                 font-semibold
                 tracking-wider
@@ -46,16 +46,16 @@
       class="mt-2"
       @submit.prevent="handleSubmit"
     >
-      <div class="flex items-end justify-between">
+      <div class="flex justify-between items-end">
         <label
           class="
             flex flex-col
             items-center
-            px-4
             py-2
+            px-4
             text-green-500
-            border border-green-500
             rounded-lg
+            border border-green-500
             cursor-pointer
             hover:text-white
             hover:bg-green-500

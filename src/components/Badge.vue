@@ -1,8 +1,8 @@
 <template>
   <span
     class="
-      px-2
       py-1
+      px-2
       text-xs
       font-semibold
       tracking-wider

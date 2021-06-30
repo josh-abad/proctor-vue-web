@@ -1,7 +1,7 @@
 <template>
   <transition
-    enter-active-class="transition-opacity ease-in duration-200"
-    leave-active-class="transition-opacity ease-in duration-200"
+    enter-active-class="transition-opacity duration-200 ease-in"
+    leave-active-class="transition-opacity duration-200 ease-in"
     enter-from-class="opacity-0"
     enter-to-class="opacity-100"
     leave-from-class="opacity-100"

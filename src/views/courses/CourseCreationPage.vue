@@ -39,13 +39,13 @@
             />
           </div>
         </div>
-        <div class="w-full mt-3">
+        <div class="mt-3 w-full">
           <label>
             <AppLabel>Course description</AppLabel>
             <AppTextArea v-model="courseDescription" class="w-full h-20" />
           </label>
         </div>
-        <div class="flex justify-end w-full mt-4">
+        <div class="flex justify-end mt-4 w-full">
           <AppButton type="submit" prominent> Create </AppButton>
         </div>
       </form>
