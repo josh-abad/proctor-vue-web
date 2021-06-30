@@ -141,9 +141,6 @@ import CoursePageAbout from './components/CoursePageAbout.vue'
 import PageHeading from '@/components/PageHeading.vue'
 import TabRow from './components/TabRow.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
-import About from './components/fallback/components/About.vue'
-import UpcomingExams from './components/fallback/components/UpcomingExams.vue'
-import Progress from './components/fallback/components/Progress.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import userService from '@/services/user'
 import useTitle from '@/composables/use-title'
@@ -177,9 +174,6 @@ export default defineComponent({
     PageHeading,
     TabRow,
     AppSkeleton,
-    About,
-    UpcomingExams,
-    Progress,
     AppButton,
     SkeletonPageHeading,
     ModalButton,
