@@ -1,6 +1,6 @@
 <template>
-  <li class="flex py-2" ref="input">
-    <div class="flex overflow-hidden flex-grow">
+  <li class="flex py-2 group">
+    <div class="flex flex-grow overflow-hidden">
       <div class="flex-grow pr-4">
         <div class="flex items-center">
           <QuestionTypeInput
@@ -10,7 +10,7 @@
             "
           />
         </div>
-        <div class="flex mt-2 w-full sm:flex-grow">
+        <div class="flex w-full mt-2 sm:flex-grow">
           <AppInput
             placeholder="Question"
             class="w-full"
@@ -93,8 +93,14 @@
       </div>
     </div>
     <SideMenu
-      class="ml-2 transition-opacity duration-200 ease-in-out"
-      :class="hover ? 'opacity-100' : 'opacity-0'"
+      class="
+        ml-2
+        transition-opacity
+        duration-200
+        ease-in-out
+        opacity-0
+        group-hover:opacity-100
+      "
       @discard="$emit('discard')"
       @add-question="$emit('add-question', count)"
     />
@@ -102,7 +108,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppInput from '@/components/ui/AppInput.vue'
 import QuestionTypeInput from './components/QuestionTypeInput.vue'
@@ -177,27 +183,6 @@ export default defineComponent({
     'add-choice',
     'add-question'
   ],
-  setup() {
-    const input = ref<HTMLDivElement | null>()
-    const hover = ref(false)
-
-    onMounted(() => {
-      if (input.value) {
-        input.value.addEventListener('mouseover', () => {
-          hover.value = true
-        })
-
-        input.value.addEventListener('mouseout', () => {
-          hover.value = false
-        })
-      }
-    })
-
-    return {
-      input,
-      hover
-    }
-  },
   watch: {
     questionType(newValue: string) {
       if (newValue === 'multiple answers') {
