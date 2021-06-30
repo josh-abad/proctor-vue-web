@@ -10,70 +10,69 @@
     </div>
   </List>
   <div v-else-if="attempt">
-    <div>
-      <List>
-        <BaseExamItem
-          :id="`question${i + 1}`"
-          v-for="(item, i) in examItems"
-          class="py-6 first:pt-0"
-          :key="item.id"
-          :exam-item="item"
-          :question-number="i + 1"
-          :model-value="attempt.answers"
-          :score="item.score"
-          readonly
-        />
-      </List>
-      <teleport to="#quiz-navigation">
-        <ExamNavigation :questions="progress" class="ml-4" />
-        <AppPanel class="ml-4 mt-4 px-3 py-3">
-          <Subheading>
-            <AppLabel emphasis>Attempt Details</AppLabel>
-          </Subheading>
-          <div class="mt-3">
-            <div class="flex items-center">
-              <Avatar :user="attempt.user" class="w-6 h-6" />
-              <span class="ml-2 text-lg font-medium">
-                {{ attempt.user.fullName }}
-              </span>
-            </div>
-            <div
-              class="flex items-center mt-2 text-gray-400"
-              v-if="!['expired', 'in-progress'].includes(attempt.status)"
-            >
-              <ClockIcon class="w-4 h-4" />
-              <span class="ml-1.5 text-sm"
-                >Completed in {{ attemptDuration }}</span
-              >
-            </div>
-            <div
-              class="
-                mt-1
-                text-gray-400
-                font-semibold
-                text-sm
-                space-x-1.5
-                flex
-                items-center
-              "
-            >
-              <ExclamationIcon class="w-4 h-4" />
-              <span v-if="attempt.warnings > 0">
-                {{ attempt.warnings }}
-                {{ attempt.warnings === 1 ? 'warning' : 'warnings' }} out of 5
-              </span>
-              <span v-else>No warnings</span>
-            </div>
-            <div class="flex items-center mt-5">
-              <div class="text-xl">
-                {{ attempt.score }}/{{ attempt.examTotal }}
-              </div>
-              <AttemptStatusBadge class="ml-2" :attempt="attempt" />
-            </div>
+    <List>
+      <BaseExamItem
+        :id="`question${i + 1}`"
+        v-for="(item, i) in examItems"
+        class="py-6 first:pt-0"
+        :key="item.id"
+        :exam-item="item"
+        :question-number="i + 1"
+        :model-value="attempt.answers"
+        :score="item.score"
+        readonly
+      />
+    </List>
+    <teleport to="#quiz-navigation">
+      <ExamNavigation :questions="progress" class="ml-4" />
+      <AppPanel class="ml-4 mt-4 px-3 py-3">
+        <Subheading>
+          <AppLabel emphasis>Attempt Details</AppLabel>
+        </Subheading>
+        <div class="mt-3">
+          <div class="flex items-center">
+            <Avatar :user="attempt.user" class="w-6 h-6" />
+            <span class="ml-2 text-lg font-medium">
+              {{ attempt.user.fullName }}
+            </span>
           </div>
-        </AppPanel>
-      </teleport>
-    </div>
+          <div
+            class="flex items-center mt-2 text-gray-400"
+            v-if="!['expired', 'in-progress'].includes(attempt.status)"
+          >
+            <ClockIcon class="w-4 h-4" />
+            <span class="ml-1.5 text-sm"
+              >Completed in {{ attemptDuration }}</span
+            >
+          </div>
+          <div
+            class="
+              mt-1
+              text-gray-400
+              font-semibold
+              text-sm
+              space-x-1.5
+              flex
+              items-center
+            "
+          >
+            <ExclamationIcon class="w-4 h-4" />
+            <span v-if="attempt.warnings > 0">
+              {{ attempt.warnings }}
+              {{ attempt.warnings === 1 ? 'warning' : 'warnings' }} out of 5
+            </span>
+            <span v-else>No warnings</span>
+          </div>
+          <div class="flex items-center mt-5">
+            <div class="text-xl">
+              {{ attempt.score }}/{{ attempt.examTotal }}
+            </div>
+            <AttemptStatusBadge class="ml-2" :attempt="attempt" />
+          </div>
+        </div>
+      </AppPanel>
+    </teleport>
+
     <div class="flex justify-end mt-4">
       <AppButton type="button" @click="$router.back">Go Back</AppButton>
     </div>

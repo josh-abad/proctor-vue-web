@@ -10,10 +10,10 @@
         </div>
         <div class="text-sm text-gray-500">
           <span class="flex items-center">
-            <span v-if="score">{{ score }}/</span>
+            <span v-if="score !== undefined">{{ score }}/</span>
             {{ examItem.points }}
             {{ examItem.points === 1 ? 'pt' : 'pts' }}
-            <span v-if="score" class="ml-2">
+            <span v-if="score !== undefined" class="ml-2">
               <CheckIcon
                 class="dark:text-green-400 w-5 h-5"
                 v-if="score === examItem.points"
