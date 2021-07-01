@@ -133,7 +133,7 @@
 
 <script lang="ts">
 import AppPanel from '@/components/ui/AppPanel.vue'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import coursesService from '@/services/courses'
 import CoursePageUpcomingExams from './components/CoursePageUpcomingExams.vue'
 import CoursePageProgress from './components/CoursePageProgress.vue'
@@ -163,6 +163,7 @@ import AddExternalLinkModal from '@/components/AddExternalLinkModal.vue'
 import { NewExternalLink } from '@/types'
 import useCourse from '@/composables/use-course'
 import Tab from './components/Tab.vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'CoursePage',
@@ -218,6 +219,16 @@ export default defineComponent({
         }
       })
       .finally(NProgress.done)
+
+    const route = useRoute()
+    watch(
+      () => route.params.slug,
+      async newSlug => {
+        if (typeof newSlug === 'string') {
+          useCourse(newSlug).fetchCourse()
+        }
+      }
+    )
 
     return {
       course,
