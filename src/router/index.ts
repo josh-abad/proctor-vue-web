@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
 import { Role } from '@/types'
 import useTitle from '@/composables/use-title'
+import nProgress from 'nprogress'
 
 const { setTitle } = useTitle()
 
@@ -264,7 +265,12 @@ const router = createRouter({
   routes
 })
 
+router.afterEach(() => {
+  nProgress.done()
+})
+
 router.beforeEach((to, _from, next) => {
+  nProgress.start()
   if (to.meta.title) {
     setTitle(to.meta.title as string)
   }
