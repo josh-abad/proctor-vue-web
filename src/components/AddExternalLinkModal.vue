@@ -3,7 +3,7 @@
     Add External Link
   </AppButton>
   <teleport to="#modals">
-    <AppModal v-model="modal" class="w-2/4">
+    <AppModal v-model="modal" class="w-[90%] sm:w-2/4">
       <template #header>Add external link</template>
       <template #body>
         <p>Links added will be pinned at the top of the overview tab.</p>
@@ -13,8 +13,8 @@
             <AppInput
               id="title"
               class="
-                mt-1
                 w-full
+                mt-1
                 text-gray-900
                 dark:text-white
                 dark:bg-transparent
@@ -30,8 +30,8 @@
             <AppInput
               id="url"
               class="
-                mt-1
                 w-full
+                mt-1
                 text-gray-900
                 dark:text-white
                 dark:bg-transparent
@@ -47,8 +47,8 @@
             <AppInput
               id="description"
               class="
-                mt-1
                 w-full
+                mt-1
                 text-gray-900
                 dark:text-white
                 dark:bg-transparent

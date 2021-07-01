@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between items-center py-3">
+  <li class="flex items-center justify-between py-3">
     <div class="flex items-center">
       <Avatar class="w-10 h-10" :user="student" />
       <div class="ml-4">
@@ -76,7 +76,7 @@
       <AppModal
         v-model="studentGradesModal"
         v-if="courseSlug"
-        class="w-1/2 max-h-screen"
+        class="w-[90%] sm:w-1/2 max-h-screen"
       >
         <template #header>Grades for {{ student.fullName }}</template>
         <template #body>
@@ -88,7 +88,7 @@
         </template>
       </AppModal>
     </teleport>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">

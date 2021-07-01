@@ -1,5 +1,5 @@
 <template>
-  <li class="flex justify-between py-5 w-full">
+  <li class="flex justify-between w-full py-5">
     <div class="flex">
       <div class="mr-6 font-semibold text-gray-400">
         {{ attemptNumber }}
@@ -11,8 +11,8 @@
             v-if="attempt.pendingGrade"
             title="This exam contains one or more essay questions that have yet to be graded by the course's coordinator."
             class="
-              py-1
               px-2
+              py-1
               ml-2
               text-xs
               font-semibold
@@ -26,7 +26,7 @@
             full grade pending
           </span>
         </div>
-        <div class="text-sm text-gray-400">
+        <div class="hidden text-sm text-gray-400 sm:block">
           <div v-if="attempt.status === 'in-progress'">
             Started {{ formattedDate(attempt.startDate) }}
           </div>
@@ -38,8 +38,8 @@
       </div>
     </div>
     <div class="flex items-center">
-      <div class="text-xl">{{ percentage }}%</div>
-      <div class="ml-6 text-xl">
+      <div class="hidden text-xl sm:block">{{ percentage }}%</div>
+      <div class="text-xl sm:ml-6">
         {{ attempt.score }}/{{ attempt.examTotal }}
       </div>
       <router-link

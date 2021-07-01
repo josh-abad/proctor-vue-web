@@ -4,9 +4,9 @@
     active-class="text-green-500 rounded-lg dark:text-green-400 bg-green-300/20 dark:bg-green-900/30"
     class="
       mx-3
-      text-sm
       font-medium
       text-gray-700
+      sm:text-sm
       dark:text-gray-400
       hover:text-green-500
       group
@@ -14,14 +14,12 @@
     "
     v-slot="{ isActive }"
   >
-    <div class="flex sm:hidden content" @click="handleMobileNav">
+    <div class="flex px-3 py-1 my-1 sm:hidden" @click="handleMobileNav">
       <div
         class="
           w-6
           h-6
-          text-gray-400
           group-hover:text-green-500
-          dark:text-gray-400/50
           dark:group-hover:text-green-400
         "
         :class="
@@ -36,7 +34,7 @@
         <slot name="label" />
       </div>
     </div>
-    <div class="hidden items-center py-1 px-3 my-1 sm:flex">
+    <div class="items-center hidden px-3 py-1 my-1 sm:flex">
       <div
         class="
           w-6

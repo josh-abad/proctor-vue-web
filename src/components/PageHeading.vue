@@ -2,7 +2,7 @@
   <header>
     <Breadcrumbs class="hidden sm:flex" :links="links" v-if="links" />
     <div class="flex justify-between mt-2">
-      <div class="text-2xl font-semibold sm:text-3xl">
+      <div class="text-4xl font-semibold sm:text-3xl">
         <slot name="label"></slot>
       </div>
       <slot name="actions"></slot>

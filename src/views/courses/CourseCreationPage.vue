@@ -10,14 +10,14 @@
     </PageHeading>
     <AppPanel class="mt-8">
       <form class="flex flex-col items-start" @submit="saveCourse">
-        <div class="flex">
+        <div class="sm:flex">
           <div>
             <label for="courseName">
               <AppLabel>Course name</AppLabel>
             </label>
             <AppInput id="courseName" v-model="courseName" type="text" />
           </div>
-          <div class="ml-4">
+          <div class="inline-block mt-4 sm:mt-0 sm:ml-4">
             <label for="courseWeeks"><AppLabel>Course Weeks</AppLabel></label>
             <NumberInput
               id="courseWeeks"
@@ -26,7 +26,7 @@
               v-model.number="courseWeeks"
             />
           </div>
-          <div class="ml-4">
+          <div class="mt-4 sm:mt-0 sm:ml-4">
             <label for="coordinator">
               <AppLabel>Coordinator</AppLabel>
             </label>
@@ -39,13 +39,13 @@
             />
           </div>
         </div>
-        <div class="mt-3 w-full">
+        <div class="w-full mt-3">
           <label>
             <AppLabel>Course description</AppLabel>
             <AppTextArea v-model="courseDescription" class="w-full h-20" />
           </label>
         </div>
-        <div class="flex justify-end mt-4 w-full">
+        <div class="flex justify-end w-full mt-4">
           <AppButton type="submit" prominent> Create </AppButton>
         </div>
       </form>

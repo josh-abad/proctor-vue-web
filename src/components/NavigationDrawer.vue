@@ -1,22 +1,32 @@
 <template>
   <aside
     class="
-      overflow-y-auto
       fixed
-      top-14
       z-10
-      pt-4
       w-full
-      min-h-full
-      bg-gray-100
+      h-auto
+      pt-4
+      pb-4
+      overflow-y-auto
       transition-transform
       duration-300
       ease-in-out
+      bg-gray-100
+      border-b
+      top-14
+      sm:border-b-0
+      dark:border-white/10
+      sm:pb-0
+      sm:min-h-full
       sm:w-56
-      dark:bg-gray-900
+      dark:bg-gray-900/90
+      backdrop-blur
       dark:shadow-none
     "
-    :class="{ '-translate-x-full': !isOpen, 'top-28': banner }"
+    :class="{
+      '-translate-y-full sm:translate-y-0 sm:-translate-x-full': !isOpen,
+      'top-28': banner
+    }"
   >
     <nav class="flex flex-col space-y-1">
       <slot></slot>

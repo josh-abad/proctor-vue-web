@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pb-6 border-b border-gray-300 dark:border-gray-700">
-      <div class="flex justify-between text-sm">
+      <div class="justify-between hidden text-sm sm:flex">
         <RadioButton v-model="statusFilter" value="all">All</RadioButton>
         <RadioButton v-model="statusFilter" value="pending"
           >Pending</RadioButton
@@ -21,7 +21,7 @@
       </div>
       <AppInput
         placeholder="Search student or exam"
-        class="mt-4 w-full text-sm"
+        class="w-full text-sm sm:mt-4"
         v-model="searchFilter"
         type="text"
       />

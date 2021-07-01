@@ -21,7 +21,7 @@
           #actions
           v-if="$store.getters.permissions(['coordinator', 'admin'])"
         >
-          <div class="flex items-center">
+          <div class="items-center hidden sm:flex">
             <router-link :to="`/courses/${slug}/create-exam`">
               <AppButton prominent>
                 <span class="flex items-center">
@@ -56,7 +56,7 @@
           </div>
         </template>
         <template #meta>
-          <PageHeadingMeta>
+          <PageHeadingMeta class="hidden sm:flex">
             <PageHeadingMetaItem>
               <template #icon>
                 <UserGroupIcon />
@@ -116,12 +116,12 @@
           </router-view>
         </AppPanel>
       </div>
-      <div class="mt-4 w-full sm:mt-0 sm:w-72">
+      <div class="w-full mt-4 sm:mt-0 sm:w-72">
         <CoursePageAbout :slug="slug" />
         <CoursePageUpcomingExams class="mt-4" :slug="slug" />
         <CoursePageProgress class="mt-4" :slug="slug" />
         <AppPanel
-          class="py-3 px-3 mt-4"
+          class="px-3 py-3 mt-4"
           v-if="$store.getters.permissions(['coordinator', 'admin'])"
         >
           <AddExternalLinkModal class="w-full" @add="addExternalLink" />

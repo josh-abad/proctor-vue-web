@@ -8,7 +8,7 @@
         <div v-if="error">
           <ErrorLoading />
         </div>
-        <div v-else-if="loading" class="flex justify-start space-x-4 w-full">
+        <div v-else-if="loading" class="flex justify-start w-full space-x-4">
           <SkeletonCourseCard />
           <SkeletonCourseCard class="hidden sm:block" />
         </div>
@@ -17,6 +17,7 @@
             :course="course"
             :key="course.id"
             v-for="course in recentCourses"
+            class="last:hidden sm:last:block"
           />
         </div>
       </FadeTransition>

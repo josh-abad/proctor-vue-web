@@ -9,7 +9,7 @@
         <PageHeading :links="links">
           <template #label>{{ exam.label }}</template>
           <template #actions>
-            <div class="flex items-center space-x-2">
+            <div class="items-center hidden space-x-2 sm:flex">
               <DownloadEventButton :exam="exam" v-if="locked === -1" />
               <div
                 class="flex items-center"
@@ -72,7 +72,7 @@
             </div>
           </template>
           <template #meta>
-            <PageHeadingMeta>
+            <PageHeadingMeta class="hidden sm:flex">
               <PageHeadingMetaItem v-if="locked">
                 <template #icon>
                   <LockClosedIcon />
@@ -116,7 +116,7 @@
         />
       </div>
     </FadeTransition>
-    <div class="flex mt-8">
+    <div class="mt-8 sm:flex">
       <AppPanel class="w-full">
         <router-view
           :is-setup-complete="isIdentified"
