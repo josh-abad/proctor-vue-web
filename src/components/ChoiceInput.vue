@@ -3,23 +3,11 @@
     <RadioButton
       v-if="type === 'radio'"
       :value="value"
-      :model-value="answer[0]"
-      @update:modelValue="handleAnswerChange"
+      v-model="textAnswerInput"
       no-label
     />
-    <AppCheckbox
-      v-else
-      :value="value"
-      :model-value="answer"
-      @update:modelValue="handleAnswerChange"
-      no-label
-    />
-    <AppInput
-      type="text"
-      :model-value="value"
-      @update:modelValue="handleChoiceChange"
-      class="ml-2 text-sm"
-    />
+    <AppCheckbox v-else :value="value" v-model="answerInput" no-label />
+    <AppInput type="text" v-model="valueInput" class="ml-2 text-sm" />
   </li>
 </template>
 
@@ -28,6 +16,7 @@ import { defineComponent, PropType } from 'vue'
 import AppInput from './ui/AppInput.vue'
 import AppCheckbox from './ui/AppCheckbox.vue'
 import RadioButton from './ui/RadioButton.vue'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   name: 'ChoiceInput',
@@ -41,48 +30,25 @@ export default defineComponent({
       type: String,
       required: true
     },
+    textAnswer: {
+      type: String,
+      default: ''
+    },
     answer: {
       type: Array as PropType<string[]>,
       required: true
-    },
-    choices: {
-      type: Array as PropType<string[]>,
-      required: true
-    },
-    position: {
-      type: Number,
-      required: true
     }
   },
-  emits: ['update:answer', 'update:choices'],
-  computed: {
-    isSelected(): boolean {
-      return this.answer.includes(this.value)
-    }
-  },
-  methods: {
-    handleAnswerChange(newAnswer?: string | string[] | boolean) {
-      if (typeof newAnswer === 'object') {
-        if (this.isSelected) {
-          return this.$emit(
-            'update:answer',
-            this.answer.filter(value => value !== this.value)
-          )
-        }
-        return this.$emit('update:answer', newAnswer)
-      } else if (typeof newAnswer === 'string') {
-        return this.$emit('update:answer', [newAnswer])
-      }
-    },
-    handleChoiceChange(newChoice?: string | number) {
-      if (typeof newChoice === 'string') {
-        this.$emit(
-          'update:choices',
-          this.choices.map((choice, index) => {
-            return index === this.position ? newChoice : choice
-          })
-        )
-      }
+  emits: ['update:textAnswer', 'update:answer', 'update:value'],
+  setup(props, { emit }) {
+    const answerInput = useModelWrapper(props, emit, 'answer')
+    const textAnswerInput = useModelWrapper(props, emit, 'textAnswer')
+    const valueInput = useModelWrapper(props, emit, 'value')
+
+    return {
+      answerInput,
+      textAnswerInput,
+      valueInput
     }
   }
 })

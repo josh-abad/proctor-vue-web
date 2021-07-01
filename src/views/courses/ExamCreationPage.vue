@@ -86,6 +86,7 @@
       <List class="mt-4">
         <ExamItemInput
           v-model:question="examItem.question"
+          v-model:textAnswer="examItem.textAnswer"
           v-model:answer="examItem.answer"
           v-model:question-type="examItem.questionType"
           v-model:choices="examItem.choices"
@@ -93,7 +94,6 @@
           v-model:caseSensitive="examItem.caseSensitive"
           v-model:points="examItem.points"
           v-for="(examItem, i) in examItems"
-          :count="i + 1"
           :key="i"
           @discard="removeExamItem(i)"
           @add-choice="
@@ -134,7 +134,7 @@ import ExamItemInput from '@/components/ExamItemInput/ExamItemInput.vue'
 import NumberInput from '@/components/ui/NumberInput.vue'
 import TimePicker from '@/components/TimePicker.vue'
 import examsService from '@/services/exams'
-import { CourseWithExams, NewExamItem } from '@/types'
+import { CourseWithExams, NewExamItem, QuestionType } from '@/types'
 import { defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import FormError from '@/components/FormError.vue'
@@ -197,6 +197,7 @@ export default defineComponent({
       examItems: [
         {
           question: '',
+          textAnswer: '',
           answer: [''],
           choices: [],
           questionType: 'text',
@@ -204,7 +205,7 @@ export default defineComponent({
           caseSensitive: true,
           points: 1
         }
-      ] as NewExamItem[]
+      ] as (NewExamItem & { textAnswer: string })[]
     }
   },
   computed: {
@@ -220,12 +221,14 @@ export default defineComponent({
           error = `Please enter a question for number ${i + 1}`
           return
         }
-        if (
-          item.questionType !== 'essay' &&
-          (!item.answer.length || item.answer.includes(''))
-        ) {
-          error = `Please enter an answer for number ${i + 1}`
-          return
+        if (item.questionType !== 'essay') {
+          if (item.questionType === 'multiple answers' && !item.answer.length) {
+            error = `Please enter an answer for number ${i + 1}`
+            return
+          } else if (item.textAnswer.length === 0) {
+            error = `Please enter an answer for number ${i + 1}`
+            return
+          }
         }
         if (!['text', 'essay'].includes(item.questionType)) {
           if (!item.choices.length) {
@@ -274,11 +277,12 @@ export default defineComponent({
   },
   methods: {
     addExamItem(i?: number) {
-      const newExamItem: NewExamItem = {
+      const newExamItem = {
         question: '',
+        textAnswer: '',
         answer: [''],
-        choices: [],
-        questionType: 'text',
+        choices: [] as string[],
+        questionType: 'text' as QuestionType,
         shuffleChoices: false,
         caseSensitive: true,
         points: 1
@@ -302,7 +306,23 @@ export default defineComponent({
           duration: this.examSeconds,
           courseId: this.course?.id ?? '',
           maxAttempts: this.maxAttempts,
-          examItems: this.examItems,
+          examItems: this.examItems.map(examItem => {
+            if (['text', 'multiple choice'].includes(examItem.questionType)) {
+              return {
+                ...examItem,
+                answer: [examItem.textAnswer]
+              }
+            } else if (examItem.questionType === 'multiple answers') {
+              return {
+                ...examItem,
+                points: examItem.choices.length,
+                choices: examItem.answer.filter(answer =>
+                  examItem.choices.includes(answer)
+                )
+              }
+            }
+            return examItem
+          }),
           week: this.week,
           startDate:
             this.setDate && this.startDate

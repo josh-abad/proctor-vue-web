@@ -24,8 +24,7 @@
     </button>
     <DropdownFadeTransition>
       <Calendar
-        :model-value="modelValue"
-        @update:modelValue="handleUpdate"
+        v-model="date"
         @date-pick="closeModal"
         class="absolute z-30 mt-2 w-80 shadow-xl origin-top-right"
         v-show="isOpen"
@@ -41,6 +40,7 @@ import { defineComponent } from 'vue'
 import Calendar from '@/components/Calendar/Calendar.vue'
 import { CalendarIcon } from '@heroicons/vue/outline'
 import DropdownFadeTransition from './transitions/DropdownFadeTransition.vue'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   name: 'DatePicker',
@@ -52,6 +52,13 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const date = useModelWrapper(props, emit)
+
+    return {
+      date
+    }
+  },
   data() {
     return {
       isOpen: false
@@ -68,11 +75,6 @@ export default defineComponent({
   methods: {
     closeModal() {
       this.isOpen = false
-    },
-    handleUpdate($event: string | undefined) {
-      if ($event !== undefined) {
-        this.$emit('update:modelValue', $event)
-      }
     }
   }
 })

@@ -23,10 +23,9 @@
         :day="day"
         :is-today="day.date === today"
         :is-current-month="day.isCurrentMonth"
-        :model-value="modelValue"
+        v-model="value"
         :has-event="hasEvent(day.date)"
         @click="$emit('date-pick')"
-        @update:modelValue="newDate => $emit('update:modelValue', newDate)"
       />
     </ol>
   </div>
@@ -42,6 +41,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { Exam } from '@/types'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 dayjs.extend(weekday)
 dayjs.extend(weekOfYear)
@@ -68,6 +68,13 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue', 'date-pick'],
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit, 'modelValue')
+
+    return {
+      value
+    }
+  },
   data() {
     return {
       selectedDate: dayjs(),

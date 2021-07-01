@@ -28,7 +28,7 @@
         :class="{ 'translate-x-full': modelValue }"
       >
         <input
-          @change="handleChange"
+          v-model="value"
           :disabled="disabled"
           type="checkbox"
           class="absolute w-0 h-0 opacity-0"
@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import useModelWrapper from '@/composables/use-model-wrapper'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -58,11 +59,11 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  methods: {
-    handleChange($event: Event) {
-      if ($event.target instanceof HTMLInputElement) {
-        this.$emit('update:modelValue', $event.target.checked)
-      }
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit)
+
+    return {
+      value
     }
   }
 })

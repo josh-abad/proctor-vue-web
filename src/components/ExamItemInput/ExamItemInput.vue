@@ -3,19 +3,13 @@
     <div class="flex flex-grow overflow-hidden">
       <div class="flex-grow pr-4">
         <div class="flex items-center">
-          <QuestionTypeInput
-            :model-value="questionType"
-            @update:modelValue="
-              newValue => $emit('update:questionType', newValue)
-            "
-          />
+          <QuestionTypeInput v-model="questionTypeInput" />
         </div>
         <div class="flex w-full mt-2 sm:flex-grow">
           <AppInput
             placeholder="Question"
             class="w-full"
-            :model-value="question"
-            @update:modelValue="newValue => $emit('update:question', newValue)"
+            v-model="questionInput"
             type="text"
           />
         </div>
@@ -24,53 +18,29 @@
             <AppInput
               placeholder="Text answer"
               class="w-full sm:w-1/2"
-              :model-value="answer?.[0] || ''"
-              @update:modelValue="
-                newValue => $emit('update:answer', [newValue])
-              "
+              v-model="textAnswerInput"
               type="text"
             />
-            <AppSwitch
-              :model-value="caseSensitive"
-              @update:modelValue="
-                newValue => $emit('update:caseSensitive', newValue)
-              "
-              class="ml-4"
-              >Case Sensitive</AppSwitch
-            >
+            <AppSwitch v-model="caseSensitiveInput" class="ml-4">
+              Case Sensitive
+            </AppSwitch>
           </div>
           <div v-else-if="questionType !== 'essay'" class="flex items-start">
             <ul class="space-y-2" v-if="choices.length">
               <ChoiceInput
-                v-for="(choice, i) in choices"
-                :position="i"
+                v-for="(choice, i) in choicesInput"
                 :key="i"
-                :value="choice"
-                :answer="answer"
-                :choices="choices"
+                v-model:value="choicesInput[i]"
+                v-model:textAnswer="textAnswerInput"
+                v-model:answer="answerInput"
                 :type="
                   questionType === 'multiple choice' ? 'radio' : 'checkbox'
-                "
-                @update:answer="
-                  newAnswer => {
-                    $emit('update:answer', newAnswer)
-                    $emit('update:points', newAnswer.length)
-                  }
-                "
-                @update:choices="
-                  newChoices => $emit('update:choices', newChoices)
                 "
               />
             </ul>
             <div class="flex items-center ml-4 first:ml-0">
               <AppButton @click="$emit('add-choice')"> Add choice </AppButton>
-              <AppSwitch
-                :model-value="shuffleChoices"
-                @update:modelValue="
-                  newValue => $emit('update:shuffleChoices', newValue)
-                "
-                class="ml-4"
-              >
+              <AppSwitch v-model="shuffleChoicesInput" class="ml-4">
                 Shuffle Choices
               </AppSwitch>
             </div>
@@ -84,8 +54,7 @@
               id="points"
               :min="1"
               :max="10"
-              :model-value="points"
-              @update:modelValue="newValue => $emit('update:points', newValue)"
+              v-model="pointsInput"
             />
             <label for="points" class="ml-2">Points</label>
           </div>
@@ -102,7 +71,7 @@
         group-hover:opacity-100
       "
       @discard="$emit('discard')"
-      @add-question="$emit('add-question', count)"
+      @add-question="$emit('add-question')"
     />
   </li>
 </template>
@@ -117,6 +86,7 @@ import AppSwitch from '../ui/AppSwitch.vue'
 import ChoiceInput from '../ChoiceInput.vue'
 import NumberInput from '../ui/NumberInput.vue'
 import { QuestionType } from '@/types'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   components: {
@@ -135,6 +105,11 @@ export default defineComponent({
       default: ''
     },
 
+    textAnswer: {
+      type: String,
+      default: ''
+    },
+
     answer: {
       type: Array as PropType<string[]>,
       required: true
@@ -147,11 +122,6 @@ export default defineComponent({
 
     choices: {
       type: Array as PropType<string[]>,
-      required: true
-    },
-
-    count: {
-      type: Number,
       required: true
     },
 
@@ -173,6 +143,7 @@ export default defineComponent({
   emits: [
     'update:modelValue',
     'update:question',
+    'update:textAnswer',
     'update:answer',
     'update:questionType',
     'update:choices',
@@ -183,43 +154,37 @@ export default defineComponent({
     'add-choice',
     'add-question'
   ],
+  setup(props, { emit }) {
+    const questionTypeInput = useModelWrapper(props, emit, 'questionType')
+    const questionInput = useModelWrapper(props, emit, 'question')
+    const textAnswerInput = useModelWrapper(props, emit, 'textAnswer')
+    const answerInput = useModelWrapper(props, emit, 'answer')
+    const choicesInput = useModelWrapper(props, emit, 'choices')
+    const shuffleChoicesInput = useModelWrapper(props, emit, 'shuffleChoices')
+    const caseSensitiveInput = useModelWrapper(props, emit, 'caseSensitive')
+    const pointsInput = useModelWrapper(props, emit, 'points')
+
+    return {
+      questionTypeInput,
+      questionInput,
+      textAnswerInput,
+      answerInput,
+      choicesInput,
+      shuffleChoicesInput,
+      caseSensitiveInput,
+      pointsInput
+    }
+  },
   watch: {
     questionType(newValue: string) {
       if (newValue === 'multiple answers') {
         if (!this.choices.includes(this.answer[0])) {
-          this.$emit('update:answer', [])
+          this.answerInput = []
         }
       } else if (newValue === 'essay') {
-        this.$emit('update:answer', ['essay'])
+        this.answerInput = ['essay']
       } else {
-        this.$emit('update:answer', [this.answer[0]])
-      }
-    }
-  },
-  methods: {
-    handleRadioChange($event: Event, choice: string) {
-      const byIndex = (_value: string, index: number): boolean => {
-        return this.answer.indexOf(choice) !== index
-      }
-
-      if ($event.target instanceof HTMLInputElement) {
-        this.$emit(
-          'update:answer',
-          $event.target.checked
-            ? [...this.answer, choice]
-            : this.answer.filter(byIndex)
-        )
-      }
-    },
-    handleUpdateChoices(
-      $event: string | number | undefined,
-      oldChoiceIndex: number
-    ) {
-      if (typeof $event === 'string') {
-        const toNewChoice = (choice: string, index: number): string => {
-          return index === oldChoiceIndex ? $event : choice
-        }
-        this.$emit('update:choices', this.choices.map(toNewChoice))
+        this.answerInput = [this.answerInput[0]]
       }
     }
   }

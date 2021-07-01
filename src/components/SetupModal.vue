@@ -1,10 +1,6 @@
 <template>
   <teleport to="#modals">
-    <AppModal
-      :model-value="modelValue"
-      @update:modelValue="$emit('update:modelValue', false)"
-      class="w-96"
-    >
+    <AppModal v-model="modal" class="w-96">
       <template #header>{{ exam.label }}</template>
       <template #body>
         <p>Make sure you are in a well-lit room during the exam.</p>
@@ -59,6 +55,7 @@ import useSnackbar from '@/composables/use-snackbar'
 import AttemptChecklistItem from '@/components/AttemptChecklistItem.vue'
 import { useRouter } from 'vue-router'
 import { Exam } from '@/types'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   name: 'SetupModal',
@@ -107,7 +104,7 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  setup(props) {
+  setup(props, { emit }) {
     const router = useRouter()
 
     const { setSnackbarMessage } = useSnackbar()
@@ -129,8 +126,11 @@ export default defineComponent({
       }
     }
 
+    const modal = useModelWrapper(props, emit, 'modelValue')
+
     return {
-      startAttempt
+      startAttempt,
+      modal
     }
   }
 })

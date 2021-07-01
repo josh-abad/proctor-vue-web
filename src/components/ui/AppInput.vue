@@ -6,12 +6,12 @@
         ? 'focus:border-red-500 border-red-500'
         : 'border-gray-300 dark:border-white/20 focus:border-indigo-600 dark:focus:border-indigo-400'
     "
-    :value="modelValue"
-    @input="handleInput"
+    v-model="value"
   />
 </template>
 
 <script lang="ts">
+import useModelWrapper from '@/composables/use-model-wrapper'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -29,11 +29,11 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  methods: {
-    handleInput($event: Event) {
-      if ($event.target instanceof HTMLInputElement) {
-        this.$emit('update:modelValue', $event.target.value)
-      }
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit)
+
+    return {
+      value
     }
   }
 })

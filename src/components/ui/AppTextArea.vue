@@ -1,7 +1,6 @@
 <template>
   <textarea
-    :value="modelValue"
-    @input="handleInput"
+    v-model="value"
     class="
       py-2
       px-3
@@ -22,6 +21,7 @@
 </template>
 
 <script lang="ts">
+import useModelWrapper from '@/composables/use-model-wrapper'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -34,11 +34,11 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  methods: {
-    handleInput($event: Event) {
-      if ($event.target instanceof HTMLTextAreaElement) {
-        this.$emit('update:modelValue', $event.target.value)
-      }
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit)
+
+    return {
+      value
     }
   }
 })

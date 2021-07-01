@@ -1,10 +1,8 @@
 <template>
   <div class="flex justify-center items-center">
     <input
-      ref="input"
       type="number"
-      :value="modelValue"
-      @input="handleInput"
+      v-model="value"
       :min="min"
       :max="max"
       v-bind="$attrs"
@@ -29,10 +27,10 @@
         dark:peer-focus:border-indigo-400
       "
     >
-      <NumberInputButton :disabled="isMax" @click="handleIncrement">
+      <NumberInputButton :disabled="modelValue === max" @click="value++">
         <ChevronUpIcon class="w-5 h-5" />
       </NumberInputButton>
-      <NumberInputButton :disabled="isMin" @click="handleDecrement">
+      <NumberInputButton :disabled="modelValue === min" @click="value--">
         <ChevronDownIcon class="w-5 h-5" />
       </NumberInputButton>
     </div>
@@ -43,6 +41,7 @@
 import { defineComponent } from '@vue/runtime-core'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 import NumberInputButton from './NumberInputButton.vue'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   name: 'NumberInput',
@@ -65,25 +64,11 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   inheritAttrs: false,
-  computed: {
-    isMax(): boolean {
-      return this.modelValue === this.max
-    },
-    isMin(): boolean {
-      return this.modelValue === this.min
-    }
-  },
-  methods: {
-    handleIncrement() {
-      this.$emit('update:modelValue', this.modelValue + 1)
-    },
-    handleDecrement() {
-      this.$emit('update:modelValue', this.modelValue - 1)
-    },
-    handleInput(e: Event) {
-      if (e.target instanceof HTMLInputElement) {
-        this.$emit('update:modelValue', e.target.value)
-      }
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit)
+
+    return {
+      value
     }
   }
 })

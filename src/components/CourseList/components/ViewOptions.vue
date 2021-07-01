@@ -1,17 +1,9 @@
 <template>
   <div class="flex items-center space-x-3">
-    <ViewToggle
-      :model-value="modelValue"
-      @update:modelValue="handleSelect"
-      value="card"
-    >
+    <ViewToggle v-model="value" value="card">
       <ViewGridIcon class="w-5 h-5" />
     </ViewToggle>
-    <ViewToggle
-      :model-value="modelValue"
-      @update:modelValue="handleSelect"
-      value="list"
-    >
+    <ViewToggle v-model="value" value="list">
       <ViewListIcon class="w-5 h-5" />
     </ViewToggle>
   </div>
@@ -21,6 +13,7 @@
 import ViewToggle from '@/components/ViewToggle.vue'
 import { defineComponent } from 'vue'
 import { ViewGridIcon, ViewListIcon } from '@heroicons/vue/solid'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   name: 'ViewOptions',
@@ -32,11 +25,11 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  methods: {
-    handleSelect($event: string | undefined) {
-      if ($event !== undefined) {
-        this.$emit('update:modelValue', $event)
-      }
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit)
+
+    return {
+      value
     }
   }
 })

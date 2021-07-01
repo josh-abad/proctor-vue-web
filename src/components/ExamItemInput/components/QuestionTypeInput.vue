@@ -2,8 +2,7 @@
   <div>
     <ViewToggle
       value="text"
-      :model-value="modelValue"
-      @update:modelValue="handleUpdate"
+      v-model="value"
       class="px-2 text-sm hover:text-indigo-500"
       :class="{
         'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
@@ -13,8 +12,7 @@
     >
     <ViewToggle
       value="multiple choice"
-      :model-value="modelValue"
-      @update:modelValue="handleUpdate"
+      v-model="value"
       class="px-2 text-sm hover:text-indigo-500"
       :class="{
         'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
@@ -24,8 +22,7 @@
     >
     <ViewToggle
       value="multiple answers"
-      :model-value="modelValue"
-      @update:modelValue="handleUpdate"
+      v-model="value"
       class="px-2 text-sm hover:text-indigo-500"
       :class="{
         'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
@@ -35,8 +32,7 @@
     >
     <ViewToggle
       value="essay"
-      :model-value="modelValue"
-      @update:modelValue="handleUpdate"
+      v-model="value"
       class="px-2 text-sm hover:text-indigo-500"
       :class="{
         'font-semibold text-indigo-500 bg-indigo-300/20 dark:bg-indigo-900/30 rounded':
@@ -51,6 +47,7 @@
 import { defineComponent, PropType } from 'vue'
 import ViewToggle from '@/components/ViewToggle.vue'
 import { QuestionType } from '@/types'
+import useModelWrapper from '@/composables/use-model-wrapper'
 
 export default defineComponent({
   name: 'QuestionTypeInput',
@@ -62,11 +59,11 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  methods: {
-    handleUpdate($event: string | undefined) {
-      if ($event !== undefined) {
-        this.$emit('update:modelValue', $event)
-      }
+  setup(props, { emit }) {
+    const value = useModelWrapper(props, emit)
+
+    return {
+      value
     }
   }
 })
