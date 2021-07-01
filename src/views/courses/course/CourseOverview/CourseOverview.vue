@@ -8,7 +8,7 @@
         </Subheading>
         <div class="flex justify-between items-center py-3">
           <AppSkeleton class="w-32 h-3" />
-          <SVGCheckbox :model-value="false" static-check />
+          <SVGCheckbox />
         </div>
       </div>
     </div>

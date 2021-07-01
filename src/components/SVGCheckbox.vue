@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="focus:outline-none"
-    :class="{ 'cursor-default pointer-events-none': staticCheck }"
-    @click="handleToggle"
-  >
+  <button class="focus:outline-none cursor-default pointer-events-none">
     <div
       class="
         w-5
@@ -13,11 +9,11 @@
         dark:border-gray-600
         box-border
       "
-      :class="{ 'border-green-500 dark:border-green-500': modelValue }"
+      :class="{ 'border-green-500 dark:border-green-500': checked }"
     >
       <CheckIcon
         class="w-4 h-4 text-green-500 stroke-current stroke-2"
-        v-show="modelValue"
+        v-show="checked"
       />
     </div>
   </button>
@@ -31,22 +27,9 @@ export default defineComponent({
   name: 'SVGCheckbox',
   components: { CheckIcon },
   props: {
-    staticCheck: {
+    checked: {
       type: Boolean,
       default: false
-    },
-
-    modelValue: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['update:modelValue'],
-  methods: {
-    handleToggle() {
-      if (!this.staticCheck) {
-        this.$emit('update:modelValue', !this.modelValue)
-      }
     }
   }
 })

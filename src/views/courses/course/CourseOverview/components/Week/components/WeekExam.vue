@@ -12,7 +12,7 @@
       <LockClosedIcon class="mr-4 w-5 h-5" v-else />
       {{ exam.label }}
     </router-link>
-    <SVGCheckbox :model-value="exam.isTaken" static-check />
+    <SVGCheckbox :checked="exam.isTaken" />
   </li>
 </template>
 
