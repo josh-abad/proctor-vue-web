@@ -15,6 +15,7 @@
     :class="{
       'border-t border-gray-800/10 dark:border-gray-100/10': separator
     }"
+    id="btn-open"
     role="menuitem"
   >
     <div class="flex items-center space-x-4 pointer-events-none">
