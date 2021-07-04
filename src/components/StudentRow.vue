@@ -23,6 +23,7 @@
           <template #label> View Student </template>
         </MenuDropdownItem>
         <MenuDropdownItem
+          :id="`${student.id}-grades-modal`"
           @item-click="studentGradesModal = true"
           v-if="
             courseSlug && $store.getters.permissions(['admin', 'coordinator'])
@@ -31,6 +32,7 @@
           <template #label> View Grades </template>
         </MenuDropdownItem>
         <MenuDropdownItem
+          :id="`unenroll-${student.id}-modal`"
           @item-click="unenrollStudentModal = true"
           separator
           v-if="
@@ -44,6 +46,7 @@
           </template>
         </MenuDropdownItem>
         <MenuDropdownItem
+          :id="`delete-${student.id}-modal`"
           @item-click="deleteStudentModal = true"
           separator
           v-if="!courseSlug && $store.getters.permissions(['admin'])"
@@ -55,7 +58,10 @@
       </MenuDropdown>
     </button>
     <teleport to="#modals">
-      <AppModal v-model="deleteStudentModal">
+      <AppModal
+        :click-outside-id="`delete-${student.id}-modal`"
+        v-model="deleteStudentModal"
+      >
         <template #header> Delete Account </template>
         <template #body>
           Are you sure you want to delete this account?
@@ -64,7 +70,10 @@
           <AppButton @click="deleteStudent" prominent> Delete </AppButton>
         </template>
       </AppModal>
-      <AppModal v-model="unenrollStudentModal">
+      <AppModal
+        :click-outside-id="`unenroll-${student.id}-modal`"
+        v-model="unenrollStudentModal"
+      >
         <template #header> Un-Enroll Student </template>
         <template #body>
           Are you sure you want to unenroll this student from this course?
@@ -74,6 +83,7 @@
         </template>
       </AppModal>
       <AppModal
+        :click-outside-id="`${student.id}-grades-modal`"
         v-model="studentGradesModal"
         v-if="courseSlug"
         class="w-[90%] sm:w-1/2 max-h-screen"

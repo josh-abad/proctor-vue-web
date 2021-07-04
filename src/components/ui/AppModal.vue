@@ -62,6 +62,11 @@ export default defineComponent({
     modelValue: {
       type: Boolean,
       default: false
+    },
+
+    clickOutsideId: {
+      type: String,
+      default: 'btn-open'
     }
   },
   emits: ['update:modelValue', 'close'],
@@ -76,7 +81,7 @@ export default defineComponent({
       }
     }
 
-    const handleClickOutside = useClickOutside(closeModal, 'btn-open')
+    const handleClickOutside = useClickOutside(closeModal, props.clickOutsideId)
 
     return {
       closeModal,
