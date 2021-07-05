@@ -7,12 +7,20 @@
           <h3 class="font-medium">Login</h3>
           <p class="text-xs text-gray-400">
             By continuing, you agree to our
-            <router-link to="#" class="text-indigo-600 dark:text-indigo-400"
-              >User Agreement</router-link
+            <a
+              href="https://hub.proctorvue.live/menu/privacy-policy"
+              target="_blank"
+              class="text-indigo-600 dark:text-indigo-400"
+            >
+              User Agreement</a
             >
             and
-            <router-link to="#" class="text-indigo-600 dark:text-indigo-400"
-              >Privacy Policy</router-link
+            <a
+              href="https://hub.proctorvue.live/menu/privacy-policy"
+              target="_blank"
+              class="text-indigo-600 dark:text-indigo-400"
+            >
+              Privacy Policy</a
             >.
           </p>
           <div class="mt-4">
