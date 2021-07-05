@@ -45,7 +45,9 @@
           </div>
           <p class="mt-3 text-xs">
             Forgot your
-            <router-link to="#" class="text-green-500">password</router-link>?
+            <router-link to="/forgot-password" class="text-green-500">
+              password
+            </router-link>
           </p>
           <p class="mt-3 text-xs">
             New to Proctor Vue?

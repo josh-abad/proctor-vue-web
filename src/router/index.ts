@@ -221,6 +221,23 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/forgot-password',
+    name: 'Forgot Password',
+    meta: {
+      title: createTitle('Forgot Password')
+    },
+    component: () => import('../views/ForgotPasswordPage.vue')
+  },
+  {
+    path: '/reset-password/:token',
+    name: 'Reset Password',
+    props: true,
+    meta: {
+      title: createTitle('Reset Password')
+    },
+    component: () => import('../views/ResetPasswordPage.vue')
+  },
+  {
     path: '/verify/:token',
     name: 'Verify',
     props: true,

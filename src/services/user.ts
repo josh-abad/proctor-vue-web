@@ -116,6 +116,22 @@ const getUser = async () => {
   return response.data
 }
 
+const resetPassword = async (newPassword: string, token: string) => {
+  const config = {
+    headers: { Authorization: `bearer ${token}` }
+  }
+  const response = await axios.post<User>(
+    `${baseUrl}/reset-password`,
+    { newPassword },
+    config
+  )
+  return response.data
+}
+
+const sendPasswordResetLink = async (email: string) => {
+  await axios.post(`${baseUrl}/forgot-password`, { email })
+}
+
 const uploadReferenceImage = async (data: FormData) => {
   const response = await axios.post<User>(`${baseUrl}/reference-image`, data, {
     headers: {
@@ -141,5 +157,7 @@ export default {
   getRecentCourses,
   getUpcomingExams,
   getUser,
+  resetPassword,
+  sendPasswordResetLink,
   uploadReferenceImage
 }

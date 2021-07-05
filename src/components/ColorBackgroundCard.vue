@@ -1,6 +1,6 @@
 <template>
   <Center class="bg-gradient-to-b from-indigo-500/30">
-    <AppPanel class="flex overflow-hidden">
+    <AppPanel class="flex overflow-hidden" v-bind="$attrs">
       <div class="-mb-12">
         <img
           class="object-cover -m-6 w-60 h-full"
@@ -20,6 +20,7 @@ import Center from './Center.vue'
 
 export default defineComponent({
   name: 'ColorBackgroundCard',
-  components: { Center, AppPanel }
+  components: { Center, AppPanel },
+  inheritAttrs: false
 })
 </script>
