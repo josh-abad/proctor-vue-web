@@ -10,7 +10,7 @@
           name="Change Password"
           description="Password must be at least 6 characters"
         >
-          <AppButton>Change</AppButton>
+          <ChangePasswordModal />
         </SettingsItem>
         <SettingsItem
           name="Configure Face ID"
@@ -87,6 +87,7 @@ import PageHeading from '@/components/PageHeading.vue'
 import Subheading from '@/components/Subheading.vue'
 import NProgress from 'nprogress'
 import { SET_USER } from '@/store/mutation-types'
+import ChangePasswordModal from '@/components/ChangePasswordModal.vue'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -99,7 +100,8 @@ export default defineComponent({
     SettingsItem,
     TrashIcon,
     PageHeading,
-    Subheading
+    Subheading,
+    ChangePasswordModal
   },
   setup() {
     const { theme, isSystemTheme, setTheme } = useTheme()

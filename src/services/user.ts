@@ -22,6 +22,15 @@ const addRecentCourse = async (courseId: string) => {
   return response.data
 }
 
+const changePassword = async (oldPassword: string, newPassword: string) => {
+  const response = await axios.put<User>(
+    `${baseUrl}/password`,
+    { oldPassword, newPassword },
+    config
+  )
+  return response.data
+}
+
 const deactivateAccount = async () => {
   await axios.post(`${baseUrl}/deactivate`, {}, config)
 }
@@ -119,6 +128,7 @@ const uploadReferenceImage = async (data: FormData) => {
 
 export default {
   addRecentCourse,
+  changePassword,
   deactivateAccount,
   getAttempts,
   getAttemptsByExam,
