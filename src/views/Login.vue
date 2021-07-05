@@ -49,7 +49,7 @@
               to="/forgot-password"
               class="text-indigo-600 dark:text-indigo-400"
             >
-              password </router-link
+              password</router-link
             >?
           </p>
           <p class="mt-3 text-xs">
