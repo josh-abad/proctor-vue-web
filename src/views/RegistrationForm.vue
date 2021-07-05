@@ -7,11 +7,11 @@
           <h3 class="text-lg font-semibold">Sign up</h3>
           <p class="text-xs text-gray-400">
             By continuing, you agree to our
-            <router-link to="#" class="text-green-500"
+            <router-link to="#" class="text-indigo-600 dark:text-indigo-400"
               >User Agreement</router-link
             >
             and
-            <router-link to="#" class="text-green-500"
+            <router-link to="#" class="text-indigo-600 dark:text-indigo-400"
               >Privacy Policy</router-link
             >.
           </p>
@@ -81,7 +81,13 @@
             Already have an account?
             <router-link
               to="/login"
-              class="font-semibold tracking-wide text-green-500 uppercase"
+              class="
+                font-semibold
+                tracking-wide
+                text-indigo-600
+                dark:text-indigo-400
+                uppercase
+              "
               >Log In</router-link
             >
           </p>

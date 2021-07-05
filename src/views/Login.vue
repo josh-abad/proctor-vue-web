@@ -7,11 +7,11 @@
           <h3 class="font-medium">Login</h3>
           <p class="text-xs text-gray-400">
             By continuing, you agree to our
-            <router-link to="#" class="text-green-500"
+            <router-link to="#" class="text-indigo-600 dark:text-indigo-400"
               >User Agreement</router-link
             >
             and
-            <router-link to="#" class="text-green-500"
+            <router-link to="#" class="text-indigo-600 dark:text-indigo-400"
               >Privacy Policy</router-link
             >.
           </p>
@@ -45,15 +45,24 @@
           </div>
           <p class="mt-3 text-xs">
             Forgot your
-            <router-link to="/forgot-password" class="text-green-500">
-              password
-            </router-link>
+            <router-link
+              to="/forgot-password"
+              class="text-indigo-600 dark:text-indigo-400"
+            >
+              password </router-link
+            >?
           </p>
           <p class="mt-3 text-xs">
             New to Proctor Vue?
             <router-link
               to="/register"
-              class="font-semibold tracking-wide text-green-500 uppercase"
+              class="
+                font-semibold
+                tracking-wide
+                text-indigo-600
+                dark:text-indigo-400
+                uppercase
+              "
               >Sign Up</router-link
             >
           </p>
