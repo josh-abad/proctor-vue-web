@@ -66,6 +66,7 @@ import AppLabel from '@/components/ui/AppLabel.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import ColorBackgroundCard from '@/components/ColorBackgroundCard.vue'
 import AppLogo from '@/components/AppLogo.vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'ResetPasswordPage',
@@ -77,6 +78,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const router = useRouter()
+
     const newPassword = ref('')
     const newPasswordConfirm = ref('')
 
@@ -89,6 +92,7 @@ export default defineComponent({
         isLoading.value = true
         await userService.resetPassword(newPassword.value, props.token)
         setSnackbarMessage('Your password has been reset', 'success')
+        router.push('/login')
       } catch (error) {
         setSnackbarMessage(error.response.data.error, 'error')
       } finally {
