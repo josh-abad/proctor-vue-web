@@ -151,13 +151,6 @@ const routes: Array<RouteRecordRaw> = [
             path: '',
             name: 'Students Page',
             component: () => import('../views/students/StudentsPage.vue')
-          },
-          {
-            path: ':studentId/enroll',
-            meta: {
-              title: createTitle('Enroll Student')
-            },
-            component: () => import('../views/students/EnrollmentPage.vue')
           }
         ],
         component: () => import('../views/Students.vue')
