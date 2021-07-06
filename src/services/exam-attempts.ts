@@ -9,7 +9,7 @@ const addWarning = async (id: string) => {
 }
 
 const deleteAttempt = async (id: string) => {
-  await axios.delete(`${baseUrl}/${id}`)
+  await axios.delete(`${baseUrl}/${id}`, config)
 }
 
 /**

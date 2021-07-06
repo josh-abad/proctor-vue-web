@@ -18,7 +18,7 @@ const baseUrl = `${API_URL}/courses`
  * @param newCourse the information for the new course
  */
 const create = async (newCourse: NewCourse) => {
-  const response = await axios.post<Course>(baseUrl, newCourse)
+  const response = await axios.post<Course>(baseUrl, newCourse, config)
   return response.data
 }
 
@@ -27,10 +27,7 @@ const create = async (newCourse: NewCourse) => {
  * @param slug the slug of the course
  */
 const getCourse = async (slug: string) => {
-  const response = await axios.get<CourseWithExams>(
-    `${baseUrl}/${slug}`,
-    config
-  )
+  const response = await axios.get<CourseWithExams>(`${baseUrl}/${slug}`)
   return response.data
 }
 
@@ -59,7 +56,7 @@ const deleteCourse = async (slug: string) => {
 }
 
 const unenrollUser = async (slug: string, userId: string) => {
-  await axios.delete(`${baseUrl}/${slug}/students/${userId}`)
+  await axios.delete(`${baseUrl}/${slug}/students/${userId}`, config)
 }
 
 const getExam = async (courseSlug: string, examSlug: string) => {
