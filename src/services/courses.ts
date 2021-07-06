@@ -23,39 +23,14 @@ const create = async (newCourse: NewCourse) => {
 }
 
 /**
- * Gets all courses from the server
- */
-const getAll = async () => {
-  const response = await axios.get<Course[]>(baseUrl)
-  return response.data
-}
-
-/**
  * Gets a course from the server by its slug
  * @param slug the slug of the course
  */
 const getCourse = async (slug: string) => {
-  const response = await axios.get<CourseWithExams>(`${baseUrl}/${slug}`)
-  return response.data
-}
-
-/**
- * Gets all courses a specified user is enrolled in
- * @param userId the id of the user
- */
-const getByUser = async (userId: string) => {
-  const params = new URLSearchParams({ userId })
-  const response = await axios.get<Course[]>(baseUrl, { params })
-  return response.data
-}
-
-/**
- * Adds a user to a course's enrolled students and returns the updated course
- * @param userId the id of the user
- * @param courseId the id of the course
- */
-const enrollUser = async (userId: string, courseId: string) => {
-  const response = await axios.put<Course>(`${baseUrl}/${courseId}`, { userId })
+  const response = await axios.get<CourseWithExams>(
+    `${baseUrl}/${slug}`,
+    config
+  )
   return response.data
 }
 
@@ -65,9 +40,13 @@ const enrollUser = async (userId: string, courseId: string) => {
  * @param courseId the id of the course
  */
 const enrollUsers = async (userIds: string[], courseId: string) => {
-  const response = await axios.put<Course>(`${baseUrl}/${courseId}`, {
-    userIds
-  })
+  const response = await axios.put<Course>(
+    `${baseUrl}/${courseId}`,
+    {
+      userIds
+    },
+    config
+  )
   return response.data
 }
 
@@ -76,7 +55,7 @@ const enrollUsers = async (userIds: string[], courseId: string) => {
  * @param slug the slug of the course to be deleted
  */
 const deleteCourse = async (slug: string) => {
-  await axios.delete(`${baseUrl}/${slug}`)
+  await axios.delete(`${baseUrl}/${slug}`, config)
 }
 
 const unenrollUser = async (slug: string, userId: string) => {
@@ -90,18 +69,16 @@ const getExam = async (courseSlug: string, examSlug: string) => {
   return response.data
 }
 
-const getAllExams = async (id: string) => {
-  const response = await axios.get<Exam[]>(`${baseUrl}/${id}/exams`)
-  return response.data
-}
-
 const getUpcomingExams = async (id: string) => {
   const response = await axios.get<Exam[]>(`${baseUrl}/${id}/upcoming-exams`)
   return response.data
 }
 
 const getStudents = async (slug: string) => {
-  const response = await axios.get<User[]>(`${baseUrl}/${slug}/students`)
+  const response = await axios.get<User[]>(
+    `${baseUrl}/${slug}/students`,
+    config
+  )
   return response.data
 }
 
@@ -112,16 +89,10 @@ const getCourseProgressByUser = async (slug: string, userId: string) => {
   return response.data
 }
 
-const getExamsByWeek = async (id: string, week: number) => {
-  const response = await axios.get<Exam[]>(
-    `${baseUrl}/${id}/exams/week/${week}`
-  )
-  return response.data
-}
-
 const getUserGrades = async (slug: string, userId: string) => {
   const response = await axios.get<CourseGrades>(
-    `${baseUrl}/${slug}/grades/${userId}`
+    `${baseUrl}/${slug}/grades/${userId}`,
+    config
   )
   return response.data
 }
@@ -152,19 +123,14 @@ const getAttemptsInCourse = async (id: string) => {
 
 export default {
   create,
-  getAll,
-  getByUser,
   getCourse,
-  enrollUser,
   enrollUsers,
   deleteCourse,
   unenrollUser,
   getExam,
-  getAllExams,
   getUpcomingExams,
   getStudents,
   getCourseProgressByUser,
-  getExamsByWeek,
   getUserGrades,
   addExternalLink,
   deleteExternalLink,

@@ -12,11 +12,6 @@ const deleteAttempt = async (id: string) => {
   await axios.delete(`${baseUrl}/${id}`)
 }
 
-const getPendingGradeAttempts = async () => {
-  const response = await axios.get<Attempt[]>(`${baseUrl}/pending`, config)
-  return response.data
-}
-
 /**
  * Starts an exam attempt with the set user token. Returns a token containing the attempt information and the attempt itself.
  * @param examId the id of the exam to be started
@@ -43,20 +38,10 @@ const submitPendingGrade = async (id: string, scores: Score[]) => {
   return response.data
 }
 
-/**
- * Gets all attempts from every user in the server
- */
-const getAll = async () => {
-  const response = await axios.get<Attempt[]>(baseUrl)
-  return response.data
-}
-
 export default {
   addWarning,
   deleteAttempt,
-  getPendingGradeAttempts,
   start,
   getAttempt,
-  submitPendingGrade,
-  getAll
+  submitPendingGrade
 }

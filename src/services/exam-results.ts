@@ -16,12 +16,4 @@ const submit = async (submission: Submission) => {
   return response.data
 }
 
-/**
- * Gets all exam results from every user in the server
- */
-const getAll = async () => {
-  const response = await axios.get<ExamResult[]>(baseUrl)
-  return response.data
-}
-
-export default { submit, getAll }
+export default { submit }

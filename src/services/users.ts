@@ -1,4 +1,4 @@
-import { Attempt, Course, Exam, User, UserCredentials } from '@/types'
+import { Attempt, Exam, User, UserCredentials } from '@/types'
 import axios from 'axios'
 import { API_URL } from './helper'
 const baseUrl = `${API_URL}/users`
@@ -9,14 +9,6 @@ const baseUrl = `${API_URL}/users`
  */
 const create = async (newUser: UserCredentials) => {
   const response = await axios.post<User>(baseUrl, newUser)
-  return response.data
-}
-
-/**
- * Get all users from the server
- */
-const getAll = async () => {
-  const response = await axios.get<User[]>(baseUrl)
   return response.data
 }
 
@@ -46,26 +38,6 @@ const getCoordinators = async () => {
   return response.data
 }
 
-const getStudent = async (id: string) => {
-  const response = await axios.get<User>(`${baseUrl}/students/${id}`)
-  return response.data
-}
-
-const getCourses = async (id: string) => {
-  const response = await axios.get<Course[]>(`${baseUrl}/${id}/courses`)
-  return response.data
-}
-
-const getRecentCourses = async (id: string, limit = 5) => {
-  const response = await axios.get<Course[]>(
-    `${baseUrl}/${id}/recent-courses`,
-    {
-      params: { limit }
-    }
-  )
-  return response.data
-}
-
 const getOpenExams = async (id: string) => {
   const response = await axios.get<Exam[]>(`${baseUrl}/${id}/open-exams`)
   return response.data
@@ -82,14 +54,10 @@ const deleteUser = async (id: string) => {
 
 export default {
   create,
-  getAll,
   getAttempts,
   getStudents,
   getUser,
-  getStudent,
   getCoordinators,
-  getCourses,
-  getRecentCourses,
   getOpenExams,
   getUpcomingExams,
   deleteUser
