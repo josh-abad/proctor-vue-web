@@ -3,7 +3,7 @@
     <div class="overflow-hidden w-16 h-16 rounded sm:w-40 sm:h-20">
       <router-link :to="`/courses/${course.slug}`">
         <img
-          src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
+          :src="thumbnail"
           alt="Course image"
           class="object-cover h-full sm:w-full"
         />
@@ -26,6 +26,7 @@
 import { Course } from '@/types'
 import { defineComponent, PropType } from 'vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
+import thumbnail from '@/assets/course-thumb.webp'
 
 export default defineComponent({
   name: 'CourseListItem',
@@ -39,6 +40,11 @@ export default defineComponent({
     percentage: {
       type: Number,
       default: 0
+    }
+  },
+  computed: {
+    thumbnail(): string {
+      return thumbnail
     }
   }
 })

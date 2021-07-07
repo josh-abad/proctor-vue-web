@@ -15,7 +15,7 @@
   >
     <router-link :to="`/courses/${course.slug}`">
       <img
-        src="https://cdn.pixabay.com/photo/2020/04/16/11/13/background-5050213_1280.png"
+        :src="thumbnail"
         alt="Course image"
         class="object-cover w-full h-14"
       />
@@ -31,6 +31,7 @@
 <script lang="ts">
 import { Course } from '@/types'
 import { defineComponent, PropType } from 'vue'
+import thumbnail from '@/assets/course-thumb.webp'
 
 export default defineComponent({
   name: 'CourseCard',
@@ -38,6 +39,11 @@ export default defineComponent({
     course: {
       type: Object as PropType<Course>,
       required: true
+    }
+  },
+  computed: {
+    thumbnail(): string {
+      return thumbnail
     }
   }
 })
