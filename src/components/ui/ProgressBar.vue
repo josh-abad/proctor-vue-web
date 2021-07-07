@@ -1,5 +1,11 @@
 <template>
-  <div class="flex flex-row-reverse sm:block">
+  <div
+    class="flex flex-row-reverse sm:block"
+    role="progressbar"
+    :aria-valuenow="percentage"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
     <div
       class="
         overflow-hidden

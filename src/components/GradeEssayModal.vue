@@ -7,6 +7,7 @@
       <template #header>
         <div class="flex items-center">
           <button
+            aria-label="Previous Page"
             @click="page--"
             :disabled="page === 0"
             class="focus:outline-none disabled:opacity-50"
@@ -15,6 +16,7 @@
           </button>
           <div>{{ page + 1 }} / {{ essays.length }}</div>
           <button
+            aria-label="Next Page"
             @click="page++"
             :disabled="page === essays.length - 1"
             class="focus:outline-none disabled:opacity-50"

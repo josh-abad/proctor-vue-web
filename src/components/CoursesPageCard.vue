@@ -15,6 +15,7 @@
   >
     <router-link :to="`/courses/${course.slug}`">
       <img
+        height="56"
         :src="thumbnail"
         alt="Course image"
         class="object-cover w-full h-14"

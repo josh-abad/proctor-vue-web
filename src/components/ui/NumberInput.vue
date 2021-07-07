@@ -27,10 +27,18 @@
         dark:peer-focus:border-indigo-400
       "
     >
-      <NumberInputButton :disabled="modelValue === max" @click="value++">
+      <NumberInputButton
+        aria-label="Increment"
+        :disabled="modelValue === max"
+        @click="value++"
+      >
         <ChevronUpIcon class="w-5 h-5" />
       </NumberInputButton>
-      <NumberInputButton :disabled="modelValue === min" @click="value--">
+      <NumberInputButton
+        aria-label="Decrement"
+        :disabled="modelValue === min"
+        @click="value--"
+      >
         <ChevronDownIcon class="w-5 h-5" />
       </NumberInputButton>
     </div>
@@ -46,6 +54,7 @@ import useModelWrapper from '@/composables/use-model-wrapper'
 export default defineComponent({
   name: 'NumberInput',
   components: { ChevronUpIcon, ChevronDownIcon, NumberInputButton },
+  inheritAttrs: false,
   props: {
     modelValue: {
       type: Number,
@@ -63,7 +72,6 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  inheritAttrs: false,
   setup(props, { emit }) {
     const value = useModelWrapper(props, emit)
 

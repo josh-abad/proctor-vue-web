@@ -1,6 +1,8 @@
 <template>
   <img
     class="object-cover rounded-full"
+    width="100"
+    height="100"
     :src="user.referenceImageUrl"
     :alt="`${user.fullName} avatar`"
     v-if="user.referenceImageUrl"

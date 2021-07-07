@@ -26,7 +26,13 @@
             </AppSwitch>
           </div>
           <div v-else-if="questionType !== 'essay'" class="flex items-start">
-            <ul class="space-y-2" v-if="choices.length">
+            <ul
+              class="space-y-2"
+              v-if="choices.length"
+              :role="
+                questionType === 'multiple choice' ? 'radiogroup' : 'group'
+              "
+            >
               <ChoiceInput
                 v-for="(choice, i) in choicesInput"
                 :key="i"

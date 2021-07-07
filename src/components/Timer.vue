@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center text-xl font-medium">
+  <div class="flex items-center text-xl font-medium" role="timer">
     <ClockIcon class="w-6 h-6" />
     <div class="ml-1.5">
       {{ displayHours }}

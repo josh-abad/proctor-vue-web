@@ -1,5 +1,9 @@
 <template>
-  <button class="focus:outline-none cursor-default pointer-events-none">
+  <button
+    :aria-checked="checked"
+    role="checkbox"
+    class="focus:outline-none cursor-default pointer-events-none"
+  >
     <div
       class="
         w-5

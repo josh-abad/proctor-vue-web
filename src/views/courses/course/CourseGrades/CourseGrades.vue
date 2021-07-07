@@ -1,12 +1,14 @@
 <template>
-  <div v-if="error">
-    <ErrorLoading />
-  </div>
-  <div v-else-if="loading" class="flex justify-center items-center h-32">
-    <LoadingWheel class="w-8 h-8" />
-  </div>
-  <div v-else-if="courseGrades">
-    <Grades :grades="courseGrades" />
+  <div id="grades-panel" role="tabpanel" aria-labelledby="grades-tab">
+    <div v-if="error">
+      <ErrorLoading />
+    </div>
+    <div v-else-if="loading" class="flex justify-center items-center h-32">
+      <LoadingWheel class="w-8 h-8" />
+    </div>
+    <div v-else-if="courseGrades">
+      <Grades :grades="courseGrades" />
+    </div>
   </div>
 </template>
 

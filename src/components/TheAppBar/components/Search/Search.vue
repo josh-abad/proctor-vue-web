@@ -18,6 +18,7 @@
         "
       />
       <button
+        :aria-label="searchFilter ? 'Clear Search Filter' : 'Search'"
         type="submit"
         class="absolute top-0 right-0 mt-3 mr-3 focus:outline-none"
         @click="searchFilter = ''"

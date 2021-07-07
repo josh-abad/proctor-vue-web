@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="activity-panel" role="tabpanel" aria-labelledby="activity-tab">
     <div class="pb-6 border-b border-gray-300 dark:border-gray-700">
-      <div class="justify-between hidden text-sm sm:flex">
+      <div class="justify-between hidden text-sm sm:flex" role="radiogroup">
         <RadioButton v-model="statusFilter" value="all">All</RadioButton>
         <RadioButton v-model="statusFilter" value="pending"
           >Pending</RadioButton

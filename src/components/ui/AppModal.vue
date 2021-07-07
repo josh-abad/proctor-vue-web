@@ -58,6 +58,7 @@ import ModalFadeTransition from '../transitions/ModalFadeTransition.vue'
 export default defineComponent({
   name: 'AppModal',
   components: { AppButton, ScrimFadeTransition, ModalFadeTransition },
+  inheritAttrs: false,
   props: {
     modelValue: {
       type: Boolean,
@@ -70,7 +71,6 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue', 'close'],
-  inheritAttrs: false,
   setup(props, { emit }) {
     const closeModal = () => {
       emit('update:modelValue', false)

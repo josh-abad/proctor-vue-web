@@ -1,12 +1,14 @@
 <template>
   <div class="space-y-2">
     <button
+      aria-label="Delete Question"
       class="block text-gray-500 focus:outline-none"
       @click="$emit('discard')"
     >
       <TrashIcon class="w-5 h-5" />
     </button>
     <button
+      aria-label="Add Question"
       class="block text-gray-500 focus:outline-none"
       @click="$emit('add-question')"
     >

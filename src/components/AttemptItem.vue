@@ -63,6 +63,7 @@
         </button>
       </router-link>
       <button
+        :aria-label="`Delete Attempt ${attemptNumber}`"
         @click="deleteAttempt"
         class="ml-6 focus:outline-none"
         v-if="$store.getters.permissions(['coordinator', 'admin'])"

@@ -9,6 +9,7 @@
       </div>
     </div>
     <button
+      aria-label="Toggle Menu"
       class="relative focus:outline-none"
       @click="menuDropdown = !menuDropdown"
       :id="student.id"

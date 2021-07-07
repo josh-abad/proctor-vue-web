@@ -1,5 +1,9 @@
 <template>
-  <div class="sticky top-0 z-20 w-full h-14 bg-green-600" v-show="modelValue">
+  <div
+    class="sticky top-0 z-20 w-full h-14 bg-green-600"
+    v-show="modelValue"
+    role="banner"
+  >
     <div class="py-2 px-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div class="flex flex-wrap justify-between items-center">
         <div class="flex flex-1 items-center w-0">
@@ -36,6 +40,7 @@
         </div>
         <div class="flex-shrink-0 order-3 ml-3">
           <button
+            aria-label="Dismiss Banner"
             type="button"
             @click="$emit('update:modelValue', false)"
             class="

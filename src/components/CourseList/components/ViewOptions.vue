@@ -1,9 +1,9 @@
 <template>
-  <div class="flex items-center space-x-3">
-    <ViewToggle v-model="value" value="card">
+  <div class="flex items-center space-x-3" role="radiogroup">
+    <ViewToggle aria-label="Card View" v-model="value" value="card">
       <ViewGridIcon class="w-5 h-5" />
     </ViewToggle>
-    <ViewToggle v-model="value" value="list">
+    <ViewToggle aria-label="List View" v-model="value" value="list">
       <ViewListIcon class="w-5 h-5" />
     </ViewToggle>
   </div>

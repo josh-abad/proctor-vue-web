@@ -1,71 +1,74 @@
 <template>
-  <FadeTransition>
-    <div v-if="hasError">Could not load course.</div>
-    <div v-else-if="isLoading" class="space-y-2">
-      <div v-for="i in 8" :key="i">
-        <Subheading class="pb-3">
-          <AppSkeleton class="w-28 h-2" />
-        </Subheading>
-        <div class="flex justify-between items-center py-3">
-          <AppSkeleton class="w-32 h-3" />
-          <SVGCheckbox />
+  <div id="overview-panel" role="tabpanel" aria-labelledby="overview-tab">
+    <FadeTransition>
+      <div v-if="hasError">Could not load course.</div>
+      <div v-else-if="isLoading" class="space-y-2">
+        <div v-for="i in 8" :key="i">
+          <Subheading class="pb-3">
+            <AppSkeleton class="w-28 h-2" />
+          </Subheading>
+          <div class="flex justify-between items-center py-3">
+            <AppSkeleton class="w-32 h-3" />
+            <SVGCheckbox />
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else-if="course">
-      <section v-if="course.externalLinks.length > 0">
-        <Subheading>
-          <AppLabel emphasis>Pinned Links</AppLabel>
-          <button
-            class="focus:outline-none"
-            @click="editPinnedLinks = !editPinnedLinks"
-          >
-            <AppLabel
-              class="text-indigo-600 dark:text-indigo-400"
-              v-if="$store.getters.permissions(['admin', 'coordinator'])"
-            >
-              {{ editPinnedLinks ? 'Cancel' : 'Edit' }}
-            </AppLabel>
-          </button>
-        </Subheading>
-        <ul class="py-3 space-y-2">
-          <li
-            class="flex items-start"
-            v-for="externalLink in course.externalLinks"
-            :key="externalLink._id"
-          >
+      <div v-else-if="course">
+        <section v-if="course.externalLinks.length > 0">
+          <Subheading>
+            <AppLabel emphasis>Pinned Links</AppLabel>
             <button
-              v-if="editPinnedLinks"
-              class="mt-1 focus:outline-none"
-              @click="deleteExternalLink(externalLink._id)"
+              class="focus:outline-none"
+              @click="editPinnedLinks = !editPinnedLinks"
             >
-              <MinusCircleIcon class="w-5 h-5 text-red-500" />
+              <AppLabel
+                class="text-indigo-600 dark:text-indigo-400"
+                v-if="$store.getters.permissions(['admin', 'coordinator'])"
+              >
+                {{ editPinnedLinks ? 'Cancel' : 'Edit' }}
+              </AppLabel>
             </button>
-            <ExternalLinkItem
-              class="ml-4 duration-200 ease-out first:ml-0"
-              :external-link="externalLink"
-            />
-          </li>
-        </ul>
-      </section>
-      <div
-        class="flex flex-col mt-2 space-y-2 first:mt-0"
-        v-if="course.exams.length"
-      >
-        <Week
-          v-for="exams in examsByWeek"
-          :key="exams[0].week"
-          :course-slug="slug"
-          :week="exams[0].week"
-          :exams="exams"
-        />
+          </Subheading>
+          <ul class="py-3 space-y-2">
+            <li
+              class="flex items-start"
+              v-for="externalLink in course.externalLinks"
+              :key="externalLink._id"
+            >
+              <button
+                aria-label="Delete Link"
+                v-if="editPinnedLinks"
+                class="mt-1 focus:outline-none"
+                @click="deleteExternalLink(externalLink._id)"
+              >
+                <MinusCircleIcon class="w-5 h-5 text-red-500" />
+              </button>
+              <ExternalLinkItem
+                class="ml-4 duration-200 ease-out first:ml-0"
+                :external-link="externalLink"
+              />
+            </li>
+          </ul>
+        </section>
+        <div
+          class="flex flex-col mt-2 space-y-2 first:mt-0"
+          v-if="course.exams.length"
+        >
+          <Week
+            v-for="exams in examsByWeek"
+            :key="exams[0].week"
+            :course-slug="slug"
+            :week="exams[0].week"
+            :exams="exams"
+          />
+        </div>
+        <EmptyState v-else>
+          <template #icon><DocumentTextIcon /></template>
+          <template #content>No exams found.</template>
+        </EmptyState>
       </div>
-      <EmptyState v-else>
-        <template #icon><DocumentTextIcon /></template>
-        <template #content>No exams found.</template>
-      </EmptyState>
-    </div>
-  </FadeTransition>
+    </FadeTransition>
+  </div>
 </template>
 
 <script lang="ts">

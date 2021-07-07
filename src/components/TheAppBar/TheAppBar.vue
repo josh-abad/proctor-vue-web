@@ -24,6 +24,7 @@
     <div class="flex justify-between items-center py-1 px-6">
       <div class="flex items-center">
         <button
+          aria-label="Toggle Navigation Drawer"
           class="block text-gray-500 focus:ring-0 focus:outline-none"
           @click="$emit('toggle')"
         >

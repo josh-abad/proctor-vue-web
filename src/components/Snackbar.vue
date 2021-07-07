@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-hidden fixed top-0 right-0 duration-200 ease-in-out"
+    class="overflow-hidden fixed top-0 right-0 duration-200 ease-in-out z-20"
     :class="isVisible ? 'translate-y-0' : 'translate-x-full'"
   >
     <div
@@ -41,7 +41,11 @@
         <div class="font-semibold text-white">
           {{ message }}
         </div>
-        <button @click="clearSnackbarMessage" class="ml-12 focus:outline-none">
+        <button
+          aria-label="Dismiss Snackbar"
+          @click="clearSnackbarMessage"
+          class="ml-12 focus:outline-none"
+        >
           <XIcon class="w-5 h-5 fill-current text-white/50" />
         </button>
       </div>

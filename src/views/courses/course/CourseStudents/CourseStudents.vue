@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="students-panel" role="tabpanel" aria-labelledby="students-tab">
     <div class="flex justify-between items-start">
       <AppInput
         type="text"

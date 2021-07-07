@@ -1,6 +1,7 @@
 <template>
   <div class="inline-block relative text-left">
     <button
+      aria-label="User Dropdown"
       @click="menuDropdown = !menuDropdown"
       type="button"
       class="mt-1 focus:outline-none"

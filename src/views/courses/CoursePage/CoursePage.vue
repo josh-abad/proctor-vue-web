@@ -91,15 +91,31 @@
     <div class="flex flex-col mt-8 sm:flex-row">
       <div class="flex-grow mr-0 sm:mr-4">
         <TabRow>
-          <Tab :to="`/courses/${slug}`"> Overview </Tab>
           <Tab
+            id="overview-tab"
+            aria-controls="overview-panel"
+            :to="`/courses/${slug}`"
+          >
+            Overview
+          </Tab>
+          <Tab
+            id="students-tab"
+            aria-controls="students-panel"
             :to="`/courses/${slug}/students`"
             v-if="$store.getters.permissions(['coordinator', 'admin'])"
           >
             Students
           </Tab>
-          <Tab :to="`/courses/${slug}/grades`"> Grades </Tab>
           <Tab
+            id="grades-tab"
+            aria-controls="grades-panel"
+            :to="`/courses/${slug}/grades`"
+          >
+            Grades
+          </Tab>
+          <Tab
+            id="activity-tab"
+            aria-controls="activity-panel"
             v-if="$store.getters.permissions(['coordinator', 'admin'])"
             :to="`/courses/${slug}/activity`"
           >

@@ -1,6 +1,14 @@
 <template>
   <div class="flex items-center">
-    <button :id="value" class="focus:outline-none" @click="handleClick">
+    <button
+      :aria-labelledby="value"
+      :aria-checked="isSelected"
+      tabindex="0"
+      role="radio"
+      :id="value"
+      class="focus:outline-none"
+      @click="handleClick"
+    >
       <div
         class="
           flex

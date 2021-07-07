@@ -1,5 +1,7 @@
 <template>
   <button
+    role="radio"
+    :aria-checked="value === modelValue"
     @click="$emit('update:modelValue', value)"
     class="rounded focus:outline-none"
     :class="

@@ -10,6 +10,9 @@
       "
     >
       <button
+        :aria-label="`${expanded ? 'Hide' : 'Show'} ${label}`"
+        :aria-controls="label"
+        :aria-expanded="expanded"
         @click="expanded = !expanded"
         class="
           text-gray-500
@@ -28,6 +31,8 @@
       </AppLabel>
     </header>
     <section
+      :id="label"
+      role="region"
       class="duration-100 ease-in-out"
       :class="
         expanded ? 'py-3 opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'

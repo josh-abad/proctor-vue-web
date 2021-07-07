@@ -1,7 +1,11 @@
 <template>
   <AppPanel class="py-3 px-3">
-    <AppLabel emphasis>Course Progress</AppLabel>
-    <ProgressBar class="mt-2" :percentage="percentage" />
+    <AppLabel emphasis id="course-progress">Course Progress</AppLabel>
+    <ProgressBar
+      aria-labelledby="course-progress"
+      class="mt-2"
+      :percentage="percentage"
+    />
   </AppPanel>
 </template>
 

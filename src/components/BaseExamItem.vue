@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <li class="flex">
     <QuestionNumber>
       {{ questionNumber }}
     </QuestionNumber>
@@ -30,40 +30,42 @@
           type="text"
           :readonly="readonly"
         />
-        <div
+        <ul
           v-else-if="examItem.questionType === 'multiple choice'"
           class="space-y-2"
+          role="radiogroup"
         >
-          <RadioButton
-            v-for="(choice, i) in choices"
-            :key="i"
-            :value="choice"
-            v-model="answer[0]"
-            :readonly="readonly"
-          >
-            {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
-          </RadioButton>
-        </div>
+          <li v-for="(choice, i) in choices" :key="i">
+            <RadioButton
+              :value="choice"
+              v-model="answer[0]"
+              :readonly="readonly"
+            >
+              {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
+            </RadioButton>
+          </li>
+        </ul>
         <AppTextArea
           v-else-if="examItem.questionType === 'essay'"
           class="w-full h-40"
           v-model="answer[0]"
           :readonly="readonly"
         />
-        <div v-else class="space-y-2">
-          <AppCheckbox
-            v-for="(choice, i) in choices"
-            :key="i"
-            :value="choice"
-            v-model="answer"
-            :readonly="readonly"
-          >
-            {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
-          </AppCheckbox>
-        </div>
+        <ul
+          v-else
+          :aria-labelledby="`question${questionNumber}`"
+          class="space-y-2"
+          role="group"
+        >
+          <li v-for="(choice, i) in choices" :key="i">
+            <AppCheckbox :value="choice" v-model="answer" :readonly="readonly">
+              {{ String.fromCharCode('a'.charCodeAt(0) + i) }}. {{ choice }}
+            </AppCheckbox>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts">

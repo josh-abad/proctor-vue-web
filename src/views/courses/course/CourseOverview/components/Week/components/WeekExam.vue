@@ -1,6 +1,7 @@
 <template>
   <li class="flex justify-between items-center text-base font-normal">
     <router-link
+      :id="exam.slug"
       :to="`/courses/${courseSlug}/${exam.slug}`"
       class="flex items-center transition-colors duration-200 ease-in-out"
       :class="{
@@ -12,7 +13,7 @@
       <LockClosedIcon class="mr-4 w-5 h-5" v-else />
       {{ exam.label }}
     </router-link>
-    <SVGCheckbox :checked="exam.isTaken" />
+    <SVGCheckbox :aria-labelledby="exam.slug" :checked="exam.isTaken" />
   </li>
 </template>
 

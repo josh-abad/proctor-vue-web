@@ -1,5 +1,5 @@
 <template>
-  <img :src="logo" alt="Proctor Vue logo" class="h-7" />
+  <img width="112" height="28" :src="logo" alt="Proctor Vue logo" class="h-7" />
 </template>
 
 <script lang="ts">
