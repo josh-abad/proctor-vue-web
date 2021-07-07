@@ -3,8 +3,8 @@
     class="flex flex-row-reverse sm:block"
     role="progressbar"
     :aria-valuenow="percentage"
-    aria-valuemin="0"
-    aria-valuemax="100"
+    :aria-valuemin="0"
+    :aria-valuemax="100"
   >
     <div
       class="
