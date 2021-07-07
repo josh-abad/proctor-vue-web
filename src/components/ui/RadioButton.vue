@@ -3,7 +3,7 @@
     <button
       :aria-labelledby="value"
       :aria-checked="isSelected"
-      tabindex="0"
+      :tabindex="0"
       role="radio"
       :id="value"
       class="focus:outline-none"
