@@ -10,6 +10,7 @@
             <a
               href="https://hub.proctorvue.live/menu/privacy-policy"
               target="_blank"
+              rel="noreferrer"
               class="text-indigo-600 dark:text-indigo-400"
             >
               User Agreement</a
@@ -18,6 +19,7 @@
             <a
               href="https://hub.proctorvue.live/menu/privacy-policy"
               target="_blank"
+              rel="noreferrer"
               class="text-indigo-600 dark:text-indigo-400"
             >
               Privacy Policy</a
