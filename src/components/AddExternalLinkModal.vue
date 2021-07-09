@@ -39,7 +39,7 @@
               "
               v-model="url"
               type="text"
-              placeholder="https://zoom.us/j/2706212085"
+              placeholder="https://meet.google.com"
             />
           </div>
           <div>
