@@ -32,14 +32,6 @@
                 </span>
               </AppButton>
             </router-link>
-            <AppButton class="ml-2">
-              <span class="flex items-center">
-                <PencilIcon class="w-5 h-5" />
-                <span class="flex items-center">
-                  <span class="ml-1.5">Edit</span>
-                </span>
-              </span>
-            </AppButton>
             <ModalButton
               header="Delete Course"
               message="Are you sure you want to delete this course?"
@@ -274,9 +266,6 @@ export default defineComponent({
       } finally {
         NProgress.done()
       }
-    },
-    editCourse() {
-      // TODO: implement editing courses
     },
     async addExternalLink(externalLink: NewExternalLink) {
       if (this.course) {
