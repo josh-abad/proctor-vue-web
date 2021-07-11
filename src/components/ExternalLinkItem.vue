@@ -31,7 +31,7 @@ export default defineComponent({
   setup(props) {
     const isZoomLink = computed(() => {
       const zoomRegex =
-        /^(?:https:?\/\/)?(?:([a-zA-Z][a-zA-Z0-9.]{4,39})\.)?zoom\.us\/j\/(\d{10})$/
+        /^(?:https?:\/\/)?(?:([a-zA-Z][a-zA-Z0-9.]{4,39})\.)?zoom\.us\/j\/(\d{10})$/
       return zoomRegex.test(props.externalLink.url)
     })
 
