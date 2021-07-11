@@ -1,7 +1,7 @@
 <template>
   <div>
     <a :href="externalLink.url" target="_blank" class="flex items-center">
-      <VideoCameraIcon v-if="isZoomLink" class="w-5 h-5" />
+      <VideoCameraIcon v-if="isMeetingLink" class="w-5 h-5" />
       <ExternalLinkIcon v-else class="w-5 h-5" />
       <span class="ml-4">{{ externalLink.title }}</span>
     </a>
@@ -35,8 +35,18 @@ export default defineComponent({
       return zoomRegex.test(props.externalLink.url)
     })
 
+    const isGoogleMeetLink = computed(() => {
+      const googleMeetRegex =
+        /^(?:https?:\/\/)?meet\.google\.com\/[a-zA-Z]{3}-[a-zA-Z]{4}-[a-zA-Z]{3}$/
+      return googleMeetRegex.test(props.externalLink.url)
+    })
+
+    const isMeetingLink = computed(() => {
+      return isZoomLink.value || isGoogleMeetLink.value
+    })
+
     return {
-      isZoomLink
+      isMeetingLink
     }
   }
 })
