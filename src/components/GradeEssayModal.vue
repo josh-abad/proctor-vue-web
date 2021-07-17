@@ -3,7 +3,11 @@
     View Essay
   </AppButton>
   <teleport to="#modals">
-    <AppModal v-model="modal" class="w-1/2 max-h-[90%]">
+    <AppModal
+      v-if="essays.length > 0"
+      v-model="modal"
+      class="w-1/2 max-h-[90%]"
+    >
       <template #header>
         <div class="flex items-center">
           <button

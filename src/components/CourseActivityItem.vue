@@ -125,7 +125,9 @@ export default defineComponent({
             examItem.questionType === 'essay' &&
             props.attempt.answers.some(
               answer =>
-                answer.examItem === examItem.id && answer.answer[0]?.length > 0
+                answer.examItem === examItem.id &&
+                !answer.hasPlagiarism &&
+                answer.answer[0]?.length > 0
             )
           )
         })

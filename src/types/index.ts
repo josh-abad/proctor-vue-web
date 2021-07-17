@@ -102,6 +102,7 @@ export type ExamWithAnswers = Omit<Exam, 'examItems'> & {
 export interface Answer {
   examItem: string
   answer: string[]
+  hasPlagiarism?: boolean
 }
 
 export interface Submission {

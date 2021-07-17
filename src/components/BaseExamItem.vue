@@ -8,7 +8,7 @@
         <div class="w-3/4 leading-tight text-justify">
           {{ examItem.question }}
         </div>
-        <div class="text-sm text-gray-500">
+        <div class="text-sm text-gray-500 flex flex-col items-end">
           <span class="flex items-center">
             <span v-if="score !== undefined">{{ score }}/</span>
             {{ examItem.points }}
@@ -21,6 +21,12 @@
               <XIcon class="w-5 h-5 dark:text-red-400" v-else />
             </span>
           </span>
+          <div
+            v-if="hasPlagiarism"
+            class="mt-1 bg-yellow-500/10 text-yellow-400 px-2 rounded-full"
+          >
+            Plagiarism Detected
+          </div>
         </div>
       </div>
       <div class="mt-4">
@@ -160,6 +166,12 @@ export default defineComponent({
         return shuffle([...this.examItem.choices])
       }
       return this.examItem.choices
+    },
+    hasPlagiarism(): boolean {
+      return (
+        this.modelValue.find(answer => answer.examItem === this.examItem.id)
+          ?.hasPlagiarism ?? false
+      )
     }
   }
 })
