@@ -16,15 +16,18 @@ export default defineComponent({
     const classes = ref([
       'items-center',
       'fixed',
-      'bottom-0 right-0',
+      'top-14 right-4',
+      'backdrop-blur',
+      'border',
+      'border-t-0',
+      'border-white/10',
       'z-20',
       'flex',
       'px-4',
       'py-2',
-      'mx-8',
-      'space-x-3',
-      'bg-gray-700',
-      'rounded-t-lg',
+      'space-x-10',
+      'bg-gray-800/50',
+      'rounded-b-lg',
       'shadow-lg'
     ])
 
