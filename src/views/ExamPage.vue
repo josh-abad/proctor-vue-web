@@ -54,7 +54,6 @@ import BaseExamItem from '@/components/BaseExamItem.vue'
 import ModalButton from '@/components/ui/ModalButton.vue'
 import { Answer, AttemptWithResult, ExamItem } from '@/types'
 import useFetch from '@/composables/use-fetch'
-import { shuffle } from '@/utils/helper'
 import { useRouter } from 'vue-router'
 import examResultsService from '@/services/exam-results'
 import examAttemptsService from '@/services/exam-attempts'
@@ -163,9 +162,15 @@ export default defineComponent({
       if (!attempt.value) {
         return []
       }
-      return attempt.value.exam.random
-        ? shuffle([...attempt.value.exam.examItems])
-        : attempt.value.exam.examItems
+      if (
+        attempt.value.exam.length === attempt.value.exam.examItems.length &&
+        !attempt.value.exam.random
+      ) {
+        return attempt.value.exam.examItems
+      }
+      return attempt.value.examItems
+        .map(id => attempt.value?.exam.examItems.find(e => e.id === id))
+        .filter(e => e !== undefined) as ExamItem[]
     })
 
     const { setSnackbarMessage } = useSnackbar()

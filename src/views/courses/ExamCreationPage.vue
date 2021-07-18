@@ -74,13 +74,33 @@
           <p class="text-sm text-gray-500">The date the exam will close.</p>
           <DatePicker class="mt-1" id="endDate" v-model="endDate" />
         </div>
-
         <div>
+          <label for="shuffle"><AppLabel>Use All Exam Items</AppLabel></label>
+          <p class="text-sm text-gray-500">
+            Turn off to randomly pick a subset of questions for each attempt.
+          </p>
+          <AppSwitch class="mt-1" v-model="useAllExamItems" />
+        </div>
+        <div v-if="useAllExamItems">
           <label for="shuffle"><AppLabel> Shuffle Questions </AppLabel></label>
           <p class="text-sm text-gray-500">
             Turn on to shuffle the order of the questions during exams.
           </p>
           <AppSwitch class="mt-1" v-model="random" />
+        </div>
+        <div v-else>
+          <label for="week"><AppLabel>Number of Exam Items</AppLabel></label>
+          <p class="text-sm text-gray-500">
+            How many questions to pick randomly for each attempt
+          </p>
+          <div class="inline-block mt-1">
+            <NumberInput
+              v-model.number="length"
+              :min="1"
+              :max="examItems.length"
+              id="week"
+            />
+          </div>
         </div>
       </div>
       <List class="mt-4">
@@ -190,6 +210,8 @@ export default defineComponent({
       examSeconds: 3600,
       maxAttempts: 3,
       random: false,
+      useAllExamItems: true,
+      length: 1,
       week: 1,
       setDate: true,
       startDate: undefined as string | undefined,
@@ -302,7 +324,7 @@ export default defineComponent({
         await examsService.create({
           label: this.examName,
           random: this.random,
-          length: this.examItems.length,
+          length: this.useAllExamItems ? this.examItems.length : this.length,
           duration: this.examSeconds,
           courseId: this.course?.id ?? '',
           maxAttempts: this.maxAttempts,

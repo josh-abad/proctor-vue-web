@@ -82,7 +82,7 @@
 <script lang="ts">
 import useFetch from '@/composables/use-fetch'
 import examAttemptsService from '@/services/exam-attempts'
-import { AttemptWithResult } from '@/types'
+import { AttemptWithResult, ExamItem } from '@/types'
 import { computed, defineComponent } from 'vue'
 import BaseExamItem from '@/components/BaseExamItem.vue'
 import AppSkeleton from '@/components/ui/AppSkeleton.vue'
@@ -138,11 +138,31 @@ export default defineComponent({
 
     fetchAttempt()
 
+    const examItems = computed(() => {
+      return (
+        (attempt.value?.examItems
+          .map(id => {
+            const examItem = attempt.value?.exam.examItems.find(
+              e => e.id === id
+            )
+            if (examItem === undefined) {
+              return undefined
+            }
+            return {
+              ...examItem,
+              score:
+                attempt.value?.examResult?.scores.find(
+                  score => score.examItem === examItem?.id
+                )?.points ?? 0
+            }
+          })
+          .filter(e => e !== undefined) as (ExamItem & { score: number })[]) ??
+        []
+      )
+    })
+
     const progress = computed(() => {
-      if (!attempt.value) {
-        return []
-      }
-      return attempt.value.exam.examItems.map((examItem, index) => {
+      return examItems.value.map((examItem, index) => {
         return {
           questionNumber: index + 1,
           id: examItem.id,
@@ -152,20 +172,6 @@ export default defineComponent({
             ) ?? false
         }
       })
-    })
-
-    const examItems = computed(() => {
-      return (
-        attempt.value?.exam.examItems.map(examItem => {
-          return {
-            ...examItem,
-            score:
-              attempt.value?.examResult?.scores.find(
-                score => score.examItem === examItem.id
-              )?.points ?? 0
-          }
-        }) ?? []
-      )
     })
 
     const attemptDuration = computed(() => {

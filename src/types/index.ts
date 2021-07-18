@@ -125,6 +125,7 @@ export interface Attempt {
   warnings: number
   answers: Answer[]
   pendingGrade: boolean
+  examItems: string[]
 }
 
 export interface ExamItem {
