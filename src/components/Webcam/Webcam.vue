@@ -2,7 +2,6 @@
   <div>
     <div class="flex items-center">
       <DetectionIndicator
-        :on="isEnabled"
         :detected="isFaceSeen"
         :identified="isFaceIdentified"
       />
