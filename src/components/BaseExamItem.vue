@@ -135,6 +135,7 @@ export default defineComponent({
             this.modelValue.map(item =>
               item.examItem === this.examItem.id
                 ? {
+                    ...item,
                     examItem: item.examItem,
                     answer: newAnswer
                   }
@@ -168,6 +169,7 @@ export default defineComponent({
       return this.examItem.choices
     },
     hasPlagiarism(): boolean {
+      console.log(this.modelValue)
       return (
         this.modelValue.find(answer => answer.examItem === this.examItem.id)
           ?.hasPlagiarism ?? false
