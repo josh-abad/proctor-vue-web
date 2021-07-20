@@ -1,43 +1,44 @@
 <template>
   <teleport to="#modals">
-    <div :class="indicatorBar" v-bind="$attrs">
+    <div
+      class="
+        fixed
+        z-20
+        flex
+        items-center
+        justify-between
+        sm:justify-start
+        px-4
+        py-2
+        space-x-10
+        w-full
+        sm:w-auto
+        sm:bottom-auto
+        border-t
+        sm:border
+        sm:rounded-b-lg
+        sm:border-t-0
+        shadow-lg
+        bottom-0
+        sm:top-14
+        sm:right-4
+        backdrop-blur
+        border-white/10
+        bg-white/50
+        dark:bg-gray-800/50
+      "
+      v-bind="$attrs"
+    >
       <slot />
     </div>
   </teleport>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/runtime-core'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'IndicatorBar',
-  inheritAttrs: false,
-  setup() {
-    const classes = ref([
-      'items-center',
-      'fixed',
-      'top-14 right-4',
-      'backdrop-blur',
-      'border',
-      'border-t-0',
-      'border-white/10',
-      'z-20',
-      'flex',
-      'px-4',
-      'py-2',
-      'space-x-10',
-      'bg-gray-800/50',
-      'rounded-b-lg',
-      'shadow-lg'
-    ])
-
-    const joinedClasses = computed(() => {
-      return classes.value.join(' ')
-    })
-
-    return {
-      indicatorBar: joinedClasses
-    }
-  }
+  inheritAttrs: false
 })
 </script>

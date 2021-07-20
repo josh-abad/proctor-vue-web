@@ -116,7 +116,7 @@
         />
       </div>
     </FadeTransition>
-    <div class="mt-8 sm:flex">
+    <div class="mt-8 mb-16 sm:mb-0 sm:flex">
       <AppPanel class="w-full">
         <router-view
           :is-setup-complete="isIdentified"
