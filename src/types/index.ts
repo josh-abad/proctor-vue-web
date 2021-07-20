@@ -86,6 +86,7 @@ export interface Exam {
   endDate?: Date
   id: string
   slug: string
+  maxWarnings: number
 }
 
 export type NewExamItem = Omit<ExamItem, 'id'> & { answer: string[] }

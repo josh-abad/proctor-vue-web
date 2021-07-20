@@ -335,8 +335,9 @@ export default defineComponent({
     const warningModal = ref(false)
     const warnings = ref(0)
 
-    // TODO: set max warnings per exam
-    const maxWarnings = ref(5)
+    const maxWarnings = computed(() => {
+      return exam.value?.maxWarnings ?? 5
+    })
 
     const detectionDuration = ref(10)
 

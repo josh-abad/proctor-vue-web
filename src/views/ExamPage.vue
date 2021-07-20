@@ -205,7 +205,7 @@ export default defineComponent({
       async warnings => {
         if (attempt.value) {
           await examAttemptsService.addWarning(attempt.value.id)
-          if (warnings >= 5) {
+          if (warnings >= attempt.value.exam.maxWarnings) {
             await handleSubmit()
             emit('update:examSubmittedModal', true)
           }

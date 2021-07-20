@@ -44,6 +44,20 @@
           </div>
         </div>
         <div>
+          <label for="attempts"><AppLabel> Warnings </AppLabel></label>
+          <p class="text-sm text-gray-500">
+            The maximum number of warnings for this exam.
+          </p>
+          <div class="inline-block mt-1">
+            <NumberInput
+              v-model.number="maxWarnings"
+              :min="1"
+              :max="100"
+              id="warnings"
+            />
+          </div>
+        </div>
+        <div>
           <label for="week"><AppLabel> Week </AppLabel></label>
           <p class="text-sm text-gray-500">
             The week the exam will appear under in Overview.
@@ -203,6 +217,7 @@ export default defineComponent({
       examName: '',
       examSeconds: 3600,
       maxAttempts: 3,
+      maxWarnings: 5,
       random: false,
       length: 1,
       useAllExamItems: true,
@@ -357,6 +372,7 @@ export default defineComponent({
           duration: this.examSeconds,
           courseId: this.exam?.course.id ?? '',
           maxAttempts: this.maxAttempts,
+          maxWarnings: this.maxWarnings,
           examItems: this.examItems.map(examItem => {
             if (['text', 'multiple choice'].includes(examItem.questionType)) {
               return {
