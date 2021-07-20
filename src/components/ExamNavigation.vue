@@ -9,7 +9,7 @@
       >
         <QuestionNumber
           :class="{
-            'bg-green-500 dark:bg-green-500 text-white': examItem.answered
+            'bg-indigo-500 dark:bg-green-500 text-white': examItem.answered
           }"
         >
           {{ examItem.questionNumber }}
