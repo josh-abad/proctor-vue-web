@@ -21,12 +21,6 @@
               <XIcon class="w-5 h-5 dark:text-red-400" v-else />
             </span>
           </span>
-          <div
-            v-if="hasPlagiarism"
-            class="mt-1 bg-yellow-500/10 text-yellow-400 px-2 rounded-full"
-          >
-            Plagiarism Detected
-          </div>
         </div>
       </div>
       <div class="mt-4">
@@ -69,6 +63,13 @@
             </AppCheckbox>
           </li>
         </ul>
+        <div v-if="hasPlagiarism" class="flex justify-end mt-1">
+          <div
+            class="text-sm bg-yellow-500/10 text-yellow-400 px-2 rounded-full"
+          >
+            Plagiarism Detected
+          </div>
+        </div>
       </div>
     </div>
   </li>
