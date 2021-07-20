@@ -11,9 +11,13 @@
             v-if="attempt.pendingGrade"
             title="This exam contains one or more essay questions that have yet to be graded by the course's coordinator."
             class="
+              block
+              sm:inline
               px-2
               py-1
-              ml-2
+              mt-2
+              sm:mt-0
+              sm:ml-2
               text-xs
               font-semibold
               tracking-wider
@@ -26,14 +30,14 @@
             full grade pending
           </span>
         </div>
-        <div class="hidden text-sm text-gray-400 sm:block">
+        <div class="text-xs sm:text-sm text-gray-400">
           <div v-if="attempt.status === 'in-progress'">
             Started {{ formattedDate(attempt.startDate) }}
           </div>
           <div v-else-if="attempt.status === 'completed'">
-            Submitted {{ formattedDate(attempt.submittedDate) }}
+            {{ formattedDate(attempt.submittedDate) }}
           </div>
-          <div v-else>Expired {{ formattedDate(attempt.endDate) }}</div>
+          <div v-else>{{ formattedDate(attempt.endDate) }}</div>
         </div>
       </div>
     </div>
