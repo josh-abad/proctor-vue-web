@@ -18,17 +18,17 @@
             }}
           </AttemptChecklistItem>
           <AttemptChecklistItem
-            :loading="identification.isIdentifying"
-            :enabled="identification.isIdentified"
+            :loading="
+              cameraStatus === 'enabled' && identification.isIdentifying
+            "
+            :enabled="cameraStatus === 'enabled' && identification.isIdentified"
           >
             {{
-              identification.isIdentifying
-                ? 'Identifying face'
-                : identification.isIdentified
-                ? 'Face identified'
-                : cameraStatus === 'enabled'
-                ? 'No face identified'
-                : 'Waiting for webcam'
+              cameraStatus === 'enabled'
+                ? identification.isIdentifying
+                  ? 'Identifying face'
+                  : 'Face identified'
+                : 'Waiting for camera'
             }}
           </AttemptChecklistItem>
         </ul>
@@ -37,7 +37,9 @@
         <AppButton
           @click="startAttempt"
           prominent
-          :disabled="!identification.isIdentified"
+          :disabled="
+            cameraStatus === 'disabled' || !identification.isIdentified
+          "
         >
           {{ inProgressAttempt ? 'Continue Quiz' : 'Start Quiz' }}
         </AppButton>

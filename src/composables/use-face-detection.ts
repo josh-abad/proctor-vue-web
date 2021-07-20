@@ -1,5 +1,6 @@
 import { Ref, ref } from '@vue/reactivity'
 import * as faceapi from 'face-api.js'
+import useDemoMode from './use-demo-mode'
 
 const MODELS_URL = '/models'
 
@@ -54,8 +55,22 @@ export default function useFaceDetection({
   const faceMatcher = ref() as Ref<faceapi.FaceMatcher | undefined>
   const handleDetection = ref<() => void>()
   const interval = ref<number>()
+  const { isDemoModeEnabled } = useDemoMode()
+
+  const sleep = (ms: number) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms)
+    })
+  }
 
   const loadModels = async () => {
+    if (isDemoModeEnabled.value) {
+      isLoading.value = true
+      await sleep(3000)
+      isLoading.value = false
+      hasLoaded.value = true
+      return
+    }
     try {
       isLoading.value = true
       await Promise.all([
@@ -73,7 +88,7 @@ export default function useFaceDetection({
 
   const loadFaceDetection = async () => {
     await loadModels()
-    if (faceRecognition) {
+    if (faceRecognition && !isDemoModeEnabled.value) {
       const { name, referenceImageUrl } = faceRecognition
       faceMatcher.value = await getFaceMatcher(referenceImageUrl, name)
     }
@@ -83,6 +98,13 @@ export default function useFaceDetection({
     if (!handleDetection.value) {
       handleDetection.value = () => {
         interval.value = setInterval(async () => {
+          if (isDemoModeEnabled.value) {
+            isFaceSeen.value = Math.random() <= 0.99
+            isFaceIdentified.value = isFaceSeen.value
+              ? Math.random() <= 0.95
+              : false
+            return
+          }
           if (!hasLoaded.value) {
             return
           }

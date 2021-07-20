@@ -21,6 +21,9 @@
             <AppButton>Configure</AppButton>
           </router-link>
         </SettingsItem>
+        <SettingsItem name="Demo Mode">
+          <AppSwitch v-model="isDemoModeEnabled" />
+        </SettingsItem>
       </section>
 
       <Subheading class="mt-4">
@@ -88,6 +91,7 @@ import Subheading from '@/components/Subheading.vue'
 import NProgress from 'nprogress'
 import { SET_USER } from '@/store/mutation-types'
 import ChangePasswordModal from '@/components/ChangePasswordModal.vue'
+import useDemoMode from '@/composables/use-demo-mode'
 
 export default defineComponent({
   name: 'SettingsPage',
@@ -109,9 +113,12 @@ export default defineComponent({
 
     const deactivateAccountModal = ref(false)
 
+    const { isDemoModeEnabled } = useDemoMode()
+
     return {
       theme,
       isSystemTheme,
+      isDemoModeEnabled,
       setTheme,
       setSnackbarMessage,
       deactivateAccountModal
