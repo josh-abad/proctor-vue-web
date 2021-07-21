@@ -258,7 +258,7 @@ export default defineComponent({
         formDetails.length = exam.value.length
         formDetails.useAllExamItems =
           exam.value.length < exam.value.examItems.length
-        formDetails.onePage = exam.value.onPage
+        formDetails.onePage = exam.value.onePage
         formDetails.week = exam.value.week
         formDetails.setDate =
           exam.value.startDate !== undefined && exam.value.endDate !== undefined
