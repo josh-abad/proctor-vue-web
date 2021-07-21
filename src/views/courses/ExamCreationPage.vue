@@ -89,6 +89,15 @@
           <DatePicker class="mt-1" id="endDate" v-model="endDate" />
         </div>
         <div>
+          <label for="onePage">
+            <AppLabel>Show all questions on one page</AppLabel>
+          </label>
+          <p class="text-sm text-gray-500">
+            Turn off to show only one question per page.
+          </p>
+          <AppSwitch id="onePage" class="mt-1" v-model="onePage" />
+        </div>
+        <div>
           <label for="shuffle"><AppLabel>Use All Exam Items</AppLabel></label>
           <p class="text-sm text-gray-500">
             Turn off to randomly pick a subset of questions for each attempt.
@@ -226,6 +235,7 @@ export default defineComponent({
       maxWarnings: 5,
       random: false,
       useAllExamItems: true,
+      onePage: true,
       length: 1,
       week: 1,
       setDate: true,
@@ -339,6 +349,7 @@ export default defineComponent({
         await examsService.create({
           label: this.examName,
           random: this.random,
+          onePage: this.onePage,
           length: this.useAllExamItems ? this.examItems.length : this.length,
           duration: this.examSeconds,
           courseId: this.course?.id ?? '',

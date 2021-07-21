@@ -89,6 +89,15 @@
           <DatePicker class="mt-1" id="endDate" v-model="endDate" />
         </div>
         <div>
+          <label for="onePage">
+            <AppLabel>Show all questions on one page</AppLabel>
+          </label>
+          <p class="text-sm text-gray-500">
+            Turn off to show only one question per page.
+          </p>
+          <AppSwitch id="onePage" class="mt-1" v-model="onePage" />
+        </div>
+        <div>
           <label for="shuffle"><AppLabel>Use All Exam Items</AppLabel></label>
           <p class="text-sm text-gray-500">
             Turn off to randomly pick a subset of questions for each attempt.
@@ -221,6 +230,7 @@ export default defineComponent({
       random: false,
       length: 1,
       useAllExamItems: true,
+      onePage: true,
       week: 1,
       setDate: true,
       startDate: undefined as string | undefined,
@@ -248,6 +258,7 @@ export default defineComponent({
         formDetails.length = exam.value.length
         formDetails.useAllExamItems =
           exam.value.length < exam.value.examItems.length
+        formDetails.onePage = exam.value.onPage
         formDetails.week = exam.value.week
         formDetails.setDate =
           exam.value.startDate !== undefined && exam.value.endDate !== undefined
@@ -368,6 +379,7 @@ export default defineComponent({
         await examsService.edit(this.exam?.id ?? '', {
           label: this.examName,
           random: this.random,
+          onePage: this.onePage,
           length: this.useAllExamItems ? this.examItems.length : this.length,
           duration: this.examSeconds,
           courseId: this.exam?.course.id ?? '',

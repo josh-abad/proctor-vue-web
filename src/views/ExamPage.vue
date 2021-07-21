@@ -11,7 +11,16 @@
   </List>
   <div v-else-if="attempt">
     <div>
-      <List>
+      <BaseExamItem
+        :id="`question${currentExamItem}`"
+        v-if="!attempt.exam.onePage && examItems[currentExamItem - 1]"
+        class="py-6 first:pt-0"
+        :key="examItems[currentExamItem - 1].id"
+        :exam-item="examItems[currentExamItem - 1]"
+        :question-number="currentExamItem"
+        v-model="answers"
+      />
+      <List v-else>
         <BaseExamItem
           :id="`question${i + 1}`"
           v-for="(item, i) in examItems"
@@ -23,7 +32,12 @@
         />
       </List>
       <teleport to="#quiz-navigation">
-        <ExamNavigation :questions="progress" class="mt-4 sm:mt-0 sm:ml-4" />
+        <ExamNavigation
+          :questions="progress"
+          class="mt-4 sm:mt-0 sm:ml-4"
+          v-model="currentExamItem"
+          :one-page="attempt.exam.onePage"
+        />
       </teleport>
     </div>
     <div class="flex items-center justify-between mt-4">
@@ -44,6 +58,41 @@
       >
         Submit
       </ModalButton>
+      <div v-if="!attempt.exam.onePage" class="flex items-center">
+        <button
+          v-if="currentExamItem > 1"
+          @click="goToExamItem(currentExamItem - 1)"
+          class="
+            hover:underline
+            inline-flex
+            items-center
+            text-indigo-600
+            dark:text-indigo-400
+          "
+        >
+          <ChevronLeftIcon class="inline w-7 h-7" />
+          Previous
+        </button>
+        <span
+          class="text-gray-400 dark:text-gray-600 ml-4 first:hidden last:hidden"
+          >|</span
+        >
+        <button
+          v-if="currentExamItem < examItems.length"
+          class="
+            ml-4
+            hover:underline
+            inline-flex
+            items-center
+            text-indigo-600
+            dark:text-indigo-400
+          "
+          @click="goToExamItem(currentExamItem + 1)"
+        >
+          Next
+          <ChevronRightIcon class="inline w-7 h-7" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -64,6 +113,7 @@ import NProgress from 'nprogress'
 import ExamNavigation from '@/components/ExamNavigation.vue'
 import useTitle from '@/composables/use-title'
 import useSnackbar from '@/composables/use-snackbar'
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/vue/solid'
 
 export default defineComponent({
   name: 'ExamPage',
@@ -73,7 +123,9 @@ export default defineComponent({
     Timer,
     AppSkeleton,
     List,
-    ExamNavigation
+    ExamNavigation,
+    ChevronRightIcon,
+    ChevronLeftIcon
   },
   props: {
     courseSlug: {
@@ -232,6 +284,12 @@ export default defineComponent({
       )
     })
 
+    const currentExamItem = ref(1)
+
+    const goToExamItem = (questionNumber: number) => {
+      currentExamItem.value = questionNumber
+    }
+
     return {
       answers,
       attempt,
@@ -240,7 +298,9 @@ export default defineComponent({
       handleSubmit,
       examItems: shuffledExamItems,
       progress,
-      allQuestionsAnswered
+      allQuestionsAnswered,
+      currentExamItem,
+      goToExamItem
     }
   }
 })

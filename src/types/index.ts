@@ -87,6 +87,7 @@ export interface Exam {
   id: string
   slug: string
   maxWarnings: number
+  onePage: boolean
 }
 
 export type NewExamItem = Omit<ExamItem, 'id'> & { answer: string[] }
