@@ -170,7 +170,6 @@ export default defineComponent({
       return this.examItem.choices
     },
     hasPlagiarism(): boolean {
-      console.log(this.modelValue)
       return (
         this.modelValue.find(answer => answer.examItem === this.examItem.id)
           ?.hasPlagiarism ?? false
