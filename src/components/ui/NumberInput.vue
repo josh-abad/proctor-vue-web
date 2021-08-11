@@ -73,7 +73,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const value = useModelWrapper(props, emit)
+    const value = useModelWrapper(props, emit, 'modelValue')
 
     return {
       value

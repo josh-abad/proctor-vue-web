@@ -53,7 +53,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const date = useModelWrapper(props, emit)
+    const date = useModelWrapper(props, emit, 'modelValue')
 
     return {
       date
